@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Pixel 7 Pro",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5554",
+        },
+        {
+            "name": "Nexus 720p",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5554",
+        },
+        {
+            "name": "Web",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "chrome",
+        }
+    ],
+    "compounds": [
+        {
+            "name": "2 Android",
+            "configurations": [
+                "Pixel 7 Pro",
+                "Nexus 720p"
+            ]
+        },
+        {
+            "name": "Android + Web",
+            "configurations": [
+                "Pixel 7 Pro",
+                "Web"
+            ]
+        }
+    ]
+}
