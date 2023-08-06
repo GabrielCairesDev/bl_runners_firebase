@@ -13,6 +13,7 @@ class PaginaRegistrarControlador extends ChangeNotifier {
 
   bool esconderSenha = true;
   bool esconderSenha2 = true;
+  bool carregando = false;
 
   String? validadorEmail(String? value) {
     final regExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
@@ -45,7 +46,9 @@ class PaginaRegistrarControlador extends ChangeNotifier {
   validarCampos(context) {
     if (globalKeyEmail.currentState!.validate() &&
         globalKeySenha.currentState!.validate() &&
-        globalKeyConfirmarSenha.currentState!.validate()) {
+        globalKeyConfirmarSenha.currentState!.validate() &&
+        carregando == false) {
+      atualizarCarregando();
       registrar(context);
     }
   }
@@ -56,27 +59,30 @@ class PaginaRegistrarControlador extends ChangeNotifier {
           email: controladorEmail.text,
           password: controladorCnfirmarSenha.text);
       contaCriada(context);
+      confirmarEmail();
+      resetarValores();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        Mensagens.snackBar(context, 'A senha é muito fraca');
+        Mensagens.snackBar(context, 'A senha é muito fraca.');
       } else if (e.code == 'email-already-in-use') {
-        Mensagens.snackBar(context, 'Este e-mail já está em uso');
+        Mensagens.snackBar(context, 'Este e-mail já está em uso.');
       } else {
         Mensagens.snackBar(context, 'Erro durante o registro: ${e.message}');
       }
     } catch (e) {
-      Mensagens.snackBar(context, 'Erro desconhecido: ${e.toString()}');
+      Mensagens.snackBar(context, 'Erro desconhecido: $e');
     }
+    atualizarCarregando();
   }
 
   contaCriada(context) {
     Mensagens.caixaDeDialogo(
       context,
       titulo: "Parabéns!",
-      texto: 'Sua conta foi criada com sucesso.',
+      texto: 'Sua conta foi criada com sucesso. Verifique o seu e-mail!',
       textoBotao: 'OK',
       onPressed: () {
-        confirmarEmail();
+        Navigator.of(context).pop();
       },
     );
   }
@@ -86,5 +92,18 @@ class PaginaRegistrarControlador extends ChangeNotifier {
     if (user != null && !user.emailVerified) {
       await user.sendEmailVerification();
     }
+  }
+
+  resetarValores() {
+    controladorEmail.clear();
+    controladorSenha.clear();
+    controladorCnfirmarSenha.clear();
+    esconderSenha == true;
+    esconderSenha2 == true;
+  }
+
+  atualizarCarregando() async {
+    carregando = !carregando;
+    notifyListeners();
   }
 }
