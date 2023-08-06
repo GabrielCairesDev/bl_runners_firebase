@@ -1,4 +1,6 @@
+import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class PaginaRegistrarControlador extends ChangeNotifier {
   final controladorEmail = TextEditingController();
@@ -40,11 +42,49 @@ class PaginaRegistrarControlador extends ChangeNotifier {
     return null;
   }
 
-  validarCampos() {
+  validarCampos(context) {
     if (globalKeyEmail.currentState!.validate() &&
         globalKeySenha.currentState!.validate() &&
         globalKeyConfirmarSenha.currentState!.validate()) {
-      print('tudo certo');
+      registrar(context);
+    }
+  }
+
+  Future<void> registrar(context) async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: controladorEmail.text,
+          password: controladorCnfirmarSenha.text);
+      contaCriada(context);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        Mensagens.snackBar(context, 'A senha é muito fraca');
+      } else if (e.code == 'email-already-in-use') {
+        Mensagens.snackBar(context, 'Este e-mail já está em uso');
+      } else {
+        Mensagens.snackBar(context, 'Erro durante o registro: ${e.message}');
+      }
+    } catch (e) {
+      Mensagens.snackBar(context, 'Erro desconhecido: ${e.toString()}');
+    }
+  }
+
+  contaCriada(context) {
+    Mensagens.caixaDeDialogo(
+      context,
+      titulo: "Parabéns!",
+      texto: 'Sua conta foi criada com sucesso.',
+      textoBotao: 'OK',
+      onPressed: () {
+        confirmarEmail();
+      },
+    );
+  }
+
+  Future<void> confirmarEmail() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null && !user.emailVerified) {
+      await user.sendEmailVerification();
     }
   }
 }

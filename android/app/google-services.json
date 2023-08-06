@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "929303967235",
-    "project_id": "blrunners",
-    "storage_bucket": "blrunners.appspot.com"
+    "project_number": "476972778862",
+    "project_id": "blrunners-app",
+    "storage_bucket": "blrunners-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:929303967235:android:2ccdacaad773ce9af00036",
+        "mobilesdk_app_id": "1:476972778862:android:0b6fc4ebda7b72649fad7f",
         "android_client_info": {
           "package_name": "com.example.bl_runners_firebase"
         }
       },
       "oauth_client": [
         {
-          "client_id": "929303967235-tml8b359bbcb41vth4r1uvvcap7vegnn.apps.googleusercontent.com",
+          "client_id": "476972778862-35e1o5eqt9nvknee5hdcahuso9ti6gud.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBIH4YDom2ukZDNrxenFhBb0Q9BZ857sa4"
+          "current_key": "AIzaSyC2R8Kp13JTbF_2cWzZTK8fMk-hE0noxRQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "929303967235-tml8b359bbcb41vth4r1uvvcap7vegnn.apps.googleusercontent.com",
+              "client_id": "476972778862-35e1o5eqt9nvknee5hdcahuso9ti6gud.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

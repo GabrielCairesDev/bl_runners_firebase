@@ -44,40 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCOfMfqrxBLT9qgb-GiriCXL3QuwIOi4OU',
-    appId: '1:929303967235:web:e525342f55a0e1eaf00036',
-    messagingSenderId: '929303967235',
-    projectId: 'blrunners',
-    authDomain: 'blrunners.firebaseapp.com',
-    storageBucket: 'blrunners.appspot.com',
-    measurementId: 'G-7XHHR4JM81',
+    apiKey: 'AIzaSyAXxdHWTs5erlLKo_qdJnwUI7blJcOmPXk',
+    appId: '1:476972778862:web:f4f855e09d3915069fad7f',
+    messagingSenderId: '476972778862',
+    projectId: 'blrunners-app',
+    authDomain: 'blrunners-app.firebaseapp.com',
+    storageBucket: 'blrunners-app.appspot.com',
+    measurementId: 'G-HDJ1M4CHPS',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBIH4YDom2ukZDNrxenFhBb0Q9BZ857sa4',
-    appId: '1:929303967235:android:2ccdacaad773ce9af00036',
-    messagingSenderId: '929303967235',
-    projectId: 'blrunners',
-    storageBucket: 'blrunners.appspot.com',
+    apiKey: 'AIzaSyC2R8Kp13JTbF_2cWzZTK8fMk-hE0noxRQ',
+    appId: '1:476972778862:android:0b6fc4ebda7b72649fad7f',
+    messagingSenderId: '476972778862',
+    projectId: 'blrunners-app',
+    storageBucket: 'blrunners-app.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAGZuZITei1RcoGUjgxKkTB_4agF9-FAp4',
-    appId: '1:929303967235:ios:1825b80b07adaf54f00036',
-    messagingSenderId: '929303967235',
-    projectId: 'blrunners',
-    storageBucket: 'blrunners.appspot.com',
-    iosClientId: '929303967235-th8p7oti705pu1lr0goe997b0llpq3ff.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDfSKE29WJhDapJTTB_Wq6Sca8eGd6t4WA',
+    appId: '1:476972778862:ios:8b29516fc98d05219fad7f',
+    messagingSenderId: '476972778862',
+    projectId: 'blrunners-app',
+    storageBucket: 'blrunners-app.appspot.com',
+    iosClientId: '476972778862-1s9ugdqfin0bi698q99ehg39iit2qd7f.apps.googleusercontent.com',
     iosBundleId: 'com.example.blRunnersFirebase',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAGZuZITei1RcoGUjgxKkTB_4agF9-FAp4',
-    appId: '1:929303967235:ios:3606da2670e9fb3ef00036',
-    messagingSenderId: '929303967235',
-    projectId: 'blrunners',
-    storageBucket: 'blrunners.appspot.com',
-    iosClientId: '929303967235-2n7vcs77vb7ce9v63g9dmuiig542bdej.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDfSKE29WJhDapJTTB_Wq6Sca8eGd6t4WA',
+    appId: '1:476972778862:ios:beac62cb1f56457f9fad7f',
+    messagingSenderId: '476972778862',
+    projectId: 'blrunners-app',
+    storageBucket: 'blrunners-app.appspot.com',
+    iosClientId: '476972778862-4arjnpsmdiu8qbo6fkll444e072bkr9p.apps.googleusercontent.com',
     iosBundleId: 'com.example.blRunnersFirebase.RunnerTests',
   );
 }
