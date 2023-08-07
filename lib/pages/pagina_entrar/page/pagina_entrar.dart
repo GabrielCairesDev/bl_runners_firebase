@@ -10,9 +10,14 @@ import 'package:provider/provider.dart';
 
 import '../controller/pagina_entrar_controlador.dart';
 
-class PaginaEntrar extends StatelessWidget {
+class PaginaEntrar extends StatefulWidget {
   const PaginaEntrar({super.key});
 
+  @override
+  State<PaginaEntrar> createState() => _PaginaEntrarState();
+}
+
+class _PaginaEntrarState extends State<PaginaEntrar> {
   @override
   Widget build(BuildContext context) {
     final controlador = Provider.of<PaginaEntrarControlador>(context);
@@ -42,9 +47,7 @@ class PaginaEntrar extends StatelessWidget {
               ),
               Positioned.fill(
                 child: Center(
-                  child: Visibility(
-                      visible: controlador.carregando,
-                      child: const CircularProgressIndicator()),
+                  child: Visibility(visible: controlador.carregando, child: const CircularProgressIndicator()),
                 ),
               ),
             ],

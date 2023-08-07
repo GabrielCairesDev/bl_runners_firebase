@@ -14,8 +14,7 @@ ThemeData myAppTheme() {
         suffixIconColor: Colors.blueGrey,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
-        style:
-            ElevatedButton.styleFrom(backgroundColor: const Color(0xFFc1d22b)),
+        style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFc1d22b)),
       ),
       switchTheme: const SwitchThemeData());
 }

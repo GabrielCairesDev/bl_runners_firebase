@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../routes/rotas.dart';
 import '../../../widgets/mensagens.dart';
 
 class PaginaEntrarControlador extends ChangeNotifier {
-  final controladorEmail = TextEditingController();
-  final controladorSenha = TextEditingController();
+  final controladorEmail = TextEditingController(text: 'gabriel.araujo.caires@gmail.com');
+  final controladorSenha = TextEditingController(text: 'gabriel');
 
   GlobalKey<FormState> globalKeyEmail = GlobalKey<FormState>();
   GlobalKey<FormState> globalKeySenha = GlobalKey<FormState>();
@@ -38,11 +41,25 @@ class PaginaEntrarControlador extends ChangeNotifier {
     }
   }
 
-  Future<User?> entrar(context) async {
+  Future entrar(BuildContext context) async {
     try {
       final usuario = await FirebaseAuth.instance.signInWithEmailAndPassword(email: controladorEmail.text, password: controladorSenha.text);
-      resetarValores();
-      return usuario.user;
+      if (usuario.user != null && usuario.user!.emailVerified) {
+        if (context.mounted) context.pushReplacement(Rotas.navegar);
+        salvarEntradaAutomatica();
+      } else {
+        await usuario.user?.sendEmailVerification();
+        if (context.mounted) {
+          Mensagens.caixaDeDialogo(
+            context,
+            titulo: 'Atenção!',
+            texto: 'Por favor, verifique o seu e-mail.\n ${usuario.user!.email}',
+            textoBotao: 'ok',
+            onPressed: () => Navigator.of(context).pop(),
+          );
+          await FirebaseAuth.instance.signOut();
+        }
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         Mensagens.snackBar(context, 'E-mail não registrado!');
@@ -57,7 +74,6 @@ class PaginaEntrarControlador extends ChangeNotifier {
       Mensagens.snackBar(context, 'Erro ao fazer login! $e');
     }
     atualizarCarregando();
-    return null;
   }
 
   resetarValores() {
@@ -70,5 +86,13 @@ class PaginaEntrarControlador extends ChangeNotifier {
   atualizarCarregando() {
     carregando = !carregando;
     notifyListeners();
+  }
+
+  emailNaoVerificado() {}
+
+  Future<void> salvarEntradaAutomatica() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("entradaAutomatica", entradaAutomatica);
+    resetarValores();
   }
 }

@@ -19,7 +19,7 @@ class _PaginaEntrarSwitch extends State<PaginaEntrarSwitch> {
           value: controlador.entradaAutomatica,
           activeColor: const Color(0xFFc1d22b),
           onChanged: (bool value) => setState(
-            () => controlador.entradaAutomatica = value,
+            () => controlador.entradaAutomatica = !controlador.entradaAutomatica,
           ),
         ),
         const Text('Entrar automática')
