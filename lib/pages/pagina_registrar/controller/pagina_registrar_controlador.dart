@@ -98,11 +98,11 @@ class PaginaRegistrarControlador extends ChangeNotifier {
     controladorEmail.clear();
     controladorSenha.clear();
     controladorCnfirmarSenha.clear();
-    esconderSenha == true;
-    esconderSenha2 == true;
+    esconderSenha = true;
+    esconderSenha2 = true;
   }
 
-  atualizarCarregando() async {
+  atualizarCarregando() {
     carregando = !carregando;
     notifyListeners();
   }
