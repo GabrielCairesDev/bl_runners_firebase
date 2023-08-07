@@ -1,6 +1,7 @@
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PaginaRegistrarControlador extends ChangeNotifier {
   final controladorEmail = TextEditingController();
@@ -44,20 +45,24 @@ class PaginaRegistrarControlador extends ChangeNotifier {
   }
 
   validarCampos(context) {
-    if (globalKeyEmail.currentState!.validate() &&
-        globalKeySenha.currentState!.validate() &&
-        globalKeyConfirmarSenha.currentState!.validate() &&
-        carregando == false) {
+    if (globalKeyEmail.currentState!.validate() && globalKeySenha.currentState!.validate() && globalKeyConfirmarSenha.currentState!.validate() && carregando == false) {
       atualizarCarregando();
       registrar(context);
     }
   }
 
-  Future<void> registrar(context) async {
+  Future registrar(context) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: controladorEmail.text,
-          password: controladorCnfirmarSenha.text);
+      final credencial = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: controladorEmail.text, password: controladorCnfirmarSenha.text);
+      final ususario = credencial.user;
+      final userCollection = FirebaseFirestore.instance.collection('users');
+
+      final cadastroConcluidoFalso = {
+        'cadastroConcluido': false,
+      };
+
+      await userCollection.doc(ususario!.uid).set(cadastroConcluidoFalso);
+
       contaCriada(context);
       confirmarEmail();
       resetarValores();
