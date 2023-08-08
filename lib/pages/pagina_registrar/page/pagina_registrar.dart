@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../components/pagina_registrar_botao_registrar.dart';
 import '../components/pagina_registrar_campo_confirmar_senha.dart';
 import '../components/pagina_registrar_campo_email.dart';
+import '../components/pagina_registrar_campo_nome.dart';
 import '../components/pagina_registrar_campo_senha.dart';
 import '../components/pagina_registrar_logo.dart';
 import '../controller/pagina_registrar_controlador.dart';
@@ -30,6 +31,8 @@ class _PaginaRegistrarState extends State<PaginaRegistrar> {
                 children: [
                   PaginaRegistrarLogo(),
                   SizedBox(height: 16),
+                  PaginaRegistrarCampoNome(),
+                  SizedBox(height: 16),
                   PaginaRegistrarCampoEmail(),
                   SizedBox(height: 16),
                   PaginaRegistrarCampoSenha(),
@@ -41,9 +44,7 @@ class _PaginaRegistrarState extends State<PaginaRegistrar> {
               ),
               Positioned.fill(
                 child: Center(
-                  child: Visibility(
-                      visible: controlador.carregando,
-                      child: const CircularProgressIndicator()),
+                  child: Visibility(visible: controlador.carregando, child: const CircularProgressIndicator()),
                 ),
               ),
             ],

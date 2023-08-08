@@ -9,7 +9,7 @@ class PaginEntrarLinkRegistrar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.go(Rotas.registrar),
+      onTap: () => context.push(Rotas.registrar),
       child: const Padding(
         padding: EdgeInsets.only(bottom: 16),
         child: Text(

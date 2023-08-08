@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../models/modelo_de_usuario.dart';
 import '../../../routes/rotas.dart';
 import '../../../widgets/mensagens.dart';
 
@@ -43,22 +45,22 @@ class PaginaEntrarControlador extends ChangeNotifier {
 
   Future entrar(BuildContext context) async {
     try {
-      final usuario = await FirebaseAuth.instance.signInWithEmailAndPassword(email: controladorEmail.text, password: controladorSenha.text);
-      if (usuario.user != null && usuario.user!.emailVerified) {
-        if (context.mounted) context.pushReplacement(Rotas.navegar);
+      final usuario = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: controladorEmail.text, password: controladorSenha.text)).user;
+      final modeloDeUsuario = ModeloDeUsuario.fromMap((await FirebaseFirestore.instance.collection('usuarios').doc(usuario!.uid).get()).data() as Map<String, dynamic>);
+
+      if (usuario.emailVerified) {
         salvarEntradaAutomatica();
-      } else {
-        await usuario.user?.sendEmailVerification();
-        if (context.mounted) {
-          Mensagens.caixaDeDialogo(
-            context,
-            titulo: 'Atenção!',
-            texto: 'Por favor, verifique o seu e-mail.\n ${usuario.user!.email}',
-            textoBotao: 'ok',
-            onPressed: () => Navigator.of(context).pop(),
-          );
-          await FirebaseAuth.instance.signOut();
+        if (modeloDeUsuario.cadastroConcluido == true) {
+          if (context.mounted) {
+            context.pushReplacement(Rotas.navegar);
+          }
+        } else {
+          if (context.mounted) {
+            context.pushReplacement(Rotas.concluir);
+          }
         }
+      } else {
+        if (context.mounted) mensagemConfirmarEmail(context, usuario);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -74,6 +76,18 @@ class PaginaEntrarControlador extends ChangeNotifier {
       Mensagens.snackBar(context, 'Erro ao fazer login! $e');
     }
     atualizarCarregando();
+  }
+
+  mensagemConfirmarEmail(context, User usuario) async {
+    Mensagens.caixaDeDialogo(
+      context,
+      titulo: 'Atenção!',
+      texto: 'Por favor, verifique o seu e-mail.\n ${usuario.email}',
+      textoBotao: 'ok',
+      onPressed: () => Navigator.of(context).pop(),
+    );
+    await usuario.sendEmailVerification();
+    await FirebaseAuth.instance.signOut();
   }
 
   resetarValores() {
