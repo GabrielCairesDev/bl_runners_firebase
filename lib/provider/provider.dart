@@ -3,6 +3,7 @@ import 'package:bl_runners_firebase/pages/pagina_entrar/controller/pagina_entrar
 import 'package:bl_runners_firebase/pages/pagina_registrar/controller/pagina_registrar_controlador.dart';
 import 'package:provider/provider.dart';
 
+import '../pages/pagina_concluir_cadastro/controller/pagina_concluir_controlador.dart';
 import '../pages/pagina_concluir_registro/controller/pagina_concluir_registro_controlador.dart';
 
 class AppProvider {
@@ -11,5 +12,6 @@ class AppProvider {
     ChangeNotifierProvider<PaginaRegistrarControlador>(create: (context) => PaginaRegistrarControlador()),
     ChangeNotifierProvider<PaginaEntrarControlador>(create: (context) => PaginaEntrarControlador()),
     ChangeNotifierProvider<PaginaConcluirRegistroControlador>(create: (context) => PaginaConcluirRegistroControlador()),
+    ChangeNotifierProvider<PaginaConcluirControlador>(create: (context) => PaginaConcluirControlador()),
   ];
 }

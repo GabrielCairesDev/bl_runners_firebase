@@ -1,8 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bl_runners_firebase/pages/pagina_concluir_cadastro/components/pagina_concluir_botao_sair.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-import '../../../routes/rotas.dart';
 
 class PaginaConcluirCadastro extends StatelessWidget {
   const PaginaConcluirCadastro({super.key});
@@ -12,13 +9,8 @@ class PaginaConcluirCadastro extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Concluir Cadastro'),
+        actions: const [PaginaConcluirBotaoSair()],
       ),
-      body: ElevatedButton(
-          onPressed: () async {
-            await FirebaseAuth.instance.signOut();
-            if (context.mounted) context.pushReplacement(Rotas.entrar);
-          },
-          child: const Icon(Icons.exit_to_app)),
     );
   }
 }

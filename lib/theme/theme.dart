@@ -16,5 +16,15 @@ ThemeData myAppTheme() {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFc1d22b)),
       ),
+      appBarTheme: const AppBarTheme(
+        color: Color(0xFF2e355a),
+        centerTitle: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(40),
+          ),
+        ),
+        elevation: 0,
+      ),
       switchTheme: const SwitchThemeData());
 }

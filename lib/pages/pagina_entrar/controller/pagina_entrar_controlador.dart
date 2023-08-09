@@ -54,8 +54,10 @@ class PaginaEntrarControlador extends ChangeNotifier {
           final modeloDeUsuario = ModeloDeUsuario.fromMap(usarioDados.data() as Map<String, dynamic>);
           if (modeloDeUsuario.cadastroConcluido == false || modeloDeUsuario.cadastroConcluido == null) {
             if (context.mounted) context.pushReplacement(Rotas.concluir);
+            atualizarCarregando();
           } else {
             if (context.mounted) context.pushReplacement(Rotas.navegar);
+            atualizarCarregando();
           }
           salvarEntradaAutomatica();
         } else {
@@ -70,17 +72,21 @@ class PaginaEntrarControlador extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         Mensagens.snackBar(context, 'E-mail não registrado!');
+        atualizarCarregando();
       } else if (e.code == 'wrong-password') {
         Mensagens.snackBar(context, 'Senha inválida!');
+        atualizarCarregando();
       } else if (e.code == 'invalid-email') {
         Mensagens.snackBar(context, 'E-mail inválido!');
+        atualizarCarregando();
       } else {
         Mensagens.snackBar(context, 'Erro ao fazer login!');
+        atualizarCarregando();
       }
     } catch (e) {
       Mensagens.snackBar(context, 'Erro ao fazer login! $e');
+      atualizarCarregando();
     }
-    atualizarCarregando();
   }
 
   mensagemConfirmarEmail(context, User usuario) async {
