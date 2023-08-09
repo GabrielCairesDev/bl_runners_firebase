@@ -46,24 +46,23 @@ class PaginaEntrarControlador extends ChangeNotifier {
   Future entrar(BuildContext context) async {
     try {
       final usuario = await FirebaseAuth.instance.signInWithEmailAndPassword(email: controladorEmail.text, password: controladorSenha.text);
-      // final usuario = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: controladorEmail.text, password: controladorSenha.text)).user;
-      // final modeloDeUsuario = ModeloDeUsuario.fromMap((await FirebaseFirestore.instance.collection('usuarios').doc(usuario!.uid).get()).data() as Map<String, dynamic>);
 
       if (usuario.user!.emailVerified == true) {
         final usarioDados = await FirebaseFirestore.instance.collection('usuarios').doc(usuario.user!.uid).get();
-        salvarEntradaAutomatica();
 
         if (usarioDados.exists) {
           final modeloDeUsuario = ModeloDeUsuario.fromMap(usarioDados.data() as Map<String, dynamic>);
           if (modeloDeUsuario.cadastroConcluido == false || modeloDeUsuario.cadastroConcluido == null) {
-            if (context.mounted) context.pushReplacement(Rotas.navegar);
-          } else {
             if (context.mounted) context.pushReplacement(Rotas.concluir);
+          } else {
+            if (context.mounted) context.pushReplacement(Rotas.navegar);
           }
+          salvarEntradaAutomatica();
         } else {
           final modeloDeUsuario = ModeloDeUsuario();
           await FirebaseFirestore.instance.collection('usuarios').doc(usuario.user!.uid).set(modeloDeUsuario.toMap());
-          if (context.mounted) entrar(context);
+
+          if (context.mounted) await entrar(context);
         }
       } else {
         if (context.mounted) mensagemConfirmarEmail(context, usuario.user!.email as User);
@@ -107,8 +106,6 @@ class PaginaEntrarControlador extends ChangeNotifier {
     carregando = !carregando;
     notifyListeners();
   }
-
-  emailNaoVerificado() {}
 
   Future<void> salvarEntradaAutomatica() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

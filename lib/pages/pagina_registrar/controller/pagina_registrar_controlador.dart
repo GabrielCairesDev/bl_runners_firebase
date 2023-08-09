@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../routes/rotas.dart';
+
 class PaginaRegistrarControlador extends ChangeNotifier {
   final controladorNome = TextEditingController();
   final controladorEmail = TextEditingController();
@@ -107,6 +109,7 @@ class PaginaRegistrarControlador extends ChangeNotifier {
       textoBotao: 'OK',
       onPressed: () {
         Navigator.of(context).pop();
+        if (context.mounted) context.pushReplacement(Rotas.entrar);
       },
     );
   }
