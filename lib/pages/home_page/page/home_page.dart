@@ -22,17 +22,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 8),
-            Text(
-              'Carregando preferências...',
-              style: TextStyle(color: Colors.blue),
-            ),
-          ],
-        ),
+        child: CircularProgressIndicator(),
       ),
     );
   }

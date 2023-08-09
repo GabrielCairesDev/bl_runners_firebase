@@ -16,51 +16,36 @@ class HomePageController extends ChangeNotifier {
     if (usuario != null) {
       try {
         await usuario.reload();
-        final usarioDados = await FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).get();
 
-        if (usarioDados.exists) {
-          final modeloDeUsuario = ModeloDeUsuario.fromMap(usarioDados.data() as Map<String, dynamic>);
+        if (entradaAutomatica == true && usuario.emailVerified == true) {
+          final usarioDados = await FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).get();
 
-          if (entradaAutomatica == true && usuario.emailVerified == true) {
-            if (modeloDeUsuario.cadastroConcluido == true) {
-              if (context.mounted) {
-                if (context.mounted) context.pushReplacement(Rotas.navegar);
-              } else {
-                if (context.mounted) context.pushReplacement(Rotas.concluir);
-              }
+          if (usarioDados.exists) {
+            final modeloDeUsuario = ModeloDeUsuario.fromMap(usarioDados.data() as Map<String, dynamic>);
+            if (modeloDeUsuario.cadastroConcluido == false || modeloDeUsuario.cadastroConcluido == null) {
+              if (context.mounted) context.pushReplacement(Rotas.concluir);
+            } else {
+              if (context.mounted) context.pushReplacement(Rotas.navegar);
             }
           } else {
-            await FirebaseAuth.instance.signOut();
-            prefs.setBool("entradaAutomatica", false);
-            if (context.mounted) context.pushReplacement(Rotas.entrar);
+            final modeloDeUsuario = ModeloDeUsuario();
+            await FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).set(modeloDeUsuario.toMap());
+            if (context.mounted) loginAutomatico(context);
           }
         } else {
-          final modeloDeUsuario = ModeloDeUsuario(
-            cadastroConcluido: false,
-            master: false,
-            admin: false,
-            convidado: false,
-            autorizado: false,
-            tenis: 0,
-            genero: 'Não Definido',
-            camiseta: 'Não Definido',
-            dataMascimento: DateTime.now(),
-          );
-          await FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).set(modeloDeUsuario.toMap()).then(
-            (value) async {
-              await loginAutomatico(context);
-            },
-          );
+          if (context.mounted) desconectar(context, prefs);
         }
       } catch (e) {
-        await FirebaseAuth.instance.signOut();
-        prefs.setBool("entradaAutomatica", false);
-        if (context.mounted) context.pushReplacement(Rotas.entrar);
+        if (context.mounted) desconectar(context, prefs);
       }
     } else {
-      await FirebaseAuth.instance.signOut();
-      prefs.setBool("entradaAutomatica", false);
-      if (context.mounted) context.pushReplacement(Rotas.entrar);
+      if (context.mounted) desconectar(context, prefs);
     }
+  }
+
+  Future<void> desconectar(BuildContext context, SharedPreferences prefs) async {
+    await FirebaseAuth.instance.signOut();
+    prefs.setBool("entradaAutomatica", false);
+    if (context.mounted) context.pushReplacement(Rotas.entrar);
   }
 }
