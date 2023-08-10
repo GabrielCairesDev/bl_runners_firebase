@@ -66,23 +66,13 @@ class PaginaRegistrarControlador extends ChangeNotifier {
   Future registrar(context) async {
     try {
       final credencial = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: controladorEmail.text, password: controladorCnfirmarSenha.text);
-      final ususario = credencial.user;
+      final usuario = credencial.user;
 
       final usuarios = FirebaseFirestore.instance.collection('usuarios');
-      final modeloDeUsuario = ModeloDeUsuario(
-        cadastroConcluido: false,
-        master: false,
-        admin: false,
-        convidado: false,
-        autorizado: false,
-        tenis: 0,
-        genero: 'Não Definido',
-        camiseta: 'Não Definido',
-        dataMascimento: DateTime.now(),
-      );
+      final modeloDeUsuario = ModeloDeUsuario();
 
-      await usuarios.doc(ususario!.uid).set(modeloDeUsuario.toMap());
-      await ususario.updateDisplayName(controladorNome.text);
+      await usuarios.doc(usuario!.uid).set(modeloDeUsuario.toMap());
+      await usuario.updateDisplayName(controladorNome.text);
 
       mensagemContaCriada(context);
       enviarConfirmarcaoEmail();
