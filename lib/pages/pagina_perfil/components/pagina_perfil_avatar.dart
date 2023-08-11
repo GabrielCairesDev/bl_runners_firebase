@@ -9,6 +9,7 @@ class PaginaPerfilAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controladorUsuario = Provider.of<ProviderUsuario>(context);
+
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.5,
       height: MediaQuery.of(context).size.width * 0.5,

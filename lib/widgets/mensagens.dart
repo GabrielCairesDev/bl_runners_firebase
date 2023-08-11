@@ -46,4 +46,51 @@ class Mensagens {
       },
     );
   }
+
+  static void caixaDeDialogoSimNao(
+    BuildContext context, {
+    required String titulo,
+    required String texto,
+    required String textoBotaoSim,
+    required String textoBotaoNao,
+    required Function()? onPressedSim,
+    required Function()? onPressedNao,
+  }) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: AlertDialog(
+            title: Text(titulo, textAlign: TextAlign.center),
+            content: Text(texto),
+            actions: [
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: onPressedSim,
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
+                      child: Text(
+                        textoBotaoSim,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: onPressedNao,
+                      child: Text(
+                        textoBotaoNao,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }

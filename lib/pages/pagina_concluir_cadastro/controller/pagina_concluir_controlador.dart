@@ -57,7 +57,6 @@ class PaginaConcluirControlador extends ChangeNotifier {
         (TaskSnapshot taskSnapshot) {
           switch (taskSnapshot.state) {
             case TaskState.running:
-              alterarCarregando();
               break;
             case TaskState.paused:
               alterarCarregando();

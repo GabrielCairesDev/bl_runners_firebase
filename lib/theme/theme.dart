@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 ThemeData myAppTheme() {
-  final baseTheme = ThemeData();
+  final baseTheme = ThemeData(
+    visualDensity: VisualDensity.adaptivePlatformDensity,
+  );
   return baseTheme.copyWith(
     inputDecorationTheme: InputDecorationTheme(
       filled: true,

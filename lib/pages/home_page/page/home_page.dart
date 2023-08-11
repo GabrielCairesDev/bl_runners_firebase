@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
     final controladorProvider = context.read<ProviderUsuario>();
 
     controlador.loginAutomatico(context);
-    controladorProvider.iniciarModeloDeUsuario();
+    controladorProvider.atualizarUsuario();
     super.initState();
   }
 

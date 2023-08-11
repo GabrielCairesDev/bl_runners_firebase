@@ -6,6 +6,8 @@ import 'package:bl_runners_firebase/pages/pagina_registrar/controller/pagina_reg
 import 'package:bl_runners_firebase/providers/provider_usuario.dart';
 import 'package:provider/provider.dart';
 
+import '../pages/pagina_editar_perfil/controller/pagina_editar_perfil_controlador.dart';
+
 class AppProvider {
   static final provider = [
     ChangeNotifierProvider<HomePageController>(create: (context) => HomePageController()),
@@ -14,5 +16,6 @@ class AppProvider {
     ChangeNotifierProvider<PaginaConcluirControlador>(create: (context) => PaginaConcluirControlador()),
     ChangeNotifierProvider<PaginaNavegacaoControlador>(create: (context) => PaginaNavegacaoControlador()),
     ChangeNotifierProvider<ProviderUsuario>(create: (context) => ProviderUsuario()),
+    ChangeNotifierProvider<PaginaEditarPerfilControlador>(create: (context) => PaginaEditarPerfilControlador()),
   ];
 }
