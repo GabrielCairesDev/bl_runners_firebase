@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ModeloDeUsuario {
-  final String? genero;
+  final String? id, nome, fotoUrl, genero;
   final bool? master, admin, convidado, autorizado, cadastroConcluido;
   final DateTime? dataMascimento;
 
   ModeloDeUsuario({
+    this.id,
+    this.nome,
+    this.fotoUrl,
     this.genero,
     this.master,
     this.admin,
@@ -17,6 +20,9 @@ class ModeloDeUsuario {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
+      'nome': nome,
+      'fotoUrl': fotoUrl,
       'genero': genero,
       'master': master,
       'admin': admin,
@@ -29,6 +35,9 @@ class ModeloDeUsuario {
 
   factory ModeloDeUsuario.fromMap(Map<String, dynamic> map) {
     return ModeloDeUsuario(
+      id: map['id'] ?? '',
+      nome: map['nome'] ?? '',
+      fotoUrl: map['fotoUrl'] ?? '',
       genero: map['genero'] ?? '',
       master: map['master'] ?? false,
       admin: map['admin'] ?? false,

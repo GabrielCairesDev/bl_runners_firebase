@@ -45,6 +45,7 @@ dependencies:
   flutter_localization: ^0.1.13
   image_picker: ^1.0.2
   firebase_storage: ^11.2.5
+  skeletons: ^0.0.3
 
 dev_dependencies:
   flutter_test:

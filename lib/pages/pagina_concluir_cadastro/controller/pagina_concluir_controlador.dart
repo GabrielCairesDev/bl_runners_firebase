@@ -74,12 +74,15 @@ class PaginaConcluirControlador extends ChangeNotifier {
               usuario.updateDisplayName(controladorNome.text);
 
               final modeloDeUsuario = ModeloDeUsuario(
+                id: usuario.uid,
+                nome: usuario.displayName,
+                fotoUrl: usuario.photoURL,
+                genero: controladorGenero,
                 master: false,
                 admin: false,
                 autorizado: false,
                 cadastroConcluido: true,
                 convidado: true,
-                genero: controladorGenero,
                 dataMascimento: nascimentoData,
               );
               FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).set(modeloDeUsuario.toMap());
