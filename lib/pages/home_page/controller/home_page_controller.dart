@@ -21,7 +21,7 @@ class HomePageController extends ChangeNotifier {
           final usarioDados = await FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).get();
 
           if (usarioDados.exists) {
-            final modeloDeUsuario = ModeloDeUsuario.fromMap(usarioDados.data() as Map<String, dynamic>);
+            final modeloDeUsuario = ModeloDeUsuario.fromJson(usarioDados.data() as Map<String, dynamic>);
             if (modeloDeUsuario.cadastroConcluido == false || modeloDeUsuario.cadastroConcluido == null) {
               if (context.mounted) context.pushReplacement(Rotas.concluir);
             } else {
@@ -29,7 +29,7 @@ class HomePageController extends ChangeNotifier {
             }
           } else {
             final modeloDeUsuario = ModeloDeUsuario();
-            await FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).set(modeloDeUsuario.toMap());
+            await FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).set(modeloDeUsuario.toJson());
             if (context.mounted) loginAutomatico(context);
           }
         } else {

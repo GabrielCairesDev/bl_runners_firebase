@@ -15,6 +15,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   final controladorNome = TextEditingController();
   final controladorNascimento = TextEditingController();
   final controladorFoto = TextEditingController();
+  final controladorSenha = TextEditingController();
 
   String? controladorGenero;
   List<String> generos = ['Masculino', 'Feminino'];
@@ -65,7 +66,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
     late ModeloDeUsuario? usuario;
     if (user != null) {
       final usarioDados = await FirebaseFirestore.instance.collection('usuarios').doc(user.uid).get();
-      usuario = ModeloDeUsuario.fromMap(usarioDados.data() as Map<String, dynamic>);
+      usuario = ModeloDeUsuario.fromJson(usarioDados.data() as Map<String, dynamic>);
 
       if (imagemArquivo != null) {
         FirebaseStorage storage = FirebaseStorage.instance;
@@ -109,11 +110,58 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
         id: user.uid,
         master: usuario.master,
       );
-      FirebaseFirestore.instance.collection('usuarios').doc(user.uid).update(modeloDeUsuario.toMap());
+      FirebaseFirestore.instance.collection('usuarios').doc(user.uid).update(modeloDeUsuario.toJson());
+      if (context.mounted) atualizarDados(context);
       if (context.mounted) Navigator.of(context).pop();
       if (context.mounted) alterarCarregando(context);
     } else {
       Mensagens.snackBar(context, 'Algo deu errado');
+      alterarCarregando(context);
+    }
+  }
+
+  pedirsenha(BuildContext context) {
+    Mensagens.caixaDialogoDigitarSenha(
+      context,
+      senha: controladorSenha,
+      titulo: 'Excluir Perfil?',
+      textoBotaoExcluir: 'Excluir',
+      textoBotaoCancelar: 'Cancelar',
+      onPressedExcluir: () {
+        alterarCarregando(context);
+        return excluirConta(context);
+      },
+      onPressedCancelar: () {},
+    );
+  }
+
+  excluirConta(context) async {
+    try {
+      final User? usuario = FirebaseAuth.instance.currentUser;
+
+      if (usuario != null) {
+        // Reautenticar o usuário com a senha fornecida
+        final AuthCredential credential = EmailAuthProvider.credential(email: usuario.email!, password: controladorSenha.text);
+        await usuario.reauthenticateWithCredential(credential);
+        print(controladorSenha);
+
+        // // Deletar o documento do usuário na coleção 'usuarios'
+        // await FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).delete();
+
+        // // Excluir arquivo de imagem no armazenamento
+        // Reference ref = FirebaseStorage.instance.ref().child("perfil_fotos/${usuario.uid}");
+        // await ref.delete();
+
+        // // Deletar o usuário pushReplacement
+        // await usuario.delete();
+
+        // context.pushReplacement(Rotas.entrar);
+        // Mensagens.snackBar(context, 'O seu perfil foi excluído!');
+        // alterarCarregando(context);
+      }
+    } catch (e) {
+      Navigator.of(context).pop();
+      Mensagens.snackBar(context, 'Senha invalida!');
       alterarCarregando(context);
     }
   }
@@ -141,6 +189,9 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   alterarCarregando(context) {
     carregando = !carregando;
     notifyListeners();
+  }
+
+  atualizarDados(context) {
     final providerUsuario = Provider.of<ProviderUsuario>(context, listen: false);
     providerUsuario.atualizarUsuario();
   }

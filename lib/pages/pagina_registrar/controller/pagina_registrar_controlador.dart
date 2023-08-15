@@ -3,6 +3,7 @@ import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../routes/rotas.dart';
 
@@ -63,7 +64,9 @@ class PaginaRegistrarControlador extends ChangeNotifier {
     }
   }
 
-  Future registrar(context) async {
+  Future registrar(
+    context,
+  ) async {
     try {
       final credencial = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: controladorEmail.text, password: controladorCnfirmarSenha.text);
       final usuario = credencial.user;
@@ -71,7 +74,7 @@ class PaginaRegistrarControlador extends ChangeNotifier {
       final usuarios = FirebaseFirestore.instance.collection('usuarios');
       final modeloDeUsuario = ModeloDeUsuario();
 
-      await usuarios.doc(usuario!.uid).set(modeloDeUsuario.toMap());
+      await usuarios.doc(usuario!.uid).set(modeloDeUsuario.toJson());
       await usuario.updateDisplayName(controladorNome.text);
 
       mensagemContaCriada(context);
@@ -91,7 +94,7 @@ class PaginaRegistrarControlador extends ChangeNotifier {
     atualizarCarregando();
   }
 
-  mensagemContaCriada(context) {
+  mensagemContaCriada(BuildContext context) {
     Mensagens.caixaDeDialogo(
       context,
       titulo: "Parabéns!",
@@ -99,7 +102,7 @@ class PaginaRegistrarControlador extends ChangeNotifier {
       textoBotao: 'OK',
       onPressed: () {
         Navigator.of(context).pop();
-        if (context.mounted) context.pushReplacement(Rotas.entrar);
+        context.pushReplacement(Rotas.entrar);
       },
     );
   }

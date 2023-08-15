@@ -6,11 +6,11 @@ import '../models/modelo_de_usuario.dart';
 
 class ProviderUsuario extends ChangeNotifier {
   final User? user = FirebaseAuth.instance.currentUser;
-  late ModeloDeUsuario? usuario;
-  Future<void> atualizarUsuario() async {
+  ModeloDeUsuario? usuario;
+  Future atualizarUsuario() async {
     if (user != null) {
-      final usarioDados = await FirebaseFirestore.instance.collection('usuarios').doc(user!.uid).get();
-      usuario = ModeloDeUsuario.fromMap(usarioDados.data() as Map<String, dynamic>);
+      final usuarioDados = await FirebaseFirestore.instance.collection('usuarios').doc(user!.uid).get();
+      usuario = ModeloDeUsuario.fromJson(usuarioDados.data() as Map<String, dynamic>);
       notifyListeners();
     }
   }

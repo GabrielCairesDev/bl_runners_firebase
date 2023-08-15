@@ -93,4 +93,53 @@ class Mensagens {
       },
     );
   }
+
+  static void caixaDialogoDigitarSenha(
+    BuildContext context, {
+    required TextEditingController senha,
+    required String titulo,
+    // required String texto,
+    required String textoBotaoExcluir,
+    required String textoBotaoCancelar,
+    required Function()? onPressedExcluir,
+    required Function()? onPressedCancelar,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(titulo, textAlign: TextAlign.center),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // const Text("Digite sua senha atual para confirmar a exclusão."),
+              const SizedBox(height: 16.0),
+              TextFormField(
+                controller: senha,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: "Senha Atual",
+                  hintText: "Digite sua senha",
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.5,
+              child: ElevatedButton(
+                onPressed: onPressedCancelar,
+                child: Text(textoBotaoCancelar),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: onPressedExcluir,
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
+              child: Text(textoBotaoExcluir),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../../providers/provider_usuario.dart';
 import '../../pagina_inicio/page/pagina_inicio.dart';
 import '../../pagina_perfil/pages/pagina_perfil.dart';
 import '../../pagina_ranking_femenino/page/pagina_ranking_feminino.dart';
 import '../../pagina_ranking_geral/pages/Pagina_ranking_geral.dart';
 import '../../pagina_ranking_masculino/pages/pagina_ranking_masculino.dart';
+import '../components/pagina_navegacao_avatar.dart';
 
 class PaginaNavegacao extends StatefulWidget {
   const PaginaNavegacao({super.key});
@@ -21,8 +20,7 @@ class _PaginaNavegacaoState extends State<PaginaNavegacao> {
 
   @override
   Widget build(BuildContext context) {
-    // final controlador = Provider.of<PaginaNavegacaoControlador>(context);
-    final controladorUsuarioProvider = Provider.of<ProviderUsuario>(context);
+    // final controladorUsuario = Provider.of<HomePageController>(context);
 
     return Scaffold(
       body: PageView(
@@ -43,22 +41,13 @@ class _PaginaNavegacaoState extends State<PaginaNavegacao> {
         width: double.infinity,
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Ínicio'),
-            const BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'Geral'),
-            const BottomNavigationBarItem(icon: Icon(Icons.female), label: 'Feminino'),
-            const BottomNavigationBarItem(icon: Icon(Icons.male), label: 'Masculino'),
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Ínicio'),
+            BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'Geral'),
+            BottomNavigationBarItem(icon: Icon(Icons.female), label: 'Feminino'),
+            BottomNavigationBarItem(icon: Icon(Icons.male), label: 'Masculino'),
             BottomNavigationBarItem(
-              icon: SizedBox(
-                width: 24,
-                height: 24,
-                child: ClipOval(
-                  child: Image.network(
-                    controladorUsuarioProvider.usuario!.fotoUrl.toString(),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
+              icon: PaginaNavegacaoAvatar(),
               label: 'Perfil',
             ),
           ],

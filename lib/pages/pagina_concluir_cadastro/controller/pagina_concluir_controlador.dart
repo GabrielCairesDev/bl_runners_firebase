@@ -54,7 +54,7 @@ class PaginaConcluirControlador extends ChangeNotifier {
       UploadTask uploadTask = ref.putFile(File(imagemArquivo!.path));
 
       uploadTask.snapshotEvents.listen(
-        (TaskSnapshot taskSnapshot) {
+        (TaskSnapshot taskSnapshot) async {
           switch (taskSnapshot.state) {
             case TaskState.running:
               break;
@@ -69,13 +69,13 @@ class PaginaConcluirControlador extends ChangeNotifier {
               alterarCarregando();
               break;
             case TaskState.success:
-              ref.getDownloadURL().then((url) => usuario.updatePhotoURL(url));
-              usuario.updateDisplayName(controladorNome.text);
+              var downloadUrl = await ref.getDownloadURL();
+              usuario.updatePhotoURL(downloadUrl);
 
               final modeloDeUsuario = ModeloDeUsuario(
                 id: usuario.uid,
                 nome: usuario.displayName,
-                fotoUrl: usuario.photoURL,
+                fotoUrl: downloadUrl,
                 genero: controladorGenero,
                 master: false,
                 admin: false,
@@ -84,7 +84,8 @@ class PaginaConcluirControlador extends ChangeNotifier {
                 convidado: true,
                 dataMascimento: nascimentoData,
               );
-              FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).set(modeloDeUsuario.toMap());
+
+              FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).set(modeloDeUsuario.toJson());
               if (context.mounted) context.pushReplacement(Rotas.navegar);
               alterarCarregando();
               break;

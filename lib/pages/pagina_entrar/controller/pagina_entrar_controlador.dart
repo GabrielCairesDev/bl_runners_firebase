@@ -45,13 +45,13 @@ class PaginaEntrarControlador extends ChangeNotifier {
 
   Future entrar(BuildContext context) async {
     try {
-      final usuario = await FirebaseAuth.instance.signInWithEmailAndPassword(email: controladorEmail.text, password: controladorSenha.text);
+      final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: controladorEmail.text, password: controladorSenha.text);
 
-      if (usuario.user!.emailVerified == true) {
-        final usarioDados = await FirebaseFirestore.instance.collection('usuarios').doc(usuario.user!.uid).get();
+      if (userCredential.user!.emailVerified == true) {
+        final usarioDados = await FirebaseFirestore.instance.collection('usuarios').doc(userCredential.user!.uid).get();
 
         if (usarioDados.exists) {
-          final modeloDeUsuario = ModeloDeUsuario.fromMap(usarioDados.data() as Map<String, dynamic>);
+          final modeloDeUsuario = ModeloDeUsuario.fromJson(usarioDados.data() as Map<String, dynamic>);
           if (modeloDeUsuario.cadastroConcluido == false || modeloDeUsuario.cadastroConcluido == null) {
             if (context.mounted) context.pushReplacement(Rotas.concluir);
             atualizarCarregando();
@@ -62,12 +62,13 @@ class PaginaEntrarControlador extends ChangeNotifier {
           salvarEntradaAutomatica();
         } else {
           final modeloDeUsuario = ModeloDeUsuario();
-          await FirebaseFirestore.instance.collection('usuarios').doc(usuario.user!.uid).set(modeloDeUsuario.toMap());
+          await FirebaseFirestore.instance.collection('usuarios').doc(userCredential.user!.uid).set(modeloDeUsuario.toJson());
 
           if (context.mounted) await entrar(context);
         }
       } else {
-        if (context.mounted) mensagemConfirmarEmail(context, usuario.user!.email as User);
+        if (context.mounted) mensagemConfirmarEmail(context);
+        atualizarCarregando();
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -89,15 +90,16 @@ class PaginaEntrarControlador extends ChangeNotifier {
     }
   }
 
-  mensagemConfirmarEmail(context, User usuario) async {
+  mensagemConfirmarEmail(context) async {
+    User? user = FirebaseAuth.instance.currentUser;
     Mensagens.caixaDeDialogo(
       context,
       titulo: 'Atenção!',
-      texto: 'Por favor, verifique o seu e-mail.\n ${usuario.email}',
+      texto: 'Por favor, verifique o seu e-mail.\n ${user!.email}',
       textoBotao: 'ok',
       onPressed: () => Navigator.of(context).pop(),
     );
-    await usuario.sendEmailVerification();
+    await user.sendEmailVerification();
     await FirebaseAuth.instance.signOut();
   }
 
