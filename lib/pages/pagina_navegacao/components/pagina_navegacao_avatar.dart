@@ -1,6 +1,8 @@
+import 'package:bl_runners_firebase/providers/provider_usuario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/modelo_de_usuario.dart';
 
@@ -18,9 +20,13 @@ class _PaginaNavegacaoAvatarState extends State<PaginaNavegacaoAvatar> {
 
   @override
   void initState() {
-    super.initState();
+    // INCIAR USUÁRIO ATUAL
+    final controladorUsuario = context.read<ProviderUsuario>();
+    controladorUsuario.atualizarUsuario();
+
     user = FirebaseAuth.instance.currentUser;
     _usersStream = FirebaseFirestore.instance.collection('usuarios').doc(user!.uid).snapshots();
+    super.initState();
   }
 
   @override

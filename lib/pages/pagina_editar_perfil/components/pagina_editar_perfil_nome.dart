@@ -1,4 +1,5 @@
 import 'package:bl_runners_firebase/providers/provider_usuario.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +12,10 @@ class PaginaEditarPerfilNome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaEditarPerfilControlador>();
+
     final controladorUsuario = context.read<ProviderUsuario>();
-    controlador.controladorNome.text = controladorUsuario.usuario!.nome.toString();
+    controlador.controladorNome.text = controladorUsuario.usuario!.nome!;
+
     return Form(
       key: controlador.globalKeyNome,
       child: TextFormField(
