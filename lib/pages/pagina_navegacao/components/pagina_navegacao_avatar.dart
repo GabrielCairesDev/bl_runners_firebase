@@ -20,10 +20,6 @@ class _PaginaNavegacaoAvatarState extends State<PaginaNavegacaoAvatar> {
 
   @override
   void initState() {
-    // INCIAR USUÁRIO ATUAL
-    final controladorUsuario = context.read<ProviderUsuario>();
-    controladorUsuario.atualizarUsuario();
-
     user = FirebaseAuth.instance.currentUser;
     _usersStream = FirebaseFirestore.instance.collection('usuarios').doc(user!.uid).snapshots();
     super.initState();
