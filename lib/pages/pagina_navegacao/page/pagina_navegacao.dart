@@ -1,4 +1,6 @@
+import 'package:bl_runners_firebase/providers/provider_usuario.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../pagina_inicio/page/pagina_inicio.dart';
 import '../../pagina_perfil/pages/pagina_perfil.dart';
@@ -15,6 +17,14 @@ class PaginaNavegacao extends StatefulWidget {
 }
 
 class _PaginaNavegacaoState extends State<PaginaNavegacao> {
+  @override
+  void initState() {
+    // ATUALIZAR USUÁRIO ATUAL
+    final controladorUsuario = context.read<ProviderUsuario>();
+    controladorUsuario.atualizarUsuario();
+    super.initState();
+  }
+
   final controladorPagina = PageController();
   int indiceMenu = 0;
 

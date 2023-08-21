@@ -41,11 +41,10 @@ dependencies:
   firebase_auth: ^4.7.2
   shared_preferences: ^2.2.0
   cloud_firestore: ^4.8.4
-  intl: 0.18.0
+  # intl: 0.18.0
   flutter_localization: ^0.1.13
   image_picker: ^1.0.2
   firebase_storage: ^11.2.5
-  skeletons: ^0.0.3
 
 dev_dependencies:
   flutter_test:
