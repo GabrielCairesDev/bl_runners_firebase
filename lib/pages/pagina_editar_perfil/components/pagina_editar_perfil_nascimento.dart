@@ -17,7 +17,8 @@ class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascime
   void initState() {
     final controlador = context.read<PaginaEditarPerfilControlador>();
     final controladorUsuario = context.read<ProviderUsuario>();
-    controlador.controladorNascimento.text = DateFormat('dd/MM/yyyy').format(controladorUsuario.usuario!.dataMascimento!);
+    controlador.controladorNascimento.text = DateFormat('dd/MM/yyyy').format(controladorUsuario.usuario!.dataNascimento);
+    controlador.nascimentoData = controladorUsuario.usuario!.dataNascimento;
     super.initState();
   }
 
@@ -41,7 +42,7 @@ class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascime
         onTap: () async {
           DateTime? pegarData = await showDatePicker(
             context: context,
-            initialDate: controladorUsuario.usuario!.dataMascimento!,
+            initialDate: controladorUsuario.usuario!.dataNascimento,
             firstDate: DateTime(1940),
             lastDate: DateTime.now(),
             locale: const Locale("pt", "BR"),

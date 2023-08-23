@@ -36,7 +36,7 @@ class _PaginaPerfilNomeState extends State<PaginaPerfilNome> {
 
         return Center(
           child: Text(
-            usuario!.nome!,
+            usuario!.nome,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: MediaQuery.of(context).size.width * 0.065,

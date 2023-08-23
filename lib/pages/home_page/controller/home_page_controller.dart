@@ -8,27 +8,39 @@ import '../../../models/modelo_de_usuario.dart';
 
 class HomePageController extends ChangeNotifier {
   Future loginAutomatico(BuildContext context) async {
-    final usuario = FirebaseAuth.instance.currentUser;
+    User? usuario = FirebaseAuth.instance.currentUser;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool entradaAutomatica = prefs.getBool('entradaAutomatica') ?? false;
 
     if (usuario != null) {
+      usuario.reload();
       try {
-        await usuario.reload();
-
         if (entradaAutomatica == true && usuario.emailVerified == true) {
           final usarioDados = await FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).get();
 
           if (usarioDados.exists) {
-            final modeloDeUsuario = ModeloDeUsuario.fromJson(usarioDados.data() as Map<String, dynamic>);
-            if (modeloDeUsuario.cadastroConcluido == false || modeloDeUsuario.cadastroConcluido == null) {
+            final dataMap = usarioDados.data();
+            final modeloDeUsuario = ModeloDeUsuario.fromJson(dataMap!);
+
+            if (modeloDeUsuario.cadastroConcluido == false) {
               if (context.mounted) context.pushReplacement(Rotas.concluir);
             } else {
               if (context.mounted) context.pushReplacement(Rotas.navegar);
             }
           } else {
-            final modeloDeUsuario = ModeloDeUsuario();
+            final modeloDeUsuario = ModeloDeUsuario(
+              id: usuario.uid,
+              nome: usuario.displayName.toString(),
+              email: usuario.email.toString(),
+              fotoUrl: '',
+              genero: '',
+              master: false,
+              admin: false,
+              autorizado: false,
+              cadastroConcluido: false,
+              dataNascimento: DateTime.now(),
+            );
             await FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).set(modeloDeUsuario.toJson());
             if (context.mounted) loginAutomatico(context);
           }

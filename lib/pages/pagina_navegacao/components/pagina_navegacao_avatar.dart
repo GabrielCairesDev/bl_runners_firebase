@@ -1,8 +1,6 @@
-import 'package:bl_runners_firebase/providers/provider_usuario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../models/modelo_de_usuario.dart';
 
@@ -48,7 +46,7 @@ class _PaginaNavegacaoAvatarState extends State<PaginaNavegacaoAvatar> {
           height: 24,
           child: ClipOval(
             child: Image.network(
-              usuario!.fotoUrl!,
+              usuario!.fotoUrl,
               fit: BoxFit.cover,
             ),
           ),

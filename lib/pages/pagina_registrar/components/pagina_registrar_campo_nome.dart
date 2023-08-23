@@ -10,7 +10,7 @@ class PaginaRegistrarCampoNome extends StatelessWidget {
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaRegistrarControlador>();
     return Form(
-      key: controlador.globalKeyNome,
+      key: controlador.globalKeyNomeRegistrar,
       child: TextFormField(
         controller: controlador.controladorNome,
         validator: controlador.validadorNome,

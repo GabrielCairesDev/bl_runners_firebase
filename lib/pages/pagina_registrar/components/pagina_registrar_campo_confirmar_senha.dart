@@ -7,17 +7,15 @@ class PaginaRegistrarCampoConfirmarSenha extends StatefulWidget {
   const PaginaRegistrarCampoConfirmarSenha({super.key});
 
   @override
-  State<PaginaRegistrarCampoConfirmarSenha> createState() =>
-      _PaginaRegistrarCampoConfirmarSenhaState();
+  State<PaginaRegistrarCampoConfirmarSenha> createState() => _PaginaRegistrarCampoConfirmarSenhaState();
 }
 
-class _PaginaRegistrarCampoConfirmarSenhaState
-    extends State<PaginaRegistrarCampoConfirmarSenha> {
+class _PaginaRegistrarCampoConfirmarSenhaState extends State<PaginaRegistrarCampoConfirmarSenha> {
   @override
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaRegistrarControlador>();
     return Form(
-      key: controlador.globalKeyConfirmarSenha,
+      key: controlador.globalKeyConfirmarSenhaRegistrar,
       child: TextFormField(
         controller: controlador.controladorCnfirmarSenha,
         validator: controlador.validadorConfirmarSenha,
@@ -27,11 +25,8 @@ class _PaginaRegistrarCampoConfirmarSenhaState
           labelText: 'Confirmar senha',
           prefixIcon: const Icon(Icons.key),
           suffixIcon: InkWell(
-            onTap: () => setState(
-                () => controlador.esconderSenha2 = !controlador.esconderSenha2),
-            child: Icon(controlador.esconderSenha2
-                ? Icons.visibility_off
-                : Icons.visibility),
+            onTap: () => setState(() => controlador.esconderSenha2 = !controlador.esconderSenha2),
+            child: Icon(controlador.esconderSenha2 ? Icons.visibility_off : Icons.visibility),
           ),
         ),
       ),

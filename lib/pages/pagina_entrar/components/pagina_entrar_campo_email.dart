@@ -10,7 +10,7 @@ class PaginaEntrarCampoEmail extends StatelessWidget {
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaEntrarControlador>();
     return Form(
-      key: controlador.globalKeyEmail,
+      key: controlador.globalKeyEmailEntrar,
       child: TextFormField(
         controller: controlador.controladorEmail,
         validator: controlador.validadorEmail,

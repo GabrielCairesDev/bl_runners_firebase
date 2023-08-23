@@ -13,7 +13,7 @@ class PaginaEditarPerfilNome extends StatelessWidget {
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaEditarPerfilControlador>();
     final controladorUsuario = context.read<ProviderUsuario>();
-    controlador.controladorNome.text = controladorUsuario.usuario!.nome!;
+    controlador.controladorNome.text = controladorUsuario.usuario!.nome;
 
     return Form(
       key: controlador.globalKeyNome,

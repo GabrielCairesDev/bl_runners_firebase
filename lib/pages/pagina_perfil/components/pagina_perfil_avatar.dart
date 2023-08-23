@@ -27,7 +27,18 @@ class _PaginaPerfilAvatarState extends State<PaginaPerfilAvatar> {
     return StreamBuilder<DocumentSnapshot>(
       stream: _usersStream,
       builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.hasError || snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.hasError) {
+          return SizedBox(
+            width: MediaQuery.of(context).size.width * 0.5,
+            height: MediaQuery.of(context).size.width * 0.5,
+            child: const ClipOval(
+              child: Image(
+                image: AssetImage('assets/images/avatar.png'),
+              ),
+            ),
+          );
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const SizedBox(
             width: 24,
             height: 24,
@@ -45,7 +56,7 @@ class _PaginaPerfilAvatarState extends State<PaginaPerfilAvatar> {
           height: MediaQuery.of(context).size.width * 0.5,
           child: ClipOval(
             child: Image.network(
-              usuario!.fotoUrl!,
+              usuario!.fotoUrl,
               fit: BoxFit.cover,
             ),
           ),

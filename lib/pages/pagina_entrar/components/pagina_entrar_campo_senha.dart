@@ -15,7 +15,7 @@ class _PaginaEntrarCampoSenhaState extends State<PaginaEntrarCampoSenha> {
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaEntrarControlador>();
     return Form(
-      key: controlador.globalKeySenha,
+      key: controlador.globalKeySenhaEntrar,
       child: TextFormField(
         controller: controlador.controladorSenha,
         validator: controlador.validadorSenha,
@@ -25,11 +25,8 @@ class _PaginaEntrarCampoSenhaState extends State<PaginaEntrarCampoSenha> {
           labelText: 'Senha',
           prefixIcon: const Icon(Icons.key),
           suffixIcon: InkWell(
-            onTap: () => setState(
-                () => controlador.esconderSenha = !controlador.esconderSenha),
-            child: Icon(controlador.esconderSenha
-                ? Icons.visibility_off
-                : Icons.visibility),
+            onTap: () => setState(() => controlador.esconderSenha = !controlador.esconderSenha),
+            child: Icon(controlador.esconderSenha ? Icons.visibility_off : Icons.visibility),
           ),
         ),
       ),

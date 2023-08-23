@@ -3,9 +3,9 @@ import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 
-import '../../../routes/rotas.dart';
+// import '../../../routes/rotas.dart';
 
 class PaginaRegistrarControlador extends ChangeNotifier {
   final controladorNome = TextEditingController();
@@ -13,10 +13,10 @@ class PaginaRegistrarControlador extends ChangeNotifier {
   final controladorSenha = TextEditingController();
   final controladorCnfirmarSenha = TextEditingController();
 
-  GlobalKey<FormState> globalKeyNome = GlobalKey<FormState>();
-  GlobalKey<FormState> globalKeyEmail = GlobalKey<FormState>();
-  GlobalKey<FormState> globalKeySenha = GlobalKey<FormState>();
-  GlobalKey<FormState> globalKeyConfirmarSenha = GlobalKey<FormState>();
+  final globalKeyNomeRegistrar = GlobalKey<FormState>();
+  final globalKeyEmailRegistrar = GlobalKey<FormState>();
+  final globalKeySenhaRegistrar = GlobalKey<FormState>();
+  final globalKeyConfirmarSenhaRegistrar = GlobalKey<FormState>();
 
   bool esconderSenha = true;
   bool esconderSenha2 = true;
@@ -58,24 +58,34 @@ class PaginaRegistrarControlador extends ChangeNotifier {
   }
 
   validarCampos(context) {
-    if (globalKeyEmail.currentState!.validate() && globalKeySenha.currentState!.validate() && globalKeyConfirmarSenha.currentState!.validate() && carregando == false) {
+    if (globalKeyEmailRegistrar.currentState!.validate() &&
+        globalKeySenhaRegistrar.currentState!.validate() &&
+        globalKeyConfirmarSenhaRegistrar.currentState!.validate() &&
+        carregando == false) {
       atualizarCarregando();
       registrar(context);
     }
   }
 
-  Future registrar(
-    context,
-  ) async {
+  Future registrar(context) async {
     try {
-      final credencial = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: controladorEmail.text, password: controladorCnfirmarSenha.text);
-      final usuario = credencial.user;
+      final usuario = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: controladorEmail.text, password: controladorCnfirmarSenha.text);
+      await usuario.user!.updateDisplayName(controladorNome.text);
 
-      final usuarios = FirebaseFirestore.instance.collection('usuarios');
-      final modeloDeUsuario = ModeloDeUsuario();
+      final modeloDeUsuario = ModeloDeUsuario(
+        id: usuario.user!.uid,
+        nome: usuario.user!.displayName.toString(),
+        email: usuario.user!.email.toString(),
+        fotoUrl: '',
+        genero: '',
+        master: false,
+        admin: false,
+        autorizado: false,
+        cadastroConcluido: false,
+        dataNascimento: DateTime.now(),
+      );
 
-      await usuarios.doc(usuario!.uid).set(modeloDeUsuario.toJson());
-      await usuario.updateDisplayName(controladorNome.text);
+      FirebaseFirestore.instance.collection('usuarios').doc(usuario.user!.uid).set(modeloDeUsuario.toJson());
 
       mensagemContaCriada(context);
       enviarConfirmarcaoEmail();
@@ -94,16 +104,13 @@ class PaginaRegistrarControlador extends ChangeNotifier {
     atualizarCarregando();
   }
 
-  mensagemContaCriada(BuildContext context) {
+  mensagemContaCriada(context) {
     Mensagens.caixaDeDialogo(
       context,
       titulo: "Parabéns!",
       texto: 'Sua conta foi criada com sucesso. Verifique o seu e-mail!',
       textoBotao: 'OK',
-      onPressed: () {
-        Navigator.of(context).pop();
-        context.pushReplacement(Rotas.entrar);
-      },
+      onPressed: () async => Navigator.of(context).pop(),
     );
   }
 
