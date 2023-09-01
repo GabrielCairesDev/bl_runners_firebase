@@ -1,11 +1,6 @@
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
+import 'package:bl_runners_firebase/providers/auth_provider.dart';
 import 'package:flutter/widgets.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:go_router/go_router.dart';
-
-// import '../../../routes/rotas.dart';
+import 'package:provider/provider.dart';
 
 class PaginaRegistrarControlador extends ChangeNotifier {
   final controladorNome = TextEditingController();
@@ -62,63 +57,15 @@ class PaginaRegistrarControlador extends ChangeNotifier {
         globalKeySenhaRegistrar.currentState!.validate() &&
         globalKeyConfirmarSenhaRegistrar.currentState!.validate() &&
         carregando == false) {
-      atualizarCarregando();
-      registrar(context);
+      criarUsarioProvider(context);
+      // registrar(context);
     }
   }
 
-  Future registrar(context) async {
-    try {
-      final usuario = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: controladorEmail.text, password: controladorCnfirmarSenha.text);
-      await usuario.user!.updateDisplayName(controladorNome.text);
-
-      final modeloDeUsuario = ModeloDeUsuario(
-        id: usuario.user!.uid,
-        nome: usuario.user!.displayName.toString(),
-        email: usuario.user!.email.toString(),
-        fotoUrl: '',
-        genero: '',
-        master: false,
-        admin: false,
-        autorizado: false,
-        cadastroConcluido: false,
-        dataNascimento: DateTime.now(),
-      );
-
-      FirebaseFirestore.instance.collection('usuarios').doc(usuario.user!.uid).set(modeloDeUsuario.toJson());
-
-      mensagemContaCriada(context);
-      enviarConfirmarcaoEmail();
-      resetarValores();
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        Mensagens.snackBar(context, 'A senha é muito fraca.');
-      } else if (e.code == 'email-already-in-use') {
-        Mensagens.snackBar(context, 'Este e-mail já está em uso.');
-      } else {
-        Mensagens.snackBar(context, 'Erro durante o registro: ${e.message}');
-      }
-    } catch (e) {
-      Mensagens.snackBar(context, 'Erro desconhecido: $e');
-    }
+  criarUsarioProvider(context) {
     atualizarCarregando();
-  }
-
-  mensagemContaCriada(context) {
-    Mensagens.caixaDeDialogo(
-      context,
-      titulo: "Parabéns!",
-      texto: 'Sua conta foi criada com sucesso. Verifique o seu e-mail!',
-      textoBotao: 'OK',
-      onPressed: () async => Navigator.of(context).pop(),
-    );
-  }
-
-  Future<void> enviarConfirmarcaoEmail() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null && !user.emailVerified) {
-      await user.sendEmailVerification();
-    }
+    final authprovider = Provider.of<AuthProvider>(context, listen: false);
+    authprovider.criarUsuario(context, controladorEmail.text, controladorCnfirmarSenha.text, controladorNome.text);
   }
 
   resetarValores() {

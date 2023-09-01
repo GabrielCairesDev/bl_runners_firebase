@@ -1,4 +1,5 @@
 import 'package:bl_runners_firebase/pages/pagina_perfil/components/pagina_perfil_botao_editar.dart';
+import 'package:bl_runners_firebase/pages/pagina_perfil/components/pagina_perfil_botao_sair.dart';
 import 'package:flutter/material.dart';
 
 import '../components/pagina_perfil_avatar.dart';
@@ -14,6 +15,7 @@ class PaginaPerfil extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('Perfil'),
+        actions: const [PaginaEditarBotaoSair()],
       ),
       body: SingleChildScrollView(
         child: Stack(

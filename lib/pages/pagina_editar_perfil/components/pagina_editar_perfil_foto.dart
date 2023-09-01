@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/provider_usuario.dart';
+import '../../../providers/user_provider.dart';
 import '../controller/pagina_editar_perfil_controlador.dart';
 
 class PaginaEditarPerfilFoto extends StatefulWidget {
@@ -25,7 +25,8 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
   @override
   Widget build(BuildContext context) {
     final controlador = Provider.of<PaginaEditarPerfilControlador>(context);
-    final controladorUsuario = context.read<ProviderUsuario>();
+    final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
+
     return WillPopScope(
       onWillPop: () async {
         controlador.imagemArquivo = null;
@@ -66,7 +67,7 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
               child: controlador.imagemArquivo == null
                   ? ClipRRect(
                       child: Image.network(
-                        controladorUsuario.usuario!.fotoUrl.toString(),
+                        controladorUsuario.usuarioModelo!.fotoUrl.toString(),
                         fit: BoxFit.cover,
                       ),
                     )

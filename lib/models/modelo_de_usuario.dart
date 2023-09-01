@@ -23,7 +23,8 @@ class ModeloDeUsuario {
       id: json['id'] ?? 'Id desconhecida',
       nome: json['nome'] ?? 'Nome Desconhecido',
       email: json['email'] ?? 'Email Desconhecido',
-      fotoUrl: json['fotoUrl'] ?? '',
+      fotoUrl: json['fotoUrl'] ??
+          'https://firebasestorage.googleapis.com/v0/b/blrunners-app.appspot.com/o/perfil_fotos%2Fnull.jpg?alt=media&token=2f050843-6c03-405f-adb5-6b355e5cede0',
       genero: json['genero'] ?? 'Genero Desconhecido',
       master: json['master'] ?? false,
       admin: json['admin'] ?? false,

@@ -1,4 +1,6 @@
-import 'package:bl_runners_firebase/providers/provider_usuario.dart';
+import 'package:bl_runners_firebase/providers/auth_provider.dart';
+import 'package:bl_runners_firebase/providers/user_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,10 +21,10 @@ class PaginaNavegacao extends StatefulWidget {
 class _PaginaNavegacaoState extends State<PaginaNavegacao> {
   @override
   void initState() {
-    // ATUALIZAR USUÁRIO ATUAL
-    final controladorUsuario = context.read<ProviderUsuario>();
-    controladorUsuario.atualizarUsuario();
     super.initState();
+    final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
+    final currentUser = Provider.of<AuthProvider>(context, listen: false);
+    controladorUsuario.pegarUsuarioAtualizado(currentUser.usuario);
   }
 
   final controladorPagina = PageController();

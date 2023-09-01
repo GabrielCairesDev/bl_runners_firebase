@@ -1,7 +1,6 @@
+import 'package:bl_runners_firebase/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../controller/home_page_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,9 +12,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    final controlador = context.read<HomePageController>();
-    controlador.loginAutomatico(context);
+    final authprovider = Provider.of<AuthProvider>(context, listen: false);
+    authprovider.autoEntrar(context);
     super.initState();
+    // final controlador = context.read<HomePageController>();
+    // controlador.loginAutomatico(context);
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bl_runners_firebase/providers/auth_provider.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/modelo_de_usuario.dart';
 import '../../../routes/rotas.dart';
@@ -121,10 +123,5 @@ class PaginaConcluirControlador extends ChangeNotifier {
   alterarCarregando() {
     carregando = !carregando;
     notifyListeners();
-  }
-
-  sair(BuildContext context) async {
-    await FirebaseAuth.instance.signOut();
-    if (context.mounted) context.pushReplacement(Rotas.entrar);
   }
 }
