@@ -38,8 +38,8 @@ class PaginaConcluirControlador extends ChangeNotifier {
   validarCampos(context) {
     if (carregando == false &&
         globalKeyNome.currentState!.validate() &&
-        globalKeyNascimento.currentState!.validate() &&
         globalKeyGenero.currentState!.validate() &&
+        globalKeyNascimento.currentState!.validate() &&
         globalKeyFoto.currentState!.validate()) {
       alterarCarregando();
       salvarDados(context);
@@ -74,7 +74,7 @@ class PaginaConcluirControlador extends ChangeNotifier {
 
               final modeloDeUsuario = ModeloDeUsuario(
                 id: usuario.uid,
-                nome: usuario.displayName.toString(),
+                nome: controladorNome.text,
                 email: usuario.email.toString(),
                 fotoUrl: downloadUrl,
                 genero: controladorGenero.toString(),

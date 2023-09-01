@@ -12,7 +12,7 @@ class PaginaEditarPerfilNome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaEditarPerfilControlador>();
-    final controladorUsuario = context.read<ProviderUsuario>();
+    final controladorUsuario = Provider.of<ProviderUsuario>(context, listen: false);
     controlador.controladorNome.text = controladorUsuario.usuario!.nome;
 
     return Form(

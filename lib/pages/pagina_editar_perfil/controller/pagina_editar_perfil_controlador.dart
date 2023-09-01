@@ -65,10 +65,10 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
 
   editarDados(BuildContext context) async {
     final controladorUsuario = context.read<ProviderUsuario>();
-    if (controladorUsuario.user != null) {
+    if (FirebaseAuth.instance.currentUser != null) {
       if (imagemArquivo != null) {
         FirebaseStorage storage = FirebaseStorage.instance;
-        Reference ref = storage.ref().child("perfil_fotos/${controladorUsuario.usuario!.id}");
+        Reference ref = storage.ref().child("perfil_fotos/${FirebaseAuth.instance.currentUser?.uid}");
         UploadTask uploadTask = ref.putFile(File(imagemArquivo!.path));
         uploadTask.snapshotEvents.listen(
           (TaskSnapshot taskSnapshot) async {
@@ -87,31 +87,30 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
                 break;
               case TaskState.success:
                 var downloadUrl = await ref.getDownloadURL();
-                controladorUsuario.user!.updatePhotoURL(downloadUrl); // ATUALIZANDO NA RAIZ
-                break;
+                await FirebaseAuth.instance.currentUser?.updatePhotoURL(downloadUrl); // ATUALIZANDO NA RAIZ
             }
           },
         );
       }
-      controladorUsuario.user!.updateDisplayName(controladorNome.text); // ATUALIZANDO NA RAIZ
+      await FirebaseAuth.instance.currentUser?.updateDisplayName(controladorNome.text); // ATUALIZANDO NA RAIZ
 
       final modeloDeUsuario = ModeloDeUsuario(
         // MANTER ORIGINAL
-        id: controladorUsuario.user!.uid, // PEGAR DA RAIZ
-        email: controladorUsuario.user!.email.toString(), // PEGAR DA RAIZ
+        id: FirebaseAuth.instance.currentUser!.uid, // PEGAR DA RAIZ
+        email: FirebaseAuth.instance.currentUser!.email.toString(), // PEGAR DA RAIZ
         master: controladorUsuario.usuario!.master,
         admin: controladorUsuario.usuario!.admin,
         autorizado: controladorUsuario.usuario!.autorizado,
         cadastroConcluido: controladorUsuario.usuario!.cadastroConcluido,
         //ATUALIZAR
-        nome: controladorUsuario.user!.displayName.toString(), // PEGAR DA RAIZ
-        fotoUrl: controladorUsuario.user!.photoURL.toString(), // PEGAR DA RAIZ
+        nome: FirebaseAuth.instance.currentUser!.displayName.toString(), // PEGAR DA RAIZ
+        fotoUrl: FirebaseAuth.instance.currentUser!.photoURL.toString(), // PEGAR DA RAIZ
         genero: controladorGenero.toString(),
         dataNascimento: nascimentoData,
       );
 
-      FirebaseFirestore.instance.collection('usuarios').doc(controladorUsuario.user!.uid).update(modeloDeUsuario.toJson());
-      if (context.mounted) atualizarDados(context);
+      await FirebaseFirestore.instance.collection('usuarios').doc(FirebaseAuth.instance.currentUser!.uid).update(modeloDeUsuario.toJson());
+      controladorUsuario.atualizarUsuario();
       if (context.mounted) Navigator.of(context).pop();
       if (context.mounted) alterarCarregando();
       controladorUsuario.atualizarUsuario();
@@ -132,7 +131,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
         alterarCarregando();
         return excluirConta(context);
       },
-      onPressedCancelar: () {},
+      onPressedCancelar: () => Navigator.of(context).pop(),
     );
   }
 
@@ -169,7 +168,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
         source: source,
         maxHeight: 512,
         maxWidth: 512,
-        imageQuality: 50,
+        imageQuality: 70,
       );
 
       if (imagemCaminho != null) {
@@ -185,10 +184,5 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   alterarCarregando() {
     carregando = !carregando;
     notifyListeners();
-  }
-
-  atualizarDados(context) {
-    final providerUsuario = Provider.of<ProviderUsuario>(context, listen: false);
-    providerUsuario.atualizarUsuario();
   }
 }

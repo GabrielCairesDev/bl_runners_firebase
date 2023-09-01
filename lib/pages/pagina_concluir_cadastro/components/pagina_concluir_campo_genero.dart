@@ -69,13 +69,13 @@ class _PaginaRegistrarCampoGeneroState extends State<PaginaRegistrarCampoGenero>
           },
         ).toList(),
         validator: controlador.validadorGenero,
-        onChanged: (valor) => setState(
-          () {
-            if (valor != controlador.controladorGenero) {
-              controlador.controladorGenero = valor.toString();
-            }
-          },
-        ),
+        onChanged: (valor) {
+          if (valor != null) {
+            setState(
+              () => controlador.controladorGenero = valor.toString(),
+            );
+          }
+        },
       ),
     );
   }
