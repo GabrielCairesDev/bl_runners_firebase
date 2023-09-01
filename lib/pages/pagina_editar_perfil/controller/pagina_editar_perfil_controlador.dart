@@ -67,6 +67,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   editarDados(BuildContext context) async {
     final controladorAuth = Provider.of<AuthProvider>(context, listen: false);
     final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
+
     if (controladorAuth.usuario != null) {
       if (imagemArquivo != null) {
         FirebaseStorage storage = FirebaseStorage.instance;
@@ -115,7 +116,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
       if (context.mounted) Navigator.of(context).pop();
       if (context.mounted) alterarCarregando();
 
-      controladorUsuario.pegarUsuarioAtualizado(controladorAuth.usuario);
+      await controladorUsuario.pegarUsuarioAtualizado(controladorAuth.usuario);
     } else {
       Mensagens.snackBar(context, 'Algo deu errado');
       alterarCarregando();
