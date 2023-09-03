@@ -1,6 +1,5 @@
 import 'package:bl_runners_firebase/providers/auth_provider.dart';
 import 'package:bl_runners_firebase/providers/user_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,8 +31,6 @@ class _PaginaNavegacaoState extends State<PaginaNavegacao> {
 
   @override
   Widget build(BuildContext context) {
-    // final controladorUsuario = Provider.of<HomePageController>(context);
-
     return Scaffold(
       body: PageView(
         onPageChanged: (int index) {
