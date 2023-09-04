@@ -39,7 +39,7 @@ class _PaginaRegistrarCampoDistanciaState extends State<PaginaRegistrarCampoDist
                   width: 2,
                 )),
             child: Padding(
-              padding: const EdgeInsets.only(top: 16, right: 24, left: 24, bottom: 24),
+              padding: const EdgeInsets.only(top: 16, bottom: 24),
               child: Column(
                 children: [
                   const Text(
@@ -58,6 +58,7 @@ class _PaginaRegistrarCampoDistanciaState extends State<PaginaRegistrarCampoDist
                     selectedTextStyle: const TextStyle(
                       color: Color(0xFFc1d22b),
                       fontSize: 25.0,
+                      fontStyle: FontStyle.italic,
                     ),
                     onChanged: (value) => setState(() {
                       _distancia = value;

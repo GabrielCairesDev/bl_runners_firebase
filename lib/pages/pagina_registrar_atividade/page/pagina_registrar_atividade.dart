@@ -1,8 +1,9 @@
-import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_atividade_botao.dart';
+import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_botao.dart';
 import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_data.dart';
 import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_descricao.dart';
 import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_distancia.dart';
 import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_tempo.dart';
+import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_tipo.dart';
 import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_titulo.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class PaginaRegistrarAtividade extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registrar atividade'),
-        actions: const [PaginaRegistrarBotao()],
+        actions: const [PaginaRegistrarCampoBotao()],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -30,6 +31,8 @@ class PaginaRegistrarAtividade extends StatelessWidget {
                   const PaginaRegistrarCampoData(),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   const PaginaRegistrarCampoTempo(),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                  const PaginaRegistrarTipo(),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   const PaginaRegistrarCampoDistancia(),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),

@@ -32,17 +32,40 @@ class _PaginaRegistrarCampoDataState extends State<PaginaRegistrarCampoData> {
 
   Future<void> _selecionarDataHora(context) async {
     DateTime? pegarData = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now().subtract(const Duration(days: 3)),
-      lastDate: DateTime.now(),
-      helpText: 'Data da atividade',
-    );
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now().subtract(const Duration(days: 3)),
+        lastDate: DateTime.now(),
+        helpText: 'Que dia você correu?',
+        builder: (context, child) {
+          return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: const ColorScheme.light(
+                  primary: Color(0xFF2e355a),
+                  onPrimary: Colors.white,
+                  onSurface: Colors.blueGrey,
+                ),
+              ),
+              child: child!);
+        });
 
     if (pegarData != null) {
       TimeOfDay? pegarHora = await showTimePicker(
         context: context,
+        helpText: 'Que horário você correu?',
         initialTime: TimeOfDay.now(),
+        builder: (context, child) {
+          // MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child!);
+          return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: const ColorScheme.light(
+                  primary: Color(0xFF2e355a),
+                  onPrimary: Colors.white,
+                  onSurface: Colors.blueGrey,
+                ),
+              ),
+              child: child!);
+        },
       );
 
       if (pegarHora != null) {

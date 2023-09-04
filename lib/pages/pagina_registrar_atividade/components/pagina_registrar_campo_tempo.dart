@@ -26,10 +26,20 @@ class _PaginaRegistrarCampoTempoState extends State<PaginaRegistrarCampoTempo> {
         ),
         onTap: () async {
           TimeOfDay? pegarTempo = await showTimePicker(
-            context: context,
-            initialTime: const TimeOfDay(hour: 0, minute: 0),
-            helpText: 'Tempo de atividade',
-          );
+              context: context,
+              initialTime: const TimeOfDay(hour: 0, minute: 0),
+              helpText: 'Qual foi duração?',
+              builder: (context, child) {
+                return Theme(
+                    data: Theme.of(context).copyWith(
+                      colorScheme: const ColorScheme.light(
+                        primary: Color(0xFF2e355a),
+                        onPrimary: Colors.white,
+                        onSurface: Colors.blueGrey,
+                      ),
+                    ),
+                    child: child!);
+              });
           if (pegarTempo != null) {
             setState(() {
               controlador.text = pegarTempo.format(context);
