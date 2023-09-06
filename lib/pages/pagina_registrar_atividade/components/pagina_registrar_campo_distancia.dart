@@ -1,5 +1,7 @@
+import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:provider/provider.dart';
 
 class PaginaRegistrarCampoDistancia extends StatefulWidget {
   const PaginaRegistrarCampoDistancia({super.key});
@@ -9,27 +11,12 @@ class PaginaRegistrarCampoDistancia extends StatefulWidget {
 }
 
 class _PaginaRegistrarCampoDistanciaState extends State<PaginaRegistrarCampoDistancia> {
-  TextEditingController controlador = TextEditingController(text: 'Distância');
-  int _distancia = 5000;
   @override
   Widget build(BuildContext context) {
+    final controlador = context.read<PaginaRegistrarAtividadeControlador>();
     return Form(
-      //  key: controlador.globalKeyCampoDistancia,
       child: Column(
         children: [
-          // TextFormField(
-          //   readOnly: true,
-          //   //  validator: controlador.validadorDistancia,
-          //   controller: controlador,
-          //   decoration: InputDecoration(
-          //     filled: false,
-          //     prefixIcon: const Icon(Icons.location_on),
-          //     border: const OutlineInputBorder(),
-          //     hintText: controlador.text,
-          //   ),
-          //   onTap: () => {},
-          // ),
-          // SizedBox(height: MediaQuery.of(context).size.height * 0.02),
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
@@ -48,7 +35,7 @@ class _PaginaRegistrarCampoDistanciaState extends State<PaginaRegistrarCampoDist
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   NumberPicker(
-                    value: _distancia,
+                    value: controlador.distancia,
                     minValue: 100,
                     maxValue: 42000,
                     step: 100,
@@ -60,10 +47,7 @@ class _PaginaRegistrarCampoDistanciaState extends State<PaginaRegistrarCampoDist
                       fontSize: 25.0,
                       fontStyle: FontStyle.italic,
                     ),
-                    onChanged: (value) => setState(() {
-                      _distancia = value;
-                      controlador.text = '${_distancia.toString()} Metros';
-                    }),
+                    onChanged: (value) => setState(() => controlador.distancia = value),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       border: Border.all(

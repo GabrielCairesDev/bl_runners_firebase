@@ -1,5 +1,6 @@
 import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class PaginaRegistrarTipo extends StatefulWidget {
@@ -10,69 +11,97 @@ class PaginaRegistrarTipo extends StatefulWidget {
 }
 
 class _PaginaRegistrarTipoState extends State<PaginaRegistrarTipo> {
-  final tipo = ['Treino', 'Prova'];
+  final List<String> tipos = ['Treino', 'Prova'];
+  String? tipoSelecionado;
 
   @override
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaRegistrarAtividadeControlador>();
     return Form(
       key: controlador.globalKeyCampoTipo,
-      child: DropdownButtonFormField(
-        style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
+      child: TextFormField(
+        readOnly: true,
+        validator: controlador.validadorTipo,
+        controller: controlador.controladorCampoTipo,
         decoration: const InputDecoration(
           filled: false,
-          prefixIcon: Icon(Icons.format_list_bulleted),
+          prefixIcon: Icon(Icons.list_alt),
           border: OutlineInputBorder(),
           hintText: 'Tipo',
+          suffixIcon: Icon(Icons.expand_more),
         ),
-        isExpanded: true,
-        isDense: true,
-        value: controlador.controladorCampoTipo,
-        selectedItemBuilder: (BuildContext context) {
-          return tipo
-              .map<Widget>(
-                (String texto) => DropdownMenuItem(
-                  value: texto,
-                  child: Text(
-                    texto,
-                    style: const TextStyle(
-                      color: Colors.black,
-                    ),
+        onTap: () async {
+          showModalBottomSheet<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.30,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Text(
+                          'Selecionar tipo',
+                          style: TextStyle(fontSize: 25, color: Colors.blueGrey),
+                        ),
+                      ),
+                      InkWell(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.08,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            border: Border.all(
+                              color: const Color(0xFFc1d22b),
+                              width: 2,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Treino',
+                              style: TextStyle(fontSize: 20, color: Colors.blueGrey),
+                            ),
+                          ),
+                        ),
+                        onTap: () => setState(() {
+                          controlador.controladorCampoTipo.text = 'Treino';
+                          context.pop(context);
+                        }),
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                      InkWell(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.08,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            border: Border.all(
+                              color: const Color(0xFFc1d22b),
+                              width: 2,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Prova',
+                              style: TextStyle(fontSize: 20, color: Colors.blueGrey),
+                            ),
+                          ),
+                        ),
+                        onTap: () => setState(() {
+                          controlador.controladorCampoTipo.text = 'Prova';
+                          context.pop(context);
+                        }),
+                      ),
+                    ],
                   ),
                 ),
-              )
-              .toList();
+              );
+            },
+          );
         },
-        items: tipo.map(
-          (generoEscolhido) {
-            if (generoEscolhido == controlador.controladorCampoTipo) {
-              return DropdownMenuItem(
-                value: generoEscolhido,
-                child: Container(
-                  height: 70.0,
-                  color: Colors.grey.withOpacity(0.1),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(generoEscolhido, style: const TextStyle(color: Colors.black)),
-                  ),
-                ),
-              );
-            } else {
-              return DropdownMenuItem(
-                value: generoEscolhido,
-                child: Text(generoEscolhido, style: const TextStyle(color: Colors.black)),
-              );
-            }
-          },
-        ).toList(),
-        //  validator: controlador.validadorTipo,
-        onChanged: (valor) => setState(
-          () {
-            if (valor != controlador.controladorCampoTipo) {
-              controlador.controladorCampoTipo = valor.toString();
-            }
-          },
-        ),
       ),
     );
   }

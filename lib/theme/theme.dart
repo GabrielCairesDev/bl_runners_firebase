@@ -18,6 +18,7 @@ ThemeData myAppTheme() {
       ),
       prefixIconColor: Colors.blueGrey,
       suffixIconColor: Colors.blueGrey,
+      focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF2e355a))),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
