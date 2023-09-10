@@ -1,13 +1,16 @@
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class DataProvider extends ChangeNotifier {
-  // Registrar Data do usuário
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  ModeloDeUsuario? modeloUsuario;
+
+// Método para registrar Data do usuário
   Future<void> registrarUsuarioData(BuildContext context, {required String id, required String nome, required String email}) async {
     // Pegar a coleção Usuários Perfil
     CollectionReference usuariosPerfil = FirebaseFirestore.instance.collection('usuariosPerfil');
-
     // Pegar padrão pela model
     final modeloDeUsuario = ModeloDeUsuario(
       id: id,
@@ -32,22 +35,25 @@ class DataProvider extends ChangeNotifier {
     );
   }
 
-  Future<Map<String, dynamic>?> lerUsuario(String userId) async {
-    DatabaseReference ref = FirebaseDatabase.instance.ref();
+  Future<void> pegarUsuario() async {
+    final user = FirebaseAuth.instance.currentUser;
 
-    final ref = FirebaseDatabase.instance.ref();
-    final snapshot = await ref.child('users/$userId').get();
-    try {
-      final DocumentSnapshot snapshot = await _firestore.collection('usuariosPerfil').doc(userId).get();
+    if (user != null) {
+      // Listen to the user document in real time.
+      final snapshotListener = _firestore.collection('usuariosPerfil').doc(user.uid).snapshots();
 
-      if (snapshot.exists) {
-        return snapshot.data() as Map<String, dynamic>;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      print('Erro ao ler usuário: $error');
-      rethrow;
+      // When the document changes, update the local modeloUsuario variable.
+      snapshotListener.listen((snapshot) {
+        if (snapshot.exists) {
+          final userData = snapshot.data() as Map<String, dynamic>;
+          modeloUsuario = ModeloDeUsuario.fromJson(userData);
+          notifyListeners();
+        } else {
+          modeloUsuario = null;
+        }
+      });
+    } else {
+      modeloUsuario = null;
     }
   }
 }

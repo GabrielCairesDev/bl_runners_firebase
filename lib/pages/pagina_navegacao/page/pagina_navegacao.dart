@@ -1,4 +1,6 @@
+import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../pagina_inicio/page/pagina_inicio.dart';
 import '../../pagina_perfil/pages/pagina_perfil.dart';
@@ -17,6 +19,13 @@ class PaginaNavegacao extends StatefulWidget {
 class _PaginaNavegacaoState extends State<PaginaNavegacao> {
   final controladorPagina = PageController();
   int indiceMenu = 0;
+
+  @override
+  void initState() {
+    final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
+    controladorDataProvider.pegarUsuario();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

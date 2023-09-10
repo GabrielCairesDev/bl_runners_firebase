@@ -1,4 +1,6 @@
+import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PaginaNavegacaoAvatar extends StatefulWidget {
   const PaginaNavegacaoAvatar({super.key});
@@ -9,16 +11,32 @@ class PaginaNavegacaoAvatar extends StatefulWidget {
 
 class _PaginaNavegacaoAvatarState extends State<PaginaNavegacaoAvatar> {
   @override
+  // void initState() {
+  //   final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
+  //   controladorDataProvider.usuarioDados();
+  //   super.initState();
+  // }
+
+  @override
   Widget build(BuildContext context) {
-    return const SizedBox(
+    return SizedBox(
       width: 24,
       height: 24,
       child: ClipOval(
-          // child: Image.network(
-          //   usuarioProvider.usuarioModelo!.fotoUrl.toString(),
-          //   fit: BoxFit.cover,
-          // ),
-          ),
+        child: fotoPerfil(),
+      ),
     );
+  }
+
+  fotoPerfil() {
+    final controladorDataProvider = Provider.of<DataProvider>(context);
+    if (controladorDataProvider.modeloUsuario?.fotoUrl == null || controladorDataProvider.modeloUsuario!.fotoUrl.isEmpty) {
+      return Image.asset('assets/images/avatar.png');
+    } else {
+      return Image.network(
+        controladorDataProvider.modeloUsuario!.fotoUrl.toString(),
+        fit: BoxFit.cover,
+      );
+    }
   }
 }

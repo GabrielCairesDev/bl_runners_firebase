@@ -46,6 +46,7 @@ dependencies:
   flutter_localization: ^0.1.13
   image_picker: ^1.0.2
   numberpicker: ^2.1.2
+  firebase_database: ^10.2.5
 
 
 dev_dependencies:
