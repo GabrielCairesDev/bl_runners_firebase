@@ -6,7 +6,7 @@ import 'package:bl_runners_firebase/pages/pagina_navegacao/page/pagina_navegacao
 import 'package:go_router/go_router.dart';
 
 import '../pages/home_page/page/home_page.dart';
-import '../pages/pagina_registrar/page/pagina_registrar.dart';
+import '../pages/pagina_registrar_usuario/page/pagina_registrar.dart';
 
 class Rotas {
   static String home = '/',

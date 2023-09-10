@@ -9,16 +9,13 @@ class PaginaRegistrarCampoNome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaRegistrarControlador>();
-    return Form(
-      key: controlador.globalKeyNomeRegistrar,
-      child: TextFormField(
-        controller: controlador.controladorNome,
-        validator: controlador.validadorNome,
-        decoration: const InputDecoration(
-          hintText: 'Digite o seu nome',
-          labelText: 'Nome',
-          prefixIcon: Icon(Icons.person),
-        ),
+    return TextFormField(
+      controller: controlador.controladorNome,
+      validator: controlador.validadorNome,
+      decoration: const InputDecoration(
+        hintText: 'Digite o seu nome',
+        labelText: 'Nome',
+        prefixIcon: Icon(Icons.person),
       ),
     );
   }

@@ -1,166 +1,168 @@
+// https://firebase.flutter.dev/
+
+import 'dart:io';
+
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
+import 'package:bl_runners_firebase/pages/pagina_concluir_cadastro/controller/pagina_concluir_controlador.dart';
 import 'package:bl_runners_firebase/pages/pagina_entrar/controller/pagina_entrar_controlador.dart';
-import 'package:bl_runners_firebase/pages/pagina_registrar/controller/pagina_registrar_controlador.dart';
+import 'package:bl_runners_firebase/pages/pagina_registrar_usuario/controller/pagina_registrar_controlador.dart';
+import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:bl_runners_firebase/routes/rotas.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
-  User? _usuario;
-  User? get usuario => _usuario;
+/*
+===================================================
+====================== MÉTODOS ====================
+===================================================
+*/
 
-  Future<void> _atualizarUsuario(User? novoUsuario) async {
-    _usuario = novoUsuario;
-    notifyListeners();
-  }
+// Método para registrar conta
+  Future<void> registrar(BuildContext context, {required String email, required String senha, required String nome}) async {
+    // Controlador Pagina Registrar
+    final controladorPaginaRegistrar = Provider.of<PaginaRegistrarControlador>(context, listen: false);
+    // Controlador DataBase Firebase
+    final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
 
-  Future<void> criarUsuario(context, String email, String password, String nome) async {
-    final registrarControlador = Provider.of<PaginaRegistrarControlador>(context, listen: false);
+    // Tratamento de erros
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-      await userCredential.user!.updateDisplayName(nome);
+      // Fazer registro
+      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: senha);
 
-      final modeloDeUsuario = ModeloDeUsuario(
-        id: userCredential.user!.uid,
-        nome: userCredential.user!.displayName.toString(),
-        email: userCredential.user!.email.toString(),
-        fotoUrl: '',
-        genero: '',
-        master: false,
-        admin: false,
-        autorizado: false,
-        cadastroConcluido: false,
-        dataNascimento: DateTime.now(),
-      );
+      // Registrar nome no Auth
+      await credential.user!.updateDisplayName(nome);
 
-      FirebaseFirestore.instance.collection('usuarios').doc(userCredential.user!.uid).set(modeloDeUsuario.toJson());
+      // Enviar e-mail de verificação
+      await credential.user!.sendEmailVerification();
 
-      await userCredential.user!.sendEmailVerification();
-      await _atualizarUsuario(userCredential.user);
-      await _mensagemContaCriada(context);
+      // Salvar Data
+      if (context.mounted) {
+        controladorDataProvider.registrarUsuarioData(
+          context,
+          id: credential.user!.uid,
+          email: credential.user!.email.toString(),
+          nome: nome,
+        );
+      }
 
-      registrarControlador.resetarValores();
+      //  Mensagem conta criada
+      if (context.mounted) _mensagemContaCriada(context);
+
+      // Atualizar estado carregando
+      controladorPaginaRegistrar.atualizarCarregando();
+
+      // Resetar valores
+      controladorPaginaRegistrar.resetarValores();
+
+      // Erros
     } on FirebaseAuthException catch (e) {
+      // Atualizar estado carregando
+      controladorPaginaRegistrar.atualizarCarregando();
+      // Senha fraca
       if (e.code == 'weak-password') {
-        await _erroMensagem(context, 'A senha é muito fraca.');
+        if (context.mounted) Mensagens.snackBar(context, 'A senha é muito fraca.');
+
+        // E-mail em uso
       } else if (e.code == 'email-already-in-use') {
-        await _erroMensagem(context, 'Este e-mail já está em uso.');
+        if (context.mounted) Mensagens.snackBar(context, 'Este e-mail já está em uso.');
+
+        // Outro erro
       } else {
-        await _erroMensagem(context, 'Erro durante o registro: ${e.message}');
+        if (context.mounted) Mensagens.snackBar(context, 'Erro durante o registro: ${e.message}');
       }
     } catch (e) {
-      await _erroMensagem(context, 'Erro desconhecido: $e');
+      if (context.mounted) Mensagens.snackBar(context, 'Erro desconhecido: $e');
+      // Atualizar estado carregando
+      controladorPaginaRegistrar.atualizarCarregando();
     }
-    registrarControlador.atualizarCarregando();
   }
 
-  Future<void> entrar(BuildContext context, String email, String password, bool entradaAutomatica) async {
-    final entrarControlador = Provider.of<PaginaEntrarControlador>(context, listen: false);
+  // Método para fazer login
+  Future<void> entrar(BuildContext context, {required String email, required String senha, required bool entradaAutomatica}) async {
+    // Controlador Pagina Entrar
+    final controladorPaginaEntrar = Provider.of<PaginaEntrarControlador>(context, listen: false);
+
+    // Pegar (entrada automática)
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Tratamento de erros
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Fazer o login
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: senha);
 
-      if (userCredential.user!.emailVerified == true) {
-        final usarioDados = await FirebaseFirestore.instance.collection('usuarios').doc(userCredential.user!.uid).get();
-
-        if (usarioDados.exists) {
-          final modeloDeUsuario = ModeloDeUsuario.fromJson(usarioDados.data() as Map<String, dynamic>);
-
-          if (modeloDeUsuario.cadastroConcluido == false) {
-            if (context.mounted) context.pushReplacement(Rotas.concluir);
-            entrarControlador.atualizarCarregando();
-          } else {
-            if (context.mounted) context.pushReplacement(Rotas.navegar);
-            entrarControlador.atualizarCarregando();
-          }
+      // Verificar se o usuário não é NULL
+      if (credential.user != null) {
+        // Verficiar se o e-mail foi ativado
+        if (credential.user!.emailVerified == true) {
+          // Salvar (Entrada automática)
           await prefs.setBool("entradaAutomatica", entradaAutomatica);
-          entrarControlador.resetarValores();
-        } else {
-          final modeloDeUsuario = ModeloDeUsuario(
-            id: userCredential.user!.uid,
-            nome: userCredential.user!.displayName.toString(),
-            email: userCredential.user!.email.toString(),
-            fotoUrl: '',
-            genero: '',
-            master: false,
-            admin: false,
-            autorizado: false,
-            cadastroConcluido: false,
-            dataNascimento: DateTime.now(),
-          );
-          await FirebaseFirestore.instance.collection('usuarios').doc(userCredential.user!.uid).set(modeloDeUsuario.toJson());
 
-          if (context.mounted) await entrar(context, email, password, entradaAutomatica);
+          // Entrar no APP
+          if (context.mounted) context.pushReplacement(Rotas.navegar);
+        } else {
+          // Quando o e-mail não é verificado
+          if (context.mounted) _emailNaoVerificado(context, credential);
         }
-      } else {
-        if (context.mounted) _mensagemConfirmarEmail(context);
-        entrarControlador.atualizarCarregando();
+        // Atualizar carregando
+        controladorPaginaEntrar.atualizarCarregando();
+
+        // Resetar os valores
+        controladorPaginaEntrar.resetarValores();
       }
-      await _atualizarUsuario(userCredential.user);
+
+      // Erros
     } on FirebaseAuthException catch (e) {
+      // Usuário não encontrado
       if (e.code == 'user-not-found') {
-        if (context.mounted) await _erroMensagem(context, 'E-mail não registrado!');
-        entrarControlador.atualizarCarregando();
+        if (context.mounted) Mensagens.snackBar(context, 'E-mail não registrado!');
+
+        // Senha inválida
       } else if (e.code == 'wrong-password') {
-        if (context.mounted) await _erroMensagem(context, 'Senha inválida!');
-        entrarControlador.atualizarCarregando();
+        if (context.mounted) Mensagens.snackBar(context, 'Senha inválida!');
+
+        // E-mail inválido
       } else if (e.code == 'invalid-email') {
-        if (context.mounted) await _erroMensagem(context, 'E-mail inválido!');
-        entrarControlador.atualizarCarregando();
+        if (context.mounted) Mensagens.snackBar(context, 'E-mail inválido!');
+
+        // Outro erro
       } else {
-        if (context.mounted) await _erroMensagem(context, 'Erro ao fazer login!');
-        entrarControlador.atualizarCarregando();
+        if (context.mounted) Mensagens.snackBar(context, 'Erro ao fazer login!');
       }
+
+      // Atualizar o estado do carregando
+      controladorPaginaEntrar.atualizarCarregando();
     } catch (e) {
-      if (context.mounted) await _erroMensagem(context, 'Erro ao fazer login! $e');
-      entrarControlador.atualizarCarregando();
+      // Mensagem de erro
+      if (context.mounted) Mensagens.snackBar(context, 'Erro ao fazer login! $e');
+      controladorPaginaEntrar.atualizarCarregando();
     }
   }
 
+  // Metodo autoEntrar
   Future<void> autoEntrar(BuildContext context) async {
-    User? usuario = FirebaseAuth.instance.currentUser;
+    // Usuário atual
+    final user = FirebaseAuth.instance.currentUser;
 
+    // SharedPreferences (Entrada automática)
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool entradaAutomatica = prefs.getBool('entradaAutomatica') ?? false;
 
-    if (usuario != null) {
-      usuario.reload();
+    // Verificar se o usuário é null
+    if (user != null) {
+      // Recarregar usuário
+      user.reload();
       try {
-        if (entradaAutomatica == true && usuario.emailVerified == true) {
-          final usarioDados = await FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).get();
-
-          if (usarioDados.exists) {
-            final dataMap = usarioDados.data();
-            final modeloDeUsuario = ModeloDeUsuario.fromJson(dataMap!);
-
-            await _atualizarUsuario(usuario);
-
-            if (modeloDeUsuario.cadastroConcluido == false) {
-              if (context.mounted) context.pushReplacement(Rotas.concluir);
-            } else {
-              if (context.mounted) context.pushReplacement(Rotas.navegar);
-            }
-          } else {
-            final modeloDeUsuario = ModeloDeUsuario(
-              id: usuario.uid,
-              nome: usuario.displayName.toString(),
-              email: usuario.email.toString(),
-              fotoUrl: '',
-              genero: '',
-              master: false,
-              admin: false,
-              autorizado: false,
-              cadastroConcluido: false,
-              dataNascimento: DateTime.now(),
-            );
-            await FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).set(modeloDeUsuario.toJson());
-            if (context.mounted) autoEntrar(context);
-          }
+        // Verificar a entrada automática e o e-mail verificado
+        if (entradaAutomatica == true && user.emailVerified == true) {
+          // Enviar para a pagina Navegar
+          if (context.mounted) context.pushReplacement(Rotas.navegar);
         } else {
           if (context.mounted) sair(context);
         }
@@ -172,40 +174,111 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> sair(BuildContext context) async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setBool("entradaAutomatica", false);
-      if (context.mounted) context.pushReplacement(Rotas.entrar);
-      await _atualizarUsuario(null);
-    } catch (e) {
-      if (context.mounted) await _erroMensagem(context, 'Erro ao sair: $e');
+  // Método concluir Cadastro
+  Future<void> concluirCadastro(BuildContext context, imagemArquivo) async {
+    User? usuario = FirebaseAuth.instance.currentUser;
+    final concluirControlador = Provider.of<PaginaConcluirControlador>(context, listen: false);
+
+    if (usuario != null) {
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference ref = storage.ref().child("perfil_fotos/${usuario.uid}");
+      UploadTask uploadTask = ref.putFile(File(imagemArquivo!.path));
+
+      uploadTask.snapshotEvents.listen(
+        (TaskSnapshot taskSnapshot) async {
+          switch (taskSnapshot.state) {
+            case TaskState.running:
+              break;
+            case TaskState.paused:
+              concluirControlador.alterarCarregando();
+              break;
+            case TaskState.canceled:
+              concluirControlador.alterarCarregando();
+              break;
+            case TaskState.error:
+              Mensagens.snackBar(context, 'Algo deu errado');
+              concluirControlador.alterarCarregando();
+              break;
+            case TaskState.success:
+              var downloadUrl = await ref.getDownloadURL();
+              usuario.updatePhotoURL(downloadUrl);
+
+              final modeloDeUsuario = ModeloDeUsuario(
+                id: usuario.uid,
+                nome: concluirControlador.controladorNome.text,
+                email: usuario.email.toString(),
+                fotoUrl: downloadUrl,
+                genero: concluirControlador.controladorGenero.toString(),
+                master: false,
+                admin: false,
+                autorizado: false,
+                cadastroConcluido: true,
+                dataNascimento: concluirControlador.nascimentoData as DateTime,
+              );
+              await FirebaseFirestore.instance.collection('usuariosPerfil').doc(usuario.uid).set(modeloDeUsuario.toJson(), SetOptions(merge: true));
+              if (context.mounted) context.pushReplacement(Rotas.navegar);
+              concluirControlador.alterarCarregando();
+              break;
+          }
+        },
+      );
+    } else {
+      Mensagens.snackBar(context, 'Algo deu errado');
+      concluirControlador.alterarCarregando();
     }
   }
 
-  Future<void> _mensagemContaCriada(context) async {
+// Método para sair
+  Future<void> sair(BuildContext context) async {
+    // Pegar SharedPreferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Navegar para a pagina entrar
+    if (context.mounted) context.pushReplacement(Rotas.entrar);
+    // Tornar falso (entradaAutomatica)
+    await prefs.setBool("entradaAutomatica", false);
+    // deslogar
+    await FirebaseAuth.instance.signOut();
+  }
+
+/*
+===================================================
+====================== OUTROS =====================
+===================================================
+*/
+
+  // Mostrar Caixa de dialogo e enviar email
+  Future<void> _emailNaoVerificado(BuildContext context, UserCredential credential) async {
+    // Exibir caixa de diálogo
+    if (credential.user != null) {
+      Mensagens.caixaDeDialogo(
+        context,
+        titulo: 'Atenção!',
+        texto: 'Por favor, verifique o seu e-mail.\n ${credential.user!.email}',
+        textoBotao: 'ok',
+        onPressed: () {
+          context.pop();
+        },
+      );
+      // Enviar e-mail de recuperação
+      await credential.user!.sendEmailVerification();
+      // Executar método sair
+      //await sair(context);
+    } else {
+      Mensagens.snackBar(context, 'Algo deu errado');
+    }
+  }
+
+  // Mensagem conta registrada
+  Future<void> _mensagemContaCriada(BuildContext context) async {
     Mensagens.caixaDeDialogo(
       context,
       titulo: "Parabéns!",
       texto: 'Sua conta foi criada com sucesso. Verifique o seu e-mail!',
       textoBotao: 'OK',
-      onPressed: () async => Navigator.of(context).pop(),
+      onPressed: () async {
+        context.pop();
+        //   await sair(context);
+      },
     );
   }
-
-  Future<void> _mensagemConfirmarEmail(context) async {
-    User? user = FirebaseAuth.instance.currentUser;
-    Mensagens.caixaDeDialogo(
-      context,
-      titulo: 'Atenção!',
-      texto: 'Por favor, verifique o seu e-mail.\n ${user!.email}',
-      textoBotao: 'ok',
-      onPressed: () => Navigator.of(context).pop(),
-    );
-    await user.sendEmailVerification();
-    await FirebaseAuth.instance.signOut();
-  }
-
-  Future<void> _erroMensagem(BuildContext context, String mensagem) async => Mensagens.snackBar(context, mensagem);
 }

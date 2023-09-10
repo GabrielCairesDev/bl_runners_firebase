@@ -1,4 +1,3 @@
-import 'package:bl_runners_firebase/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,13 +11,13 @@ class PaginaEditarPerfilGenero extends StatefulWidget {
 }
 
 class _PaginaEditarPerfilGeneroState extends State<PaginaEditarPerfilGenero> {
-  @override
-  void initState() {
-    final controlador = context.read<PaginaEditarPerfilControlador>();
-    final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
-    controlador.controladorGenero = controladorUsuario.usuarioModelo!.genero;
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   final controlador = context.read<PaginaEditarPerfilControlador>();
+  //   final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
+  //   controlador.controladorGenero = controladorUsuario.usuarioModelo!.genero;
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

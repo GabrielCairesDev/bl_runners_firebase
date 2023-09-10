@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/pagina_entrar_controlador.dart';
+import '../controller/pagina_registrar_controlador.dart';
 
-class PaginaEntrarCampoSenha extends StatefulWidget {
-  const PaginaEntrarCampoSenha({super.key});
+class PaginaRegistrarCampoSenha extends StatefulWidget {
+  const PaginaRegistrarCampoSenha({super.key});
 
   @override
-  State<PaginaEntrarCampoSenha> createState() => _PaginaEntrarCampoSenhaState();
+  State<PaginaRegistrarCampoSenha> createState() => _PaginaRegistrarCampoSenhaState();
 }
 
-class _PaginaEntrarCampoSenhaState extends State<PaginaEntrarCampoSenha> {
+class _PaginaRegistrarCampoSenhaState extends State<PaginaRegistrarCampoSenha> {
   @override
   Widget build(BuildContext context) {
-    final controlador = context.read<PaginaEntrarControlador>();
+    final controlador = context.read<PaginaRegistrarControlador>();
     return TextFormField(
       controller: controlador.controladorSenha,
       validator: controlador.validadorSenha,

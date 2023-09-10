@@ -12,9 +12,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/modelo_de_usuario.dart';
-import '../../../providers/user_provider.dart';
 
 class PaginaEditarPerfilControlador extends ChangeNotifier {
+  final user = FirebaseAuth.instance.currentUser;
+
   final controladorNome = TextEditingController();
   final controladorNascimento = TextEditingController();
   final controladorFoto = TextEditingController();
@@ -64,11 +65,10 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
     );
   }
 
-  editarDados(BuildContext context) async {
-    final controladorAuth = Provider.of<AuthProvider>(context, listen: false);
-    final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
-
-    if (controladorAuth.usuario != null) {
+  editarDados(
+    BuildContext context,
+  ) async {
+    if (user != null) {
       if (imagemArquivo != null) {
         FirebaseStorage storage = FirebaseStorage.instance;
         Reference ref = storage.ref().child("perfil_fotos/${FirebaseAuth.instance.currentUser?.uid}");
@@ -90,33 +90,32 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
                 break;
               case TaskState.success:
                 var downloadUrl = await ref.getDownloadURL();
-                await controladorAuth.usuario?.updatePhotoURL(downloadUrl); // ATUALIZANDO NA RAIZ
+                await user!.updatePhotoURL(downloadUrl); // ATUALIZANDO NA RAIZ
             }
           },
         );
       }
-      await controladorAuth.usuario?.updateDisplayName(controladorNome.text); // ATUALIZANDO NA RAIZ
+      await user!.updateDisplayName(controladorNome.text); // ATUALIZANDO NA RAIZ
 
       final modeloDeUsuario = ModeloDeUsuario(
         // MANTER ORIGINAL
-        id: controladorAuth.usuario!.uid, // PEGAR DA RAIZ
-        email: controladorAuth.usuario!.email.toString(), // PEGAR DA RAIZ
-        master: controladorUsuario.usuarioModelo!.master,
-        admin: controladorUsuario.usuarioModelo!.admin,
-        autorizado: controladorUsuario.usuarioModelo!.autorizado,
-        cadastroConcluido: controladorUsuario.usuarioModelo!.cadastroConcluido,
+        id: user!.uid, // PEGAR DA RAIZ
+        email: user!.email.toString(), // PEGAR DA RAIZ
+        master: false, // controladorUsuario.usuarioModelo!.master
+        admin: false, // controladorUsuario.usuarioModelo!.admin
+        autorizado: false, // controladorUsuario.usuarioModelo!.admin
+        cadastroConcluido: true,
         //ATUALIZAR
         nome: controladorNome.text,
         genero: controladorGenero.toString(),
         dataNascimento: nascimentoData,
-        fotoUrl: controladorAuth.usuario!.photoURL.toString(), // PEGAR DA RAIZ
+        fotoUrl: user!.photoURL.toString(), // PEGAR DA RAIZ
       );
 
-      await FirebaseFirestore.instance.collection('usuarios').doc(controladorAuth.usuario!.uid).update(modeloDeUsuario.toJson());
+      await FirebaseFirestore.instance.collection('usuariosPerfil').doc(user!.uid).update(modeloDeUsuario.toJson());
+
       if (context.mounted) Navigator.of(context).pop();
       if (context.mounted) alterarCarregando();
-
-      await controladorUsuario.pegarUsuarioAtualizado(controladorAuth.usuario);
     } else {
       Mensagens.snackBar(context, 'Algo deu errado');
       alterarCarregando();
@@ -139,12 +138,10 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   }
 
   excluirConta(BuildContext context) async {
-    final controladorUsuario = Provider.of<AuthProvider>(context, listen: false);
-
-    if (controladorUsuario.usuario != null) {
+    if (user != null) {
       try {
-        final AuthCredential credential = EmailAuthProvider.credential(email: controladorUsuario.usuario!.email!, password: controladorSenha.text);
-        await controladorUsuario.usuario!.reauthenticateWithCredential(credential);
+        final AuthCredential credential = EmailAuthProvider.credential(email: user!.email!, password: controladorSenha.text);
+        await user!.reauthenticateWithCredential(credential);
 
         if (context.mounted) {
           Mensagens.snackBar(context, 'O seu perfil foi excluído!');
@@ -152,9 +149,9 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
           alterarCarregando();
           controladorSenha.clear();
         }
-        await FirebaseFirestore.instance.collection('usuarios').doc(controladorUsuario.usuario!.uid).delete();
-        await FirebaseStorage.instance.ref().child("perfil_fotos/${controladorUsuario.usuario!.uid}").delete();
-        await controladorUsuario.usuario!.delete();
+        await FirebaseFirestore.instance.collection('usuariosPerfil').doc(user!.uid).delete();
+        await FirebaseStorage.instance.ref().child("perfil_fotos/${user!.uid}").delete();
+        await user!.delete();
       } catch (e) {
         if (context.mounted) Navigator.of(context).pop();
         if (context.mounted) Mensagens.snackBar(context, 'Senha inválida!');

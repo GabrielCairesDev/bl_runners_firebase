@@ -6,8 +6,7 @@ class PaginaEntrarControlador extends ChangeNotifier {
   final controladorEmail = TextEditingController(text: 'gabriel.araujo.caires@gmail.com');
   final controladorSenha = TextEditingController(text: 'gabriel');
 
-  final globalKeyEmailEntrar = GlobalKey<FormState>();
-  final globalKeySenhaEntrar = GlobalKey<FormState>();
+  final GlobalKey<FormState> globalKeyEmailPaginaEntrar = GlobalKey<FormState>();
 
   bool esconderSenha = true;
   bool entradaAutomatica = false;
@@ -31,15 +30,18 @@ class PaginaEntrarControlador extends ChangeNotifier {
   }
 
   validarCampos(context) {
-    if (globalKeyEmailEntrar.currentState!.validate() && globalKeySenhaEntrar.currentState!.validate() && carregando == false) {
-      entrar(context);
-    }
+    if (globalKeyEmailPaginaEntrar.currentState!.validate() && carregando == false) entrar(context);
   }
 
   entrar(context) {
     atualizarCarregando();
     final authprovider = Provider.of<AuthProvider>(context, listen: false);
-    authprovider.entrar(context, controladorEmail.text, controladorSenha.text, entradaAutomatica);
+    authprovider.entrar(
+      context,
+      email: controladorEmail.text.trim(),
+      senha: controladorSenha.text.trim(),
+      entradaAutomatica: entradaAutomatica,
+    );
   }
 
   resetarValores() {

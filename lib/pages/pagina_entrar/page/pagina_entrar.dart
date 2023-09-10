@@ -28,22 +28,25 @@ class _PaginaEntrarState extends State<PaginaEntrar> {
           padding: const EdgeInsets.fromLTRB(16, 128, 16, 16),
           child: Stack(
             children: [
-              const Column(
-                children: [
-                  PaginaEntrarLogo(),
-                  SizedBox(height: 16),
-                  PaginaEntrarCampoEmail(),
-                  SizedBox(height: 16),
-                  PaginaEntrarCampoSenha(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      PaginaEntrarSwitch(),
-                      PaginaEntrarLinkRecuperar(),
-                    ],
-                  ),
-                  PaginaEntrarBotaoEntrar(),
-                ],
+              Form(
+                key: controlador.globalKeyEmailPaginaEntrar,
+                child: const Column(
+                  children: [
+                    PaginaEntrarLogo(),
+                    SizedBox(height: 16),
+                    PaginaEntrarCampoEmail(),
+                    SizedBox(height: 16),
+                    PaginaEntrarCampoSenha(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        PaginaEntrarSwitch(),
+                        PaginaEntrarLinkRecuperar(),
+                      ],
+                    ),
+                    PaginaEntrarBotaoEntrar(),
+                  ],
+                ),
               ),
               Positioned.fill(
                 child: Center(

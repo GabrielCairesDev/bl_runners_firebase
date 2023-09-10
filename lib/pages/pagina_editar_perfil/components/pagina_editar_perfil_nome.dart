@@ -1,26 +1,11 @@
-import 'package:bl_runners_firebase/providers/user_provider.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/pagina_editar_perfil_controlador.dart';
 
-class PaginaEditarPerfilNome extends StatefulWidget {
+class PaginaEditarPerfilNome extends StatelessWidget {
   const PaginaEditarPerfilNome({super.key});
-
-  @override
-  State<PaginaEditarPerfilNome> createState() => _PaginaEditarPerfilNomeState();
-}
-
-class _PaginaEditarPerfilNomeState extends State<PaginaEditarPerfilNome> {
-  @override
-  void initState() {
-    final controlador = context.read<PaginaEditarPerfilControlador>();
-    final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
-    controlador.controladorNome.text = controladorUsuario.usuarioModelo!.nome;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

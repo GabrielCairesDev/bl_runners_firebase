@@ -1,16 +1,9 @@
 import 'dart:io';
 
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-
+import 'package:bl_runners_firebase/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../models/modelo_de_usuario.dart';
-import '../../../routes/rotas.dart';
+import 'package:provider/provider.dart';
 
 class PaginaConcluirControlador extends ChangeNotifier {
   final controladorNome = TextEditingController();
@@ -41,61 +34,14 @@ class PaginaConcluirControlador extends ChangeNotifier {
         globalKeyGenero.currentState!.validate() &&
         globalKeyNascimento.currentState!.validate() &&
         globalKeyFoto.currentState!.validate()) {
-      alterarCarregando();
       salvarDados(context);
     }
   }
 
   salvarDados(BuildContext context) async {
-    final usuario = FirebaseAuth.instance.currentUser;
-    if (usuario != null) {
-      FirebaseStorage storage = FirebaseStorage.instance;
-      Reference ref = storage.ref().child("perfil_fotos/${usuario.uid}");
-      UploadTask uploadTask = ref.putFile(File(imagemArquivo!.path));
-
-      uploadTask.snapshotEvents.listen(
-        (TaskSnapshot taskSnapshot) async {
-          switch (taskSnapshot.state) {
-            case TaskState.running:
-              break;
-            case TaskState.paused:
-              alterarCarregando();
-              break;
-            case TaskState.canceled:
-              alterarCarregando();
-              break;
-            case TaskState.error:
-              Mensagens.snackBar(context, 'Algo deu errado');
-              alterarCarregando();
-              break;
-            case TaskState.success:
-              var downloadUrl = await ref.getDownloadURL();
-              usuario.updatePhotoURL(downloadUrl);
-
-              final modeloDeUsuario = ModeloDeUsuario(
-                id: usuario.uid,
-                nome: controladorNome.text,
-                email: usuario.email.toString(),
-                fotoUrl: downloadUrl,
-                genero: controladorGenero.toString(),
-                master: false,
-                admin: false,
-                autorizado: false,
-                cadastroConcluido: true,
-                dataNascimento: nascimentoData as DateTime,
-              );
-
-              FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).set(modeloDeUsuario.toJson());
-              if (context.mounted) context.pushReplacement(Rotas.navegar);
-              alterarCarregando();
-              break;
-          }
-        },
-      );
-    } else {
-      Mensagens.snackBar(context, 'Algo deu errado');
-      alterarCarregando();
-    }
+    alterarCarregando();
+    final authprovider = Provider.of<AuthProvider>(context, listen: false);
+    // authprovider.concluirCadastro(context, imagemArquivo);
   }
 
   Future<void> pegarFoto(ImageSource source) async {

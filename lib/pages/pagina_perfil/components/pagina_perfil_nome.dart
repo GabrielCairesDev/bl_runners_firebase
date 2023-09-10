@@ -1,6 +1,5 @@
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PaginaPerfilNome extends StatefulWidget {
@@ -11,16 +10,15 @@ class PaginaPerfilNome extends StatefulWidget {
 }
 
 class _PaginaPerfilNomeState extends State<PaginaPerfilNome> {
-  User? user;
   ModeloDeUsuario? usuario;
   late Stream<DocumentSnapshot> _usersStream;
 
-  @override
-  void initState() {
-    super.initState();
-    user = FirebaseAuth.instance.currentUser;
-    _usersStream = FirebaseFirestore.instance.collection('usuarios').doc(user!.uid).snapshots();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   //final authprovider = Provider.of<AuthProvider>(context, listen: false);
+  //   // _usersStream = FirebaseFirestore.instance.collection('usuariosPerfil').doc(authprovider.usuario!.uid).snapshots();
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -35,7 +35,7 @@ class _PaginaRegistrarCampoDistanciaState extends State<PaginaRegistrarCampoDist
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   NumberPicker(
-                    value: controlador.distancia,
+                    value: controlador.controladorDistancia,
                     minValue: 100,
                     maxValue: 42000,
                     step: 100,
@@ -47,7 +47,7 @@ class _PaginaRegistrarCampoDistanciaState extends State<PaginaRegistrarCampoDist
                       fontSize: 25.0,
                       fontStyle: FontStyle.italic,
                     ),
-                    onChanged: (value) => setState(() => controlador.distancia = value),
+                    onChanged: (value) => setState(() => controlador.controladorDistancia = value),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       border: Border.all(

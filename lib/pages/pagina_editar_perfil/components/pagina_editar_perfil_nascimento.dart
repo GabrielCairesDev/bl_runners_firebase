@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/user_provider.dart';
 import '../controller/pagina_editar_perfil_controlador.dart';
 
 class PaginaEditarPerfilNascimento extends StatefulWidget {
@@ -15,17 +14,17 @@ class PaginaEditarPerfilNascimento extends StatefulWidget {
 class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascimento> {
   @override
   void initState() {
-    final controlador = context.read<PaginaEditarPerfilControlador>();
-    final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
-    controlador.controladorNascimento.text = DateFormat('dd/MM/yyyy').format(controladorUsuario.usuarioModelo!.dataNascimento);
-    controlador.nascimentoData = controladorUsuario.usuarioModelo!.dataNascimento;
+    // final controlador = context.read<PaginaEditarPerfilControlador>();
+    // final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
+    // controlador.controladorNascimento.text = DateFormat('dd/MM/yyyy').format(controladorUsuario.usuarioModelo!.dataNascimento);
+    // controlador.nascimentoData = controladorUsuario.usuarioModelo!.dataNascimento;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaEditarPerfilControlador>();
-    final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
+    // final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
 
     return Form(
       key: controlador.globalKeyNascimento,
@@ -42,7 +41,7 @@ class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascime
         onTap: () async {
           DateTime? pegarData = await showDatePicker(
             context: context,
-            initialDate: controladorUsuario.usuarioModelo!.dataNascimento,
+            initialDate: DateTime.now(), //controladorUsuario.usuarioModelo!.dataNascimento,
             firstDate: DateTime(1940),
             lastDate: DateTime.now(),
             locale: const Locale("pt", "BR"),

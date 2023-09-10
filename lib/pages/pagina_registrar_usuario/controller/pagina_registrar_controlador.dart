@@ -3,15 +3,12 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class PaginaRegistrarControlador extends ChangeNotifier {
-  final controladorNome = TextEditingController();
+  final controladorNome = TextEditingController(text: 'Gabriel');
   final controladorEmail = TextEditingController();
-  final controladorSenha = TextEditingController();
-  final controladorCnfirmarSenha = TextEditingController();
+  final controladorSenha = TextEditingController(text: 'gabriel');
+  final controladorCnfirmarSenha = TextEditingController(text: 'gabriel');
 
-  final globalKeyNomeRegistrar = GlobalKey<FormState>();
-  final globalKeyEmailRegistrar = GlobalKey<FormState>();
-  final globalKeySenhaRegistrar = GlobalKey<FormState>();
-  final globalKeyConfirmarSenhaRegistrar = GlobalKey<FormState>();
+  final GlobalKey<FormState> globalKeyPaginaRegistrar = GlobalKey<FormState>();
 
   bool esconderSenha = true;
   bool esconderSenha2 = true;
@@ -53,19 +50,20 @@ class PaginaRegistrarControlador extends ChangeNotifier {
   }
 
   validarCampos(context) {
-    if (globalKeyEmailRegistrar.currentState!.validate() &&
-        globalKeySenhaRegistrar.currentState!.validate() &&
-        globalKeyConfirmarSenhaRegistrar.currentState!.validate() &&
-        carregando == false) {
+    if (globalKeyPaginaRegistrar.currentState!.validate() && carregando == false) {
       criarUsarioProvider(context);
-      // registrar(context);
+      atualizarCarregando();
     }
   }
 
   criarUsarioProvider(context) {
-    atualizarCarregando();
-    final authprovider = Provider.of<AuthProvider>(context, listen: false);
-    authprovider.criarUsuario(context, controladorEmail.text, controladorCnfirmarSenha.text, controladorNome.text);
+    final controladorAuthprovider = Provider.of<AuthProvider>(context, listen: false);
+    controladorAuthprovider.registrar(
+      context,
+      email: controladorEmail.text.trim(),
+      senha: controladorCnfirmarSenha.text.trim(),
+      nome: controladorNome.text,
+    );
   }
 
   resetarValores() {

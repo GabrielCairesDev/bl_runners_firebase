@@ -27,20 +27,23 @@ class _PaginaRegistrarState extends State<PaginaRegistrar> {
           padding: const EdgeInsets.fromLTRB(16, 128, 16, 16),
           child: Stack(
             children: [
-              const Column(
-                children: [
-                  PaginaRegistrarLogo(),
-                  SizedBox(height: 16),
-                  PaginaRegistrarCampoNome(),
-                  SizedBox(height: 16),
-                  PaginaRegistrarCampoEmail(),
-                  SizedBox(height: 16),
-                  PaginaRegistrarCampoSenha(),
-                  SizedBox(height: 16),
-                  PaginaRegistrarCampoConfirmarSenha(),
-                  SizedBox(height: 16),
-                  PaginaRegistrarBotaoRegistrar(),
-                ],
+              Form(
+                key: controlador.globalKeyPaginaRegistrar,
+                child: const Column(
+                  children: [
+                    PaginaRegistrarLogo(),
+                    SizedBox(height: 16),
+                    PaginaRegistrarCampoNome(),
+                    SizedBox(height: 16),
+                    PaginaRegistrarCampoEmail(),
+                    SizedBox(height: 16),
+                    PaginaRegistrarCampoSenha(),
+                    SizedBox(height: 16),
+                    PaginaRegistrarCampoConfirmarSenha(),
+                    SizedBox(height: 16),
+                    PaginaRegistrarBotaoRegistrar(),
+                  ],
+                ),
               ),
               Positioned.fill(
                 child: Center(

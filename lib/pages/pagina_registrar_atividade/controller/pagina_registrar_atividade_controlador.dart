@@ -14,7 +14,7 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
   final globalKeyCampoTipo = GlobalKey<FormState>();
 
   TimeOfDay? tempo;
-  int distancia = 5000;
+  int controladorDistancia = 5000;
 
   String? validadorTitulo(String? value) => value!.isEmpty ? 'Campo Obrigatório' : null;
   String? validadorDescricao(String? value) => value!.isEmpty ? 'Campo Obrigatório' : null;
@@ -35,6 +35,17 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
         globalKeyCampoDescricao.currentState!.validate() &&
         globalKeyCampoData.currentState!.validate() &&
         globalKeyCampoTempo.currentState!.validate() &&
-        globalKeyCampoTipo.currentState!.validate()) {}
+        globalKeyCampoTipo.currentState!.validate()) {
+      salvar();
+    }
+  }
+
+  salvar() {
+    print(controladorCampoTitulo);
+    print(controladorCampoDescricao);
+    print(controladorCampoData);
+    print(controladorCampoTempo);
+    print(controladorCampoTipo);
+    print(controladorDistancia);
   }
 }
