@@ -15,7 +15,7 @@ class PaginaRegistrarControlador extends ChangeNotifier {
   bool carregando = false;
 
   String? validadorNome(String? value) {
-    if (value!.isEmpty) {
+    if (value!.isEmpty || value.length < 3) {
       return 'Campo obrigatório!';
     }
     return null;
@@ -52,12 +52,15 @@ class PaginaRegistrarControlador extends ChangeNotifier {
   validarCampos(context) {
     if (globalKeyPaginaRegistrar.currentState!.validate() && carregando == false) {
       criarUsarioProvider(context);
-      atualizarCarregando();
     }
   }
 
   criarUsarioProvider(context) {
     final controladorAuthprovider = Provider.of<AuthProvider>(context, listen: false);
+
+    FocusScope.of(context).unfocus();
+    atualizarCarregando();
+
     controladorAuthprovider.registrar(
       context,
       email: controladorEmail.text.trim(),

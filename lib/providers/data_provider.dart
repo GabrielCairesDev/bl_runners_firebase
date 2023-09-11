@@ -25,33 +25,40 @@ class DataProvider extends ChangeNotifier {
       dataNascimento: DateTime.now(),
     );
     // Salvar a data
-    return usuariosPerfil.doc(id).set(modeloDeUsuario.toJson()).then((value) {
-      debugPrint('Data Salva');
-      // Erro salvar data
-    }).catchError(
+    return usuariosPerfil.doc(id).set(modeloDeUsuario.toJson()).then(
+      (value) {
+        debugPrint('Data Salva');
+      },
+    ).catchError(
+      // Erro ao Salvar a  Data
       (error) {
         debugPrint('Erro salvar data: $error');
       },
     );
   }
 
-  Future<void> pegarUsuario() async {
+  // Metodo para pegar usuário Data
+  Future<void> pegarUsuarioData() async {
+    // Pegar usuário atual
     final user = FirebaseAuth.instance.currentUser;
 
+    // Verificar se é nulo
     if (user != null) {
-      // Listen to the user document in real time.
-      final snapshotListener = _firestore.collection('usuariosPerfil').doc(user.uid).snapshots();
+      // Pegar o documento com os dados
+      final userData = _firestore.collection('usuariosPerfil').doc(user.uid).snapshots();
 
-      // When the document changes, update the local modeloUsuario variable.
-      snapshotListener.listen((snapshot) {
-        if (snapshot.exists) {
-          final userData = snapshot.data() as Map<String, dynamic>;
-          modeloUsuario = ModeloDeUsuario.fromJson(userData);
-          notifyListeners();
-        } else {
-          modeloUsuario = null;
-        }
-      });
+      // Organizar os dados
+      userData.listen(
+        (snapshot) {
+          if (snapshot.exists) {
+            final data = snapshot.data() as Map<String, dynamic>;
+            modeloUsuario = ModeloDeUsuario.fromJson(data);
+            notifyListeners();
+          } else {
+            modeloUsuario = null;
+          }
+        },
+      );
     } else {
       modeloUsuario = null;
     }

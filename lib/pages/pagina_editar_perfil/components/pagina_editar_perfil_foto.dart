@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,6 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
   @override
   Widget build(BuildContext context) {
     final controlador = Provider.of<PaginaEditarPerfilControlador>(context);
-    // final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
 
     return WillPopScope(
       onWillPop: () async {
@@ -64,12 +64,7 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
               ),
               clipBehavior: Clip.hardEdge,
               child: controlador.imagemArquivo == null
-                  ? const ClipRRect(
-                      // child: Image.network(
-                      //   controladorUsuario.usuarioModelo!.fotoUrl.toString(),
-                      //   fit: BoxFit.cover,
-                      // ),
-                      )
+                  ? fotoPerfil(context)
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(50.0),
                       child: Image.file(
@@ -81,6 +76,20 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
           ),
         ],
       ),
+    );
+  }
+
+  fotoPerfil(BuildContext context) {
+    final controladorDataProvider = Provider.of<DataProvider>(context);
+    final foto = controladorDataProvider.modeloUsuario?.fotoUrl;
+
+    if (foto == null || foto.isEmpty) {
+      return Image.asset('assets/images/avatar.png');
+    }
+
+    return Image.network(
+      foto.toString(),
+      fit: BoxFit.cover,
     );
   }
 }

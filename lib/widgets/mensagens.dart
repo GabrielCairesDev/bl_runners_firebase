@@ -3,18 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class Mensagens {
-  static void snackBar(BuildContext context, String texto) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          texto,
-          textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.red),
-        ),
-      ),
-    );
-  }
-
   static void caixaDeDialogo(
     BuildContext context, {
     required String titulo,
@@ -96,7 +84,7 @@ class Mensagens {
 
   static void caixaDialogoDigitarSenha(
     BuildContext context, {
-    required TextEditingController senha,
+    required TextEditingController email,
     required String titulo,
     // required String texto,
     required String textoBotaoExcluir,
@@ -115,7 +103,7 @@ class Mensagens {
               // const Text("Digite sua senha atual para confirmar a exclusão."),
               const SizedBox(height: 16.0),
               TextFormField(
-                controller: senha,
+                controller: email,
                 obscureText: true,
                 decoration: const InputDecoration(
                   labelText: "Senha Atual",
@@ -136,6 +124,53 @@ class Mensagens {
               onPressed: onPressedExcluir,
               style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
               child: Text(textoBotaoExcluir),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  static void caixaDialogoDigitarEmail(
+    BuildContext context, {
+    required TextEditingController email,
+    required String titulo,
+    // required String texto,
+    required String textoBotaocancelar,
+    required String textoBotaoEnviar,
+    required Function()? onPressedCancelar,
+    required Function()? onPressedEnviar,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(titulo, textAlign: TextAlign.center),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 16.0),
+              TextFormField(
+                controller: email,
+                decoration: const InputDecoration(
+                  labelText: "E-mail",
+                  hintText: "Digite seu e-mail",
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.5,
+              child: ElevatedButton(
+                onPressed: onPressedEnviar,
+                child: Text(textoBotaoEnviar),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: onPressedCancelar,
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
+              child: Text(textoBotaocancelar),
             ),
           ],
         );

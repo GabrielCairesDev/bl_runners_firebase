@@ -1,6 +1,6 @@
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PaginaPerfilNome extends StatefulWidget {
   const PaginaPerfilNome({super.key});
@@ -10,48 +10,35 @@ class PaginaPerfilNome extends StatefulWidget {
 }
 
 class _PaginaPerfilNomeState extends State<PaginaPerfilNome> {
-  ModeloDeUsuario? usuario;
-  late Stream<DocumentSnapshot> _usersStream;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   //final authprovider = Provider.of<AuthProvider>(context, listen: false);
-  //   // _usersStream = FirebaseFirestore.instance.collection('usuariosPerfil').doc(authprovider.usuario!.uid).snapshots();
-  // }
-
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<DocumentSnapshot>(
-      stream: _usersStream,
-      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.hasError || snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: Text(''));
-        }
+    return Center(
+      child: nomePerfil(),
+    );
+  }
 
-        final data = snapshot.data!.data() as Map<String, dynamic>;
-        usuario = ModeloDeUsuario.fromJson(data);
+  nomePerfil() {
+    final controladorDataProvider = Provider.of<DataProvider>(context);
+    final nomeUsuario = controladorDataProvider.modeloUsuario?.nome;
 
-        return Center(
-          child: Text(
-            usuario!.nome,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: MediaQuery.of(context).size.width * 0.065,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  color: Colors.black.withOpacity(0.1),
-                  offset: const Offset(1, 1),
-                  blurRadius: 2,
-                ),
-              ],
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.visible,
+    final nome = nomeUsuario != null && nomeUsuario.isNotEmpty ? nomeUsuario : 'Nome Desconhecido';
+
+    return Text(
+      nome,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: MediaQuery.of(context).size.width * 0.065,
+        color: Colors.white,
+        shadows: [
+          Shadow(
+            color: Colors.black.withOpacity(0.1),
+            offset: const Offset(1, 1),
+            blurRadius: 2,
           ),
-        );
-      },
+        ],
+      ),
+      maxLines: 1,
+      overflow: TextOverflow.visible,
     );
   }
 }

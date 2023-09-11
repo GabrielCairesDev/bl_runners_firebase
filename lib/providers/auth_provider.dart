@@ -2,10 +2,14 @@
 
 import 'dart:io';
 
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/pages/pagina_concluir_cadastro/controller/pagina_concluir_controlador.dart';
-import 'package:bl_runners_firebase/pages/pagina_entrar/controller/pagina_entrar_controlador.dart';
-import 'package:bl_runners_firebase/pages/pagina_registrar_usuario/controller/pagina_registrar_controlador.dart';
+import 'package:bl_runners_firebase/pages/pagina_editar_perfil/controller/pagina_editar_perfil_controlador.dart';
+import 'package:bl_runners_firebase/pages/02_pagina_entrar/controller/pagina_entrar_controlador.dart';
+import 'package:bl_runners_firebase/pages/01_pagina_registrar_usuario/controller/pagina_registrar_controlador.dart';
 import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:bl_runners_firebase/routes/rotas.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
@@ -48,12 +52,15 @@ class AuthProvider extends ChangeNotifier {
           context,
           id: credential.user!.uid,
           email: credential.user!.email.toString(),
-          nome: nome,
+          nome: credential.user!.displayName.toString(),
         );
       }
 
       //  Mensagem conta criada
-      if (context.mounted) _mensagemContaCriada(context);
+      if (context.mounted) _mensagemSucesso(context, texto: 'Conta criada com sucesso!\nVerifique o seu e-mail...');
+
+      // Fechar pagina
+      // if (context.mounted) sair(context);
 
       // Atualizar estado carregando
       controladorPaginaRegistrar.atualizarCarregando();
@@ -67,18 +74,18 @@ class AuthProvider extends ChangeNotifier {
       controladorPaginaRegistrar.atualizarCarregando();
       // Senha fraca
       if (e.code == 'weak-password') {
-        if (context.mounted) Mensagens.snackBar(context, 'A senha é muito fraca.');
+        if (context.mounted) _mensagemErro(context, texto: 'A senha é muito fraca.');
 
         // E-mail em uso
       } else if (e.code == 'email-already-in-use') {
-        if (context.mounted) Mensagens.snackBar(context, 'Este e-mail já está em uso.');
+        if (context.mounted) _mensagemErro(context, texto: 'Este e-mail já está em uso.');
 
         // Outro erro
       } else {
-        if (context.mounted) Mensagens.snackBar(context, 'Erro durante o registro: ${e.message}');
+        if (context.mounted) _mensagemErro(context, texto: 'Erro durante o registro: ${e.message}');
       }
     } catch (e) {
-      if (context.mounted) Mensagens.snackBar(context, 'Erro desconhecido: $e');
+      if (context.mounted) _mensagemErro(context, texto: 'Erro desconhecido: $e');
       // Atualizar estado carregando
       controladorPaginaRegistrar.atualizarCarregando();
     }
@@ -121,26 +128,26 @@ class AuthProvider extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       // Usuário não encontrado
       if (e.code == 'user-not-found') {
-        if (context.mounted) Mensagens.snackBar(context, 'E-mail não registrado!');
+        if (context.mounted) _mensagemErro(context, texto: 'E-mail não registrado!');
 
         // Senha inválida
       } else if (e.code == 'wrong-password') {
-        if (context.mounted) Mensagens.snackBar(context, 'Senha inválida!');
+        if (context.mounted) _mensagemErro(context, texto: 'Senha inválida!');
 
         // E-mail inválido
       } else if (e.code == 'invalid-email') {
-        if (context.mounted) Mensagens.snackBar(context, 'E-mail inválido!');
+        if (context.mounted) _mensagemErro(context, texto: 'E-mail inválido!');
 
         // Outro erro
       } else {
-        if (context.mounted) Mensagens.snackBar(context, 'Erro ao fazer login!');
+        if (context.mounted) _mensagemErro(context, texto: 'Erro ao fazer login!');
       }
 
       // Atualizar o estado do carregando
       controladorPaginaEntrar.atualizarCarregando();
     } catch (e) {
       // Mensagem de erro
-      if (context.mounted) Mensagens.snackBar(context, 'Erro ao fazer login! $e');
+      if (context.mounted) _mensagemErro(context, texto: 'Erro ao fazer login! $e');
       controladorPaginaEntrar.atualizarCarregando();
     }
   }
@@ -196,7 +203,7 @@ class AuthProvider extends ChangeNotifier {
               concluirControlador.alterarCarregando();
               break;
             case TaskState.error:
-              Mensagens.snackBar(context, 'Algo deu errado');
+              _mensagemErro(context, texto: 'Algo deu errado');
               concluirControlador.alterarCarregando();
               break;
             case TaskState.success:
@@ -223,7 +230,7 @@ class AuthProvider extends ChangeNotifier {
         },
       );
     } else {
-      Mensagens.snackBar(context, 'Algo deu errado');
+      _mensagemErro(context, texto: 'Algo deu errado');
       concluirControlador.alterarCarregando();
     }
   }
@@ -238,6 +245,93 @@ class AuthProvider extends ChangeNotifier {
     await prefs.setBool("entradaAutomatica", false);
     // deslogar
     await FirebaseAuth.instance.signOut();
+  }
+
+  // Método excluirconta
+  excluirConta(BuildContext context, {required String senha}) async {
+    // Pegar controlador da pagina
+    final controladorPaginaEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context, listen: false);
+    // Pegar usuário
+    final user = FirebaseAuth.instance.currentUser;
+    // Verificar se é nulo
+    if (user != null) {
+      // Tratamento de erros
+      try {
+        // Excluir a conta
+        final AuthCredential credential = EmailAuthProvider.credential(email: user.email!, password: senha);
+        // Autentica outra vez para ter certeza
+        await user.reauthenticateWithCredential(credential);
+
+        // Deletar usuário
+        await user.delete().then(
+          (value) {
+            // Conta excluida
+            if (context.mounted) {
+              // Mensagem perfil excluído
+              _mensagemSucesso(context, texto: 'O seu perfil foi excluído!');
+              // Mandar para a pagina inicial
+              context.pushReplacement(Rotas.entrar);
+              // Estado do carregando
+              controladorPaginaEditarPerfil.alterarCarregando();
+              // Limpar campos
+              controladorPaginaEditarPerfil.controladorSenha.clear();
+            }
+            // Apagar data
+            FirebaseFirestore.instance.collection('usuariosPerfil').doc(user.uid).delete();
+            // Apagar foto
+            FirebaseStorage.instance.ref().child("perfil_fotos/${user.uid}").delete();
+          },
+        );
+
+        // Erros
+      } on FirebaseAuthException catch (e) {
+        // Se o erro for de senha inválida
+        if (e.code == 'wrong-password') {
+          // Fechar
+          if (context.mounted) Navigator.of(context).pop();
+          // Mensagem
+          if (context.mounted) _mensagemErro(context, texto: 'Senha inválida!');
+          // Estado carregando
+          controladorPaginaEditarPerfil.alterarCarregando();
+          // Limpar campos
+          controladorPaginaEditarPerfil.controladorSenha.clear();
+        } else {
+          // Fechar
+          if (context.mounted) Navigator.of(context).pop();
+          // Erro inesperado
+          if (context.mounted) _mensagemErro(context, texto: 'Erro ao excluir conta!');
+          // Estado carregando
+          controladorPaginaEditarPerfil.alterarCarregando();
+          // Limpar campos
+          controladorPaginaEditarPerfil.controladorSenha.clear();
+        }
+      } catch (e) {
+        // Fechar
+        if (context.mounted) Navigator.of(context).pop();
+        // Erro inesperado
+        if (context.mounted) _mensagemErro(context, texto: 'Erro ao excluir conta!');
+        // Estado carregando
+        controladorPaginaEditarPerfil.alterarCarregando();
+        // Limpar campos
+        controladorPaginaEditarPerfil.controladorSenha.clear();
+      }
+    }
+  }
+
+  // Método recuperar conta
+  Future<void> recuprarConta(BuildContext context, {required String email}) async {
+    final controladorPaginaEntrar = Provider.of<PaginaEntrarControlador>(context, listen: false);
+    if (context.mounted) Navigator.of(context).pop();
+    controladorPaginaEntrar.atualizarCarregando();
+
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      if (context.mounted) _mensagemSucesso(context, texto: 'E-mail de recuperação enviado para:\n$email');
+    } catch (e) {
+      if (context.mounted) _mensagemErro(context, texto: 'Erro ao enviar e-mail de recuperação:\n$e');
+    }
+    controladorPaginaEntrar.atualizarCarregando();
+    controladorPaginaEntrar.controladorEmailRecuperar.clear();
   }
 
 /*
@@ -264,21 +358,38 @@ class AuthProvider extends ChangeNotifier {
       // Executar método sair
       //await sair(context);
     } else {
-      Mensagens.snackBar(context, 'Algo deu errado');
+      _mensagemErro(context, texto: 'Algo deu errado');
     }
   }
 
-  // Mensagem conta registrada
-  Future<void> _mensagemContaCriada(BuildContext context) async {
-    Mensagens.caixaDeDialogo(
-      context,
-      titulo: "Parabéns!",
-      texto: 'Sua conta foi criada com sucesso. Verifique o seu e-mail!',
-      textoBotao: 'OK',
-      onPressed: () async {
-        context.pop();
-        //   await sair(context);
-      },
+  // Mensagem sucesso
+  Future<void> _mensagemSucesso(BuildContext context, {required String texto}) async {
+    showTopSnackBar(
+      Overlay.of(context),
+      CustomSnackBar.success(
+        message: texto,
+      ),
     );
   }
+
+  // Mensagem sucesso
+  Future<void> _mensagemErro(BuildContext context, {required String texto}) async {
+    showTopSnackBar(
+      Overlay.of(context),
+      CustomSnackBar.error(
+        message: texto,
+      ),
+    );
+  }
+
+  // Mensagens.caixaDeDialogo(
+  //   context,
+  //   titulo: "Parabéns!",
+  //   texto: 'Sua conta foi criada com sucesso. Verifique o seu e-mail!',
+  //   textoBotao: 'OK',
+  //   onPressed: () async {
+  //     context.pop();
+  //     //   await sair(context);
+  //   },
+  // );
 }

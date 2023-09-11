@@ -20,12 +20,12 @@ class _PaginaNavegacaoState extends State<PaginaNavegacao> {
   final controladorPagina = PageController();
   int indiceMenu = 0;
 
-  @override
-  void initState() {
-    final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
-    controladorDataProvider.pegarUsuario();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
+  //   controladorDataProvider.pegarUsuarioData();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

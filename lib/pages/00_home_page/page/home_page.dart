@@ -1,7 +1,6 @@
 import 'package:bl_runners_firebase/providers/auth_provider.dart';
-import 'package:bl_runners_firebase/routes/rotas.dart';
+import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,9 +13,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    super.initState();
     final authprovider = Provider.of<AuthProvider>(context, listen: false);
     authprovider.autoEntrar(context);
+    final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
+    controladorDataProvider.pegarUsuarioData();
+    super.initState();
   }
 
   @override

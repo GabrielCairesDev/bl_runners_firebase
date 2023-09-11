@@ -8,10 +8,10 @@ class PaginaRegistrarCampoEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controlador = context.read<PaginaRegistrarControlador>();
+    final controladorPaginaRegistrar = context.read<PaginaRegistrarControlador>();
     return TextFormField(
-      controller: controlador.controladorEmail,
-      validator: controlador.validadorEmail,
+      controller: controladorPaginaRegistrar.controladorEmail,
+      validator: controladorPaginaRegistrar.validadorEmail,
       decoration: const InputDecoration(
         hintText: 'Digite o seu e-mail',
         labelText: 'E-mail',

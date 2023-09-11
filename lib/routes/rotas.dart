@@ -1,12 +1,12 @@
 import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/page/pagina_registrar_atividade.dart';
 import 'package:bl_runners_firebase/pages/pagina_concluir_cadastro/page/pagina_concluir_cadastro.dart';
 import 'package:bl_runners_firebase/pages/pagina_editar_perfil/page/pagina_editar_perfil.dart';
-import 'package:bl_runners_firebase/pages/pagina_entrar/page/pagina_entrar.dart';
+import 'package:bl_runners_firebase/pages/02_pagina_entrar/page/pagina_entrar.dart';
 import 'package:bl_runners_firebase/pages/pagina_navegacao/page/pagina_navegacao.dart';
 import 'package:go_router/go_router.dart';
 
-import '../pages/home_page/page/home_page.dart';
-import '../pages/pagina_registrar_usuario/page/pagina_registrar.dart';
+import '../pages/00_home_page/page/home_page.dart';
+import '../pages/01_pagina_registrar_usuario/page/pagina_registrar.dart';
 
 class Rotas {
   static String home = '/',

@@ -1,3 +1,4 @@
+import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -14,17 +15,16 @@ class PaginaEditarPerfilNascimento extends StatefulWidget {
 class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascimento> {
   @override
   void initState() {
-    // final controlador = context.read<PaginaEditarPerfilControlador>();
-    // final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
-    // controlador.controladorNascimento.text = DateFormat('dd/MM/yyyy').format(controladorUsuario.usuarioModelo!.dataNascimento);
-    // controlador.nascimentoData = controladorUsuario.usuarioModelo!.dataNascimento;
+    final controlador = context.read<PaginaEditarPerfilControlador>();
+    final controladorUsuario = Provider.of<DataProvider>(context, listen: false);
+    controlador.controladorNascimento.text = DateFormat('dd/MM/yyyy').format(controladorUsuario.modeloUsuario?.dataNascimento ?? DateTime.now());
+    controlador.nascimentoData = controladorUsuario.modeloUsuario?.dataNascimento ?? DateTime.now();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaEditarPerfilControlador>();
-    // final controladorUsuario = Provider.of<UserProvider>(context, listen: false);
 
     return Form(
       key: controlador.globalKeyNascimento,
