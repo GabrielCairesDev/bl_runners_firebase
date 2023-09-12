@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
+import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,13 +12,13 @@ class PaginaRegistrarCampoTempo extends StatefulWidget {
 class _PaginaRegistrarCampoTempoState extends State<PaginaRegistrarCampoTempo> {
   @override
   Widget build(BuildContext context) {
-    final controlador = context.read<PaginaRegistrarAtividadeControlador>();
+    final controladorPaginaRegistrarAtividade = Provider.of<PaginaRegistrarAtividadeControlador>(context);
     return Form(
-      key: controlador.globalKeyCampoTempo,
+      key: controladorPaginaRegistrarAtividade.globalKeyCampoTempo,
       child: TextFormField(
         readOnly: true,
-        validator: controlador.validadorTempo,
-        controller: controlador.controladorCampoTempo,
+        validator: controladorPaginaRegistrarAtividade.validadorTempo,
+        controller: controladorPaginaRegistrarAtividade.controladorCampoTempo,
         decoration: const InputDecoration(
           filled: false,
           prefixIcon: Icon(Icons.timer),
@@ -27,7 +27,7 @@ class _PaginaRegistrarCampoTempoState extends State<PaginaRegistrarCampoTempo> {
           suffixIcon: Icon(Icons.expand_more),
         ),
         onTap: () async {
-          controlador.tempo = await showTimePicker(
+          controladorPaginaRegistrarAtividade.tempo = await showTimePicker(
             context: context,
             initialTime: const TimeOfDay(hour: 0, minute: 0),
             helpText: 'Qual foi duração?',
@@ -48,8 +48,11 @@ class _PaginaRegistrarCampoTempoState extends State<PaginaRegistrarCampoTempo> {
             },
           );
 
-          if (controlador.tempo != null) {
-            setState(() => controlador.controladorCampoTempo.text = controlador.tempo!.format(context));
+          if (controladorPaginaRegistrarAtividade.tempo != null) {
+            setState(() {
+              controladorPaginaRegistrarAtividade.controladorCampoTempo.text = controladorPaginaRegistrarAtividade.tempo!.format(context);
+              controladorPaginaRegistrarAtividade.transformarEmMinutos(tempo: controladorPaginaRegistrarAtividade.tempo as TimeOfDay);
+            });
           }
         },
       ),

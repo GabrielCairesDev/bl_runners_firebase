@@ -421,7 +421,7 @@ class AuthProvider extends ChangeNotifier {
     );
   }
 
-  // Mensagem sucesso
+  // Mensagem erro
   Future<void> _mensagemErro(BuildContext context, {required String texto}) async {
     showTopSnackBar(
       Overlay.of(context),

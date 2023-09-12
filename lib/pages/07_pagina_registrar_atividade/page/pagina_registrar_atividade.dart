@@ -1,10 +1,10 @@
-import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_botao.dart';
-import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_data.dart';
-import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_descricao.dart';
-import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_distancia.dart';
-import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_tempo.dart';
-import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_tipo.dart';
-import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/components/pagina_registrar_campo_titulo.dart';
+import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/components/pagina_registrar_campo_botao.dart';
+import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/components/pagina_registrar_campo_data.dart';
+import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/components/pagina_registrar_campo_descricao.dart';
+import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/components/pagina_registrar_campo_distancia.dart';
+import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/components/pagina_registrar_campo_tempo.dart';
+import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/components/pagina_registrar_campo_tipo.dart';
+import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/components/pagina_registrar_campo_titulo.dart';
 import 'package:flutter/material.dart';
 
 class PaginaRegistrarAtividade extends StatelessWidget {

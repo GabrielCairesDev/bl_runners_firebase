@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
+import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -16,13 +16,13 @@ class _PaginaRegistrarTipoState extends State<PaginaRegistrarTipo> {
 
   @override
   Widget build(BuildContext context) {
-    final controlador = context.read<PaginaRegistrarAtividadeControlador>();
+    final controladorPaginaRegistrarAtividade = Provider.of<PaginaRegistrarAtividadeControlador>(context);
     return Form(
-      key: controlador.globalKeyCampoTipo,
+      key: controladorPaginaRegistrarAtividade.globalKeyCampoTipo,
       child: TextFormField(
         readOnly: true,
-        validator: controlador.validadorTipo,
-        controller: controlador.controladorCampoTipo,
+        validator: controladorPaginaRegistrarAtividade.validadorTipo,
+        controller: controladorPaginaRegistrarAtividade.controladorCampoTipo,
         decoration: const InputDecoration(
           filled: false,
           prefixIcon: Icon(Icons.list_alt),
@@ -67,7 +67,7 @@ class _PaginaRegistrarTipoState extends State<PaginaRegistrarTipo> {
                           ),
                         ),
                         onTap: () => setState(() {
-                          controlador.controladorCampoTipo.text = 'Treino';
+                          controladorPaginaRegistrarAtividade.controladorCampoTipo.text = 'Treino';
                           context.pop(context);
                         }),
                       ),
@@ -91,7 +91,7 @@ class _PaginaRegistrarTipoState extends State<PaginaRegistrarTipo> {
                           ),
                         ),
                         onTap: () => setState(() {
-                          controlador.controladorCampoTipo.text = 'Prova';
+                          controladorPaginaRegistrarAtividade.controladorCampoTipo.text = 'Prova';
                           context.pop(context);
                         }),
                       ),

@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
+import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,12 +7,12 @@ class PaginaRegistrarCampoTitulo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controlador = context.read<PaginaRegistrarAtividadeControlador>();
+    final controladorPaginaRegistrarAtividade = Provider.of<PaginaRegistrarAtividadeControlador>(context);
     return Form(
-      key: controlador.globalKeyCampoTitulo,
+      key: controladorPaginaRegistrarAtividade.globalKeyCampoTitulo,
       child: TextFormField(
-        validator: controlador.validadorTitulo,
-        controller: controlador.controladorCampoTitulo,
+        validator: controladorPaginaRegistrarAtividade.validadorTitulo,
+        controller: controladorPaginaRegistrarAtividade.controladorCampoTitulo,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
           hintText: 'Título',

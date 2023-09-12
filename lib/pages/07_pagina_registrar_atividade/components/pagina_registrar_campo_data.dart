@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
+import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -13,13 +13,13 @@ class PaginaRegistrarCampoData extends StatefulWidget {
 class _PaginaRegistrarCampoDataState extends State<PaginaRegistrarCampoData> {
   @override
   Widget build(BuildContext context) {
-    final controlador = context.read<PaginaRegistrarAtividadeControlador>();
+    final controladorPaginaRegistrarAtividade = Provider.of<PaginaRegistrarAtividadeControlador>(context);
     return Form(
-      key: controlador.globalKeyCampoData,
+      key: controladorPaginaRegistrarAtividade.globalKeyCampoData,
       child: TextFormField(
         readOnly: true,
-        validator: controlador.validadorData,
-        controller: controlador.controladorCampoData,
+        validator: controladorPaginaRegistrarAtividade.validadorData,
+        controller: controladorPaginaRegistrarAtividade.controladorCampoData,
         decoration: const InputDecoration(
           filled: false,
           prefixIcon: Icon(Icons.date_range),
@@ -28,7 +28,7 @@ class _PaginaRegistrarCampoDataState extends State<PaginaRegistrarCampoData> {
           suffixIcon: Icon(Icons.expand_more),
         ),
         onTap: () async {
-          DateTime? pegarData = await showDatePicker(
+          controladorPaginaRegistrarAtividade.pegarData = await showDatePicker(
             context: context,
             initialDate: DateTime.now(),
             firstDate: DateTime.now().subtract(const Duration(days: 3)),
@@ -48,7 +48,7 @@ class _PaginaRegistrarCampoDataState extends State<PaginaRegistrarCampoData> {
             },
           );
 
-          if (pegarData != null) {
+          if (controladorPaginaRegistrarAtividade.pegarData != null) {
             // ignore: use_build_context_synchronously
             TimeOfDay? pegarHora = await showTimePicker(
               context: context,
@@ -72,17 +72,18 @@ class _PaginaRegistrarCampoDataState extends State<PaginaRegistrarCampoData> {
             );
 
             if (pegarHora != null) {
-              DateTime dataHoraSelecionada = DateTime(
-                pegarData.year,
-                pegarData.month,
-                pegarData.day,
+              controladorPaginaRegistrarAtividade.dataHoraSelecionada = DateTime(
+                controladorPaginaRegistrarAtividade.pegarData!.year,
+                controladorPaginaRegistrarAtividade.pegarData!.month,
+                controladorPaginaRegistrarAtividade.pegarData!.day,
                 pegarHora.hour,
                 pegarHora.minute,
               );
-              String dataHoraFormatada = DateFormat('dd/MM/yyyy HH:mm').format(dataHoraSelecionada);
+              controladorPaginaRegistrarAtividade.dataHoraFormatada =
+                  DateFormat('dd/MM/yyyy HH:mm').format(controladorPaginaRegistrarAtividade.dataHoraSelecionada as DateTime);
               setState(
                 () {
-                  controlador.controladorCampoData.text = dataHoraFormatada;
+                  controladorPaginaRegistrarAtividade.controladorCampoData.text = controladorPaginaRegistrarAtividade.dataHoraFormatada.toString();
                 },
               );
             }
