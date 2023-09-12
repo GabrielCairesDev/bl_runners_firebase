@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../pagina_inicio/page/pagina_inicio.dart';
-import '../../pagina_perfil/pages/pagina_perfil.dart';
+import '../../04_pagina_perfil/pages/pagina_perfil.dart';
 import '../../pagina_ranking_femenino/page/pagina_ranking_feminino.dart';
 import '../../pagina_ranking_geral/pages/Pagina_ranking_geral.dart';
 import '../../pagina_ranking_masculino/pages/pagina_ranking_masculino.dart';
@@ -20,12 +20,12 @@ class _PaginaNavegacaoState extends State<PaginaNavegacao> {
   final controladorPagina = PageController();
   int indiceMenu = 0;
 
-  // @override
-  // void initState() {
-  //   final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
-  //   controladorDataProvider.pegarUsuarioData();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
+    controladorDataProvider.pegarUsuarioData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

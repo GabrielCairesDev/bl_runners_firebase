@@ -1,14 +1,14 @@
 import 'package:bl_runners_firebase/pages/00_home_page/controller/home_page_controller.dart';
 import 'package:bl_runners_firebase/pages/pagina_concluir_cadastro/controller/pagina_concluir_controlador.dart';
 import 'package:bl_runners_firebase/pages/02_pagina_entrar/controller/pagina_entrar_controlador.dart';
-import 'package:bl_runners_firebase/pages/pagina_navegacao/controller/pagina_navegacao_controlador.dart';
+import 'package:bl_runners_firebase/pages/03_pagina_navegacao/controller/pagina_navegacao_controlador.dart';
 import 'package:bl_runners_firebase/pages/01_pagina_registrar_usuario/controller/pagina_registrar_controlador.dart';
 import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
 import 'package:bl_runners_firebase/providers/auth_provider.dart';
 import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../pages/pagina_editar_perfil/controller/pagina_editar_perfil_controlador.dart';
+import '../pages/05_pagina_editar_perfil/controller/pagina_editar_perfil_controlador.dart';
 
 class AppProvider {
   static final provider = [

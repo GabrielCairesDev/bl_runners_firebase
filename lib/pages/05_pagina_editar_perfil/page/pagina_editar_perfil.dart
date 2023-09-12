@@ -1,6 +1,6 @@
-import 'package:bl_runners_firebase/pages/pagina_editar_perfil/components/pagina_editar_link_excluir.dart';
-import 'package:bl_runners_firebase/pages/pagina_editar_perfil/components/pagina_editar_perfil_foto.dart';
-import 'package:bl_runners_firebase/pages/pagina_editar_perfil/components/pagina_editar_perfil_nome.dart';
+import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/components/pagina_editar_link_excluir.dart';
+import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/components/pagina_editar_perfil_foto.dart';
+import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/components/pagina_editar_perfil_nome.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

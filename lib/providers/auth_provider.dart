@@ -7,12 +7,11 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/pages/pagina_concluir_cadastro/controller/pagina_concluir_controlador.dart';
-import 'package:bl_runners_firebase/pages/pagina_editar_perfil/controller/pagina_editar_perfil_controlador.dart';
+import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/controller/pagina_editar_perfil_controlador.dart';
 import 'package:bl_runners_firebase/pages/02_pagina_entrar/controller/pagina_entrar_controlador.dart';
 import 'package:bl_runners_firebase/pages/01_pagina_registrar_usuario/controller/pagina_registrar_controlador.dart';
 import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:bl_runners_firebase/routes/rotas.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -41,7 +40,7 @@ class AuthProvider extends ChangeNotifier {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: senha);
 
       // Registrar nome no Auth
-      await credential.user!.updateDisplayName(nome);
+      credential.user!.updateDisplayName(nome);
 
       // Enviar e-mail de verificação
       await credential.user!.sendEmailVerification();
@@ -52,12 +51,12 @@ class AuthProvider extends ChangeNotifier {
           context,
           id: credential.user!.uid,
           email: credential.user!.email.toString(),
-          nome: credential.user!.displayName.toString(),
+          nome: nome,
         );
       }
 
       //  Mensagem conta criada
-      if (context.mounted) _mensagemSucesso(context, texto: 'Conta criada com sucesso!\nVerifique o seu e-mail...');
+      if (context.mounted) _mensagemSucesso(context, texto: 'Conta criada com sucesso!\nVerifique o seu e-mail.');
 
       // Fechar pagina
       // if (context.mounted) sair(context);
@@ -75,14 +74,20 @@ class AuthProvider extends ChangeNotifier {
       // Senha fraca
       if (e.code == 'weak-password') {
         if (context.mounted) _mensagemErro(context, texto: 'A senha é muito fraca.');
+        // Atualizar estado carregando
+        controladorPaginaRegistrar.atualizarCarregando();
 
         // E-mail em uso
       } else if (e.code == 'email-already-in-use') {
         if (context.mounted) _mensagemErro(context, texto: 'Este e-mail já está em uso.');
+        // Atualizar estado carregando
+        controladorPaginaRegistrar.atualizarCarregando();
 
         // Outro erro
       } else {
         if (context.mounted) _mensagemErro(context, texto: 'Erro durante o registro: ${e.message}');
+        // Atualizar estado carregando
+        controladorPaginaRegistrar.atualizarCarregando();
       }
     } catch (e) {
       if (context.mounted) _mensagemErro(context, texto: 'Erro desconhecido: $e');
@@ -115,7 +120,8 @@ class AuthProvider extends ChangeNotifier {
           if (context.mounted) context.pushReplacement(Rotas.navegar);
         } else {
           // Quando o e-mail não é verificado
-          if (context.mounted) _emailNaoVerificado(context, credential);
+          if (context.mounted) _mensagemInfo(context, texto: 'E-mail de verificação enviado para:\n${credential.user!.email}');
+          await credential.user!.sendEmailVerification();
         }
         // Atualizar carregando
         controladorPaginaEntrar.atualizarCarregando();
@@ -248,7 +254,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   // Método excluirconta
-  excluirConta(BuildContext context, {required String senha}) async {
+  Future<void> excluirConta(BuildContext context, {required String senha}) async {
     // Pegar controlador da pagina
     final controladorPaginaEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context, listen: false);
     // Pegar usuário
@@ -321,46 +327,85 @@ class AuthProvider extends ChangeNotifier {
   // Método recuperar conta
   Future<void> recuprarConta(BuildContext context, {required String email}) async {
     final controladorPaginaEntrar = Provider.of<PaginaEntrarControlador>(context, listen: false);
-    if (context.mounted) Navigator.of(context).pop();
-    controladorPaginaEntrar.atualizarCarregando();
-
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+
+      if (context.mounted) Navigator.of(context).pop();
       if (context.mounted) _mensagemSucesso(context, texto: 'E-mail de recuperação enviado para:\n$email');
+      controladorPaginaEntrar.atualizarCarregando();
+      controladorPaginaEntrar.controladorEmailRecuperar.clear();
     } catch (e) {
       if (context.mounted) _mensagemErro(context, texto: 'Erro ao enviar e-mail de recuperação:\n$e');
+      controladorPaginaEntrar.atualizarCarregando();
     }
-    controladorPaginaEntrar.atualizarCarregando();
-    controladorPaginaEntrar.controladorEmailRecuperar.clear();
   }
 
+  // Método editar conta
+  editarDados(BuildContext context, {required File? imagemArquivo, required String nome, required String genero, DateTime? data}) async {
+    final controladorPaginaEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context, listen: false);
+
+    // Usuário atual
+    final user = FirebaseAuth.instance.currentUser;
+
+    // Verificar se o usuário é nulo
+    if (user != null) {
+      if (imagemArquivo != null) {
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference ref = storage.ref().child("perfil_fotos/${FirebaseAuth.instance.currentUser?.uid}");
+        UploadTask uploadTask = ref.putFile(File(imagemArquivo.path));
+        uploadTask.snapshotEvents.listen(
+          (TaskSnapshot taskSnapshot) async {
+            switch (taskSnapshot.state) {
+              case TaskState.running:
+                break;
+              case TaskState.paused:
+                controladorPaginaEditarPerfil.alterarCarregando();
+                break;
+              case TaskState.canceled:
+                controladorPaginaEditarPerfil.alterarCarregando();
+                break;
+              case TaskState.error:
+                _mensagemErro(context, texto: 'Algo deu errado');
+                controladorPaginaEditarPerfil.alterarCarregando();
+                break;
+              case TaskState.success:
+                var downloadUrl = await ref.getDownloadURL();
+                user.updatePhotoURL(downloadUrl); // ATUALIZANDO NA RAIZ
+            }
+          },
+        );
+      }
+      await user.updateDisplayName(nome); // ATUALIZANDO NA RAIZ
+
+      final modeloDeUsuario = ModeloDeUsuario(
+        // MANTER ORIGINAL
+        id: user.uid, // PEGAR DA RAIZ
+        email: user.email.toString(), // PEGAR DA RAIZ
+        master: false, // controladorUsuario.usuarioModelo!.master
+        admin: false, // controladorUsuario.usuarioModelo!.admin
+        autorizado: false, // controladorUsuario.usuarioModelo!.admin
+        cadastroConcluido: true,
+        //ATUALIZAR
+        nome: user.displayName.toString(), // PEGAR DA RAIZ
+        genero: genero,
+        dataNascimento: data as DateTime,
+        fotoUrl: user.photoURL.toString(), // PEGAR DA RAIZ
+      );
+
+      await FirebaseFirestore.instance.collection('usuariosPerfil').doc(user.uid).set(modeloDeUsuario.toJson(), SetOptions(merge: true));
+
+      if (context.mounted) Navigator.of(context).pop();
+      if (context.mounted) controladorPaginaEditarPerfil.alterarCarregando();
+    } else {
+      _mensagemErro(context, texto: 'Algo deu errado');
+      controladorPaginaEditarPerfil.alterarCarregando();
+    }
+  }
 /*
 ===================================================
 ====================== OUTROS =====================
 ===================================================
 */
-
-  // Mostrar Caixa de dialogo e enviar email
-  Future<void> _emailNaoVerificado(BuildContext context, UserCredential credential) async {
-    // Exibir caixa de diálogo
-    if (credential.user != null) {
-      Mensagens.caixaDeDialogo(
-        context,
-        titulo: 'Atenção!',
-        texto: 'Por favor, verifique o seu e-mail.\n ${credential.user!.email}',
-        textoBotao: 'ok',
-        onPressed: () {
-          context.pop();
-        },
-      );
-      // Enviar e-mail de recuperação
-      await credential.user!.sendEmailVerification();
-      // Executar método sair
-      //await sair(context);
-    } else {
-      _mensagemErro(context, texto: 'Algo deu errado');
-    }
-  }
 
   // Mensagem sucesso
   Future<void> _mensagemSucesso(BuildContext context, {required String texto}) async {
@@ -377,6 +422,17 @@ class AuthProvider extends ChangeNotifier {
     showTopSnackBar(
       Overlay.of(context),
       CustomSnackBar.error(
+        message: texto,
+      ),
+    );
+  }
+
+  // Mensagem Info
+  Future<void> _mensagemInfo(BuildContext context, {required String texto}) async {
+    showTopSnackBar(
+      Overlay.of(context),
+      CustomSnackBar.info(
+        backgroundColor: Colors.orange,
         message: texto,
       ),
     );

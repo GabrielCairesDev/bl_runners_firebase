@@ -25,8 +25,11 @@ class PaginaPerfilAvatar extends StatelessWidget {
     }
 
     return Image.network(
-      foto.toString(),
+      controladorDataProvider.modeloUsuario!.fotoUrl.toString(),
       fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        return Image.asset('assets/images/avatar.png');
+      },
     );
   }
 }

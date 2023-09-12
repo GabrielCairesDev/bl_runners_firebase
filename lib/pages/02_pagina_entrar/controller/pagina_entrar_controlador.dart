@@ -38,6 +38,7 @@ class PaginaEntrarControlador extends ChangeNotifier {
   entrar(context) {
     final authprovider = Provider.of<AuthProvider>(context, listen: false);
 
+    FocusScope.of(context).unfocus();
     atualizarCarregando();
 
     authprovider.entrar(
@@ -56,8 +57,15 @@ class PaginaEntrarControlador extends ChangeNotifier {
       titulo: 'Digite o seu e-mail',
       textoBotaocancelar: 'Cancelar',
       textoBotaoEnviar: 'Enviar',
-      onPressedCancelar: () => Navigator.of(context).pop(),
-      onPressedEnviar: () => controladorAuthprovider.recuprarConta(context, email: controladorEmailRecuperar.text),
+      onPressedCancelar: () {
+        FocusScope.of(context).unfocus();
+        Navigator.of(context).pop();
+      },
+      onPressedEnviar: () {
+        FocusScope.of(context).unfocus();
+        atualizarCarregando();
+        return controladorAuthprovider.recuprarConta(context, email: controladorEmailRecuperar.text);
+      },
     );
   }
 

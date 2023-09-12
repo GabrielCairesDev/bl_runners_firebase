@@ -36,6 +36,9 @@ class _PaginaNavegacaoAvatarState extends State<PaginaNavegacaoAvatar> {
       return Image.network(
         controladorDataProvider.modeloUsuario!.fotoUrl.toString(),
         fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Image.asset('assets/images/avatar.png');
+        },
       );
     }
   }
