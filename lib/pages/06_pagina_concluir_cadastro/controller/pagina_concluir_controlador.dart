@@ -39,9 +39,10 @@ class PaginaConcluirControlador extends ChangeNotifier {
   }
 
   salvarDados(BuildContext context) async {
-    alterarCarregando();
     final authprovider = Provider.of<AuthProvider>(context, listen: false);
-    // authprovider.concluirCadastro(context, imagemArquivo);
+
+    alterarCarregando();
+    authprovider.concluirCadastro(context, imagemArquivo);
   }
 
   Future<void> pegarFoto(ImageSource source) async {
@@ -62,6 +63,10 @@ class PaginaConcluirControlador extends ChangeNotifier {
     } catch (e) {
       debugPrint('error $e');
     }
+  }
+
+  resetarValores() {
+    controladorFoto.clear();
   }
 
   alterarCarregando() {

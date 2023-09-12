@@ -5,6 +5,6 @@ class PaginaRankingFeminino extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(extendBodyBehindAppBar: true, appBar: AppBar(title: const Text('Ranking Feminino')));
   }
 }

@@ -6,7 +6,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/pages/pagina_concluir_cadastro/controller/pagina_concluir_controlador.dart';
+import 'package:bl_runners_firebase/pages/06_pagina_concluir_cadastro/controller/pagina_concluir_controlador.dart';
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/controller/pagina_editar_perfil_controlador.dart';
 import 'package:bl_runners_firebase/pages/02_pagina_entrar/controller/pagina_entrar_controlador.dart';
 import 'package:bl_runners_firebase/pages/01_pagina_registrar_usuario/controller/pagina_registrar_controlador.dart';
@@ -231,6 +231,7 @@ class AuthProvider extends ChangeNotifier {
               await FirebaseFirestore.instance.collection('usuariosPerfil').doc(usuario.uid).set(modeloDeUsuario.toJson(), SetOptions(merge: true));
               if (context.mounted) context.pushReplacement(Rotas.navegar);
               concluirControlador.alterarCarregando();
+              if (context.mounted) _mensagemSucesso(context, texto: 'Cadastro concluído com sucesso!');
               break;
           }
         },
@@ -341,7 +342,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   // Método editar conta
-  editarDados(BuildContext context, {required File? imagemArquivo, required String nome, required String genero, DateTime? data}) async {
+  Future<void> editarDados(BuildContext context, {required File? imagemArquivo, required String nome, required String genero, DateTime? data}) async {
     final controladorPaginaEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context, listen: false);
 
     // Usuário atual
@@ -394,8 +395,11 @@ class AuthProvider extends ChangeNotifier {
 
       await FirebaseFirestore.instance.collection('usuariosPerfil').doc(user.uid).set(modeloDeUsuario.toJson(), SetOptions(merge: true));
 
-      if (context.mounted) Navigator.of(context).pop();
-      if (context.mounted) controladorPaginaEditarPerfil.alterarCarregando();
+      if (context.mounted) {
+        context.pop();
+        controladorPaginaEditarPerfil.alterarCarregando();
+        _mensagemSucesso(context, texto: 'Perfil editado com sucesso!');
+      }
     } else {
       _mensagemErro(context, texto: 'Algo deu errado');
       controladorPaginaEditarPerfil.alterarCarregando();
@@ -437,15 +441,4 @@ class AuthProvider extends ChangeNotifier {
       ),
     );
   }
-
-  // Mensagens.caixaDeDialogo(
-  //   context,
-  //   titulo: "Parabéns!",
-  //   texto: 'Sua conta foi criada com sucesso. Verifique o seu e-mail!',
-  //   textoBotao: 'OK',
-  //   onPressed: () async {
-  //     context.pop();
-  //     //   await sair(context);
-  //   },
-  // );
 }

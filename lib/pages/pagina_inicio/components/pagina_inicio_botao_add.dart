@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-class PaginaPerfilBotaoEditar extends StatelessWidget {
-  const PaginaPerfilBotaoEditar({super.key});
+class PaginaInicioBotaoAdd extends StatelessWidget {
+  const PaginaInicioBotaoAdd({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +25,10 @@ class PaginaPerfilBotaoEditar extends StatelessWidget {
           );
           context.push(Rotas.concluir);
         } else {
-          context.push(Rotas.editar);
+          context.push(Rotas.adicionar);
         }
       },
-      child: const Icon(Icons.edit),
+      child: const Icon(Icons.add),
     );
   }
 }

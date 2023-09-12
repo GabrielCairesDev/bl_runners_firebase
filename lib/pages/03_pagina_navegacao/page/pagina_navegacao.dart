@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../pagina_inicio/page/pagina_inicio.dart';
 import '../../04_pagina_perfil/pages/pagina_perfil.dart';
-import '../../pagina_ranking_femenino/page/pagina_ranking_feminino.dart';
+import '../../pagina_ranking_feminino/page/pagina_ranking_feminino.dart';
 import '../../pagina_ranking_geral/pages/Pagina_ranking_geral.dart';
 import '../../pagina_ranking_masculino/pages/pagina_ranking_masculino.dart';
 import '../components/pagina_navegacao_avatar.dart';

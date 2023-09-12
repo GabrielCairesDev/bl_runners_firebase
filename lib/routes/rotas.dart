@@ -1,5 +1,5 @@
 import 'package:bl_runners_firebase/pages/pagina_registrar_atividade/page/pagina_registrar_atividade.dart';
-import 'package:bl_runners_firebase/pages/pagina_concluir_cadastro/page/pagina_concluir_cadastro.dart';
+import 'package:bl_runners_firebase/pages/06_pagina_concluir_cadastro/page/pagina_concluir_cadastro.dart';
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/page/pagina_editar_perfil.dart';
 import 'package:bl_runners_firebase/pages/02_pagina_entrar/page/pagina_entrar.dart';
 import 'package:bl_runners_firebase/pages/03_pagina_navegacao/page/pagina_navegacao.dart';
