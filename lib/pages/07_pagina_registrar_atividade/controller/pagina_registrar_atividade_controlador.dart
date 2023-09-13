@@ -1,9 +1,6 @@
-import 'package:bl_runners_firebase/models/mode_de_atividade.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:provider/provider.dart';
 
 class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
   final controladorCampoTitulo = TextEditingController();
@@ -36,58 +33,9 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
   }
 
   validar(context) {
+    final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
     if (globalKeyRegistrarAtividade.currentState!.validate()) {
-      salvar(context);
-    }
-  }
-
-  salvar(BuildContext context) async {
-    alterarCarregando();
-    // Pegar usuário
-    final user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      final modeloDeAtividade = ModeloDeAtividade(
-        id: user.uid,
-        titulo: controladorCampoTitulo.text,
-        descricao: controladorCampoDescricao.text,
-        tipo: controladorCampoTipo.text,
-        tempo: tempoMinutos as int,
-        distancia: controladorDistancia,
-        dataAtividade: dataHoraSelecionada as DateTime,
-      );
-
-      final documento = await FirebaseFirestore.instance
-          .collection('usuarios')
-          .doc(user.uid)
-          .collection('atividades')
-          .doc(dataHoraSelecionada!.year.toString())
-          .collection(dataHoraSelecionada!.month.toString())
-          .doc(dataHoraFormatadaSalvar.toString())
-          .get();
-      if (documento.exists) {
-        if (context.mounted) {
-          _mensagemErro(context, texto: 'Atividade já registrada!\nVerifique a data e horário.');
-          alterarCarregando();
-          FocusScope.of(context).unfocus();
-        }
-      } else {
-        await FirebaseFirestore.instance
-            .collection('usuarios')
-            .doc(user.uid)
-            .collection('atividades')
-            .doc(dataHoraSelecionada!.year.toString())
-            .collection(dataHoraSelecionada!.month.toString())
-            .doc(dataHoraFormatadaSalvar.toString())
-            .set(modeloDeAtividade.toJson());
-        if (context.mounted) {
-          _mensagemSucesso(context, texto: 'Atividade registrada com sucesso!');
-          alterarCarregando();
-          FocusScope.of(context).unfocus();
-        }
-      }
-    } else {
-      _mensagemErro(context, texto: 'Algo deu errado');
+      controladorDataProvider.registrarAtividade(context);
     }
   }
 
@@ -96,24 +44,15 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
     return tempoMinutos = horas + tempo.minute;
   }
 
-  // Mensagem erro
-  Future<void> _mensagemErro(BuildContext context, {required String texto}) async {
-    showTopSnackBar(
-      Overlay.of(context),
-      CustomSnackBar.error(
-        message: texto,
-      ),
-    );
-  }
-
-  // Mensagem sucesso
-  Future<void> _mensagemSucesso(BuildContext context, {required String texto}) async {
-    showTopSnackBar(
-      Overlay.of(context),
-      CustomSnackBar.success(
-        message: texto,
-      ),
-    );
+  // Apagar Valores
+  resetarValores() {
+    controladorCampoTitulo.clear();
+    controladorCampoDescricao.clear();
+    controladorCampoData.clear();
+    controladorCampoTempo.clear();
+    controladorCampoTipo.clear();
+    controladorDistancia = 5000;
+    tempo = const TimeOfDay(hour: 0, minute: 0);
   }
 
   alterarCarregando() {

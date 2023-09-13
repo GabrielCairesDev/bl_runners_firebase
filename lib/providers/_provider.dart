@@ -4,6 +4,7 @@ import 'package:bl_runners_firebase/pages/02_pagina_entrar/controller/pagina_ent
 import 'package:bl_runners_firebase/pages/03_pagina_navegacao/controller/pagina_navegacao_controlador.dart';
 import 'package:bl_runners_firebase/pages/01_pagina_registrar_usuario/controller/pagina_registrar_controlador.dart';
 import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
+import 'package:bl_runners_firebase/pages/pagina_inicio/controller/pagina_inicio_controlador.dart';
 import 'package:bl_runners_firebase/providers/auth_provider.dart';
 import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:provider/provider.dart';
@@ -24,5 +25,6 @@ class AppProvider {
     ChangeNotifierProvider<PaginaNavegacaoControlador>(create: (context) => PaginaNavegacaoControlador()),
     ChangeNotifierProvider<PaginaEditarPerfilControlador>(create: (context) => PaginaEditarPerfilControlador()),
     ChangeNotifierProvider<PaginaRegistrarAtividadeControlador>(create: (context) => PaginaRegistrarAtividadeControlador()),
+    ChangeNotifierProvider<PaginaInicioControlador>(create: (context) => PaginaInicioControlador()),
   ];
 }

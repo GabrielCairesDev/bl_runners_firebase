@@ -1,5 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+class ModeloDeDocumento {
+  final Perfil perfil;
+
+  ModeloDeDocumento({required this.perfil});
+
+  Map<String, dynamic> toJson() {
+    return {'perfil': perfil.toJson()};
+  }
+}
+
+class Perfil {
+  final ModeloDeUsuario dados;
+
+  Perfil(this.dados);
+
+  Map<String, dynamic> toJson() {
+    return {'dados': dados.toJson()};
+  }
+}
+
 class ModeloDeUsuario {
   final String id, nome, email, fotoUrl, genero;
   final bool master, admin, autorizado, cadastroConcluido;

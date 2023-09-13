@@ -228,12 +228,18 @@ class AuthProvider extends ChangeNotifier {
                 cadastroConcluido: true,
                 dataNascimento: concluirControlador.nascimentoData as DateTime,
               );
-              await FirebaseFirestore.instance
-                  .collection('usuarios')
-                  .doc(usuario.uid)
-                  .collection('perfil')
-                  .doc('dados')
-                  .set(modeloDeUsuario.toJson(), SetOptions(merge: true));
+              CollectionReference usuarios = FirebaseFirestore.instance.collection('usuarios');
+              final modeloDeDocumento = ModeloDeDocumento(perfil: Perfil(modeloDeUsuario));
+              usuarios.doc(usuario.uid.toString()).set(modeloDeDocumento.toJson());
+
+              // usuarios.doc(usuario.uid.toString()).set({'123': 123});
+              // usuarios
+              //     .doc(usuario.uid.toString())
+              //     .collection('perfil')
+              //     .doc('dados')
+              //     .set(modeloDeUsuario.toJson(), SetOptions(merge: true))
+              //     .then((value) => print("User Added"))
+              //     .catchError((error) => print("Failed to add user: $error"));
 
               if (context.mounted) context.pushReplacement(Rotas.navegar);
               concluirControlador.alterarCarregando();
@@ -401,7 +407,7 @@ class AuthProvider extends ChangeNotifier {
 
       await FirebaseFirestore.instance
           .collection('usuarios')
-          .doc(user.uid)
+          .doc(user.uid.toString())
           .collection('perfil')
           .doc('dados')
           .set(modeloDeUsuario.toJson(), SetOptions(merge: true));
@@ -416,6 +422,7 @@ class AuthProvider extends ChangeNotifier {
       controladorPaginaEditarPerfil.alterarCarregando();
     }
   }
+
 /*
 ===================================================
 ====================== OUTROS =====================

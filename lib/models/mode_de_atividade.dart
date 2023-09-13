@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class ModeloDeAtividade {
   final String titulo, descricao, tipo, id;
   final int tempo, distancia;
@@ -23,7 +21,7 @@ class ModeloDeAtividade {
       tipo: json['tipo'] ?? 'Treino',
       tempo: json['tempo'] ?? 0,
       distancia: json['distancia'] ?? 0,
-      dataAtividade: json['dataAtividade'] != null ? (json['dataAtividade'] as Timestamp).toDate() : DateTime.now(),
+      dataAtividade: json['dataAtividade'] != null ? DateTime.parse((json['dataAtividade'])) : DateTime.now(),
     );
   }
 
@@ -35,7 +33,7 @@ class ModeloDeAtividade {
       'tipo': tipo,
       'tempo': tempo,
       'distancia': distancia,
-      'dataAtividade': dataAtividade,
+      'dataAtividade': dataAtividade.toIso8601String(),
     };
   }
 }
