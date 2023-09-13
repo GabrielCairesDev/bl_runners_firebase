@@ -15,35 +15,32 @@ class _PaginaConcluirCampoNascimentoState extends State<PaginaConcluirCampoNasci
   @override
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaConcluirControlador>();
-    return Form(
-      key: controlador.globalKeyNascimento,
-      child: TextFormField(
-        controller: controlador.controladorNascimento,
-        validator: controlador.validadorNascimento,
-        decoration: const InputDecoration(
-          prefixIcon: Icon(Icons.calendar_month),
-          filled: true,
-          hintText: 'Data de nascimento',
-        ),
-        readOnly: true,
-        onTap: () async {
-          DateTime? pegarData = await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(1940),
-            lastDate: DateTime.now(),
-            locale: const Locale("pt", "BR"),
-          );
-
-          if (pegarData != null) {
-            String dataFormatada = DateFormat('dd/MM/yyyy').format(pegarData);
-            setState(() {
-              controlador.nascimentoData = pegarData;
-              controlador.controladorNascimento.text = dataFormatada;
-            });
-          }
-        },
+    return TextFormField(
+      controller: controlador.controladorNascimento,
+      validator: controlador.validadorNascimento,
+      decoration: const InputDecoration(
+        prefixIcon: Icon(Icons.calendar_month),
+        filled: true,
+        hintText: 'Data de nascimento',
       ),
+      readOnly: true,
+      onTap: () async {
+        DateTime? pegarData = await showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(1940),
+          lastDate: DateTime.now(),
+          locale: const Locale("pt", "BR"),
+        );
+
+        if (pegarData != null) {
+          String dataFormatada = DateFormat('dd/MM/yyyy').format(pegarData);
+          setState(() {
+            controlador.nascimentoData = pegarData;
+            controlador.controladorNascimento.text = dataFormatada;
+          });
+        }
+      },
     );
   }
 }

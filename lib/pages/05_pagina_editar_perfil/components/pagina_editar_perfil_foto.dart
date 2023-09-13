@@ -33,25 +33,22 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
       },
       child: Stack(
         children: [
-          Form(
-            key: controlador.globalKeyFoto,
-            child: TextFormField(
-              controller: controlador.controladorFoto,
-              validator: controlador.validadorFoto,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.photo, color: Colors.blueGrey),
-                filled: true,
-                fillColor: const Color(0xFFEFEFEF),
-                hintText: 'Foto do Perfil',
-                labelText: 'Foto do Perfil',
-                hintStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.black),
-                border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10)),
-              ),
-              readOnly: true,
-              onTap: () async {
-                controlador.pegarFoto(ImageSource.gallery);
-              },
+          TextFormField(
+            controller: controlador.controladorFoto,
+            validator: controlador.validadorFoto,
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.photo, color: Colors.blueGrey),
+              filled: true,
+              fillColor: const Color(0xFFEFEFEF),
+              hintText: 'Foto do Perfil',
+              labelText: 'Foto do Perfil',
+              hintStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.black),
+              border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10)),
             ),
+            readOnly: true,
+            onTap: () async {
+              controlador.pegarFoto(ImageSource.gallery);
+            },
           ),
           Align(
             alignment: Alignment.bottomRight,

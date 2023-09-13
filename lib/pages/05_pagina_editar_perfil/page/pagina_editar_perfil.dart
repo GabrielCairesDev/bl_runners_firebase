@@ -14,9 +14,9 @@ class PaginaEditarPerfil extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controlador = Provider.of<PaginaEditarPerfilControlador>(context);
+    final controladorPerfilControlador = Provider.of<PaginaEditarPerfilControlador>(context);
     return AbsorbPointer(
-      absorbing: controlador.carregando,
+      absorbing: controladorPerfilControlador.carregando,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Editar Perfil'),
@@ -26,23 +26,26 @@ class PaginaEditarPerfil extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Stack(
               children: [
-                const Column(
-                  children: [
-                    PaginaEditarPerfilNome(),
-                    SizedBox(height: 8),
-                    PaginaEditarPerfilGenero(),
-                    SizedBox(height: 8),
-                    PaginaEditarPerfilNascimento(),
-                    SizedBox(height: 8),
-                    PaginaEditarPerfilFoto(),
-                    SizedBox(height: 8),
-                    PaginaEditarBotaoEditar()
-                  ],
+                Form(
+                  key: controladorPerfilControlador.globalKeyPaginaEditarPerfil,
+                  child: const Column(
+                    children: [
+                      PaginaEditarPerfilNome(),
+                      SizedBox(height: 8),
+                      PaginaEditarPerfilGenero(),
+                      SizedBox(height: 8),
+                      PaginaEditarPerfilNascimento(),
+                      SizedBox(height: 8),
+                      PaginaEditarPerfilFoto(),
+                      SizedBox(height: 8),
+                      PaginaEditarBotaoEditar()
+                    ],
+                  ),
                 ),
                 Positioned.fill(
                   child: Center(
                     child: Visibility(
-                      visible: controlador.carregando,
+                      visible: controladorPerfilControlador.carregando,
                       child: const CircularProgressIndicator(),
                     ),
                   ),

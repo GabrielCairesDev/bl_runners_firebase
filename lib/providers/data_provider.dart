@@ -10,7 +10,8 @@ class DataProvider extends ChangeNotifier {
 // Método para registrar Data do usuário
   Future<void> registrarUsuarioData(BuildContext context, {required String id, required String nome, required String email}) async {
     // Pegar a coleção Usuários Perfil
-    CollectionReference usuariosPerfil = FirebaseFirestore.instance.collection('usuariosPerfil');
+    CollectionReference usuariosPerfil = FirebaseFirestore.instance.collection('usuarios');
+
     // Pegar padrão pela model
     final modeloDeUsuario = ModeloDeUsuario(
       id: id,
@@ -25,7 +26,7 @@ class DataProvider extends ChangeNotifier {
       dataNascimento: DateTime.now(),
     );
     // Salvar a data
-    return usuariosPerfil.doc(id).set(modeloDeUsuario.toJson()).then(
+    return usuariosPerfil.doc(id).collection('perfil').doc('dados').set(modeloDeUsuario.toJson()).then(
       (value) {
         debugPrint('Data Salva');
       },
@@ -45,7 +46,7 @@ class DataProvider extends ChangeNotifier {
     // Verificar se é nulo
     if (user != null) {
       // Pegar o documento com os dados
-      final userData = _firestore.collection('usuariosPerfil').doc(user.uid).snapshots();
+      final userData = _firestore.collection('usuarios').doc(user.uid).collection('perfil').doc('dados').snapshots();
 
       // Organizar os dados
       userData.listen(

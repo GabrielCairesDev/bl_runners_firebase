@@ -10,25 +10,22 @@ class PaginaConcluirCampoNome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaConcluirControlador>();
-    return Form(
-      key: controlador.globalKeyNome,
-      child: TextFormField(
-        controller: controlador.controladorNome,
-        validator: controlador.validadorNome,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZáÁâÂãÃàÀéÉêÊíÍóÓôÔõÕúÚüÜçÇ ]')),
-        ],
-        onChanged: (value) {
-          controlador.controladorNome.text = observarPalavras(value);
-          controlador.controladorNome.selection = TextSelection.fromPosition(
-            TextPosition(offset: controlador.controladorNome.text.length),
-          );
-        },
-        decoration: const InputDecoration(
-          hintText: 'Digite o seu nome',
-          labelText: 'Nome',
-          prefixIcon: Icon(Icons.person),
-        ),
+    return TextFormField(
+      controller: controlador.controladorNome,
+      validator: controlador.validadorNome,
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZáÁâÂãÃàÀéÉêÊíÍóÓôÔõÕúÚüÜçÇ ]')),
+      ],
+      onChanged: (value) {
+        controlador.controladorNome.text = observarPalavras(value);
+        controlador.controladorNome.selection = TextSelection.fromPosition(
+          TextPosition(offset: controlador.controladorNome.text.length),
+        );
+      },
+      decoration: const InputDecoration(
+        hintText: 'Digite o seu nome',
+        labelText: 'Nome',
+        prefixIcon: Icon(Icons.person),
       ),
     );
   }

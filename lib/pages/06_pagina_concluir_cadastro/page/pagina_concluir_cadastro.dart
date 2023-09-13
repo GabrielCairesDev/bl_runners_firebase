@@ -15,9 +15,9 @@ class PaginaConcluirCadastro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaConcluir = Provider.of<PaginaConcluirControlador>(context);
+    final controladorPaginaConcluirCadastro = Provider.of<PaginaConcluirControlador>(context);
     return AbsorbPointer(
-      absorbing: controladorPaginaConcluir.carregando,
+      absorbing: controladorPaginaConcluirCadastro.carregando,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Concluir Cadastro'),
@@ -28,23 +28,26 @@ class PaginaConcluirCadastro extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Stack(
               children: [
-                const Column(
-                  children: [
-                    PaginaConcluirCampoNome(),
-                    SizedBox(height: 16),
-                    PaginaRegistrarCampoGenero(),
-                    SizedBox(height: 16),
-                    PaginaConcluirCampoNascimento(),
-                    SizedBox(height: 16),
-                    PaginaConcluirCampoFoto(),
-                    SizedBox(height: 16),
-                    PaginaConcluirBotaoConcluir(),
-                  ],
+                Form(
+                  key: controladorPaginaConcluirCadastro.globalKeyPaginaConcluirCadastro,
+                  child: const Column(
+                    children: [
+                      PaginaConcluirCampoNome(),
+                      SizedBox(height: 16),
+                      PaginaRegistrarCampoGenero(),
+                      SizedBox(height: 16),
+                      PaginaConcluirCampoNascimento(),
+                      SizedBox(height: 16),
+                      PaginaConcluirCampoFoto(),
+                      SizedBox(height: 16),
+                      PaginaConcluirBotaoConcluir(),
+                    ],
+                  ),
                 ),
                 Positioned.fill(
                   child: Center(
                     child: Visibility(
-                      visible: controladorPaginaConcluir.carregando,
+                      visible: controladorPaginaConcluirCadastro.carregando,
                       child: const CircularProgressIndicator(),
                     ),
                   ),
@@ -57,5 +60,3 @@ class PaginaConcluirCadastro extends StatelessWidget {
     );
   }
 }
-
-class PaginaConcluirCampoGenero {}

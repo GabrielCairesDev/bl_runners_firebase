@@ -8,16 +8,13 @@ class PaginaRegistrarCampoTitulo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controladorPaginaRegistrarAtividade = Provider.of<PaginaRegistrarAtividadeControlador>(context);
-    return Form(
-      key: controladorPaginaRegistrarAtividade.globalKeyCampoTitulo,
-      child: TextFormField(
-        validator: controladorPaginaRegistrarAtividade.validadorTitulo,
-        controller: controladorPaginaRegistrarAtividade.controladorCampoTitulo,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          hintText: 'Título',
-          filled: false,
-        ),
+    return TextFormField(
+      validator: controladorPaginaRegistrarAtividade.validadorTitulo,
+      controller: controladorPaginaRegistrarAtividade.controladorCampoTitulo,
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        hintText: 'Título',
+        filled: false,
       ),
     );
   }

@@ -228,7 +228,13 @@ class AuthProvider extends ChangeNotifier {
                 cadastroConcluido: true,
                 dataNascimento: concluirControlador.nascimentoData as DateTime,
               );
-              await FirebaseFirestore.instance.collection('usuariosPerfil').doc(usuario.uid).set(modeloDeUsuario.toJson(), SetOptions(merge: true));
+              await FirebaseFirestore.instance
+                  .collection('usuarios')
+                  .doc(usuario.uid)
+                  .collection('perfil')
+                  .doc('dados')
+                  .set(modeloDeUsuario.toJson(), SetOptions(merge: true));
+
               if (context.mounted) context.pushReplacement(Rotas.navegar);
               concluirControlador.alterarCarregando();
               if (context.mounted) _mensagemSucesso(context, texto: 'Cadastro concluído com sucesso!');
@@ -284,7 +290,7 @@ class AuthProvider extends ChangeNotifier {
               controladorPaginaEditarPerfil.controladorSenha.clear();
             }
             // Apagar data
-            FirebaseFirestore.instance.collection('usuariosPerfil').doc(user.uid).delete();
+            FirebaseFirestore.instance.collection('usuarios').doc(user.uid).collection('perfil').doc('dados').delete();
             // Apagar foto
             FirebaseStorage.instance.ref().child("perfil_fotos/${user.uid}").delete();
           },
@@ -393,7 +399,12 @@ class AuthProvider extends ChangeNotifier {
         fotoUrl: user.photoURL.toString(), // PEGAR DA RAIZ
       );
 
-      await FirebaseFirestore.instance.collection('usuariosPerfil').doc(user.uid).set(modeloDeUsuario.toJson(), SetOptions(merge: true));
+      await FirebaseFirestore.instance
+          .collection('usuarios')
+          .doc(user.uid)
+          .collection('perfil')
+          .doc('dados')
+          .set(modeloDeUsuario.toJson(), SetOptions(merge: true));
 
       if (context.mounted) {
         context.pop();

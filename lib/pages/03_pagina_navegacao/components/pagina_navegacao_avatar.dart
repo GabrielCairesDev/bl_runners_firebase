@@ -11,13 +11,6 @@ class PaginaNavegacaoAvatar extends StatefulWidget {
 
 class _PaginaNavegacaoAvatarState extends State<PaginaNavegacaoAvatar> {
   @override
-  // void initState() {
-  //   final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
-  //   controladorDataProvider.usuarioDados();
-  //   super.initState();
-  // }
-
-  @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 24,

@@ -18,10 +18,7 @@ class PaginaConcluirControlador extends ChangeNotifier {
   XFile? imagemCaminho;
   File? imagemArquivo;
 
-  GlobalKey<FormState> globalKeyNome = GlobalKey();
-  GlobalKey<FormState> globalKeyNascimento = GlobalKey();
-  GlobalKey<FormState> globalKeyGenero = GlobalKey();
-  GlobalKey<FormState> globalKeyFoto = GlobalKey();
+  final GlobalKey<FormState> globalKeyPaginaConcluirCadastro = GlobalKey<FormState>();
 
   String? validadorNome(String? value) => value!.isEmpty ? 'Campo obrigatório*' : null;
   String? validadorNascimento(String? value) => value!.isEmpty ? 'Campo obrigatório*' : null;
@@ -29,11 +26,7 @@ class PaginaConcluirControlador extends ChangeNotifier {
   String? validadorFoto(String? value) => value!.isEmpty ? 'Campo obrigatório*' : null;
 
   validarCampos(context) {
-    if (carregando == false &&
-        globalKeyNome.currentState!.validate() &&
-        globalKeyGenero.currentState!.validate() &&
-        globalKeyNascimento.currentState!.validate() &&
-        globalKeyFoto.currentState!.validate()) {
+    if (carregando == false && globalKeyPaginaConcluirCadastro.currentState!.validate()) {
       salvarDados(context);
     }
   }
