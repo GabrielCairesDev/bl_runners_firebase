@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bl_runners_firebase/providers/auth_provider.dart';
+import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_editar_perfil.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,7 +35,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   }
 
   perguntar(context) {
-    final controladorAuthprovider = Provider.of<AuthProvider>(context, listen: false);
+    final controladorFireBaseFireStoreEditarPerfil = Provider.of<FireBaseFireStoreEditarPerfil>(context, listen: false);
     Mensagens.caixaDeDialogoSimNao(
       context,
       titulo: 'Atenção!',
@@ -43,8 +44,8 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
       textoBotaoNao: 'Não',
       onPressedSim: () {
         Navigator.of(context).pop();
-        alterarCarregando();
-        controladorAuthprovider.editarDados(context,
+        alterarEstadoCarregando();
+        controladorFireBaseFireStoreEditarPerfil.editarDados(context,
             imagemArquivo: imagemArquivo, nome: controladorNome.text, genero: controladorGenero.toString(), data: nascimentoData);
       },
       onPressedNao: () => Navigator.of(context).pop(),
@@ -60,7 +61,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
       textoBotaoExcluir: 'Excluir',
       textoBotaoCancelar: 'Cancelar',
       onPressedExcluir: () {
-        alterarCarregando();
+        alterarEstadoCarregando();
         controladorAuthprovider.excluirConta(context, senha: controladorSenha.text);
       },
       onPressedCancelar: () => Navigator.of(context).pop(),
@@ -87,7 +88,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
     }
   }
 
-  alterarCarregando() {
+  alterarEstadoCarregando() {
     carregando = !carregando;
     notifyListeners();
   }

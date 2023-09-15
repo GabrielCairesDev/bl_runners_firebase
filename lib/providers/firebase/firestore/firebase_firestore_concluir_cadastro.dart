@@ -9,25 +9,26 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class FireBaseFireStoreConcluirCadastro extends ChangeNotifier {
-  Future<void> concluirCadastro(BuildContext context, {required imagemArquivo}) async {
-    User? usuarioAtual = FirebaseAuth.instance.currentUser;
-
+  Future<void> concluirCadastro(BuildContext context,
+      {required imagemArquivo, required String nome, required String genero, required DateTime nascimento}) async {
     final controladorPaginaConcluirCadastro = Provider.of<PaginaConcluirControlador>(context, listen: false);
     final controladorFirebaseStorageSalvarFotoPerfil = Provider.of<FirebaseStorageSalvarFotoPerfil>(context, listen: false);
+
+    final usuarioAtual = FirebaseAuth.instance.currentUser;
 
     if (usuarioAtual != null) {
       controladorFirebaseStorageSalvarFotoPerfil.salvarFoto(context, imagemArquivo: imagemArquivo).then((value) async {
         final modeloDeUsuario = ModeloDeUsuario(
           id: usuarioAtual.uid,
-          nome: controladorPaginaConcluirCadastro.controladorNome.text,
+          nome: nome,
           email: usuarioAtual.email.toString(),
           fotoUrl: value.toString(),
-          genero: controladorPaginaConcluirCadastro.controladorGenero.toString(),
+          genero: genero,
           master: false,
           admin: false,
           autorizado: false,
           cadastroConcluido: true,
-          dataNascimento: controladorPaginaConcluirCadastro.nascimentoData as DateTime,
+          dataNascimento: nascimento,
         );
 
         final documentoFirebase = await FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid.toString()).get();
@@ -39,7 +40,7 @@ class FireBaseFireStoreConcluirCadastro extends ChangeNotifier {
             .doc(usuarioAtual.uid.toString())
             .collection('perfil')
             .doc('dados')
-            .set(modeloDeUsuario.toJson())
+            .update(modeloDeUsuario.toJson())
             .then(
           (value) {
             Mensagens.mensagemSucesso(context, texto: 'Cadastro concluido!');

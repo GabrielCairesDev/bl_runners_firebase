@@ -7,11 +7,9 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/pages/06_pagina_concluir_cadastro/controller/pagina_concluir_controlador.dart';
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/controller/pagina_editar_perfil_controlador.dart';
 import 'package:bl_runners_firebase/pages/02_pagina_entrar/controller/pagina_entrar_controlador.dart';
 import 'package:bl_runners_firebase/pages/01_pagina_registrar_usuario/controller/pagina_registrar_controlador.dart';
-import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:bl_runners_firebase/routes/rotas.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -225,7 +223,7 @@ class AuthProvider extends ChangeNotifier {
               // Mandar para a pagina inicial
               context.pushReplacement(Rotas.entrar);
               // Estado do carregando
-              controladorPaginaEditarPerfil.alterarCarregando();
+              controladorPaginaEditarPerfil.alterarEstadoCarregando();
               // Limpar campos
               controladorPaginaEditarPerfil.controladorSenha.clear();
             }
@@ -245,7 +243,7 @@ class AuthProvider extends ChangeNotifier {
           // Mensagem
           if (context.mounted) _mensagemErro(context, texto: 'Senha inválida!');
           // Estado carregando
-          controladorPaginaEditarPerfil.alterarCarregando();
+          controladorPaginaEditarPerfil.alterarEstadoCarregando();
           // Limpar campos
           controladorPaginaEditarPerfil.controladorSenha.clear();
         } else {
@@ -254,7 +252,7 @@ class AuthProvider extends ChangeNotifier {
           // Erro inesperado
           if (context.mounted) _mensagemErro(context, texto: 'Erro ao excluir conta!');
           // Estado carregando
-          controladorPaginaEditarPerfil.alterarCarregando();
+          controladorPaginaEditarPerfil.alterarEstadoCarregando();
           // Limpar campos
           controladorPaginaEditarPerfil.controladorSenha.clear();
         }
@@ -264,7 +262,7 @@ class AuthProvider extends ChangeNotifier {
         // Erro inesperado
         if (context.mounted) _mensagemErro(context, texto: 'Erro ao excluir conta!');
         // Estado carregando
-        controladorPaginaEditarPerfil.alterarCarregando();
+        controladorPaginaEditarPerfil.alterarEstadoCarregando();
         // Limpar campos
         controladorPaginaEditarPerfil.controladorSenha.clear();
       }
@@ -284,76 +282,6 @@ class AuthProvider extends ChangeNotifier {
     } catch (e) {
       if (context.mounted) _mensagemErro(context, texto: 'Erro ao enviar e-mail de recuperação:\n$e');
       controladorPaginaEntrar.atualizarCarregando();
-    }
-  }
-
-  // Método editar conta
-  Future<void> editarDados(BuildContext context, {required File? imagemArquivo, required String nome, required String genero, DateTime? data}) async {
-    final controladorPaginaEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context, listen: false);
-
-    // Usuário atual
-    final user = FirebaseAuth.instance.currentUser;
-
-    // Verificar se o usuário é nulo
-    if (user != null) {
-      if (imagemArquivo != null) {
-        FirebaseStorage storage = FirebaseStorage.instance;
-        Reference ref = storage.ref().child("perfil_fotos/${FirebaseAuth.instance.currentUser?.uid}");
-        UploadTask uploadTask = ref.putFile(File(imagemArquivo.path));
-        uploadTask.snapshotEvents.listen(
-          (TaskSnapshot taskSnapshot) async {
-            switch (taskSnapshot.state) {
-              case TaskState.running:
-                break;
-              case TaskState.paused:
-                controladorPaginaEditarPerfil.alterarCarregando();
-                break;
-              case TaskState.canceled:
-                controladorPaginaEditarPerfil.alterarCarregando();
-                break;
-              case TaskState.error:
-                _mensagemErro(context, texto: 'Algo deu errado');
-                controladorPaginaEditarPerfil.alterarCarregando();
-                break;
-              case TaskState.success:
-                var downloadUrl = await ref.getDownloadURL();
-                user.updatePhotoURL(downloadUrl); // ATUALIZANDO NA RAIZ
-            }
-          },
-        );
-      }
-      await user.updateDisplayName(nome); // ATUALIZANDO NA RAIZ
-
-      final modeloDeUsuario = ModeloDeUsuario(
-        // MANTER ORIGINAL
-        id: user.uid, // PEGAR DA RAIZ
-        email: user.email.toString(), // PEGAR DA RAIZ
-        master: false, // controladorUsuario.usuarioModelo!.master
-        admin: false, // controladorUsuario.usuarioModelo!.admin
-        autorizado: false, // controladorUsuario.usuarioModelo!.admin
-        cadastroConcluido: true,
-        //ATUALIZAR
-        nome: user.displayName.toString(), // PEGAR DA RAIZ
-        genero: genero,
-        dataNascimento: data as DateTime,
-        fotoUrl: user.photoURL.toString(), // PEGAR DA RAIZ
-      );
-
-      await FirebaseFirestore.instance
-          .collection('usuarios')
-          .doc(user.uid.toString())
-          .collection('perfil')
-          .doc('dados')
-          .set(modeloDeUsuario.toJson(), SetOptions(merge: true));
-
-      if (context.mounted) {
-        context.pop();
-        controladorPaginaEditarPerfil.alterarCarregando();
-        _mensagemSucesso(context, texto: 'Perfil editado com sucesso!');
-      }
-    } else {
-      _mensagemErro(context, texto: 'Algo deu errado');
-      controladorPaginaEditarPerfil.alterarCarregando();
     }
   }
 

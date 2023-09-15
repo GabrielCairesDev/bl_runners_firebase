@@ -34,7 +34,11 @@ class PaginaConcluirControlador extends ChangeNotifier {
   salvarDados(BuildContext context) async {
     final controladorFireBaseFireStoreConcluirCadastro = Provider.of<FireBaseFireStoreConcluirCadastro>(context, listen: false);
     alterarEstadoCarregando();
-    controladorFireBaseFireStoreConcluirCadastro.concluirCadastro(context, imagemArquivo: imagemArquivo);
+    controladorFireBaseFireStoreConcluirCadastro.concluirCadastro(context,
+        imagemArquivo: imagemArquivo,
+        nome: controladorNome.text,
+        genero: controladorGenero.toString(),
+        nascimento: nascimentoData as DateTime);
   }
 
   Future<void> pegarFoto(ImageSource source) async {
