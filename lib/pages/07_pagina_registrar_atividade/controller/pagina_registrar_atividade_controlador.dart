@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/data_provider.dart';
+import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_registrar_atividade.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,9 +33,9 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
   }
 
   validar(context) {
-    final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
+    final controladorFirebaseFiresotreRegistrarAtividade = Provider.of<FirebaseFiresotreRegistrarAtividade>(context, listen: false);
     if (globalKeyRegistrarAtividade.currentState!.validate()) {
-      controladorDataProvider.registrarAtividade(context);
+      controladorFirebaseFiresotreRegistrarAtividade.registrarAtividade(context);
     }
   }
 
