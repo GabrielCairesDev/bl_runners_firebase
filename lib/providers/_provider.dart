@@ -7,18 +7,28 @@ import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controll
 import 'package:bl_runners_firebase/pages/pagina_inicio/controller/pagina_inicio_controlador.dart';
 import 'package:bl_runners_firebase/providers/auth_provider.dart';
 import 'package:bl_runners_firebase/providers/data_provider.dart';
+import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_concluir_cadastro.dart';
+import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_editar_perfil.dart';
+import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_salvar_perfil.dart';
+import 'package:bl_runners_firebase/providers/firebase/storage/firebase_storage_salvar_foto_perfil.dart';
 import 'package:provider/provider.dart';
 
 import '../pages/05_pagina_editar_perfil/controller/pagina_editar_perfil_controlador.dart';
 
 class AppProvider {
   static final provider = [
-    // HOME PAGE
+    // Home Page
     ChangeNotifierProvider<HomePageController>(create: (context) => HomePageController()),
     // FIREBASE
     ChangeNotifierProvider<AuthProvider>(create: (context) => AuthProvider()),
     ChangeNotifierProvider<DataProvider>(create: (context) => DataProvider()),
-    // PAGINAS
+    // FireBase FireStore
+    ChangeNotifierProvider<FireBaseFireStoreSalvarPerfil>(create: (context) => FireBaseFireStoreSalvarPerfil()),
+    ChangeNotifierProvider<FireBaseFireStoreConcluirCadastro>(create: (context) => FireBaseFireStoreConcluirCadastro()),
+    ChangeNotifierProvider<FireBaseFireStoreEditarPerfil>(create: (context) => FireBaseFireStoreEditarPerfil()),
+    // FireBase Storage
+    ChangeNotifierProvider<FirebaseStorageSalvarFotoPerfil>(create: (context) => FirebaseStorageSalvarFotoPerfil()),
+    // Paginas
     ChangeNotifierProvider<PaginaRegistrarControlador>(create: (context) => PaginaRegistrarControlador()),
     ChangeNotifierProvider<PaginaEntrarControlador>(create: (context) => PaginaEntrarControlador()),
     ChangeNotifierProvider<PaginaConcluirControlador>(create: (context) => PaginaConcluirControlador()),

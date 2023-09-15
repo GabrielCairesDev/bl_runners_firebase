@@ -3,21 +3,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ModeloDeDocumento {
   final Perfil perfil;
 
-  ModeloDeDocumento({required this.perfil});
-
-  Map<String, dynamic> toJson() {
-    return {'perfil': perfil.toJson()};
-  }
+  ModeloDeDocumento(this.perfil);
+  Map<String, dynamic> toJson() => {'perfil': perfil.toJson()};
 }
 
 class Perfil {
   final ModeloDeUsuario dados;
 
   Perfil(this.dados);
-
-  Map<String, dynamic> toJson() {
-    return {'dados': dados.toJson()};
-  }
+  Map<String, dynamic> toJson() => {'dados': dados.toJson()};
 }
 
 class ModeloDeUsuario {

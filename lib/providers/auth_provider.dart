@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_salvar_perfil.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -32,7 +33,7 @@ class AuthProvider extends ChangeNotifier {
     // Controlador Pagina Registrar
     final controladorPaginaRegistrar = Provider.of<PaginaRegistrarControlador>(context, listen: false);
     // Controlador DataBase Firebase
-    final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
+    final controladorDataProvider = Provider.of<FireBaseFireStoreSalvarPerfil>(context, listen: false);
 
     // Tratamento de erros
     try {
@@ -47,7 +48,7 @@ class AuthProvider extends ChangeNotifier {
 
       // Salvar Data
       if (context.mounted) {
-        controladorDataProvider.registrarUsuarioData(
+        controladorDataProvider.salvarPerfil(
           context,
           id: credential.user!.uid,
           email: credential.user!.email.toString(),
@@ -184,73 +185,6 @@ class AuthProvider extends ChangeNotifier {
       }
     } else {
       if (context.mounted) sair(context);
-    }
-  }
-
-  // Método concluir Cadastro
-  Future<void> concluirCadastro(BuildContext context, imagemArquivo) async {
-    User? usuario = FirebaseAuth.instance.currentUser;
-    final concluirControlador = Provider.of<PaginaConcluirControlador>(context, listen: false);
-
-    if (usuario != null) {
-      FirebaseStorage storage = FirebaseStorage.instance;
-      Reference ref = storage.ref().child("perfil_fotos/${usuario.uid}");
-      UploadTask uploadTask = ref.putFile(File(imagemArquivo!.path));
-
-      uploadTask.snapshotEvents.listen(
-        (TaskSnapshot taskSnapshot) async {
-          switch (taskSnapshot.state) {
-            case TaskState.running:
-              break;
-            case TaskState.paused:
-              concluirControlador.alterarCarregando();
-              break;
-            case TaskState.canceled:
-              concluirControlador.alterarCarregando();
-              break;
-            case TaskState.error:
-              _mensagemErro(context, texto: 'Algo deu errado');
-              concluirControlador.alterarCarregando();
-              break;
-            case TaskState.success:
-              var downloadUrl = await ref.getDownloadURL();
-              usuario.updatePhotoURL(downloadUrl);
-
-              final modeloDeUsuario = ModeloDeUsuario(
-                id: usuario.uid,
-                nome: concluirControlador.controladorNome.text,
-                email: usuario.email.toString(),
-                fotoUrl: downloadUrl,
-                genero: concluirControlador.controladorGenero.toString(),
-                master: false,
-                admin: false,
-                autorizado: false,
-                cadastroConcluido: true,
-                dataNascimento: concluirControlador.nascimentoData as DateTime,
-              );
-              CollectionReference usuarios = FirebaseFirestore.instance.collection('usuarios');
-              final modeloDeDocumento = ModeloDeDocumento(perfil: Perfil(modeloDeUsuario));
-              usuarios.doc(usuario.uid.toString()).set(modeloDeDocumento.toJson());
-
-              // usuarios.doc(usuario.uid.toString()).set({'123': 123});
-              // usuarios
-              //     .doc(usuario.uid.toString())
-              //     .collection('perfil')
-              //     .doc('dados')
-              //     .set(modeloDeUsuario.toJson(), SetOptions(merge: true))
-              //     .then((value) => print("User Added"))
-              //     .catchError((error) => print("Failed to add user: $error"));
-
-              if (context.mounted) context.pushReplacement(Rotas.navegar);
-              concluirControlador.alterarCarregando();
-              if (context.mounted) _mensagemSucesso(context, texto: 'Cadastro concluído com sucesso!');
-              break;
-          }
-        },
-      );
-    } else {
-      _mensagemErro(context, texto: 'Algo deu errado');
-      concluirControlador.alterarCarregando();
     }
   }
 

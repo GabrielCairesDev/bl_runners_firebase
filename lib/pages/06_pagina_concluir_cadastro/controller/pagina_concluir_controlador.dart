@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bl_runners_firebase/providers/auth_provider.dart';
+import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_concluir_cadastro.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -32,10 +32,9 @@ class PaginaConcluirControlador extends ChangeNotifier {
   }
 
   salvarDados(BuildContext context) async {
-    final authprovider = Provider.of<AuthProvider>(context, listen: false);
-
-    alterarCarregando();
-    authprovider.concluirCadastro(context, imagemArquivo);
+    final controladorFireBaseFireStoreConcluirCadastro = Provider.of<FireBaseFireStoreConcluirCadastro>(context, listen: false);
+    alterarEstadoCarregando();
+    controladorFireBaseFireStoreConcluirCadastro.concluirCadastro(context, imagemArquivo: imagemArquivo);
   }
 
   Future<void> pegarFoto(ImageSource source) async {
@@ -62,7 +61,7 @@ class PaginaConcluirControlador extends ChangeNotifier {
     controladorFoto.clear();
   }
 
-  alterarCarregando() {
+  alterarEstadoCarregando() {
     carregando = !carregando;
     notifyListeners();
   }

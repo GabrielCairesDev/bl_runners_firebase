@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class Mensagens {
   static void caixaDeDialogo(
@@ -175,6 +177,36 @@ class Mensagens {
           ],
         );
       },
+    );
+  }
+
+  static mensagemSucesso(BuildContext context, {required String texto}) async {
+    showTopSnackBar(
+      Overlay.of(context),
+      CustomSnackBar.success(
+        message: texto,
+      ),
+    );
+  }
+
+  // Mensagem erro
+  static mensagemErro(BuildContext context, {required String texto}) async {
+    showTopSnackBar(
+      Overlay.of(context),
+      CustomSnackBar.error(
+        message: texto,
+      ),
+    );
+  }
+
+  // Mensagem Info
+  static mensagemInfo(BuildContext context, {required String texto}) async {
+    showTopSnackBar(
+      Overlay.of(context),
+      CustomSnackBar.info(
+        backgroundColor: Colors.orange,
+        message: texto,
+      ),
     );
   }
 }

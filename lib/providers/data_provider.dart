@@ -12,37 +12,6 @@ class DataProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   ModeloDeUsuario? modeloUsuario;
 
-// Método para registrar Data do usuário
-  Future<void> registrarUsuarioData(BuildContext context, {required String id, required String nome, required String email}) async {
-    // Pegar a coleção Usuários Perfil
-    CollectionReference usuariosPerfil = FirebaseFirestore.instance.collection('usuarios');
-
-    // Pegar padrão pela model
-    final modeloDeUsuario = ModeloDeUsuario(
-      id: id,
-      nome: nome,
-      email: email,
-      fotoUrl: '',
-      genero: 'Masculino',
-      master: false,
-      admin: false,
-      autorizado: false,
-      cadastroConcluido: false,
-      dataNascimento: DateTime.now(),
-    );
-    // Salvar a data
-    return usuariosPerfil.doc(id.toString()).collection('perfil').doc('dados').set(modeloDeUsuario.toJson()).then(
-      (value) {
-        debugPrint('Data Salva');
-      },
-    ).catchError(
-      // Erro ao Salvar a  Data
-      (error) {
-        debugPrint('Erro salvar data: $error');
-      },
-    );
-  }
-
   // Metodo para pegar usuário Data
   Future<void> pegarUsuarioData() async {
     // Pegar usuário atual

@@ -6,13 +6,11 @@ import 'package:flutter/material.dart';
 class PaginaInicioControlador extends ChangeNotifier {
   Future<void> listaDocumentos() async {
     try {
-      CollectionReference usuarios = FirebaseFirestore.instance.collection('usuarios');
-      QuerySnapshot documentos = await usuarios.get();
-      print(documentos);
+      final colecoes = FirebaseFirestore.instance.collection('usuarios');
+      final documentos = await colecoes.get();
 
-      for (var doc in documentos.docs) {
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        print(data);
+      for (DocumentSnapshot documento in documentos.docs) {
+        print('Nome do documento: ${documento.id}');
       }
     } catch (e) {
       print('erro: $e');
