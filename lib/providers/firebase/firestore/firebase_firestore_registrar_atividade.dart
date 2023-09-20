@@ -26,7 +26,12 @@ class FirebaseFiresotreRegistrarAtividade extends ChangeNotifier {
         dataAtividade: controladorPaginaRegistrarAtividade.dataHoraSelecionada as DateTime,
       );
 
-      final documentoFirebase = await FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid.toString()).get();
+      final documentoFirebase = await FirebaseFirestore.instance
+          .collection('usuarios')
+          .doc(usuarioAtual.uid.toString())
+          .collection('atividades')
+          .doc(controladorPaginaRegistrarAtividade.dataHoraSelecionada!.year.toString())
+          .get();
 
       if (documentoFirebase.exists == false) await documentoFirebase.reference.set({});
 

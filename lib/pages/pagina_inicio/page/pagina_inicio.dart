@@ -12,18 +12,19 @@ class PaginaInicio extends StatelessWidget {
     final controladorPaginaIncio = Provider.of<PaginaInicioControlador>(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(title: const Text('Início')),
+      appBar: AppBar(title: InkWell(onTap: () => controladorPaginaIncio.pegarListaDocumentosID(), child: const Text('Início'))),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 96),
           child: Center(
-            child: Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () => controladorPaginaIncio.listaDocumentos(),
-                  child: const Icon(Icons.catching_pokemon),
-                ),
-              ],
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: controladorPaginaIncio.listaDocumendosID.length,
+              itemBuilder: (context, index) {
+                return Text(
+                  controladorPaginaIncio.listaDocumendosID[index],
+                );
+              },
             ),
           ),
         ),
