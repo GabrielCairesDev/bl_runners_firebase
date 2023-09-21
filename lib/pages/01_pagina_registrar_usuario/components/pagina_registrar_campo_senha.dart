@@ -13,7 +13,7 @@ class PaginaRegistrarCampoSenha extends StatefulWidget {
 class _PaginaRegistrarCampoSenhaState extends State<PaginaRegistrarCampoSenha> {
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRegistrar = context.read<PaginaRegistrarControlador>();
+    final controladorPaginaRegistrar = context.read<PaginaRegistrarUsuarioControlador>();
     return TextFormField(
       controller: controladorPaginaRegistrar.controladorSenha,
       validator: controladorPaginaRegistrar.validadorSenha,

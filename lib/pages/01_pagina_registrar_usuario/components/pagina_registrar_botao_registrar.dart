@@ -8,14 +8,17 @@ class PaginaRegistrarBotaoRegistrar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRegistrar = context.read<PaginaRegistrarControlador>();
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.05,
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () => controladorPaginaRegistrar.validarCampos(context),
+        onPressed: () => _registarUsuario(context),
         child: const Text('Registrar'),
       ),
     );
+  }
+
+  _registarUsuario(BuildContext context) {
+    final controladorPaginaRegistrarUsuario = context.read<PaginaRegistrarUsuarioControlador>();
   }
 }

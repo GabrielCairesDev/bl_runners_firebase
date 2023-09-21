@@ -10,10 +10,12 @@ import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_concluir_cadastro.dart';
 import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_editar_perfil.dart';
 import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_registrar_atividade.dart';
+import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_registrar_usuario.dart';
 import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_salvar_perfil.dart';
 import 'package:bl_runners_firebase/providers/firebase/storage/firebase_storage_salvar_editar_foto_perfil.dart';
 import 'package:bl_runners_firebase/providers/firebase/storage/firebase_storage_salvar_foto_perfil.dart';
 import 'package:bl_runners_firebase/providers/interfaces/registrar_atividade_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/registrar_usuario_use_case.dart';
 import 'package:provider/provider.dart';
 
 import '../pages/05_pagina_editar_perfil/controller/pagina_editar_perfil_controlador.dart';
@@ -30,11 +32,14 @@ class AppProvider {
     ChangeNotifierProvider<FireBaseFireStoreConcluirCadastro>(create: (context) => FireBaseFireStoreConcluirCadastro()),
     ChangeNotifierProvider<FireBaseFireStoreEditarPerfil>(create: (context) => FireBaseFireStoreEditarPerfil()),
     Provider<RegistrarAtividadeUseCase>(create: (context) => FirebaseFirestoreRegistrarAtividade()),
+    Provider<RegistrarUsuarioUseCase>(create: (context) => FirebaseFirestoreRegistrarUsuario()),
+
     // FireBase Storage
     ChangeNotifierProvider<FirebaseStorageSalvarFotoPerfil>(create: (context) => FirebaseStorageSalvarFotoPerfil()),
     ChangeNotifierProvider<FirebaseStorageEditarFotoPerfil>(create: (context) => FirebaseStorageEditarFotoPerfil()),
     // Paginas
-    ChangeNotifierProvider<PaginaRegistrarControlador>(create: (context) => PaginaRegistrarControlador()),
+    ChangeNotifierProvider<PaginaRegistrarUsuarioControlador>(
+        create: (context) => PaginaRegistrarUsuarioControlador(registrarUsuarioUseCase: Provider.of(context))),
     ChangeNotifierProvider<PaginaEntrarControlador>(create: (context) => PaginaEntrarControlador()),
     ChangeNotifierProvider<PaginaConcluirControlador>(create: (context) => PaginaConcluirControlador()),
     ChangeNotifierProvider<PaginaNavegacaoControlador>(create: (context) => PaginaNavegacaoControlador()),

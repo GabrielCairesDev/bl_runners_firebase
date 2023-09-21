@@ -24,7 +24,7 @@ class AuthProvider extends ChangeNotifier {
 // Método para registrar conta
   Future<void> registrar(BuildContext context, {required String email, required String senha, required String nome}) async {
     // Controlador Pagina Registrar
-    final controladorPaginaRegistrar = Provider.of<PaginaRegistrarControlador>(context, listen: false);
+    final controladorPaginaRegistrar = Provider.of<PaginaRegistrarUsuarioControlador>(context, listen: false);
     // Controlador DataBase Firebase
     final controladorDataProvider = Provider.of<FireBaseFireStoreSalvarPerfil>(context, listen: false);
 

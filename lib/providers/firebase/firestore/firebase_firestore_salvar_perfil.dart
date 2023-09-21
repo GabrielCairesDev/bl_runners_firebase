@@ -8,18 +8,6 @@ class FireBaseFireStoreSalvarPerfil extends ChangeNotifier {
     User? usuarioAtual = FirebaseAuth.instance.currentUser;
 
     if (usuarioAtual != null) {
-      final modeloDeUsuario = ModeloDeUsuario(
-        id: id,
-        nome: nome,
-        email: email,
-        fotoUrl: '',
-        genero: 'Masculino',
-        master: false,
-        admin: false,
-        autorizado: false,
-        cadastroConcluido: false,
-        dataNascimento: DateTime.now(),
-      );
       final documentoFirebase = await FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid.toString()).get();
 
       if (documentoFirebase.exists == false) await documentoFirebase.reference.set({});

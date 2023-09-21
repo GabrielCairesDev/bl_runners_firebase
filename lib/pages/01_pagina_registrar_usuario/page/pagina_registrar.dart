@@ -19,7 +19,7 @@ class PaginaRegistrar extends StatefulWidget {
 class _PaginaRegistrarState extends State<PaginaRegistrar> {
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRegistrar = Provider.of<PaginaRegistrarControlador>(context);
+    final controladorPaginaRegistrar = Provider.of<PaginaRegistrarUsuarioControlador>(context);
     return AbsorbPointer(
       absorbing: controladorPaginaRegistrar.carregando,
       child: Scaffold(

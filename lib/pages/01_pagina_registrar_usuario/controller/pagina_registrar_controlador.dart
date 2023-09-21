@@ -1,8 +1,14 @@
+import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/providers/auth_provider.dart';
+import 'package:bl_runners_firebase/providers/interfaces/registrar_usuario_use_case.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-class PaginaRegistrarControlador extends ChangeNotifier {
+class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
+  final RegistrarUsuarioUseCase registrarUsuarioUseCase;
+
+  PaginaRegistrarUsuarioControlador({required this.registrarUsuarioUseCase});
+
   final controladorNome = TextEditingController(text: 'Gabriel');
   final controladorEmail = TextEditingController();
   final controladorSenha = TextEditingController(text: 'gabriel');
@@ -49,24 +55,29 @@ class PaginaRegistrarControlador extends ChangeNotifier {
     return null;
   }
 
-  validarCampos(context) {
-    if (globalKeyPaginaRegistrar.currentState!.validate() && carregando == false) {
-      criarUsarioProvider(context);
+  Future<bool> validarCampos() async {
+    if (globalKeyPaginaRegistrar.currentState!.validate()) {
+      final modeloDeUsuario = ModeloDeUsuario(
+        id: '',
+        nome: '',
+        email: '',
+        fotoUrl: '',
+        genero: 'Masculino',
+        master: false,
+        admin: false,
+        autorizado: false,
+        cadastroConcluido: false,
+        dataNascimento: DateTime.now(),
+      );
+
+      return registrarUsuarioUseCase(
+        modeloDeUsuario,
+        email: controladorEmail.text.trim(),
+        senha: controladorSenha.text,
+        nome: controladorNome.text,
+      );
     }
-  }
-
-  criarUsarioProvider(context) {
-    final controladorAuthprovider = Provider.of<AuthProvider>(context, listen: false);
-
-    FocusScope.of(context).unfocus();
-    atualizarCarregando();
-
-    controladorAuthprovider.registrar(
-      context,
-      email: controladorEmail.text.trim(),
-      senha: controladorCnfirmarSenha.text.trim(),
-      nome: controladorNome.text,
-    );
+    return false;
   }
 
   resetarValores() {

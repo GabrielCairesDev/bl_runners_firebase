@@ -8,7 +8,7 @@ class PaginaRegistrarCampoEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRegistrar = context.read<PaginaRegistrarControlador>();
+    final controladorPaginaRegistrar = context.read<PaginaRegistrarUsuarioControlador>();
     return TextFormField(
       controller: controladorPaginaRegistrar.controladorEmail,
       validator: controladorPaginaRegistrar.validadorEmail,
