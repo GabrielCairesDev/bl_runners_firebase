@@ -2,7 +2,7 @@ import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../pagina_inicio/page/pagina_inicio.dart';
+import '../../08_pagina_inicio/page/pagina_inicio.dart';
 import '../../04_pagina_perfil/pages/pagina_perfil.dart';
 import '../../pagina_ranking_feminino/page/pagina_ranking_feminino.dart';
 import '../../pagina_ranking_geral/pages/Pagina_ranking_geral.dart';

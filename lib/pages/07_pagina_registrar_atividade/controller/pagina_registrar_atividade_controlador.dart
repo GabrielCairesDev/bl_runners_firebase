@@ -1,8 +1,12 @@
-import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_registrar_atividade.dart';
+import 'package:bl_runners_firebase/models/mode_de_atividade.dart';
+import 'package:bl_runners_firebase/providers/interfaces/registrar_atividade_use_case.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
+  final RegistrarAtividadeUseCase registrarAtividadeUserCase;
+
+  PaginaRegistrarAtividadeControlador({required this.registrarAtividadeUserCase});
+
   final controladorCampoTitulo = TextEditingController();
   final controladorCampoDescricao = TextEditingController();
   final controladorCampoData = TextEditingController();
@@ -32,11 +36,23 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
     return null;
   }
 
-  validar(context) {
-    final controladorFirebaseFiresotreRegistrarAtividade = Provider.of<FirebaseFiresotreRegistrarAtividade>(context, listen: false);
+  Future<bool> registrarAtividade() async {
     if (globalKeyRegistrarAtividade.currentState!.validate()) {
-      controladorFirebaseFiresotreRegistrarAtividade.registrarAtividade(context);
+      final modeloDeAtividade = ModeloDeAtividade(
+        idUsuario: '',
+        titulo: controladorCampoTitulo.text,
+        descricao: controladorCampoDescricao.text,
+        tipo: controladorCampoTipo.text,
+        tempo: tempoMinutos as int,
+        distancia: controladorDistancia,
+        dataAtividade: dataHoraSelecionada as DateTime,
+        ano: dataHoraSelecionada!.year.toInt(),
+        mes: dataHoraSelecionada!.month.toInt(),
+      );
+      return registrarAtividadeUserCase(modeloDeAtividade);
     }
+
+    return false;
   }
 
   int transformarEmMinutos({required TimeOfDay tempo}) {
@@ -44,7 +60,6 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
     return tempoMinutos = horas + tempo.minute;
   }
 
-  // Apagar Valores
   resetarValores() {
     controladorCampoTitulo.clear();
     controladorCampoDescricao.clear();
