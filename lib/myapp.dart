@@ -1,5 +1,5 @@
 import 'package:bl_runners_firebase/routes/rotas.dart';
-import 'package:bl_runners_firebase/theme/theme.dart';
+import 'package:bl_runners_firebase/themes/default_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         Locale('pt', 'BR'),
       ],
       routerConfig: Rotas.rotas,
-      theme: myAppTheme(),
+      theme: defaultTheme(),
     );
   }
 }

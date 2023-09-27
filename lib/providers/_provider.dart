@@ -9,11 +9,14 @@ import 'package:bl_runners_firebase/providers/auth_provider.dart';
 import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_concluir_cadastro.dart';
 import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_editar_perfil.dart';
+import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_entrar.dart';
+import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_recuperar_conta.dart';
 import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_registrar_atividade.dart';
 import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_registrar_usuario.dart';
-import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_salvar_perfil.dart';
 import 'package:bl_runners_firebase/providers/firebase/storage/firebase_storage_salvar_editar_foto_perfil.dart';
 import 'package:bl_runners_firebase/providers/firebase/storage/firebase_storage_salvar_foto_perfil.dart';
+import 'package:bl_runners_firebase/providers/interfaces/entrar_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/recuperar_conta_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/registrar_atividade_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/registrar_usuario_use_case.dart';
 import 'package:provider/provider.dart';
@@ -28,24 +31,28 @@ class AppProvider {
     ChangeNotifierProvider<AuthProvider>(create: (context) => AuthProvider()),
     ChangeNotifierProvider<DataProvider>(create: (context) => DataProvider()),
     // FireBase FireStore
-    ChangeNotifierProvider<FireBaseFireStoreSalvarPerfil>(create: (context) => FireBaseFireStoreSalvarPerfil()),
     ChangeNotifierProvider<FireBaseFireStoreConcluirCadastro>(create: (context) => FireBaseFireStoreConcluirCadastro()),
     ChangeNotifierProvider<FireBaseFireStoreEditarPerfil>(create: (context) => FireBaseFireStoreEditarPerfil()),
+    // Use Cases
     Provider<RegistrarAtividadeUseCase>(create: (context) => FirebaseFirestoreRegistrarAtividade()),
     Provider<RegistrarUsuarioUseCase>(create: (context) => FirebaseFirestoreRegistrarUsuario()),
+    Provider<EntrarUseCase>(create: (context) => FirebaseFirestoreEntrar()),
+    Provider<RecuperarContaUseCase>(create: (context) => FirebaseFirestoreRecuperarConta()),
 
     // FireBase Storage
     ChangeNotifierProvider<FirebaseStorageSalvarFotoPerfil>(create: (context) => FirebaseStorageSalvarFotoPerfil()),
     ChangeNotifierProvider<FirebaseStorageEditarFotoPerfil>(create: (context) => FirebaseStorageEditarFotoPerfil()),
     // Paginas
     ChangeNotifierProvider<PaginaRegistrarUsuarioControlador>(
-        create: (context) => PaginaRegistrarUsuarioControlador(registrarUsuarioUseCase: Provider.of(context))),
-    ChangeNotifierProvider<PaginaEntrarControlador>(create: (context) => PaginaEntrarControlador()),
+        create: (context) => PaginaRegistrarUsuarioControlador(registrarUsuarioUseCase: Provider.of(context, listen: false))),
+    ChangeNotifierProvider<PaginaEntrarControlador>(
+        create: (context) => PaginaEntrarControlador(
+            entrarUseCase: Provider.of(context, listen: false), recuperarUseCase: Provider.of(context, listen: false))),
     ChangeNotifierProvider<PaginaConcluirControlador>(create: (context) => PaginaConcluirControlador()),
     ChangeNotifierProvider<PaginaNavegacaoControlador>(create: (context) => PaginaNavegacaoControlador()),
     ChangeNotifierProvider<PaginaEditarPerfilControlador>(create: (context) => PaginaEditarPerfilControlador()),
     ChangeNotifierProvider<PaginaRegistrarAtividadeControlador>(
-        create: (context) => PaginaRegistrarAtividadeControlador(registrarAtividadeUserCase: Provider.of(context))),
+        create: (context) => PaginaRegistrarAtividadeControlador(registrarAtividadeUserCase: Provider.of(context, listen: false))),
     ChangeNotifierProvider<PaginaInicioControlador>(create: (context) => PaginaInicioControlador()),
   ];
 }

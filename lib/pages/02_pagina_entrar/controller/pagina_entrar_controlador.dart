@@ -1,9 +1,12 @@
-import 'package:bl_runners_firebase/providers/auth_provider.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
+import 'package:bl_runners_firebase/providers/interfaces/entrar_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/recuperar_conta_use_case.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class PaginaEntrarControlador extends ChangeNotifier {
+  final EntrarUseCase entrarUseCase;
+  final RecuperarContaUseCase recuperarUseCase;
+
+  PaginaEntrarControlador({required this.entrarUseCase, required this.recuperarUseCase});
   final controladorEmail = TextEditingController(text: 'gabriel.araujo.caires@gmail.com');
   final controladorSenha = TextEditingController(text: 'gabriel');
   final controladorEmailRecuperar = TextEditingController();
@@ -31,52 +34,30 @@ class PaginaEntrarControlador extends ChangeNotifier {
     return null;
   }
 
-  validarCampos(context) {
-    if (globalKeyEmailPaginaEntrar.currentState!.validate() && carregando == false) entrar(context);
+  Future<bool> entrar() async {
+    if (globalKeyEmailPaginaEntrar.currentState!.validate()) {
+      return entrarUseCase(
+        email: controladorEmail.text.trim(),
+        senha: controladorSenha.text,
+      );
+    }
+    return false;
   }
 
-  entrar(context) {
-    final authprovider = Provider.of<AuthProvider>(context, listen: false);
-
-    FocusScope.of(context).unfocus();
-    atualizarCarregando();
-
-    authprovider.entrar(
-      context,
-      email: controladorEmail.text.trim(),
-      senha: controladorSenha.text.trim(),
-      entradaAutomatica: entradaAutomatica,
-    );
-  }
-
-  recuperarConta(BuildContext context) {
-    final controladorAuthprovider = Provider.of<AuthProvider>(context, listen: false);
-    Mensagens.caixaDialogoDigitarEmail(
-      context,
-      email: controladorEmailRecuperar,
-      titulo: 'Digite o seu e-mail',
-      textoBotaocancelar: 'Cancelar',
-      textoBotaoEnviar: 'Enviar',
-      onPressedCancelar: () {
-        FocusScope.of(context).unfocus();
-        Navigator.of(context).pop();
-      },
-      onPressedEnviar: () {
-        FocusScope.of(context).unfocus();
-        atualizarCarregando();
-        return controladorAuthprovider.recuprarConta(context, email: controladorEmailRecuperar.text);
-      },
-    );
+  Future<String> recuperarConta() async {
+    atualizarEstadoCarregando();
+    return recuperarUseCase(email: controladorEmailRecuperar.text.trim());
   }
 
   resetarValores() {
     controladorEmail.clear();
     controladorSenha.clear();
+    controladorEmailRecuperar.clear();
     esconderSenha = true;
     entradaAutomatica = false;
   }
 
-  atualizarCarregando() {
+  atualizarEstadoCarregando() {
     carregando = !carregando;
     notifyListeners();
   }

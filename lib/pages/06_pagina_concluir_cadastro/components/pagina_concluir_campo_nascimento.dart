@@ -35,10 +35,10 @@ class _PaginaConcluirCampoNascimentoState extends State<PaginaConcluirCampoNasci
 
         if (pegarData != null) {
           String dataFormatada = DateFormat('dd/MM/yyyy').format(pegarData);
-          setState(() {
-            controlador.nascimentoData = pegarData;
-            controlador.controladorNascimento.text = dataFormatada;
-          });
+          //    setState(() {
+          controlador.nascimentoData = pegarData;
+          controlador.controladorNascimento.text = dataFormatada;
+          //   });
         }
       },
     );

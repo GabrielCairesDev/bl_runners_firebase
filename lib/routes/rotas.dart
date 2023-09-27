@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/page/pagina_registrar_atividade.dart';
+import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controller/pagina_registrar_atividade.dart';
 import 'package:bl_runners_firebase/pages/06_pagina_concluir_cadastro/page/pagina_concluir_cadastro.dart';
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/page/pagina_editar_perfil.dart';
 import 'package:bl_runners_firebase/pages/02_pagina_entrar/page/pagina_entrar.dart';

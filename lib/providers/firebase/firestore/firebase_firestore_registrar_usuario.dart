@@ -31,16 +31,18 @@ class FirebaseFirestoreRegistrarUsuario extends RegistrarUsuarioUseCase {
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('A senha é muito fraca.');
+        return false;
+        // throw 'A senha é muito fraca.';
       } else if (e.code == 'email-already-in-use') {
-        print('Este e-mail já está em uso.');
+        return false;
+        // throw 'Este e-mail já está em uso.';
       } else {
-        print('Erro durante o registro: ${e.message}');
+        return false;
+        // throw 'Erro durante o registro: ${e.message}';
       }
-      return false;
     } catch (e) {
-      print('Erro desconhecido: $e');
       return false;
+      // throw 'Erro desconhecido: $e';
     }
   }
 }

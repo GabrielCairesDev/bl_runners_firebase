@@ -1,8 +1,6 @@
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/providers/auth_provider.dart';
 import 'package:bl_runners_firebase/providers/interfaces/registrar_usuario_use_case.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 
 class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
   final RegistrarUsuarioUseCase registrarUsuarioUseCase;
@@ -55,7 +53,7 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
     return null;
   }
 
-  Future<bool> validarCampos() async {
+  Future<bool> registrarUsuario() async {
     if (globalKeyPaginaRegistrar.currentState!.validate()) {
       final modeloDeUsuario = ModeloDeUsuario(
         id: '',

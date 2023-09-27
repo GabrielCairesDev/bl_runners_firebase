@@ -1,10 +1,7 @@
-import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_salvar_perfil.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/controller/pagina_editar_perfil_controlador.dart';
-import 'package:bl_runners_firebase/pages/02_pagina_entrar/controller/pagina_entrar_controlador.dart';
-import 'package:bl_runners_firebase/pages/01_pagina_registrar_usuario/controller/pagina_registrar_controlador.dart';
 import 'package:bl_runners_firebase/routes/rotas.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,137 +17,6 @@ class AuthProvider extends ChangeNotifier {
 ====================== MÉTODOS ====================
 ===================================================
 */
-
-// Método para registrar conta
-  Future<void> registrar(BuildContext context, {required String email, required String senha, required String nome}) async {
-    // Controlador Pagina Registrar
-    final controladorPaginaRegistrar = Provider.of<PaginaRegistrarUsuarioControlador>(context, listen: false);
-    // Controlador DataBase Firebase
-    final controladorDataProvider = Provider.of<FireBaseFireStoreSalvarPerfil>(context, listen: false);
-
-    // Tratamento de erros
-    try {
-      // Fazer registro
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: senha);
-
-      // Registrar nome no Auth
-      credential.user!.updateDisplayName(nome);
-
-      // Enviar e-mail de verificação
-      await credential.user!.sendEmailVerification();
-
-      // Salvar Data
-      if (context.mounted) {
-        controladorDataProvider.salvarPerfil(
-          context,
-          id: credential.user!.uid,
-          email: credential.user!.email.toString(),
-          nome: nome,
-        );
-      }
-
-      //  Mensagem conta criada
-      if (context.mounted) _mensagemSucesso(context, texto: 'Conta criada com sucesso!\nVerifique o seu e-mail.');
-
-      // Fechar pagina
-      // if (context.mounted) sair(context);
-
-      // Atualizar estado carregando
-      controladorPaginaRegistrar.atualizarCarregando();
-
-      // Resetar valores
-      controladorPaginaRegistrar.resetarValores();
-
-      // Erros
-    } on FirebaseAuthException catch (e) {
-      // Atualizar estado carregando
-      controladorPaginaRegistrar.atualizarCarregando();
-      // Senha fraca
-      if (e.code == 'weak-password') {
-        if (context.mounted) _mensagemErro(context, texto: 'A senha é muito fraca.');
-        // Atualizar estado carregando
-        controladorPaginaRegistrar.atualizarCarregando();
-
-        // E-mail em uso
-      } else if (e.code == 'email-already-in-use') {
-        if (context.mounted) _mensagemErro(context, texto: 'Este e-mail já está em uso.');
-        // Atualizar estado carregando
-        controladorPaginaRegistrar.atualizarCarregando();
-
-        // Outro erro
-      } else {
-        if (context.mounted) _mensagemErro(context, texto: 'Erro durante o registro: ${e.message}');
-        // Atualizar estado carregando
-        controladorPaginaRegistrar.atualizarCarregando();
-      }
-    } catch (e) {
-      if (context.mounted) _mensagemErro(context, texto: 'Erro desconhecido: $e');
-      // Atualizar estado carregando
-      controladorPaginaRegistrar.atualizarCarregando();
-    }
-  }
-
-  // Método para fazer login
-  Future<void> entrar(BuildContext context, {required String email, required String senha, required bool entradaAutomatica}) async {
-    // Controlador Pagina Entrar
-    final controladorPaginaEntrar = Provider.of<PaginaEntrarControlador>(context, listen: false);
-
-    // Pegar (entrada automática)
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    // Tratamento de erros
-    try {
-      // Fazer o login
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: senha);
-
-      // Verificar se o usuário não é NULL
-      if (credential.user != null) {
-        // Verficiar se o e-mail foi ativado
-        if (credential.user!.emailVerified == true) {
-          // Salvar (Entrada automática)
-          await prefs.setBool("entradaAutomatica", entradaAutomatica);
-
-          // Entrar no APP
-          if (context.mounted) context.pushReplacement(Rotas.navegar);
-        } else {
-          // Quando o e-mail não é verificado
-          if (context.mounted) _mensagemInfo(context, texto: 'E-mail de verificação enviado para:\n${credential.user!.email}');
-          await credential.user!.sendEmailVerification();
-        }
-        // Atualizar carregando
-        controladorPaginaEntrar.atualizarCarregando();
-
-        // Resetar os valores
-        controladorPaginaEntrar.resetarValores();
-      }
-
-      // Erros
-    } on FirebaseAuthException catch (e) {
-      // Usuário não encontrado
-      if (e.code == 'user-not-found') {
-        if (context.mounted) _mensagemErro(context, texto: 'E-mail não registrado!');
-
-        // Senha inválida
-      } else if (e.code == 'wrong-password') {
-        if (context.mounted) _mensagemErro(context, texto: 'Senha inválida!');
-
-        // E-mail inválido
-      } else if (e.code == 'invalid-email') {
-        if (context.mounted) _mensagemErro(context, texto: 'E-mail inválido!');
-
-        // Outro erro
-      } else {
-        if (context.mounted) _mensagemErro(context, texto: 'Erro ao fazer login!');
-      }
-
-      // Atualizar o estado do carregando
-      controladorPaginaEntrar.atualizarCarregando();
-    } catch (e) {
-      // Mensagem de erro
-      if (context.mounted) _mensagemErro(context, texto: 'Erro ao fazer login! $e');
-      controladorPaginaEntrar.atualizarCarregando();
-    }
-  }
 
   // Metodo autoEntrar
   Future<void> autoEntrar(BuildContext context) async {
@@ -261,22 +127,6 @@ class AuthProvider extends ChangeNotifier {
         // Limpar campos
         controladorPaginaEditarPerfil.controladorSenha.clear();
       }
-    }
-  }
-
-  // Método recuperar conta
-  Future<void> recuprarConta(BuildContext context, {required String email}) async {
-    final controladorPaginaEntrar = Provider.of<PaginaEntrarControlador>(context, listen: false);
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-
-      if (context.mounted) Navigator.of(context).pop();
-      if (context.mounted) _mensagemSucesso(context, texto: 'E-mail de recuperação enviado para:\n$email');
-      controladorPaginaEntrar.atualizarCarregando();
-      controladorPaginaEntrar.controladorEmailRecuperar.clear();
-    } catch (e) {
-      if (context.mounted) _mensagemErro(context, texto: 'Erro ao enviar e-mail de recuperação:\n$e');
-      controladorPaginaEntrar.atualizarCarregando();
     }
   }
 

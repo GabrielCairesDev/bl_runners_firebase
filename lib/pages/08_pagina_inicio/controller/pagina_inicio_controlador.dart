@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bl_runners_firebase/models/mode_de_atividade.dart';
+import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

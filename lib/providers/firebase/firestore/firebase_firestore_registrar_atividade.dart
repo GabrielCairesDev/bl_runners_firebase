@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/models/mode_de_atividade.dart';
+import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
 import 'package:bl_runners_firebase/providers/interfaces/registrar_atividade_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

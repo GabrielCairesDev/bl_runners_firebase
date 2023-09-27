@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-ThemeData myAppTheme() {
+ThemeData defaultTheme() {
   final baseTheme = ThemeData(
     visualDensity: VisualDensity.adaptivePlatformDensity,
     // useMaterial3: true,
