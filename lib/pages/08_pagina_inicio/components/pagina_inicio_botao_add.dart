@@ -14,7 +14,6 @@ class PaginaInicioBotaoAdd extends StatelessWidget {
     final controladorDataProvider = Provider.of<DataProvider>(context);
     return FloatingActionButton(
       onPressed: () {
-        // Verificar se é null
         if (controladorDataProvider.modeloUsuario?.cadastroConcluido != true) {
           showTopSnackBar(
             Overlay.of(context),

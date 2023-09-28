@@ -17,36 +17,6 @@ class AuthProvider extends ChangeNotifier {
 ====================== MÉTODOS ====================
 ===================================================
 */
-
-  // Metodo autoEntrar
-  Future<void> autoEntrar(BuildContext context) async {
-    // Usuário atual
-    final user = FirebaseAuth.instance.currentUser;
-
-    // SharedPreferences (Entrada automática)
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool entradaAutomatica = prefs.getBool('entradaAutomatica') ?? false;
-
-    // Verificar se o usuário é null
-    if (user != null) {
-      // Recarregar usuário
-      user.reload();
-      try {
-        // Verificar a entrada automática e o e-mail verificado
-        if (entradaAutomatica == true && user.emailVerified == true) {
-          // Enviar para a pagina Navegar
-          if (context.mounted) context.pushReplacement(Rotas.navegar);
-        } else {
-          if (context.mounted) sair(context);
-        }
-      } catch (e) {
-        if (context.mounted) sair(context);
-      }
-    } else {
-      if (context.mounted) sair(context);
-    }
-  }
-
 // Método para sair
   Future<void> sair(BuildContext context) async {
     // Pegar SharedPreferences
