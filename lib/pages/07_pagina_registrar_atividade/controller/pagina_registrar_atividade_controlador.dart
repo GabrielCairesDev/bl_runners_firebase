@@ -36,7 +36,8 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
     return null;
   }
 
-  Future<bool> registrarAtividade() async {
+  Future<String> registrarAtividade() async {
+    alterarCarregando();
     if (globalKeyRegistrarAtividade.currentState!.validate()) {
       final modeloDeAtividade = ModeloDeAtividade(
         idUsuario: '',
@@ -49,10 +50,11 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
         ano: dataHoraSelecionada!.year.toInt(),
         mes: dataHoraSelecionada!.month.toInt(),
       );
-      return registrarAtividadeUserCase(modeloDeAtividade);
+      final resultado = await registrarAtividadeUserCase(modeloDeAtividade);
+      return resultado;
     }
 
-    return false;
+    throw 'Preencha todos o dados!';
   }
 
   int transformarEmMinutos({required TimeOfDay tempo}) {

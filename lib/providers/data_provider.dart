@@ -3,9 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
 class DataProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   ModeloDeUsuario? modeloUsuario;
@@ -35,25 +32,5 @@ class DataProvider extends ChangeNotifier {
     } else {
       modeloUsuario = null;
     }
-  }
-
-  // Mensagem erro
-  Future<void> _mensagemErro(BuildContext context, {required String texto}) async {
-    showTopSnackBar(
-      Overlay.of(context),
-      CustomSnackBar.error(
-        message: texto,
-      ),
-    );
-  }
-
-  // Mensagem sucesso
-  Future<void> _mensagemSucesso(BuildContext context, {required String texto}) async {
-    showTopSnackBar(
-      Overlay.of(context),
-      CustomSnackBar.success(
-        message: texto,
-      ),
-    );
   }
 }

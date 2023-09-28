@@ -23,7 +23,8 @@ class PaginaInicioBotaoAdd extends StatelessWidget {
               message: 'Conclua o seu cadastro',
             ),
           );
-          context.push(Rotas.concluir);
+          // context.push(Rotas.concluir);
+          context.push(Rotas.adicionar);
         } else {
           context.push(Rotas.adicionar);
         }

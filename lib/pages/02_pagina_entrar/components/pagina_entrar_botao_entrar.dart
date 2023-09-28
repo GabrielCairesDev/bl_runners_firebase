@@ -1,8 +1,10 @@
 import 'package:bl_runners_firebase/pages/02_pagina_entrar/controller/pagina_entrar_controlador.dart';
 import 'package:bl_runners_firebase/routes/rotas.dart';
+import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PaginaEntrarBotaoEntrar extends StatelessWidget {
   const PaginaEntrarBotaoEntrar({super.key});
@@ -19,24 +21,21 @@ class PaginaEntrarBotaoEntrar extends StatelessWidget {
     );
   }
 
-  _entrar(BuildContext context) {
+  _entrar(BuildContext context) async {
     final controladorPaginaEntrar = context.read<PaginaEntrarControlador>();
 
-    controladorPaginaEntrar.atualizarEstadoCarregando();
-    controladorPaginaEntrar.entrar().then(
-          (value) => {
-            if (value)
-              {
-                if (context.mounted) context.pushReplacement(Rotas.navegar),
-                controladorPaginaEntrar.resetarValores(),
-                debugPrint('ok'),
-              }
-            else
-              {
-                debugPrint('erro'),
-              },
-            controladorPaginaEntrar.atualizarEstadoCarregando(),
-          },
-        );
+    FocusScope.of(context).unfocus();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    controladorPaginaEntrar.entrar().then((value) {
+      debugPrint(value);
+      context.pushReplacement(Rotas.navegar);
+      prefs.setBool("entradaAutomatica", controladorPaginaEntrar.entradaAutomatica);
+      controladorPaginaEntrar.resetarValores();
+      controladorPaginaEntrar.atualizarEstadoCarregando();
+    }).catchError((onError) {
+      Mensagens.mensagemErro(context, texto: onError);
+      controladorPaginaEntrar.atualizarEstadoCarregando();
+    });
   }
 }

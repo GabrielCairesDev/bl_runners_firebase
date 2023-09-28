@@ -16,17 +16,16 @@ class PaginaRegistrarCampoBotao extends StatelessWidget {
   }
 
   _registrarAtividade(BuildContext context) {
-    final controladorPaginaRegistrarAtividade = Provider.of<PaginaRegistrarAtividadeControlador>(context);
+    final controladorPaginaRegistrarAtividade = context.read<PaginaRegistrarAtividadeControlador>();
     controladorPaginaRegistrarAtividade.registrarAtividade().then((value) {
-      if (value) {
-        Mensagens.mensagemSucesso(context, texto: 'Atividade registrada com sucesso!');
-        controladorPaginaRegistrarAtividade.alterarCarregando();
-        FocusScope.of(context).unfocus();
-        controladorPaginaRegistrarAtividade.resetarValores();
-        context.pop();
-      } else {
-        Mensagens.mensagemErro(context, texto: 'Algo deu errado');
-      }
+      FocusScope.of(context).unfocus();
+      context.pop();
+      controladorPaginaRegistrarAtividade.alterarCarregando();
+      controladorPaginaRegistrarAtividade.resetarValores();
+      Mensagens.mensagemSucesso(context, texto: value);
+    }).catchError((onError) {
+      Mensagens.mensagemErro(context, texto: onError);
+      controladorPaginaRegistrarAtividade.alterarCarregando();
     });
   }
 }

@@ -5,14 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseFirestoreRegistrarAtividade extends RegistrarAtividadeUseCase {
   @override
-  Future<bool> call(ModeloDeAtividade modeloDeAtividade) async {
+  Future<String> call(ModeloDeAtividade modeloDeAtividade) async {
     final usuarioAtual = FirebaseAuth.instance.currentUser;
     if (usuarioAtual != null) {
       modeloDeAtividade = modeloDeAtividade.copyWith(idUsuario: usuarioAtual.uid);
       await FirebaseFirestore.instance.collection('atividades').doc().set(modeloDeAtividade.toJson());
-      return true;
+      return 'Atividade registrada com sucesso!';
     } else {
-      return false;
+      throw 'Erro ao registrar atividade!';
     }
   }
 }

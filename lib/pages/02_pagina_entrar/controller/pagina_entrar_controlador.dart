@@ -34,14 +34,16 @@ class PaginaEntrarControlador extends ChangeNotifier {
     return null;
   }
 
-  Future<bool> entrar() async {
+  Future<String> entrar() async {
+    atualizarEstadoCarregando();
     if (globalKeyEmailPaginaEntrar.currentState!.validate()) {
-      return entrarUseCase(
+      final resultado = await entrarUseCase(
         email: controladorEmail.text.trim(),
         senha: controladorSenha.text,
       );
+      return resultado;
     }
-    return false;
+    throw 'Preencha todos os dados!';
   }
 
   Future<String> recuperarConta() async {
