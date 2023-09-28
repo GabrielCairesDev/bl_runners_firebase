@@ -14,25 +14,25 @@ class PaginaRegistrarBotaoRegistrar extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.05,
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () => _registarUsuario(context),
+        onPressed: () => _registrarUsuario(context),
         child: const Text('Registrar'),
       ),
     );
   }
 
-  _registarUsuario(BuildContext context) {
+  _registrarUsuario(BuildContext context) {
     final controladorPaginaRegistrarUsuario = context.read<PaginaRegistrarUsuarioControlador>();
-    controladorPaginaRegistrarUsuario.atualizarCarregando();
+    FocusScope.of(context).unfocus();
     controladorPaginaRegistrarUsuario.registrarUsuario().then((value) {
-      if (value) {
-        Mensagens.mensagemSucesso(context, texto: 'Usuário registrado com sucesso!');
-
-        controladorPaginaRegistrarUsuario.resetarValores();
-        context.pop();
-      } else {
-        Mensagens.mensagemErro(context, texto: 'Algo deu errado');
-      }
+      context.pop();
+      controladorPaginaRegistrarUsuario.resetarValores();
       controladorPaginaRegistrarUsuario.atualizarCarregando();
-    });
+      Mensagens.mensagemSucesso(context, texto: value.toString());
+    }).catchError(
+      (onError) {
+        controladorPaginaRegistrarUsuario.atualizarCarregando();
+        Mensagens.mensagemErro(context, texto: onError.toString());
+      },
+    );
   }
 }

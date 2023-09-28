@@ -1,6 +1,6 @@
-class CustomError extends Error {
+class CustomException extends Error {
   final String message;
-  CustomError({required this.message});
+  CustomException({required this.message});
   @override
   String toString() {
     return message;

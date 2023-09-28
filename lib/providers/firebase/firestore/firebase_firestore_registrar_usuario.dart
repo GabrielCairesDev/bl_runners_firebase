@@ -5,11 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseFirestoreRegistrarUsuario extends RegistrarUsuarioUseCase {
   @override
-  Future<bool> call(
+  Future<String> call(
     ModeloDeUsuario modeloDeUsuario, {
     required String email,
-    required String nome,
     required String senha,
+    required String nome,
   }) async {
     try {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: senha);
@@ -28,21 +28,17 @@ class FirebaseFirestoreRegistrarUsuario extends RegistrarUsuarioUseCase {
         nome: '',
       );
       FirebaseFirestore.instance.collection('usuarios').doc().set(modeloDeUsuario.toJson());
-      return true;
+      return 'Conta criada com sucesso!\nVerifique o seu e-mail.';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        return false;
-        // throw 'A senha é muito fraca.';
+        throw 'A senha é muito fraca!';
       } else if (e.code == 'email-already-in-use') {
-        return false;
-        // throw 'Este e-mail já está em uso.';
+        throw 'O e-mail já está em uso!';
       } else {
-        return false;
-        // throw 'Erro durante o registro: ${e.message}';
+        throw 'Erro ao registrar: ${e.message}';
       }
     } catch (e) {
-      return false;
-      // throw 'Erro desconhecido: $e';
+      throw 'Erro desconhecido: $e';
     }
   }
 }

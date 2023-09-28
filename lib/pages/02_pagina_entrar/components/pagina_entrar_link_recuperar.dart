@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -42,8 +41,8 @@ class PaginaEntrarLinkRecuperar extends StatelessWidget {
           controladorPaginaEntrar.resetarValores();
           controladorPaginaEntrar.atualizarEstadoCarregando();
         }).catchError(
-          (error) {
-            Mensagens.mensagemErro(context, texto: error.toString());
+          (onError) {
+            Mensagens.mensagemErro(context, texto: onError.toString());
             context.pop();
             controladorPaginaEntrar.resetarValores();
             controladorPaginaEntrar.atualizarEstadoCarregando();

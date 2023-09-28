@@ -53,12 +53,13 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
     return null;
   }
 
-  Future<bool> registrarUsuario() async {
+  Future<String?> registrarUsuario() async {
+    atualizarCarregando();
     if (globalKeyPaginaRegistrar.currentState!.validate()) {
       final modeloDeUsuario = ModeloDeUsuario(
         id: '',
-        nome: '',
-        email: '',
+        nome: controladorNome.text.trim(),
+        email: controladorEmail.text.trim(),
         fotoUrl: '',
         genero: 'Masculino',
         master: false,
@@ -68,14 +69,15 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
         dataNascimento: DateTime.now(),
       );
 
-      return registrarUsuarioUseCase(
+      final resultado = await registrarUsuarioUseCase(
         modeloDeUsuario,
         email: controladorEmail.text.trim(),
         senha: controladorSenha.text,
-        nome: controladorNome.text,
+        nome: controladorNome.text.trim(),
       );
+      return resultado;
     }
-    return false;
+    throw 'Preencha todos os campos';
   }
 
   resetarValores() {
