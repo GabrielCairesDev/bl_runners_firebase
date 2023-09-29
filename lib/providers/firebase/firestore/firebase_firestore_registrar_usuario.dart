@@ -25,9 +25,9 @@ class FirebaseFirestoreRegistrarUsuario extends RegistrarUsuarioUseCase {
         genero: 'Masculino',
         id: credential.user!.uid,
         master: false,
-        nome: '',
+        nome: nome,
       );
-      FirebaseFirestore.instance.collection('usuarios').doc().set(modeloDeUsuario.toJson());
+      FirebaseFirestore.instance.collection('usuarios').doc(credential.user!.uid).set(modeloDeUsuario.toJson());
       return 'Conta criada com sucesso!\nVerifique o seu e-mail.';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

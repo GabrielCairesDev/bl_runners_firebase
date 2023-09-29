@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/pagina_concluir_controlador.dart';
+import '../controller/pagina_concluir_cadastro_controlador.dart';
 
 class PaginaConcluirCampoFoto extends StatelessWidget {
   const PaginaConcluirCampoFoto({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controlador = Provider.of<PaginaConcluirControlador>(context);
+    final controlador = Provider.of<PaginaConcluirCadastroControlador>(context);
     return Stack(
       children: [
         TextFormField(

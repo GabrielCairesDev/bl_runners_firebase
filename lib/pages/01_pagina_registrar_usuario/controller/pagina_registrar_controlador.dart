@@ -53,12 +53,12 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
     return null;
   }
 
-  Future<String?> registrarUsuario() async {
+  Future<String> registrarUsuario() async {
     atualizarCarregando();
     if (globalKeyPaginaRegistrar.currentState!.validate()) {
       final modeloDeUsuario = ModeloDeUsuario(
         id: '',
-        nome: controladorNome.text.trim(),
+        nome: controladorNome.text,
         email: controladorEmail.text.trim(),
         fotoUrl: '',
         genero: 'Masculino',
@@ -73,7 +73,7 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
         modeloDeUsuario,
         email: controladorEmail.text.trim(),
         senha: controladorSenha.text,
-        nome: controladorNome.text.trim(),
+        nome: controladorNome.text,
       );
       return resultado;
     }

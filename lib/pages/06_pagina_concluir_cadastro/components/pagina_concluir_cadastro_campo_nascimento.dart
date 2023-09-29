@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/pagina_concluir_controlador.dart';
+import '../controller/pagina_concluir_cadastro_controlador.dart';
 
 class PaginaConcluirCampoNascimento extends StatefulWidget {
   const PaginaConcluirCampoNascimento({super.key});
@@ -14,7 +14,7 @@ class PaginaConcluirCampoNascimento extends StatefulWidget {
 class _PaginaConcluirCampoNascimentoState extends State<PaginaConcluirCampoNascimento> {
   @override
   Widget build(BuildContext context) {
-    final controlador = context.read<PaginaConcluirControlador>();
+    final controlador = context.read<PaginaConcluirCadastroControlador>();
     return TextFormField(
       controller: controlador.controladorNascimento,
       validator: controlador.validadorNascimento,

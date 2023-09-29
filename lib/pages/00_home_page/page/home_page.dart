@@ -1,5 +1,4 @@
 import 'package:bl_runners_firebase/pages/00_home_page/controller/home_page_controller.dart';
-import 'package:bl_runners_firebase/providers/data_provider.dart';
 import 'package:bl_runners_firebase/routes/rotas.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -15,9 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    entradaAutomatica(context);
-    final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
-    controladorDataProvider.pegarUsuarioData();
+    _entradaAutomatica(context);
     super.initState();
   }
 
@@ -29,15 +26,15 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
 
-entradaAutomatica(BuildContext context) {
-  final controladorHomePage = context.read<HomePageController>();
-  controladorHomePage.entrarAutomaticamente().then((value) {
-    context.pushReplacement(Rotas.navegar);
-    debugPrint(value);
-  }).catchError((onError) {
-    context.pushReplacement(Rotas.entrar);
-    debugPrint(onError);
-  });
+  _entradaAutomatica(BuildContext context) {
+    final controladorHomePage = context.read<HomePageController>();
+    controladorHomePage.entrarAutomaticamente().then((value) {
+      context.pushReplacement(Rotas.navegar);
+      debugPrint(value);
+    }).catchError((onError) {
+      context.pushReplacement(Rotas.entrar);
+      debugPrint(onError);
+    });
+  }
 }

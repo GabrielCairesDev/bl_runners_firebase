@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/data_provider.dart';
+import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -16,8 +16,9 @@ class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascime
   @override
   void initState() {
     final controlador = context.read<PaginaEditarPerfilControlador>();
-    final controladorUsuario = Provider.of<DataProvider>(context, listen: false);
-    controlador.controladorNascimento.text = DateFormat('dd/MM/yyyy').format(controladorUsuario.modeloUsuario?.dataNascimento ?? DateTime.now());
+    final controladorUsuario = Provider.of<PegarUsuario>(context, listen: false);
+    controlador.controladorNascimento.text =
+        DateFormat('dd/MM/yyyy').format(controladorUsuario.modeloUsuario?.dataNascimento ?? DateTime.now());
     controlador.nascimentoData = controladorUsuario.modeloUsuario?.dataNascimento ?? DateTime.now();
     super.initState();
   }

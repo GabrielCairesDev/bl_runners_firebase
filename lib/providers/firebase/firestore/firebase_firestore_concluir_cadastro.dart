@@ -1,23 +1,24 @@
+import 'dart:io';
+
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/pages/06_pagina_concluir_cadastro/controller/pagina_concluir_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/storage/firebase_storage_salvar_foto_perfil.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
+import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
-class FireBaseFireStoreConcluirCadastro extends ChangeNotifier {
-  Future<void> concluirCadastro(BuildContext context,
-      {required imagemArquivo, required String nome, required String genero, required DateTime nascimento}) async {
-    final controladorPaginaConcluirCadastro = Provider.of<PaginaConcluirControlador>(context, listen: false);
-    final controladorFirebaseStorageSalvarFotoPerfil = Provider.of<FirebaseStorageSalvarFotoPerfil>(context, listen: false);
-
+class FireBaseFireStoreConcluirCadastro extends ConcluirCadastroUseCase {
+  @override
+  Future<String> call(
+    ModeloDeUsuario modeloDeUsuario, {
+    required imagemArquivo,
+    required String nome,
+    required String genero,
+    required DateTime nascimento,
+  }) async {
     final usuarioAtual = FirebaseAuth.instance.currentUser;
 
     if (usuarioAtual != null) {
-      controladorFirebaseStorageSalvarFotoPerfil.salvarFoto(context, imagemArquivo: imagemArquivo).then((value) async {
+      await _salvarFoto(imagemArquivo: imagemArquivo, usuarioAtual: usuarioAtual).then((value) async {
         final modeloDeUsuario = ModeloDeUsuario(
           id: usuarioAtual.uid,
           nome: nome,
@@ -31,35 +32,39 @@ class FireBaseFireStoreConcluirCadastro extends ChangeNotifier {
           dataNascimento: nascimento,
         );
 
-        final documentoFirebase = await FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid.toString()).get();
-
-        if (documentoFirebase.exists == false) await documentoFirebase.reference.set({});
-
-        await FirebaseFirestore.instance
-            .collection('usuarios')
-            .doc(usuarioAtual.uid.toString())
-            .collection('perfil')
-            .doc('dados')
-            .update(modeloDeUsuario.toJson())
-            .then(
+        await FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid.toString()).update(modeloDeUsuario.toJson()).then(
           (value) {
-            Mensagens.mensagemSucesso(context, texto: 'Cadastro concluido!');
-            controladorPaginaConcluirCadastro.alterarEstadoCarregando();
-            context.pop();
+            return 'Cadastro concluido com sucesso!';
           },
         ).catchError(
           (error) {
-            Mensagens.mensagemErro(context, texto: 'Erro ao concluir cadastro: $error.');
-            controladorPaginaConcluirCadastro.alterarEstadoCarregando();
+            throw 'Erro ao concluir cadastro:\n$error';
           },
         );
-      }).catchError((error) {
-        Mensagens.mensagemErro(context, texto: 'Erro ao carregar foto: $error.');
-        controladorPaginaConcluirCadastro.alterarEstadoCarregando();
+      }).catchError((onError) {
+        throw 'Erro ao carregar foto:\n$onError';
       });
     } else {
-      Mensagens.mensagemErro(context, texto: 'Erro ao concluir cadastro: Usuário null.');
-      controladorPaginaConcluirCadastro.alterarEstadoCarregando();
+      throw 'Erro ao concluir cadastro:\nUsuário null.';
     }
+    return '';
+  }
+}
+
+Future<String> _salvarFoto({required File? imagemArquivo, User? usuarioAtual}) async {
+  if (imagemArquivo != null) {
+    try {
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference ref = storage.ref().child("usuarios_foto_perfil/${usuarioAtual!.uid}");
+      await ref.putFile(imagemArquivo);
+
+      String downloadUrl = await ref.getDownloadURL();
+      await usuarioAtual.updatePhotoURL(downloadUrl);
+      return downloadUrl;
+    } catch (e) {
+      throw '$e';
+    }
+  } else {
+    throw 'Foto Null!';
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/pagina_concluir_controlador.dart';
+import '../controller/pagina_concluir_cadastro_controlador.dart';
 
 class PaginaRegistrarCampoGenero extends StatefulWidget {
   const PaginaRegistrarCampoGenero({super.key});
@@ -13,7 +13,7 @@ class PaginaRegistrarCampoGenero extends StatefulWidget {
 class _PaginaRegistrarCampoGeneroState extends State<PaginaRegistrarCampoGenero> {
   @override
   Widget build(BuildContext context) {
-    final controlador = Provider.of<PaginaConcluirControlador>(context);
+    final controlador = Provider.of<PaginaConcluirCadastroControlador>(context);
     return DropdownButtonFormField(
       style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
       decoration: InputDecoration(

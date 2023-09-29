@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/data_provider.dart';
+import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +16,7 @@ class _PaginaEditarPerfilNomeState extends State<PaginaEditarPerfilNome> {
   @override
   void initState() {
     final controladorEditarControlador = Provider.of<PaginaEditarPerfilControlador>(context, listen: false);
-    final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
+    final controladorDataProvider = Provider.of<PegarUsuario>(context, listen: false);
     controladorEditarControlador.controladorNome.text = controladorDataProvider.modeloUsuario?.nome ?? '';
     super.initState();
   }

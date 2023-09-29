@@ -74,7 +74,7 @@ class PaginaInicioControlador extends ChangeNotifier {
   }
 
   Future<void> inserirUsuarioNaListaUsuarios({required String idUsuario}) async {
-    final documento = await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).collection('perfil').doc('dados').get();
+    final documento = await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).get();
 
     if (documento.exists) {
       final dadosDoUsuario = documento.data() as Map<String, dynamic>;

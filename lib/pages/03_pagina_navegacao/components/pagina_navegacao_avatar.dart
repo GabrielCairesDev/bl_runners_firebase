@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/data_provider.dart';
+import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +22,7 @@ class _PaginaNavegacaoAvatarState extends State<PaginaNavegacaoAvatar> {
   }
 
   fotoPerfil() {
-    final controladorDataProvider = Provider.of<DataProvider>(context);
+    final controladorDataProvider = Provider.of<PegarUsuario>(context);
     if (controladorDataProvider.modeloUsuario?.fotoUrl == null || controladorDataProvider.modeloUsuario!.fotoUrl.isEmpty) {
       return Image.asset('assets/images/avatar.png');
     } else {

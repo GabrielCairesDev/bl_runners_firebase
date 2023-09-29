@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 class PaginaEntrarControlador extends ChangeNotifier {
   final EntrarUseCase entrarUseCase;
-  final RecuperarContaUseCase recuperarUseCase;
+  final RecuperarContaUseCase recuperarContaUseCase;
 
-  PaginaEntrarControlador({required this.entrarUseCase, required this.recuperarUseCase});
+  PaginaEntrarControlador({required this.entrarUseCase, required this.recuperarContaUseCase});
   final controladorEmail = TextEditingController(text: 'gabriel.araujo.caires@gmail.com');
   final controladorSenha = TextEditingController(text: 'gabriel');
   final controladorEmailRecuperar = TextEditingController();
@@ -48,7 +48,7 @@ class PaginaEntrarControlador extends ChangeNotifier {
 
   Future<String> recuperarConta() async {
     atualizarEstadoCarregando();
-    return recuperarUseCase(email: controladorEmailRecuperar.text.trim());
+    return await recuperarContaUseCase(email: controladorEmailRecuperar.text.trim());
   }
 
   resetarValores() {

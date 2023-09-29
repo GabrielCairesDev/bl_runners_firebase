@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class DataProvider extends ChangeNotifier {
+class PegarUsuario extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   ModeloDeUsuario? modeloUsuario;
 
@@ -15,7 +15,7 @@ class DataProvider extends ChangeNotifier {
     // Verificar se é nulo
     if (user != null) {
       // Pegar o documento com os dados
-      final userData = _firestore.collection('usuarios').doc(user.uid).collection('perfil').doc('dados').snapshots();
+      final userData = _firestore.collection('usuarios').doc(user.uid).snapshots();
 
       // Organizar os dados
       userData.listen(

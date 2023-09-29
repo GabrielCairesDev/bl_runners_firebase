@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bl_runners_firebase/providers/data_provider.dart';
+import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +77,7 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
   }
 
   fotoPerfil(BuildContext context) {
-    final controladorDataProvider = Provider.of<DataProvider>(context);
+    final controladorDataProvider = Provider.of<PegarUsuario>(context);
     final foto = controladorDataProvider.modeloUsuario?.fotoUrl;
 
     if (foto == null || foto.isEmpty) {

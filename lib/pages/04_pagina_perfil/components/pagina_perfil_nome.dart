@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/data_provider.dart';
+import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +18,7 @@ class _PaginaPerfilNomeState extends State<PaginaPerfilNome> {
   }
 
   nomePerfil() {
-    final controladorDataProvider = Provider.of<DataProvider>(context);
+    final controladorDataProvider = Provider.of<PegarUsuario>(context);
     final nomeUsuario = controladorDataProvider.modeloUsuario?.nome;
 
     final nome = nomeUsuario != null && nomeUsuario.isNotEmpty ? nomeUsuario : 'Nome Desconhecido';

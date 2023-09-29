@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/data_provider.dart';
+import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +22,7 @@ class _PaginaNavegacaoState extends State<PaginaNavegacao> {
 
   @override
   void initState() {
-    final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
+    final controladorDataProvider = Provider.of<PegarUsuario>(context, listen: false);
     controladorDataProvider.pegarUsuarioData();
     super.initState();
   }

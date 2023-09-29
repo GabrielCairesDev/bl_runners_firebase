@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/data_provider.dart';
+import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +15,7 @@ class _PaginaEditarPerfilGeneroState extends State<PaginaEditarPerfilGenero> {
   @override
   void initState() {
     final controlador = Provider.of<PaginaEditarPerfilControlador>(context, listen: false);
-    final controladorUsuario = Provider.of<DataProvider>(context, listen: false);
+    final controladorUsuario = Provider.of<PegarUsuario>(context, listen: false);
     controlador.controladorGenero = controladorUsuario.modeloUsuario?.genero ?? 'Masculino';
     super.initState();
   }

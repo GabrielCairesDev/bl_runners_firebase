@@ -1,4 +1,7 @@
+import 'package:bl_runners_firebase/routes/rotas.dart';
+import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/pagina_editar_perfil_controlador.dart';
@@ -8,9 +11,8 @@ class PaginaEditarLinkExcluir extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controlador = Provider.of<PaginaEditarPerfilControlador>(context);
     return InkWell(
-      onTap: () => controlador.pedirsenha(context),
+      onTap: () => _pedirSenha(context),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 16),
         child: SizedBox(
@@ -26,5 +28,32 @@ class PaginaEditarLinkExcluir extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _pedirSenha(BuildContext context) {
+    final controladorPaginaEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context);
+    Mensagens.caixaDialogoDigitarSenha(
+      context,
+      escrever: controladorPaginaEditarPerfil.controladorSenha,
+      titulo: 'Excluir Perfil?',
+      textoBotaoExcluir: 'Excluir',
+      textoBotaoCancelar: 'Cancelar',
+      onPressedExcluir: () => _excluirConta(context),
+      onPressedCancelar: () => Navigator.of(context).pop(),
+    );
+  }
+
+  _excluirConta(BuildContext context) {
+    final controladorPaginaEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context);
+    controladorPaginaEditarPerfil.excluirConta().then((value) {
+      context.pushReplacement(Rotas.entrar);
+      controladorPaginaEditarPerfil.alterarEstadoCarregando();
+      controladorPaginaEditarPerfil.controladorSenha.clear();
+      Mensagens.mensagemSucesso(context, texto: value);
+    }).catchError((onError) {
+      context.pop();
+      controladorPaginaEditarPerfil.alterarEstadoCarregando();
+      controladorPaginaEditarPerfil.controladorSenha.clear();
+    });
   }
 }

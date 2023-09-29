@@ -1,13 +1,17 @@
 import 'dart:io';
 
-import 'package:bl_runners_firebase/providers/auth_provider.dart';
 import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_editar_perfil.dart';
+import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class PaginaEditarPerfilControlador extends ChangeNotifier {
+  final ExcluirContaUseCase excluirContaUseCase;
+
+  PaginaEditarPerfilControlador({required this.excluirContaUseCase});
+
   final controladorNome = TextEditingController();
   final controladorNascimento = TextEditingController();
   final controladorFoto = TextEditingController();
@@ -52,22 +56,6 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
     );
   }
 
-  pedirsenha(BuildContext context) {
-    final controladorAuthprovider = Provider.of<AuthProvider>(context, listen: false);
-    Mensagens.caixaDialogoDigitarSenha(
-      context,
-      email: controladorSenha,
-      titulo: 'Excluir Perfil?',
-      textoBotaoExcluir: 'Excluir',
-      textoBotaoCancelar: 'Cancelar',
-      onPressedExcluir: () {
-        alterarEstadoCarregando();
-        controladorAuthprovider.excluirConta(context, senha: controladorSenha.text);
-      },
-      onPressedCancelar: () => Navigator.of(context).pop(),
-    );
-  }
-
   Future<void> pegarFoto(ImageSource source) async {
     try {
       final ImagePicker pegarImagem = ImagePicker();
@@ -91,5 +79,10 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   alterarEstadoCarregando() {
     carregando = !carregando;
     notifyListeners();
+  }
+
+  Future<String> excluirConta() async {
+    alterarEstadoCarregando();
+    return excluirContaUseCase(senha: controladorSenha.text);
   }
 }

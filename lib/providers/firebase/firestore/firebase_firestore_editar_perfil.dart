@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/controller/pagina_editar_perfil_controlador.dart';
-import 'package:bl_runners_firebase/providers/data_provider.dart';
+import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
 import 'package:bl_runners_firebase/providers/firebase/storage/firebase_storage_salvar_editar_foto_perfil.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,7 +21,7 @@ class FireBaseFireStoreEditarPerfil extends ChangeNotifier {
   }) async {
     final controladorPaginaEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context, listen: false);
     final controladorFirebaseStorageSalvarFotoPerfil = Provider.of<FirebaseStorageEditarFotoPerfil>(context, listen: false);
-    final controladorDataProvider = Provider.of<DataProvider>(context, listen: false);
+    final controladorDataProvider = Provider.of<PegarUsuario>(context, listen: false);
 
     final usuarioAtual = FirebaseAuth.instance.currentUser;
 

@@ -86,7 +86,7 @@ class Mensagens {
 
   static void caixaDialogoDigitarSenha(
     BuildContext context, {
-    required TextEditingController email,
+    required TextEditingController escrever,
     required String titulo,
     // required String texto,
     required String textoBotaoExcluir,
@@ -105,7 +105,7 @@ class Mensagens {
               // const Text("Digite sua senha atual para confirmar a exclusão."),
               const SizedBox(height: 16.0),
               TextFormField(
-                controller: email,
+                controller: escrever,
                 obscureText: true,
                 decoration: const InputDecoration(
                   labelText: "Senha Atual",
@@ -183,9 +183,7 @@ class Mensagens {
   static mensagemSucesso(BuildContext context, {required String texto}) async {
     showTopSnackBar(
       Overlay.of(context),
-      CustomSnackBar.success(
-        message: texto,
-      ),
+      CustomSnackBar.success(message: texto),
     );
   }
 
@@ -193,9 +191,7 @@ class Mensagens {
   static mensagemErro(BuildContext context, {required String texto}) async {
     showTopSnackBar(
       Overlay.of(context),
-      CustomSnackBar.error(
-        message: texto,
-      ),
+      CustomSnackBar.error(message: texto),
     );
   }
 
@@ -203,10 +199,8 @@ class Mensagens {
   static mensagemInfo(BuildContext context, {required String texto}) async {
     showTopSnackBar(
       Overlay.of(context),
-      CustomSnackBar.info(
-        backgroundColor: Colors.orange,
-        message: texto,
-      ),
+      CustomSnackBar.info(backgroundColor: Colors.orange, message: texto),
+      snackBarPosition: SnackBarPosition.bottom,
     );
   }
 }
