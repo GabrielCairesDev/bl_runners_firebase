@@ -1,15 +1,30 @@
+import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/pagina_concluir_cadastro_controlador.dart';
 
-class PaginaConcluirCampoNome extends StatelessWidget {
+class PaginaConcluirCampoNome extends StatefulWidget {
   const PaginaConcluirCampoNome({super.key});
+
+  @override
+  State<PaginaConcluirCampoNome> createState() => _PaginaConcluirCampoNomeState();
+}
+
+class _PaginaConcluirCampoNomeState extends State<PaginaConcluirCampoNome> {
+  @override
+  void initState() {
+    final controladorPaginaConcluirCadastro = Provider.of<PaginaConcluirCadastroControlador>(context, listen: false);
+    final controladorDataProvider = Provider.of<PegarUsuario>(context, listen: false);
+    controladorPaginaConcluirCadastro.controladorNome.text = controladorDataProvider.modeloUsuario?.nome ?? '';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final controlador = context.read<PaginaConcluirCadastroControlador>();
+
     return TextFormField(
       controller: controlador.controladorNome,
       validator: controlador.validadorNome,

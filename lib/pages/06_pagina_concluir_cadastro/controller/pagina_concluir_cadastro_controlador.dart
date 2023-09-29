@@ -50,6 +50,7 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
 
   Future<String> concluirCadastro() async {
     alterarEstadoCarregando();
+
     if (globalKeyPaginaConcluirCadastro.currentState!.validate()) {
       final modeloDeUsuario = ModeloDeUsuario(
         id: '',
@@ -73,7 +74,7 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
       );
       return resultado;
     }
-    throw 'Preencha todos os campos';
+    throw 'Preencha todos os campos!';
   }
 
   resetarValores() {
