@@ -1,16 +1,20 @@
 import 'dart:io';
 
-import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_editar_perfil.dart';
-import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
+
+import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
+import 'package:bl_runners_firebase/providers/interfaces/editar_perfil_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
 
 class PaginaEditarPerfilControlador extends ChangeNotifier {
   final ExcluirContaUseCase excluirContaUseCase;
+  final EditarPerfil editarPerfilUseCase;
 
-  PaginaEditarPerfilControlador({required this.excluirContaUseCase});
+  PaginaEditarPerfilControlador({
+    required this.excluirContaUseCase,
+    required this.editarPerfilUseCase,
+  });
 
   final controladorNome = TextEditingController();
   final controladorNascimento = TextEditingController();
@@ -32,28 +36,32 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   String? validadorGenero(String? value) => value!.isEmpty ? 'Campo obrigatório*' : null;
   String? validadorFoto(String? value) => value!.isEmpty ? 'Campo obrigatório*' : null;
 
-  validarCampos(BuildContext context) {
-    if (carregando == false && globalKeyPaginaEditarPerfil.currentState!.validate()) {
-      perguntar(context);
+  Future<String> validarCampos() async {
+    alterarEstadoCarregando();
+    if (globalKeyPaginaEditarPerfil.currentState!.validate()) {
+      print(nascimentoData);
+      final modeloDeUsuario = ModeloDeUsuario(
+        id: '',
+        nome: '',
+        email: '',
+        fotoUrl: '',
+        genero: 'Masculino',
+        master: false,
+        admin: false,
+        autorizado: false,
+        cadastroConcluido: false,
+        dataNascimento: DateTime.now(),
+      );
+      final resultado = await editarPerfilUseCase(
+        modeloDeUsuario,
+        imagemArquivo: imagemArquivo,
+        nome: controladorNome.text,
+        genero: controladorGenero.toString(),
+        nascimentoData: nascimentoData,
+      );
+      return resultado;
     }
-  }
-
-  perguntar(context) {
-    final controladorFireBaseFireStoreEditarPerfil = Provider.of<FireBaseFireStoreEditarPerfil>(context, listen: false);
-    Mensagens.caixaDeDialogoSimNao(
-      context,
-      titulo: 'Atenção!',
-      texto: 'Você deseja editar seus dados?',
-      textoBotaoSim: 'Sim',
-      textoBotaoNao: 'Não',
-      onPressedSim: () {
-        Navigator.of(context).pop();
-        alterarEstadoCarregando();
-        controladorFireBaseFireStoreEditarPerfil.editarDados(context,
-            imagemArquivo: imagemArquivo, nome: controladorNome.text, genero: controladorGenero.toString(), data: nascimentoData);
-      },
-      onPressedNao: () => Navigator.of(context).pop(),
-    );
+    throw 'Preencha todos os campos!';
   }
 
   Future<void> pegarFoto(ImageSource source) async {

@@ -1,5 +1,6 @@
 import 'package:bl_runners_firebase/providers/interfaces/entrar_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/recuperar_conta_use_case.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 class PaginaEntrarControlador extends ChangeNotifier {
@@ -36,6 +37,10 @@ class PaginaEntrarControlador extends ChangeNotifier {
 
   Future<String> entrar() async {
     atualizarEstadoCarregando();
+
+    final reultado = await Connectivity().checkConnectivity();
+    if (reultado == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+
     if (globalKeyEmailPaginaEntrar.currentState!.validate()) {
       final resultado = await entrarUseCase(
         email: controladorEmail.text.trim(),

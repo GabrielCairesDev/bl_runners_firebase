@@ -17,9 +17,7 @@ class FireBaseFireStoreConcluirCadastro extends ConcluirCadastroUseCase {
   }) async {
     try {
       final usuarioAtual = FirebaseAuth.instance.currentUser;
-      if (usuarioAtual == null) {
-        throw 'Erro ao concluir cadastro:\nUsuário nulo.';
-      }
+      if (usuarioAtual == null) throw 'Erro ao concluir cadastro:\nUsuário nulo.';
 
       final fotoUrl = await _salvarFoto(imagemArquivo: imagemArquivo, usuarioAtual: usuarioAtual);
 
@@ -35,6 +33,10 @@ class FireBaseFireStoreConcluirCadastro extends ConcluirCadastroUseCase {
         cadastroConcluido: true,
         dataNascimento: nascimento,
       );
+
+      final documento = await FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid).get();
+
+      if (!documento.exists) FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid).set({});
 
       await FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid).update(novoModeloDeUsuario.toJson());
 

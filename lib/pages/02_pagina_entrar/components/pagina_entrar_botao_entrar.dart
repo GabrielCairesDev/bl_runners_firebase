@@ -27,13 +27,14 @@ class PaginaEntrarBotaoEntrar extends StatelessWidget {
     FocusScope.of(context).unfocus();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    controladorPaginaEntrar.entrar().then((value) {
-      debugPrint(value);
+    await controladorPaginaEntrar.entrar().then((value) {
+      debugPrint('Entrou: $value');
       context.pushReplacement(Rotas.navegar);
       prefs.setBool("entradaAutomatica", controladorPaginaEntrar.entradaAutomatica);
       controladorPaginaEntrar.resetarValores();
       controladorPaginaEntrar.atualizarEstadoCarregando();
     }).catchError((onError) {
+      debugPrint('Erro: $onError');
       Mensagens.mensagemErro(context, texto: onError);
       controladorPaginaEntrar.atualizarEstadoCarregando();
     });

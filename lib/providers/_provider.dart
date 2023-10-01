@@ -10,6 +10,7 @@ import 'package:bl_runners_firebase/pages/08_pagina_inicio/controller/pagina_ini
 import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_excluir_conta.dart';
 import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_sair.dart';
 import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/editar_perfil_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/sair_use_case.dart';
 import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
@@ -56,8 +57,9 @@ class AppProvider {
 
     // PAGINA EDITAR PERFIL
     Provider<ExcluirContaUseCase>(create: (context) => FirebaseFirestoreExcluirConta()),
+    Provider<EditarPerfil>(create: (context) => FireBaseFireStoreEditarPerfil()),
     ChangeNotifierProvider<PaginaEditarPerfilControlador>(
-        create: (context) => PaginaEditarPerfilControlador(excluirContaUseCase: context.read())),
+        create: (context) => PaginaEditarPerfilControlador(excluirContaUseCase: context.read(), editarPerfilUseCase: context.read())),
 
     //
     Provider<ConcluirCadastroUseCase>(create: (context) => FireBaseFireStoreConcluirCadastro()),
@@ -69,7 +71,6 @@ class AppProvider {
 
     //
     ChangeNotifierProvider<PegarUsuario>(create: (context) => PegarUsuario()),
-    ChangeNotifierProvider<FireBaseFireStoreEditarPerfil>(create: (context) => FireBaseFireStoreEditarPerfil()),
     ChangeNotifierProvider<FirebaseStorageEditarFotoPerfil>(create: (context) => FirebaseStorageEditarFotoPerfil()),
     ChangeNotifierProvider<PaginaNavegacaoControlador>(create: (context) => PaginaNavegacaoControlador()),
   ];

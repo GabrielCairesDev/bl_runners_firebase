@@ -1,76 +1,67 @@
 import 'dart:io';
 
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/controller/pagina_editar_perfil_controlador.dart';
-import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
-import 'package:bl_runners_firebase/providers/firebase/storage/firebase_storage_salvar_editar_foto_perfil.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
+import 'package:bl_runners_firebase/providers/interfaces/editar_perfil_use_case.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
-class FireBaseFireStoreEditarPerfil extends ChangeNotifier {
-  Future<void> editarDados(
-    BuildContext context, {
+class FireBaseFireStoreEditarPerfil extends EditarPerfil {
+  @override
+  Future<String> call(
+    ModeloDeUsuario modeloDeUsuario, {
     required File? imagemArquivo,
     required String nome,
     required String genero,
-    DateTime? data,
+    DateTime? nascimentoData,
   }) async {
-    final controladorPaginaEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context, listen: false);
-    final controladorFirebaseStorageSalvarFotoPerfil = Provider.of<FirebaseStorageEditarFotoPerfil>(context, listen: false);
-    final controladorDataProvider = Provider.of<PegarUsuario>(context, listen: false);
+    try {
+      User? usuarioAtual = FirebaseAuth.instance.currentUser;
 
-    final usuarioAtual = FirebaseAuth.instance.currentUser;
+      if (usuarioAtual == null) throw 'Erro ao editar perfil: Usuário null.';
 
-    if (usuarioAtual != null) {
-      controladorFirebaseStorageSalvarFotoPerfil.editarFoto(context, imagemArquivo: imagemArquivo).then((value) async {
-        final modeloDeUsuario = ModeloDeUsuario(
-          // Manter original
-          id: usuarioAtual.uid.toString(),
-          email: usuarioAtual.email.toString(),
-          master: controladorDataProvider.modeloUsuario?.master ?? false,
-          admin: controladorDataProvider.modeloUsuario?.admin ?? false,
-          autorizado: controladorDataProvider.modeloUsuario?.autorizado ?? false,
-          cadastroConcluido: true,
-          //  Novos  dados
-          nome: nome.toString(),
-          genero: genero.toString(),
-          dataNascimento: data as DateTime,
-          fotoUrl: value.toString(),
-        );
+      String fotoUrl = await _salvarFoto(imagemArquivo: imagemArquivo, usuarioAtual: usuarioAtual);
 
-        final documentoFirebase = await FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid.toString()).get();
+      final documento = await FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid).get();
 
-        if (documentoFirebase.exists == false) await documentoFirebase.reference.set({});
+      if (!documento.exists) FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid).set({});
 
-        await FirebaseFirestore.instance
-            .collection('usuarios')
-            .doc(usuarioAtual.uid.toString())
-            .collection('perfil')
-            .doc('dados')
-            .update(modeloDeUsuario.toJson())
-            .then(
-          (value) {
-            Mensagens.mensagemSucesso(context, texto: 'Perfil editado com sucesso!');
-            controladorPaginaEditarPerfil.alterarEstadoCarregando();
-            context.pop();
-          },
-        ).catchError(
-          (error) {
-            Mensagens.mensagemErro(context, texto: 'Erro ao editar perfil: $error.');
-            controladorPaginaEditarPerfil.alterarEstadoCarregando();
-          },
-        );
-      }).catchError((error) {
-        Mensagens.mensagemErro(context, texto: 'Erro ao carregar foto: $error.');
-        controladorPaginaEditarPerfil.alterarEstadoCarregando();
+      Timestamp? dataNascimentoTimestamp;
+      if (nascimentoData != null) {
+        DateTime dataNascimentoComFusoHorario =
+            nascimentoData.add(Duration(hours: nascimentoData.timeZoneOffset.inHours)); // Adiciona o deslocamento de fuso horário local
+        dataNascimentoTimestamp = Timestamp.fromDate(dataNascimentoComFusoHorario);
+      }
+
+      await FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid).update({
+        'nome': nome,
+        'genero': genero,
+        'dataNascimento': dataNascimentoTimestamp,
+        'fotoUrl': fotoUrl,
       });
+
+      return 'Perfil editado com sucesso!';
+    } catch (error) {
+      throw 'Erro ao editar perfil: $error';
+    }
+  }
+
+  Future<String> _salvarFoto({required File? imagemArquivo, User? usuarioAtual}) async {
+    if (imagemArquivo != null) {
+      try {
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference ref = storage.ref().child("usuarios_foto_perfil/${usuarioAtual!.uid}");
+        await ref.putFile(imagemArquivo);
+
+        String downloadUrl = await ref.getDownloadURL();
+        await usuarioAtual.updatePhotoURL(downloadUrl);
+        return downloadUrl;
+      } catch (e) {
+        throw '$e';
+      }
     } else {
-      Mensagens.mensagemErro(context, texto: 'Erro ao editar perfil: Usuário null.');
-      controladorPaginaEditarPerfil.alterarEstadoCarregando();
+      return usuarioAtual!.photoURL.toString();
     }
   }
 }
