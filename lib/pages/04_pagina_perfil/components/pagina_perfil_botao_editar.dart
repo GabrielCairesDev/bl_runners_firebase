@@ -3,17 +3,17 @@ import 'package:bl_runners_firebase/routes/rotas.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 class PaginaPerfilBotaoEditar extends StatelessWidget {
-  const PaginaPerfilBotaoEditar({super.key});
+  const PaginaPerfilBotaoEditar({super.key, required this.controladorPegarUsuario});
+
+  final PegarUsuario controladorPegarUsuario;
 
   @override
   Widget build(BuildContext context) {
-    final controladorDataProvider = Provider.of<PegarUsuario>(context);
     return FloatingActionButton(
       onPressed: () {
-        if (controladorDataProvider.modeloUsuario?.cadastroConcluido != true) {
+        if (controladorPegarUsuario.modeloUsuario?.cadastroConcluido != true) {
           Mensagens.mensagemInfo(context, texto: 'Conclua o seu cadastro!');
           context.push(Rotas.concluir);
         } else {

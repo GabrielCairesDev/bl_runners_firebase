@@ -25,16 +25,16 @@ class PaginaRegistrarBotaoRegistrar extends StatelessWidget {
     FocusScope.of(context).unfocus();
     controlador
         .registrarUsuario()
-        .then((value) => _registrarUsuarioSucesso(context, value: value))
-        .catchError((onError) => _registrarUsuarioErro(context, onError: onError));
+        .then((value) => _registrarUsuarioSucesso(context, value))
+        .catchError((onError) => _registrarUsuarioErro(context, onError));
   }
 
-  _registrarUsuarioSucesso(BuildContext context, {required value}) {
+  _registrarUsuarioSucesso(BuildContext context, value) {
     context.pop();
     Mensagens.mensagemSucesso(context, texto: value);
   }
 
-  _registrarUsuarioErro(BuildContext context, {required onError}) {
+  _registrarUsuarioErro(BuildContext context, onError) {
     Mensagens.mensagemErro(context, texto: onError);
   }
 }

@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 import '../controller/pagina_registrar_controlador.dart';
 
 class PaginaRegistrarCampoNome extends StatelessWidget {
-  const PaginaRegistrarCampoNome({super.key});
+  const PaginaRegistrarCampoNome({super.key, required this.controlador});
+
+  final PaginaRegistrarUsuarioControlador controlador;
 
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRegistrar = context.read<PaginaRegistrarUsuarioControlador>();
     return TextFormField(
-      controller: controladorPaginaRegistrar.controladorNome,
-      validator: controladorPaginaRegistrar.validadorNome,
+      controller: controlador.controladorNome,
+      validator: controlador.validadorNome,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZáÁâÂãÃàÀéÉêÊíÍóÓôÔõÕúÚüÜçÇ ]')),
       ],
       onChanged: (value) {
-        controladorPaginaRegistrar.controladorNome.text = observarPalavras(value);
-        controladorPaginaRegistrar.controladorNome.selection = TextSelection.fromPosition(
-          TextPosition(offset: controladorPaginaRegistrar.controladorNome.text.length),
+        controlador.controladorNome.text = observarPalavras(value);
+        controlador.controladorNome.selection = TextSelection.fromPosition(
+          TextPosition(offset: controlador.controladorNome.text.length),
         );
       },
       decoration: const InputDecoration(

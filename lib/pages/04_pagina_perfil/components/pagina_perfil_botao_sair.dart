@@ -1,13 +1,14 @@
+import 'package:bl_runners_firebase/main.dart';
 import 'package:bl_runners_firebase/pages/04_pagina_perfil/controller/pagina_perfil_controlador.dart';
 import 'package:bl_runners_firebase/routes/rotas.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PaginaEditarBotaoSair extends StatelessWidget {
-  const PaginaEditarBotaoSair({super.key});
+  const PaginaEditarBotaoSair({super.key, required this.controlador});
+
+  final PaginaPerfilControlador controlador;
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +19,18 @@ class PaginaEditarBotaoSair extends StatelessWidget {
   }
 
   _sair(BuildContext context) async {
-    final controladorPaginaPerfil = context.read<PaginaPerfilControlador>();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    controladorPaginaPerfil.sair().then((value) async {
-      prefs.setBool("entrarAutomaticamente", false);
-      context.pushReplacement(Rotas.entrar);
-      debugPrint(value);
-    }).catchError((onError) {
-      Mensagens.mensagemErro(context, texto: onError);
-    });
+    controlador.sair().then((value) => _sairSucesso(context, value)).catchError(
+          (onError) => _sairErro(context, onError),
+        );
+  }
+
+  _sairSucesso(BuildContext context, value) {
+    context.pushReplacement(Rotas.entrar);
+    logger.d(value);
+  }
+
+  _sairErro(BuildContext context, onError) {
+    Mensagens.mensagemErro(context, texto: onError);
+    logger.d(onError);
   }
 }

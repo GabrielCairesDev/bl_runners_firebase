@@ -1,9 +1,10 @@
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class PaginaPerfilAvatar extends StatelessWidget {
-  const PaginaPerfilAvatar({super.key});
+  const PaginaPerfilAvatar({super.key, required this.controladorPegarUsuario});
+
+  final PegarUsuario controladorPegarUsuario;
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +18,12 @@ class PaginaPerfilAvatar extends StatelessWidget {
   }
 
   fotoPerfil(BuildContext context) {
-    final controladorDataProvider = Provider.of<PegarUsuario>(context);
-    final foto = controladorDataProvider.modeloUsuario?.fotoUrl;
+    final foto = controladorPegarUsuario.modeloUsuario?.fotoUrl;
 
-    if (foto == null || foto.isEmpty) {
-      return Image.asset('assets/images/avatar.png');
-    }
+    if (foto == null || foto.isEmpty) return Image.asset('assets/images/avatar.png');
 
     return Image.network(
-      controladorDataProvider.modeloUsuario!.fotoUrl.toString(),
+      controladorPegarUsuario.modeloUsuario!.fotoUrl.toString(),
       fit: BoxFit.cover,
       errorBuilder: (context, error, stackTrace) {
         return Image.asset('assets/images/avatar.png');

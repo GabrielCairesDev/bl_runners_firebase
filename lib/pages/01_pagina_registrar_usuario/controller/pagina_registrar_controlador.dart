@@ -14,8 +14,6 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
 
   final GlobalKey<FormState> globalKeyPaginaRegistrar = GlobalKey<FormState>();
 
-  bool esconderSenha = true;
-  bool esconderSenha2 = true;
   bool carregando = false;
 
   String? validadorNome(String? value) {
@@ -92,8 +90,6 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
     controladorEmail.clear();
     controladorSenha.clear();
     controladorCnfirmarSenha.clear();
-    esconderSenha = true;
-    esconderSenha2 = true;
   }
 
   atualizarCarregando() {

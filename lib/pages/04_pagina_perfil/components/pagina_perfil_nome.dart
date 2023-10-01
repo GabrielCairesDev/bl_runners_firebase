@@ -1,9 +1,10 @@
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class PaginaPerfilNome extends StatefulWidget {
-  const PaginaPerfilNome({super.key});
+  const PaginaPerfilNome({super.key, required this.controladorPegarUsuario});
+
+  final PegarUsuario controladorPegarUsuario;
 
   @override
   State<PaginaPerfilNome> createState() => _PaginaPerfilNomeState();
@@ -12,14 +13,11 @@ class PaginaPerfilNome extends StatefulWidget {
 class _PaginaPerfilNomeState extends State<PaginaPerfilNome> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: nomePerfil(),
-    );
+    return Center(child: nomePerfil());
   }
 
   nomePerfil() {
-    final controladorDataProvider = Provider.of<PegarUsuario>(context);
-    final nomeUsuario = controladorDataProvider.modeloUsuario?.nome;
+    final nomeUsuario = widget.controladorPegarUsuario.modeloUsuario?.nome;
 
     final nome = nomeUsuario != null && nomeUsuario.isNotEmpty ? nomeUsuario : 'Nome Desconhecido';
 

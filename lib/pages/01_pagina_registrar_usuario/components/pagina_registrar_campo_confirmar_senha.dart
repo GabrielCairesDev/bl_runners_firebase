@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../controller/pagina_registrar_controlador.dart';
 
@@ -13,20 +12,27 @@ class PaginaRegistrarCampoConfirmarSenha extends StatefulWidget {
 }
 
 class _PaginaRegistrarCampoConfirmarSenhaState extends State<PaginaRegistrarCampoConfirmarSenha> {
+  bool esconderSenha = true;
+
+  @override
+  void initState() {
+    esconderSenha = true;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRegistrar = context.read<PaginaRegistrarUsuarioControlador>();
     return TextFormField(
-      controller: controladorPaginaRegistrar.controladorCnfirmarSenha,
-      validator: controladorPaginaRegistrar.validadorConfirmarSenha,
-      obscureText: controladorPaginaRegistrar.esconderSenha2,
+      controller: widget.controlador.controladorCnfirmarSenha,
+      validator: widget.controlador.validadorConfirmarSenha,
+      obscureText: esconderSenha,
       decoration: InputDecoration(
         hintText: 'Confirme a sua senha',
         labelText: 'Confirmar senha',
         prefixIcon: const Icon(Icons.key),
         suffixIcon: InkWell(
-          onTap: () => setState(() => controladorPaginaRegistrar.esconderSenha2 = !controladorPaginaRegistrar.esconderSenha2),
-          child: Icon(controladorPaginaRegistrar.esconderSenha2 ? Icons.visibility_off : Icons.visibility),
+          onTap: () => setState(() => esconderSenha = !esconderSenha),
+          child: Icon(esconderSenha ? Icons.visibility_off : Icons.visibility),
         ),
       ),
     );

@@ -13,7 +13,7 @@ import 'package:bl_runners_firebase/providers/firebase/firebase_entrar.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_entrar_automaticamente.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_excluir_conta.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_recuperar_conta.dart';
-import 'package:bl_runners_firebase/providers/firebase/firebase_egistrar_atividade.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_registrar_atividade.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_registrar_usuario.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_firestore_sair.dart';
 import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_case.dart';

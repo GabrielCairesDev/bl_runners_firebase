@@ -1,6 +1,9 @@
 import 'package:bl_runners_firebase/pages/04_pagina_perfil/components/pagina_perfil_botao_editar.dart';
 import 'package:bl_runners_firebase/pages/04_pagina_perfil/components/pagina_perfil_botao_sair.dart';
+import 'package:bl_runners_firebase/pages/04_pagina_perfil/controller/pagina_perfil_controlador.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../components/pagina_perfil_avatar.dart';
 import '../components/pagina_perfil_nome.dart';
@@ -11,11 +14,15 @@ class PaginaPerfil extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controladorPaginaPerfil = Provider.of<PaginaPerfilControlador>(context);
+    final controladorPegarUsuario = Provider.of<PegarUsuario>(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('Perfil'),
-        actions: const [PaginaEditarBotaoSair()],
+        actions: [
+          PaginaEditarBotaoSair(controlador: controladorPaginaPerfil),
+        ],
       ),
       body: SingleChildScrollView(
         child: Stack(
@@ -25,20 +32,20 @@ class PaginaPerfil extends StatelessWidget {
               width: double.infinity,
               color: const Color(0xFFc1d22b),
             ),
-            const Column(
+            Column(
               children: [
-                SizedBox(height: 88),
-                PaginaPerfilAvatar(),
-                SizedBox(height: 8),
-                PaginaPerfilNome(),
-                SizedBox(height: 8),
-                PaginaPerfilRecordes(),
+                const SizedBox(height: 88),
+                PaginaPerfilAvatar(controladorPegarUsuario: controladorPegarUsuario),
+                const SizedBox(height: 8),
+                PaginaPerfilNome(controladorPegarUsuario: controladorPegarUsuario),
+                const SizedBox(height: 8),
+                const PaginaPerfilRecordes(),
               ],
             ),
           ],
         ),
       ),
-      floatingActionButton: const PaginaPerfilBotaoEditar(),
+      floatingActionButton: PaginaPerfilBotaoEditar(controladorPegarUsuario: controladorPegarUsuario),
     );
   }
 }
