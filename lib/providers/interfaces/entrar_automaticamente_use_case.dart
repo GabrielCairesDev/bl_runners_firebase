@@ -1,3 +1,3 @@
 abstract class EntrarAutomaticamenteUseCase {
-  Future<String> call();
+  Future<String> call({required bool entrarAutomaticamente});
 }

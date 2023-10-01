@@ -39,7 +39,6 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   Future<String> validarCampos() async {
     alterarEstadoCarregando();
     if (globalKeyPaginaEditarPerfil.currentState!.validate()) {
-      print(nascimentoData);
       final modeloDeUsuario = ModeloDeUsuario(
         id: '',
         nome: '',

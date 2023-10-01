@@ -30,7 +30,7 @@ class PaginaEntrarBotaoEntrar extends StatelessWidget {
     await controladorPaginaEntrar.entrar().then((value) {
       debugPrint('Entrou: $value');
       context.pushReplacement(Rotas.navegar);
-      prefs.setBool("entradaAutomatica", controladorPaginaEntrar.entradaAutomatica);
+      prefs.setBool("entrarAutomaticamente", controladorPaginaEntrar.entrarAutomaticamente);
       controladorPaginaEntrar.resetarValores();
       controladorPaginaEntrar.atualizarEstadoCarregando();
     }).catchError((onError) {

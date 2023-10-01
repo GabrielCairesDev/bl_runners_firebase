@@ -7,21 +7,20 @@ import 'package:bl_runners_firebase/pages/02_pagina_entrar/controller/pagina_ent
 import 'package:bl_runners_firebase/pages/03_pagina_navegacao/controller/pagina_navegacao_controlador.dart';
 import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
 import 'package:bl_runners_firebase/pages/08_pagina_inicio/controller/pagina_inicio_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_excluir_conta.dart';
-import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_sair.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_concluir_cadastro.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_editar_perfil.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_entrar.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_entrar_automaticamente.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_excluir_conta.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_recuperar_conta.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_egistrar_atividade.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_registrar_usuario.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_firestore_sair.dart';
 import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/editar_perfil_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/sair_use_case.dart';
-import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
-import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_concluir_cadastro.dart';
-import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_editar_perfil.dart';
-import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_entrar.dart';
-import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_entrar_automaticamente.dart';
-import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_recuperar_conta.dart';
-import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_registrar_atividade.dart';
-import 'package:bl_runners_firebase/providers/firebase/firestore/firebase_firestore_registrar_usuario.dart';
-import 'package:bl_runners_firebase/providers/firebase/storage/firebase_storage_salvar_editar_foto_perfil.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
 import 'package:bl_runners_firebase/providers/interfaces/entrar_automaticamente_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/entrar_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/recuperar_conta_use_case.dart';
@@ -32,37 +31,37 @@ import 'package:provider/provider.dart';
 class AppProvider {
   static final provider = [
     // HOME PAGE
-    Provider<EntrarAutomaticamenteUseCase>(create: (context) => FirebaseFirestoreEntrarAutomaticamente()),
-    ChangeNotifierProvider<HomePageController>(create: (context) => HomePageController(entrarAutomaticamenteUseCase: context.read())),
+    Provider<EntrarAutomaticamenteUseCase>(create: (context) => FirebaseEntrarAutomaticamente()),
+    ChangeNotifierProvider<HomePageControlador>(create: (context) => HomePageControlador(entrarAutomaticamenteUseCase: context.read())),
 
     // PAGINA REGISTRAR ATIVIDADE
-    Provider<RegistrarAtividadeUseCase>(create: (context) => FirebaseFirestoreRegistrarAtividade()),
+    Provider<RegistrarAtividadeUseCase>(create: (context) => FirebaseRegistrarAtividade()),
     ChangeNotifierProvider<PaginaRegistrarAtividadeControlador>(
         create: (context) => PaginaRegistrarAtividadeControlador(registrarAtividadeUserCase: context.read())),
 
     // PAGINA ENTRAR
-    Provider<EntrarUseCase>(create: (context) => FirebaseFirestoreEntrar()),
-    Provider<RecuperarContaUseCase>(create: (context) => FirebaseFirestoreRecuperarConta()),
+    Provider<EntrarUseCase>(create: (context) => FirebaseEntrar()),
+    Provider<RecuperarContaUseCase>(create: (context) => FirebaseRecuperarConta()),
     ChangeNotifierProvider<PaginaEntrarControlador>(
         create: (context) => PaginaEntrarControlador(entrarUseCase: context.read(), recuperarContaUseCase: context.read())),
 
     // PAGINA REGISTRAR USUARIO
-    Provider<RegistrarUsuarioUseCase>(create: (context) => FirebaseFirestoreRegistrarUsuario()),
+    Provider<RegistrarUsuarioUseCase>(create: (context) => FirebaseRegistrarUsuario()),
     ChangeNotifierProvider<PaginaRegistrarUsuarioControlador>(
         create: (context) => PaginaRegistrarUsuarioControlador(registrarUsuarioUseCase: context.read())),
 
     // PAGINA PERFIL
-    Provider<SairUseCase>(create: (context) => FirebaseStoreSair()),
+    Provider<SairUseCase>(create: (context) => FirebaseSair()),
     ChangeNotifierProvider<PaginaPerfilControlador>(create: (context) => PaginaPerfilControlador(sairUseCase: context.read())),
 
     // PAGINA EDITAR PERFIL
-    Provider<ExcluirContaUseCase>(create: (context) => FirebaseFirestoreExcluirConta()),
-    Provider<EditarPerfil>(create: (context) => FireBaseFireStoreEditarPerfil()),
+    Provider<ExcluirContaUseCase>(create: (context) => FirebaseExcluirConta()),
+    Provider<EditarPerfil>(create: (context) => FireBaseEditarPerfil()),
     ChangeNotifierProvider<PaginaEditarPerfilControlador>(
         create: (context) => PaginaEditarPerfilControlador(excluirContaUseCase: context.read(), editarPerfilUseCase: context.read())),
 
-    //
-    Provider<ConcluirCadastroUseCase>(create: (context) => FireBaseFireStoreConcluirCadastro()),
+    // PAGINA CONCLUIR CADASTRO
+    Provider<ConcluirCadastroUseCase>(create: (context) => FireBaseConcluirCadastro()),
     ChangeNotifierProvider<PaginaConcluirCadastroControlador>(
         create: (context) => PaginaConcluirCadastroControlador(concluirCadastroUseCase: context.read())),
 
@@ -71,7 +70,6 @@ class AppProvider {
 
     //
     ChangeNotifierProvider<PegarUsuario>(create: (context) => PegarUsuario()),
-    ChangeNotifierProvider<FirebaseStorageEditarFotoPerfil>(create: (context) => FirebaseStorageEditarFotoPerfil()),
     ChangeNotifierProvider<PaginaNavegacaoControlador>(create: (context) => PaginaNavegacaoControlador()),
   ];
 }

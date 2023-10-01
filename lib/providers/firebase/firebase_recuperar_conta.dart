@@ -2,7 +2,7 @@ import 'package:bl_runners_firebase/errors/custom_exception.dart';
 import 'package:bl_runners_firebase/providers/interfaces/recuperar_conta_use_case.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseFirestoreRecuperarConta extends RecuperarContaUseCase {
+class FirebaseRecuperarConta extends RecuperarContaUseCase {
   @override
   Future<String> call({required String email}) async {
     try {

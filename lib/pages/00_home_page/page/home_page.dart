@@ -1,3 +1,4 @@
+import 'package:bl_runners_firebase/main.dart';
 import 'package:bl_runners_firebase/pages/00_home_page/controller/home_page_controller.dart';
 import 'package:bl_runners_firebase/routes/rotas.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    _entradaAutomatica(context);
+    _entrarAutomaticamente(context);
     super.initState();
   }
 
@@ -27,14 +28,21 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _entradaAutomatica(BuildContext context) {
-    final controladorHomePage = context.read<HomePageController>();
-    controladorHomePage.entrarAutomaticamente().then((value) {
-      context.pushReplacement(Rotas.navegar);
-      debugPrint(value);
-    }).catchError((onError) {
-      context.pushReplacement(Rotas.entrar);
-      debugPrint(onError);
-    });
+  _entrarAutomaticamente(BuildContext context) {
+    final controlador = context.read<HomePageControlador>();
+    controlador
+        .entrarAutomaticamente()
+        .then((value) => _entrarAutomaticamenteSucesso(value: value))
+        .catchError((onError) => _entrarAutomaticamenteErro(onError: onError));
+  }
+
+  _entrarAutomaticamenteSucesso({required value}) {
+    context.pushReplacement(Rotas.navegar);
+    logger.d(value);
+  }
+
+  _entrarAutomaticamenteErro({required onError}) {
+    context.pushReplacement(Rotas.entrar);
+    logger.d(onError);
   }
 }

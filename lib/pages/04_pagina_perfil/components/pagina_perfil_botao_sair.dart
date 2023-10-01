@@ -21,7 +21,7 @@ class PaginaEditarBotaoSair extends StatelessWidget {
     final controladorPaginaPerfil = context.read<PaginaPerfilControlador>();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     controladorPaginaPerfil.sair().then((value) async {
-      prefs.setBool("entradaAutomatica", false);
+      prefs.setBool("entrarAutomaticamente", false);
       context.pushReplacement(Rotas.entrar);
       debugPrint(value);
     }).catchError((onError) {

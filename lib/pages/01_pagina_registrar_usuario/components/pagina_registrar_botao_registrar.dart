@@ -1,12 +1,13 @@
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../controller/pagina_registrar_controlador.dart';
 
 class PaginaRegistrarBotaoRegistrar extends StatelessWidget {
-  const PaginaRegistrarBotaoRegistrar({super.key});
+  const PaginaRegistrarBotaoRegistrar({super.key, required this.controlador});
+
+  final PaginaRegistrarUsuarioControlador controlador;
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +22,19 @@ class PaginaRegistrarBotaoRegistrar extends StatelessWidget {
   }
 
   _registrarUsuario(BuildContext context) {
-    final controladorPaginaRegistrarUsuario = context.read<PaginaRegistrarUsuarioControlador>();
     FocusScope.of(context).unfocus();
-    controladorPaginaRegistrarUsuario.registrarUsuario().then((value) {
-      context.pop();
-      controladorPaginaRegistrarUsuario.resetarValores();
-      controladorPaginaRegistrarUsuario.atualizarCarregando();
-      Mensagens.mensagemSucesso(context, texto: value.toString());
-    }).catchError(
-      (onError) {
-        controladorPaginaRegistrarUsuario.atualizarCarregando();
-        Mensagens.mensagemErro(context, texto: onError.toString());
-      },
-    );
+    controlador
+        .registrarUsuario()
+        .then((value) => _registrarUsuarioSucesso(context, value: value))
+        .catchError((onError) => _registrarUsuarioErro(context, onError: onError));
+  }
+
+  _registrarUsuarioSucesso(BuildContext context, {required value}) {
+    context.pop();
+    Mensagens.mensagemSucesso(context, texto: value);
+  }
+
+  _registrarUsuarioErro(BuildContext context, {required onError}) {
+    Mensagens.mensagemErro(context, texto: onError);
   }
 }

@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import '../controller/pagina_registrar_controlador.dart';
 
 class PaginaRegistrarCampoConfirmarSenha extends StatefulWidget {
-  const PaginaRegistrarCampoConfirmarSenha({super.key});
+  const PaginaRegistrarCampoConfirmarSenha({super.key, required this.controlador});
+
+  final PaginaRegistrarUsuarioControlador controlador;
 
   @override
   State<PaginaRegistrarCampoConfirmarSenha> createState() => _PaginaRegistrarCampoConfirmarSenhaState();

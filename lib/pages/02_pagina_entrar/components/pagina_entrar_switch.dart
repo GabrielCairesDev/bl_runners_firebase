@@ -16,13 +16,13 @@ class _PaginaEntrarSwitch extends State<PaginaEntrarSwitch> {
     return Row(
       children: [
         Switch(
-          value: controladorPaginaEntrar.entradaAutomatica,
+          value: controladorPaginaEntrar.entrarAutomaticamente,
           activeColor: const Color(0xFFc1d22b),
           onChanged: (bool value) => setState(
-            () => controladorPaginaEntrar.entradaAutomatica = !controladorPaginaEntrar.entradaAutomatica,
+            () => controladorPaginaEntrar.entrarAutomaticamente = !controladorPaginaEntrar.entrarAutomaticamente,
           ),
         ),
-        const Text('Entrar automática')
+        const Text('Entrar automaticamente')
       ],
     );
   }

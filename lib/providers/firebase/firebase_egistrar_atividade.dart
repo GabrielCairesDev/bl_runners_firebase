@@ -3,7 +3,7 @@ import 'package:bl_runners_firebase/providers/interfaces/registrar_atividade_use
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseFirestoreRegistrarAtividade extends RegistrarAtividadeUseCase {
+class FirebaseRegistrarAtividade extends RegistrarAtividadeUseCase {
   @override
   Future<String> call(ModeloDeAtividade modeloDeAtividade) async {
     final usuarioAtual = FirebaseAuth.instance.currentUser;

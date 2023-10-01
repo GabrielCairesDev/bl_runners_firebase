@@ -3,7 +3,7 @@ import 'package:bl_runners_firebase/providers/interfaces/registrar_usuario_use_c
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseFirestoreRegistrarUsuario extends RegistrarUsuarioUseCase {
+class FirebaseRegistrarUsuario extends RegistrarUsuarioUseCase {
   @override
   Future<String> call(
     ModeloDeUsuario modeloDeUsuario, {

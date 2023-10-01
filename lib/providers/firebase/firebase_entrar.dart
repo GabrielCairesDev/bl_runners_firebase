@@ -1,7 +1,7 @@
 import 'package:bl_runners_firebase/providers/interfaces/entrar_use_case.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseFirestoreEntrar extends EntrarUseCase {
+class FirebaseEntrar extends EntrarUseCase {
   @override
   Future<String> call({required String email, required String senha}) async {
     try {

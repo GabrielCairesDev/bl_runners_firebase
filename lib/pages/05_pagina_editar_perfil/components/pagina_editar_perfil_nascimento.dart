@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +20,7 @@ class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascime
     controlador.controladorNascimento.text =
         DateFormat('dd/MM/yyyy').format(controladorUsuario.modeloUsuario?.dataNascimento ?? DateTime.now());
     controlador.nascimentoData = controladorUsuario.modeloUsuario?.dataNascimento ?? DateTime.now();
+
     super.initState();
   }
 

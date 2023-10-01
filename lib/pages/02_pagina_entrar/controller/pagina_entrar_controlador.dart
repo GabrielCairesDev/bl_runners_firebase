@@ -15,7 +15,7 @@ class PaginaEntrarControlador extends ChangeNotifier {
   final GlobalKey<FormState> globalKeyEmailPaginaEntrar = GlobalKey<FormState>();
 
   bool esconderSenha = true;
-  bool entradaAutomatica = false;
+  bool entrarAutomaticamente = false;
   bool carregando = false;
 
   String? validadorEmail(String? value) {
@@ -61,7 +61,7 @@ class PaginaEntrarControlador extends ChangeNotifier {
     controladorSenha.clear();
     controladorEmailRecuperar.clear();
     esconderSenha = true;
-    entradaAutomatica = false;
+    entrarAutomaticamente = false;
   }
 
   atualizarEstadoCarregando() {

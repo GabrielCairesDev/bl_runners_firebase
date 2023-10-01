@@ -19,9 +19,9 @@ class PaginaRegistrar extends StatefulWidget {
 class _PaginaRegistrarState extends State<PaginaRegistrar> {
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRegistrar = Provider.of<PaginaRegistrarUsuarioControlador>(context);
+    final controlador = Provider.of<PaginaRegistrarUsuarioControlador>(context);
     return AbsorbPointer(
-      absorbing: controladorPaginaRegistrar.carregando,
+      absorbing: controlador.carregando,
       child: Scaffold(
         body: SingleChildScrollView(
           reverse: true,
@@ -30,27 +30,27 @@ class _PaginaRegistrarState extends State<PaginaRegistrar> {
             child: Stack(
               children: [
                 Form(
-                  key: controladorPaginaRegistrar.globalKeyPaginaRegistrar,
-                  child: const Column(
+                  key: controlador.globalKeyPaginaRegistrar,
+                  child: Column(
                     children: [
-                      PaginaRegistrarLogo(),
-                      SizedBox(height: 16),
-                      PaginaRegistrarCampoNome(),
-                      SizedBox(height: 16),
-                      PaginaRegistrarCampoEmail(),
-                      SizedBox(height: 16),
-                      PaginaRegistrarCampoSenha(),
-                      SizedBox(height: 16),
-                      PaginaRegistrarCampoConfirmarSenha(),
-                      SizedBox(height: 16),
-                      PaginaRegistrarBotaoRegistrar(),
+                      const PaginaRegistrarLogo(),
+                      const SizedBox(height: 16),
+                      const PaginaRegistrarCampoNome(),
+                      const SizedBox(height: 16),
+                      const PaginaRegistrarCampoEmail(),
+                      const SizedBox(height: 16),
+                      const PaginaRegistrarCampoSenha(),
+                      const SizedBox(height: 16),
+                      PaginaRegistrarCampoConfirmarSenha(controlador: controlador),
+                      const SizedBox(height: 16),
+                      PaginaRegistrarBotaoRegistrar(controlador: controlador),
                     ],
                   ),
                 ),
                 Positioned.fill(
                   child: Center(
                     child: Visibility(
-                      visible: controladorPaginaRegistrar.carregando,
+                      visible: controlador.carregando,
                       child: const CircularProgressIndicator(),
                     ),
                   ),

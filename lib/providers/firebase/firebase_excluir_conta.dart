@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class FirebaseFirestoreExcluirConta extends ExcluirContaUseCase {
+class FirebaseExcluirConta extends ExcluirContaUseCase {
   @override
   Future<String> call({required String senha}) async {
     final user = FirebaseAuth.instance.currentUser;

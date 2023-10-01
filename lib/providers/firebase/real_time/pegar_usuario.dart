@@ -7,18 +7,13 @@ class PegarUsuario extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   ModeloDeUsuario? modeloUsuario;
 
-  // Metodo para pegar usuário Data
   Future<void> pegarUsuarioData() async {
-    // Pegar usuário atual
-    final user = FirebaseAuth.instance.currentUser;
+    final usuarioAtual = FirebaseAuth.instance.currentUser;
 
-    // Verificar se é nulo
-    if (user != null) {
-      // Pegar o documento com os dados
-      final userData = _firestore.collection('usuarios').doc(user.uid).snapshots();
+    if (usuarioAtual != null) {
+      final documento = _firestore.collection('usuarios').doc(usuarioAtual.uid).snapshots();
 
-      // Organizar os dados
-      userData.listen(
+      documento.listen(
         (snapshot) {
           if (snapshot.exists) {
             final data = snapshot.data() as Map<String, dynamic>;

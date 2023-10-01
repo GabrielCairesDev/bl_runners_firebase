@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/pegar_usuario.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
 import 'package:bl_runners_firebase/routes/rotas.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
