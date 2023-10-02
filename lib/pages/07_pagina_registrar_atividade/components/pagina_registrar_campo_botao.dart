@@ -15,9 +15,9 @@ class PaginaRegistrarCampoBotao extends StatelessWidget {
     );
   }
 
-  _registrarAtividade(BuildContext context) {
+  _registrarAtividade(BuildContext context) async {
     final controladorPaginaRegistrarAtividade = context.read<PaginaRegistrarAtividadeControlador>();
-    controladorPaginaRegistrarAtividade.registrarAtividade().then((value) {
+    await controladorPaginaRegistrarAtividade.registrarAtividade().then((value) {
       FocusScope.of(context).unfocus();
       context.pop();
       controladorPaginaRegistrarAtividade.alterarCarregando();

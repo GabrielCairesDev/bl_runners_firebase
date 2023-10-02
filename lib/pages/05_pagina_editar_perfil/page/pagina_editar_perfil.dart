@@ -1,6 +1,7 @@
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/components/pagina_editar_link_excluir.dart';
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/components/pagina_editar_perfil_foto.dart';
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/components/pagina_editar_perfil_nome.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,9 +15,10 @@ class PaginaEditarPerfil extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controladorPerfilControlador = Provider.of<PaginaEditarPerfilControlador>(context);
+    final controladorEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context);
+    final controladorPegarUsuario = Provider.of<PegarUsuario>(context);
     return AbsorbPointer(
-      absorbing: controladorPerfilControlador.carregando,
+      absorbing: controladorEditarPerfil.carregando,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Editar Perfil'),
@@ -27,25 +29,34 @@ class PaginaEditarPerfil extends StatelessWidget {
             child: Stack(
               children: [
                 Form(
-                  key: controladorPerfilControlador.globalKeyPaginaEditarPerfil,
-                  child: const Column(
+                  key: controladorEditarPerfil.globalKeyPaginaEditarPerfil,
+                  child: Column(
                     children: [
-                      PaginaEditarPerfilNome(),
-                      SizedBox(height: 8),
-                      PaginaEditarPerfilGenero(),
-                      SizedBox(height: 8),
-                      PaginaEditarPerfilNascimento(),
-                      SizedBox(height: 8),
-                      PaginaEditarPerfilFoto(),
-                      SizedBox(height: 8),
-                      PaginaEditarBotaoEditar()
+                      PaginaEditarPerfilNome(
+                        controladorEditarPerfil: controladorEditarPerfil,
+                        controladorPegarUsuario: controladorPegarUsuario,
+                      ),
+                      const SizedBox(height: 8),
+                      PaginaEditarPerfilGenero(
+                        controladorEditarPerfil: controladorEditarPerfil,
+                        controladorPegarUsuario: controladorPegarUsuario,
+                      ),
+                      const SizedBox(height: 8),
+                      PaginaEditarPerfilNascimento(
+                        controladorEditarPerfil: controladorEditarPerfil,
+                        controladorPegarUsuario: controladorPegarUsuario,
+                      ),
+                      const SizedBox(height: 8),
+                      PaginaEditarPerfilFoto(controlador: controladorEditarPerfil),
+                      const SizedBox(height: 8),
+                      PaginaEditarBotaoEditar(controlador: controladorEditarPerfil)
                     ],
                   ),
                 ),
                 Positioned.fill(
                   child: Center(
                     child: Visibility(
-                      visible: controladorPerfilControlador.carregando,
+                      visible: controladorEditarPerfil.carregando,
                       child: const CircularProgressIndicator(),
                     ),
                   ),
@@ -54,7 +65,7 @@ class PaginaEditarPerfil extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: const PaginaEditarLinkExcluir(),
+        bottomNavigationBar: PaginaEditarLinkExcluir(controlador: controladorEditarPerfil),
       ),
     );
   }

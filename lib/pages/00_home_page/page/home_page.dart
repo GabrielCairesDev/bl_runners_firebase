@@ -28,9 +28,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _entrarAutomaticamente(BuildContext context) {
+  _entrarAutomaticamente(BuildContext context) async {
     final controlador = context.read<HomePageControlador>();
-    controlador
+    await controlador
         .entrarAutomaticamente()
         .then((value) => _entrarAutomaticamenteSucesso(value: value))
         .catchError((onError) => _entrarAutomaticamenteErro(onError: onError));

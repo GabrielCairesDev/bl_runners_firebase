@@ -20,10 +20,10 @@ class PaginaConcluirBotaoConcluir extends StatelessWidget {
     );
   }
 
-  _concluirCadastro(BuildContext context) {
+  _concluirCadastro(BuildContext context) async {
     final controladorPaginaConcluirControlador = context.read<PaginaConcluirCadastroControlador>();
 
-    controladorPaginaConcluirControlador.concluirCadastro().then((value) {
+    await controladorPaginaConcluirControlador.concluirCadastro().then((value) {
       context.pop();
       controladorPaginaConcluirControlador.alterarEstadoCarregando();
       Mensagens.mensagemSucesso(context, texto: value);

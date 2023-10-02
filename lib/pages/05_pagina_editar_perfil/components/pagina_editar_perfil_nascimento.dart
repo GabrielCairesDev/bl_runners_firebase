@@ -6,7 +6,10 @@ import 'package:provider/provider.dart';
 import '../controller/pagina_editar_perfil_controlador.dart';
 
 class PaginaEditarPerfilNascimento extends StatefulWidget {
-  const PaginaEditarPerfilNascimento({super.key});
+  const PaginaEditarPerfilNascimento({super.key, required this.controladorEditarPerfil, required this.controladorPegarUsuario});
+
+  final PaginaEditarPerfilControlador controladorEditarPerfil;
+  final PegarUsuario controladorPegarUsuario;
 
   @override
   State<PaginaEditarPerfilNascimento> createState() => _PaginaEditarPerfilNascimentoState();
@@ -15,11 +18,9 @@ class PaginaEditarPerfilNascimento extends StatefulWidget {
 class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascimento> {
   @override
   void initState() {
-    final controlador = context.read<PaginaEditarPerfilControlador>();
-    final controladorUsuario = Provider.of<PegarUsuario>(context, listen: false);
-    controlador.controladorNascimento.text =
-        DateFormat('dd/MM/yyyy').format(controladorUsuario.modeloUsuario?.dataNascimento ?? DateTime.now());
-    controlador.nascimentoData = controladorUsuario.modeloUsuario?.dataNascimento ?? DateTime.now();
+    widget.controladorEditarPerfil.controladorNascimento.text =
+        DateFormat('dd/MM/yyyy').format(widget.controladorPegarUsuario.modeloUsuario?.dataNascimento ?? DateTime.now());
+    widget.controladorEditarPerfil.nascimentoData = widget.controladorPegarUsuario.modeloUsuario?.dataNascimento ?? DateTime.now();
 
     super.initState();
   }

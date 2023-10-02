@@ -8,7 +8,9 @@ import 'package:provider/provider.dart';
 import '../controller/pagina_editar_perfil_controlador.dart';
 
 class PaginaEditarPerfilFoto extends StatefulWidget {
-  const PaginaEditarPerfilFoto({super.key});
+  const PaginaEditarPerfilFoto({super.key, required this.controlador});
+
+  final PaginaEditarPerfilControlador controlador;
 
   @override
   State<PaginaEditarPerfilFoto> createState() => _PaginaEditarPerfilFotoState();
@@ -24,18 +26,16 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
 
   @override
   Widget build(BuildContext context) {
-    final controlador = Provider.of<PaginaEditarPerfilControlador>(context);
-
     return WillPopScope(
       onWillPop: () async {
-        controlador.imagemArquivo = null;
+        widget.controlador.imagemArquivo = null;
         return true;
       },
       child: Stack(
         children: [
           TextFormField(
-            controller: controlador.controladorFoto,
-            validator: controlador.validadorFoto,
+            controller: widget.controlador.controladorFoto,
+            validator: widget.controlador.validadorFoto,
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.photo, color: Colors.blueGrey),
               filled: true,
@@ -47,7 +47,7 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
             ),
             readOnly: true,
             onTap: () async {
-              controlador.pegarFoto(ImageSource.gallery);
+              widget.controlador.pegarFoto(ImageSource.gallery);
             },
           ),
           Align(
@@ -60,12 +60,12 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
                 borderRadius: BorderRadius.circular(100),
               ),
               clipBehavior: Clip.hardEdge,
-              child: controlador.imagemArquivo == null
+              child: widget.controlador.imagemArquivo == null
                   ? fotoPerfil(context)
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(50.0),
                       child: Image.file(
-                        File(controlador.imagemArquivo!.path),
+                        File(widget.controlador.imagemArquivo!.path),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -80,9 +80,7 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
     final controladorDataProvider = Provider.of<PegarUsuario>(context);
     final foto = controladorDataProvider.modeloUsuario?.fotoUrl;
 
-    if (foto == null || foto.isEmpty) {
-      return Image.asset('assets/images/avatar.png');
-    }
+    if (foto == null || foto.isEmpty) return Image.asset('assets/images/avatar.png');
 
     return Image.network(
       controladorDataProvider.modeloUsuario!.fotoUrl.toString(),

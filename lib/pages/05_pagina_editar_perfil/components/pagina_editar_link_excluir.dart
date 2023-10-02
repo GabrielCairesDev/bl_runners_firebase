@@ -1,13 +1,15 @@
+import 'package:bl_runners_firebase/main.dart';
 import 'package:bl_runners_firebase/routes/rotas.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../controller/pagina_editar_perfil_controlador.dart';
 
 class PaginaEditarLinkExcluir extends StatelessWidget {
-  const PaginaEditarLinkExcluir({super.key});
+  const PaginaEditarLinkExcluir({super.key, required this.controlador});
+
+  final PaginaEditarPerfilControlador controlador;
 
   @override
   Widget build(BuildContext context) {
@@ -31,29 +33,33 @@ class PaginaEditarLinkExcluir extends StatelessWidget {
   }
 
   _pedirSenha(BuildContext context) {
-    final controladorPaginaEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context);
     Mensagens.caixaDialogoDigitarSenha(
       context,
-      escrever: controladorPaginaEditarPerfil.controladorSenha,
+      escrever: controlador.controladorSenha,
       titulo: 'Excluir Perfil?',
       textoBotaoExcluir: 'Excluir',
       textoBotaoCancelar: 'Cancelar',
       onPressedExcluir: () => _excluirConta(context),
-      onPressedCancelar: () => Navigator.of(context).pop(),
+      onPressedCancelar: () => context.pop(),
     );
   }
 
-  _excluirConta(BuildContext context) {
-    final controladorPaginaEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context);
-    controladorPaginaEditarPerfil.excluirConta().then((value) {
-      context.pushReplacement(Rotas.entrar);
-      controladorPaginaEditarPerfil.alterarEstadoCarregando();
-      controladorPaginaEditarPerfil.controladorSenha.clear();
-      Mensagens.mensagemSucesso(context, texto: value);
-    }).catchError((onError) {
-      context.pop();
-      controladorPaginaEditarPerfil.alterarEstadoCarregando();
-      controladorPaginaEditarPerfil.controladorSenha.clear();
-    });
+  _excluirConta(BuildContext context) async {
+    await controlador
+        .excluirConta()
+        .then((value) => _excluirContaSucesso(context, value))
+        .catchError((onError) => _excluirContaErro(context, onError));
+  }
+
+  _excluirContaSucesso(BuildContext context, value) {
+    logger.d(value);
+    context.pushReplacement(Rotas.entrar);
+    Mensagens.mensagemSucesso(context, texto: value);
+  }
+
+  _excluirContaErro(BuildContext context, onError) {
+    context.pop();
+    logger.d(onError);
+    Mensagens.mensagemSucesso(context, texto: onError);
   }
 }

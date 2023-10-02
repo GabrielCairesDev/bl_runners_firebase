@@ -1,11 +1,13 @@
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../controller/pagina_editar_perfil_controlador.dart';
 
 class PaginaEditarPerfilGenero extends StatefulWidget {
-  const PaginaEditarPerfilGenero({super.key});
+  const PaginaEditarPerfilGenero({super.key, required this.controladorEditarPerfil, required this.controladorPegarUsuario});
+
+  final PaginaEditarPerfilControlador controladorEditarPerfil;
+  final PegarUsuario controladorPegarUsuario;
 
   @override
   State<PaginaEditarPerfilGenero> createState() => _PaginaEditarPerfilGeneroState();
@@ -14,16 +16,12 @@ class PaginaEditarPerfilGenero extends StatefulWidget {
 class _PaginaEditarPerfilGeneroState extends State<PaginaEditarPerfilGenero> {
   @override
   void initState() {
-    final controlador = Provider.of<PaginaEditarPerfilControlador>(context, listen: false);
-    final controladorUsuario = Provider.of<PegarUsuario>(context, listen: false);
-    controlador.controladorGenero = controladorUsuario.modeloUsuario?.genero ?? 'Masculino';
+    widget.controladorEditarPerfil.controladorGenero = widget.controladorPegarUsuario.modeloUsuario?.genero ?? 'Masculino';
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final controlador = Provider.of<PaginaEditarPerfilControlador>(context);
-
     return DropdownButtonFormField(
       style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
       decoration: InputDecoration(
@@ -31,14 +29,14 @@ class _PaginaEditarPerfilGeneroState extends State<PaginaEditarPerfilGenero> {
         hintText: 'Gênero',
         labelText: 'Gênero',
         prefixIcon: Icon(
-          controlador.controladorGenero == 'Masculino' ? Icons.male : Icons.female,
+          widget.controladorEditarPerfil.controladorGenero == 'Masculino' ? Icons.male : Icons.female,
         ),
       ),
       isExpanded: true,
       isDense: true,
-      value: controlador.controladorGenero,
+      value: widget.controladorEditarPerfil.controladorGenero,
       selectedItemBuilder: (BuildContext context) {
-        return controlador.generos.map<Widget>(
+        return widget.controladorEditarPerfil.generos.map<Widget>(
           (String texto) {
             return DropdownMenuItem(
               value: texto,
@@ -52,9 +50,9 @@ class _PaginaEditarPerfilGeneroState extends State<PaginaEditarPerfilGenero> {
           },
         ).toList();
       },
-      items: controlador.generos.map(
+      items: widget.controladorEditarPerfil.generos.map(
         (generoEscolhido) {
-          if (generoEscolhido == controlador.controladorGenero) {
+          if (generoEscolhido == widget.controladorEditarPerfil.controladorGenero) {
             return DropdownMenuItem(
               value: generoEscolhido,
               child: Text(
@@ -77,11 +75,11 @@ class _PaginaEditarPerfilGeneroState extends State<PaginaEditarPerfilGenero> {
           }
         },
       ).toList(),
-      validator: controlador.validadorGenero,
+      validator: widget.controladorEditarPerfil.validadorGenero,
       onChanged: (valor) => setState(
         () {
-          if (valor != controlador.controladorGenero) {
-            controlador.controladorGenero = valor.toString();
+          if (valor != widget.controladorEditarPerfil.controladorGenero) {
+            widget.controladorEditarPerfil.controladorGenero = valor.toString();
           }
         },
       ),

@@ -6,7 +6,10 @@ import 'package:provider/provider.dart';
 import '../controller/pagina_editar_perfil_controlador.dart';
 
 class PaginaEditarPerfilNome extends StatefulWidget {
-  const PaginaEditarPerfilNome({super.key});
+  const PaginaEditarPerfilNome({super.key, required this.controladorEditarPerfil, required this.controladorPegarUsuario});
+
+  final PaginaEditarPerfilControlador controladorEditarPerfil;
+  final PegarUsuario controladorPegarUsuario;
 
   @override
   State<PaginaEditarPerfilNome> createState() => _PaginaEditarPerfilNomeState();
@@ -15,9 +18,7 @@ class PaginaEditarPerfilNome extends StatefulWidget {
 class _PaginaEditarPerfilNomeState extends State<PaginaEditarPerfilNome> {
   @override
   void initState() {
-    final controladorEditarControlador = Provider.of<PaginaEditarPerfilControlador>(context, listen: false);
-    final controladorDataProvider = Provider.of<PegarUsuario>(context, listen: false);
-    controladorEditarControlador.controladorNome.text = controladorDataProvider.modeloUsuario?.nome ?? '';
+    widget.controladorEditarPerfil.controladorNome.text = widget.controladorPegarUsuario.modeloUsuario?.nome ?? '';
     super.initState();
   }
 

@@ -1,12 +1,14 @@
+import 'package:bl_runners_firebase/main.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../controller/pagina_editar_perfil_controlador.dart';
 
 class PaginaEditarBotaoEditar extends StatelessWidget {
-  const PaginaEditarBotaoEditar({super.key});
+  const PaginaEditarBotaoEditar({super.key, required this.controlador});
+
+  final PaginaEditarPerfilControlador controlador;
 
   @override
   Widget build(BuildContext context) {
@@ -27,23 +29,27 @@ class PaginaEditarBotaoEditar extends StatelessWidget {
       texto: 'Você deseja editar seus dados?',
       textoBotaoSim: 'Sim',
       textoBotaoNao: 'Não',
-      onPressedSim: () {
-        Navigator.of(context).pop();
-        _editarPerfil(context);
-      },
+      onPressedSim: () => _editarPerfil(context),
       onPressedNao: () => Navigator.of(context).pop(),
     );
   }
 
-  _editarPerfil(BuildContext context) {
-    final controladorPaginaEditarPerfilControlador = context.read<PaginaEditarPerfilControlador>();
-    controladorPaginaEditarPerfilControlador.validarCampos().then((value) {
-      context.pop();
-      controladorPaginaEditarPerfilControlador.alterarEstadoCarregando();
-      Mensagens.mensagemSucesso(context, texto: value);
-    }).catchError((onError) {
-      controladorPaginaEditarPerfilControlador.alterarEstadoCarregando();
-      Mensagens.mensagemErro(context, texto: onError);
-    });
+  _editarPerfil(BuildContext context) async {
+    context.pop();
+    await controlador
+        .editarPerfil()
+        .then((value) => _editarPerfilSucesso(context, value))
+        .catchError((onError) => _editarPerfilErro(context, onError));
+  }
+
+  _editarPerfilSucesso(BuildContext context, value) {
+    context.pop();
+    logger.d(value);
+    Mensagens.mensagemSucesso(context, texto: value);
+  }
+
+  _editarPerfilErro(BuildContext context, onError) {
+    logger.d(onError);
+    Mensagens.mensagemErro(context, texto: onError);
   }
 }

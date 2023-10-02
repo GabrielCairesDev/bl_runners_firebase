@@ -67,7 +67,7 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
       );
 
       try {
-        atualizarCarregando();
+        alterarEstadoCarregando();
         final resultado = await registrarUsuarioUseCase(
           modeloDeUsuario,
           email: controladorEmail.text.trim(),
@@ -79,7 +79,7 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
       } catch (e) {
         rethrow;
       } finally {
-        atualizarCarregando();
+        alterarEstadoCarregando();
       }
     }
     throw 'Preencha todos os campos';
@@ -92,7 +92,7 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
     controladorCnfirmarSenha.clear();
   }
 
-  atualizarCarregando() {
+  alterarEstadoCarregando() {
     carregando = !carregando;
     notifyListeners();
   }

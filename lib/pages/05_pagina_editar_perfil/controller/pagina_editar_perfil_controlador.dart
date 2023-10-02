@@ -36,8 +36,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   String? validadorGenero(String? value) => value!.isEmpty ? 'Campo obrigatório*' : null;
   String? validadorFoto(String? value) => value!.isEmpty ? 'Campo obrigatório*' : null;
 
-  Future<String> validarCampos() async {
-    alterarEstadoCarregando();
+  Future<String> editarPerfil() async {
     if (globalKeyPaginaEditarPerfil.currentState!.validate()) {
       final modeloDeUsuario = ModeloDeUsuario(
         id: '',
@@ -51,16 +50,36 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
         cadastroConcluido: false,
         dataNascimento: DateTime.now(),
       );
-      final resultado = await editarPerfilUseCase(
-        modeloDeUsuario,
-        imagemArquivo: imagemArquivo,
-        nome: controladorNome.text,
-        genero: controladorGenero.toString(),
-        nascimentoData: nascimentoData,
-      );
-      return resultado;
+
+      try {
+        alterarEstadoCarregando();
+        final resultado = await editarPerfilUseCase(
+          modeloDeUsuario,
+          imagemArquivo: imagemArquivo,
+          nome: controladorNome.text,
+          genero: controladorGenero.toString(),
+          nascimentoData: nascimentoData,
+        );
+        return resultado;
+      } catch (e) {
+        rethrow;
+      } finally {
+        alterarEstadoCarregando();
+      }
     }
     throw 'Preencha todos os campos!';
+  }
+
+  Future<String> excluirConta() async {
+    try {
+      alterarEstadoCarregando();
+      final resultado = await excluirContaUseCase(senha: controladorSenha.text);
+      return resultado;
+    } catch (e) {
+      rethrow;
+    } finally {
+      alterarEstadoCarregando();
+    }
   }
 
   Future<void> pegarFoto(ImageSource source) async {
@@ -86,10 +105,5 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   alterarEstadoCarregando() {
     carregando = !carregando;
     notifyListeners();
-  }
-
-  Future<String> excluirConta() async {
-    alterarEstadoCarregando();
-    return excluirContaUseCase(senha: controladorSenha.text);
   }
 }

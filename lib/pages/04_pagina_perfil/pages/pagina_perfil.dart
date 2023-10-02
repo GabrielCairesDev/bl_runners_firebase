@@ -16,6 +16,7 @@ class PaginaPerfil extends StatelessWidget {
   Widget build(BuildContext context) {
     final controladorPaginaPerfil = Provider.of<PaginaPerfilControlador>(context);
     final controladorPegarUsuario = Provider.of<PegarUsuario>(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

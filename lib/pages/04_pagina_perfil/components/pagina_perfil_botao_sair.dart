@@ -19,7 +19,7 @@ class PaginaEditarBotaoSair extends StatelessWidget {
   }
 
   _sair(BuildContext context) async {
-    controlador.sair().then((value) => _sairSucesso(context, value)).catchError(
+    await controlador.sair().then((value) => _sairSucesso(context, value)).catchError(
           (onError) => _sairErro(context, onError),
         );
   }

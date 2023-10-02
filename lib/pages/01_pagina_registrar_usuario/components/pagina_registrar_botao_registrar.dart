@@ -21,9 +21,9 @@ class PaginaRegistrarBotaoRegistrar extends StatelessWidget {
     );
   }
 
-  _registrarUsuario(BuildContext context) {
+  _registrarUsuario(BuildContext context) async {
     FocusScope.of(context).unfocus();
-    controlador
+    await controlador
         .registrarUsuario()
         .then((value) => _registrarUsuarioSucesso(context, value))
         .catchError((onError) => _registrarUsuarioErro(context, onError));

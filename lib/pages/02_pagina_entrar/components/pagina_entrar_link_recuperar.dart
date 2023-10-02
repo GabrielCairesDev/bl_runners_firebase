@@ -35,7 +35,7 @@ class PaginaEntrarLinkRecuperar extends StatelessWidget {
         context.pop();
       },
       onPressedEnviar: () async {
-        controladorPaginaEntrar.recuperarConta().then((value) {
+        await controladorPaginaEntrar.recuperarConta().then((value) {
           Mensagens.mensagemSucesso(context, texto: value);
           context.pop();
           controladorPaginaEntrar.resetarValores();
