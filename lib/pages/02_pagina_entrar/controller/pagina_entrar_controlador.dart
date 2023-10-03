@@ -19,8 +19,8 @@ class PaginaEntrarControlador extends ChangeNotifier {
   Future<String> entrar() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    final reultado = await Connectivity().checkConnectivity();
-    if (reultado == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+    final internet = await Connectivity().checkConnectivity();
+    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
 
     if (globalKeyEmailPaginaEntrar.currentState!.validate()) {
       try {

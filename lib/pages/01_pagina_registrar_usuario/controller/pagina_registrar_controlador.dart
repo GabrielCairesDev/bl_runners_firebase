@@ -10,7 +10,7 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
   final TextEditingController controladorNome = TextEditingController(text: 'Gabriel');
   final TextEditingController controladorEmail = TextEditingController();
   final TextEditingController controladorSenha = TextEditingController(text: 'gabriel');
-  final TextEditingController controladorCnfirmarSenha = TextEditingController(text: 'gabriel');
+  final TextEditingController controladorConfirmarSenha = TextEditingController(text: 'gabriel');
 
   final GlobalKey<FormState> globalKeyPaginaRegistrar = GlobalKey<FormState>();
 
@@ -36,7 +36,7 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
         final resultado = await registrarUsuarioUseCase(
           modeloDeUsuario,
           email: controladorEmail.text.trim(),
-          senha: controladorSenha.text,
+          senha: controladorSenha.text.trim(),
           nome: controladorNome.text,
         );
         resetarValores();
@@ -54,7 +54,7 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
     controladorNome.clear();
     controladorEmail.clear();
     controladorSenha.clear();
-    controladorCnfirmarSenha.clear();
+    controladorConfirmarSenha.clear();
   }
 
   alterarEstadoCarregando() {

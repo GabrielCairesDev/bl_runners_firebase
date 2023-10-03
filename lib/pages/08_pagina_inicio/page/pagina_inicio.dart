@@ -18,16 +18,16 @@ class PaginaInicio extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: InkWell(
-          onTap: () => controladorPaginaInicial.pegarListaDocumentosID(),
+          onTap: () => controladorPaginaInicial.pegarAtividades(),
           child: const Text('Início'),
         ),
       ),
       body: SingleChildScrollView(
         child: ListView.builder(
           shrinkWrap: true,
-          itemCount: controladorPaginaInicial.atividades.length,
+          itemCount: controladorPaginaInicial.listaAtividades.length,
           itemBuilder: (context, index) {
-            final atividade = controladorPaginaInicial.atividades[index];
+            final atividade = controladorPaginaInicial.listaAtividades[index];
 
             DateTime data = atividade.dataAtividade;
             String dataFormatada = data.dataFormatada;

@@ -23,9 +23,9 @@ class _PaginaRegistrarCampoConfirmarSenhaState extends State<PaginaRegistrarCamp
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: widget.controlador.controladorCnfirmarSenha,
+      controller: widget.controlador.controladorConfirmarSenha,
       validator: (value) {
-        if (widget.controlador.controladorSenha.toString() != value) {
+        if (widget.controlador.controladorSenha.text.toString() != value.toString()) {
           return 'Senhas não conferem';
         }
         return null;
