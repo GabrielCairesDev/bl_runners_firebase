@@ -1,11 +1,13 @@
+import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 import '../controller/pagina_concluir_cadastro_controlador.dart';
 
 class PaginaConcluirCampoNascimento extends StatefulWidget {
-  const PaginaConcluirCampoNascimento({super.key});
+  const PaginaConcluirCampoNascimento({super.key, required this.controladorConcluirCadastro});
+
+  final PaginaConcluirCadastroControlador controladorConcluirCadastro;
 
   @override
   State<PaginaConcluirCampoNascimento> createState() => _PaginaConcluirCampoNascimentoState();
@@ -14,10 +16,9 @@ class PaginaConcluirCampoNascimento extends StatefulWidget {
 class _PaginaConcluirCampoNascimentoState extends State<PaginaConcluirCampoNascimento> {
   @override
   Widget build(BuildContext context) {
-    final controlador = context.read<PaginaConcluirCadastroControlador>();
     return TextFormField(
-      controller: controlador.controladorNascimento,
-      validator: controlador.validadorNascimento,
+      controller: widget.controladorConcluirCadastro.controladorNascimento,
+      validator: Validador.nascimento,
       decoration: const InputDecoration(
         prefixIcon: Icon(Icons.calendar_month),
         filled: true,
@@ -36,8 +37,8 @@ class _PaginaConcluirCampoNascimentoState extends State<PaginaConcluirCampoNasci
         if (pegarData != null) {
           String dataFormatada = DateFormat('dd/MM/yyyy').format(pegarData);
           setState(() {
-            controlador.nascimentoData = pegarData;
-            controlador.controladorNascimento.text = dataFormatada;
+            widget.controladorConcluirCadastro.nascimentoData = pegarData;
+            widget.controladorConcluirCadastro.controladorNascimento.text = dataFormatada;
           });
         }
       },

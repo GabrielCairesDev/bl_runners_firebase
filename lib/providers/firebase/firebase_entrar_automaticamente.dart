@@ -11,8 +11,8 @@ class FirebaseEntrarAutomaticamente extends EntrarAutomaticamenteUseCase {
 
       if (usuarioAtual == null) throw 'Usuário Null!';
       if (usuarioAtual.isAnonymous) throw 'Crendenciais invalidas!';
-      if (entrarAutomaticamente == false) throw 'Entrar automaticamente está desativado!';
       if (!usuarioAtual.emailVerified) throw 'O e-mail não está verificado!';
+      if (entrarAutomaticamente == false) throw 'Entrar automaticamente está desativado!';
 
       return 'Entrou automaticamente!';
     } catch (e) {

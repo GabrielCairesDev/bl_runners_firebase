@@ -1,4 +1,5 @@
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -18,11 +19,10 @@ class PaginaEditarPerfilNascimento extends StatefulWidget {
 class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascimento> {
   @override
   void initState() {
+    super.initState();
     widget.controladorEditarPerfil.controladorNascimento.text =
         DateFormat('dd/MM/yyyy').format(widget.controladorPegarUsuario.modeloUsuario?.dataNascimento ?? DateTime.now());
     widget.controladorEditarPerfil.nascimentoData = widget.controladorPegarUsuario.modeloUsuario?.dataNascimento ?? DateTime.now();
-
-    super.initState();
   }
 
   @override
@@ -31,7 +31,7 @@ class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascime
 
     return TextFormField(
       controller: controlador.controladorNascimento,
-      validator: controlador.validadorNascimento,
+      validator: Validador.nascimento,
       decoration: const InputDecoration(
         prefixIcon: Icon(Icons.calendar_month),
         filled: true,

@@ -1,13 +1,14 @@
+import 'package:bl_runners_firebase/main.dart';
 import 'package:bl_runners_firebase/pages/02_pagina_entrar/controller/pagina_entrar_controlador.dart';
 import 'package:bl_runners_firebase/routes/rotas.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PaginaEntrarBotaoEntrar extends StatelessWidget {
-  const PaginaEntrarBotaoEntrar({super.key});
+  const PaginaEntrarBotaoEntrar({super.key, required this.controlador});
+
+  final PaginaEntrarControlador controlador;
 
   @override
   Widget build(BuildContext context) {
@@ -22,21 +23,25 @@ class PaginaEntrarBotaoEntrar extends StatelessWidget {
   }
 
   _entrar(BuildContext context) async {
-    final controladorPaginaEntrar = context.read<PaginaEntrarControlador>();
-
     FocusScope.of(context).unfocus();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await controlador
+        .entrar()
+        .then(
+          (value) => _entrarSucesso(context, value),
+        )
+        .catchError(
+          (onError) => _entrarError(context, onError),
+        );
+  }
 
-    await controladorPaginaEntrar.entrar().then((value) {
-      debugPrint('Entrou: $value');
-      context.pushReplacement(Rotas.navegar);
-      prefs.setBool("entrarAutomaticamente", controladorPaginaEntrar.entrarAutomaticamente);
-      controladorPaginaEntrar.resetarValores();
-      controladorPaginaEntrar.atualizarEstadoCarregando();
-    }).catchError((onError) {
-      debugPrint('Erro: $onError');
-      Mensagens.mensagemErro(context, texto: onError);
-      controladorPaginaEntrar.atualizarEstadoCarregando();
-    });
+  _entrarSucesso(BuildContext context, value) {
+    debugPrint('Entrou: $value');
+    context.pushReplacement(Rotas.navegar);
+    logger.d(value);
+  }
+
+  _entrarError(BuildContext context, onError) {
+    Mensagens.mensagemErro(context, texto: onError);
+    logger.d(onError);
   }
 }

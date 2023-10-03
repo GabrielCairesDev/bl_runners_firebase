@@ -1,3 +1,4 @@
+import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 
 import '../controller/pagina_registrar_controlador.dart';
@@ -16,15 +17,15 @@ class _PaginaRegistrarCampoSenhaState extends State<PaginaRegistrarCampoSenha> {
 
   @override
   void initState() {
-    esconderSenha = true;
     super.initState();
+    esconderSenha = true;
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controlador.controladorSenha,
-      validator: widget.controlador.validadorSenha,
+      validator: Validador.senha,
       obscureText: esconderSenha,
       decoration: InputDecoration(
         hintText: 'Digite a sua senha',

@@ -1,4 +1,5 @@
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 
 import '../controller/pagina_editar_perfil_controlador.dart';
@@ -16,8 +17,8 @@ class PaginaEditarPerfilGenero extends StatefulWidget {
 class _PaginaEditarPerfilGeneroState extends State<PaginaEditarPerfilGenero> {
   @override
   void initState() {
-    widget.controladorEditarPerfil.controladorGenero = widget.controladorPegarUsuario.modeloUsuario?.genero ?? 'Masculino';
     super.initState();
+    widget.controladorEditarPerfil.controladorGenero = widget.controladorPegarUsuario.modeloUsuario?.genero ?? 'Masculino';
   }
 
   @override
@@ -75,7 +76,7 @@ class _PaginaEditarPerfilGeneroState extends State<PaginaEditarPerfilGenero> {
           }
         },
       ).toList(),
-      validator: widget.controladorEditarPerfil.validadorGenero,
+      validator: Validador.genero,
       onChanged: (valor) => setState(
         () {
           if (valor != widget.controladorEditarPerfil.controladorGenero) {

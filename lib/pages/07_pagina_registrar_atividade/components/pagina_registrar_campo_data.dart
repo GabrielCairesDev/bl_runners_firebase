@@ -1,10 +1,12 @@
 import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
+import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class PaginaRegistrarCampoData extends StatefulWidget {
-  const PaginaRegistrarCampoData({super.key});
+  const PaginaRegistrarCampoData({super.key, required this.controlador});
+
+  final PaginaRegistrarAtividadeControlador controlador;
 
   @override
   State<PaginaRegistrarCampoData> createState() => _PaginaRegistrarCampoDataState();
@@ -13,11 +15,10 @@ class PaginaRegistrarCampoData extends StatefulWidget {
 class _PaginaRegistrarCampoDataState extends State<PaginaRegistrarCampoData> {
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRegistrarAtividade = Provider.of<PaginaRegistrarAtividadeControlador>(context);
     return TextFormField(
       readOnly: true,
-      validator: controladorPaginaRegistrarAtividade.validadorData,
-      controller: controladorPaginaRegistrarAtividade.controladorCampoData,
+      validator: Validador.data,
+      controller: widget.controlador.controladorCampoData,
       decoration: const InputDecoration(
         filled: false,
         prefixIcon: Icon(Icons.date_range),
@@ -70,19 +71,19 @@ class _PaginaRegistrarCampoDataState extends State<PaginaRegistrarCampoData> {
           );
 
           if (pegarHora != null) {
-            controladorPaginaRegistrarAtividade.dataHoraSelecionada = DateTime(
+            widget.controlador.dataHoraSelecionada = DateTime(
               pegarData.year,
               pegarData.month,
               pegarData.day,
               pegarHora.hour,
               pegarHora.minute,
             );
-            String dataHoraFormatada = DateFormat('dd/MM/yyyy HH:mm').format(controladorPaginaRegistrarAtividade.dataHoraSelecionada as DateTime);
-            controladorPaginaRegistrarAtividade.dataHoraFormatadaSalvar =
-                DateFormat('dd.MM.yyyy HH:mm').format(controladorPaginaRegistrarAtividade.dataHoraSelecionada as DateTime);
+            String dataHoraFormatada = DateFormat('dd/MM/yyyy HH:mm').format(widget.controlador.dataHoraSelecionada as DateTime);
+            widget.controlador.dataHoraFormatadaSalvar =
+                DateFormat('dd.MM.yyyy HH:mm').format(widget.controlador.dataHoraSelecionada as DateTime);
             setState(
               () {
-                controladorPaginaRegistrarAtividade.controladorCampoData.text = dataHoraFormatada;
+                widget.controlador.controladorCampoData.text = dataHoraFormatada;
               },
             );
           }

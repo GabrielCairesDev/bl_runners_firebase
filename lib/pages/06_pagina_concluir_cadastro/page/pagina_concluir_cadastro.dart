@@ -1,3 +1,4 @@
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,9 +15,10 @@ class PaginaConcluirCadastro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaConcluirCadastro = Provider.of<PaginaConcluirCadastroControlador>(context);
+    final controladorConcluirCadastro = Provider.of<PaginaConcluirCadastroControlador>(context);
+    final controladorPegarUsuario = Provider.of<PegarUsuario>(context);
     return AbsorbPointer(
-      absorbing: controladorPaginaConcluirCadastro.carregando,
+      absorbing: controladorConcluirCadastro.carregando,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Concluir Cadastro'),
@@ -27,25 +29,28 @@ class PaginaConcluirCadastro extends StatelessWidget {
             child: Stack(
               children: [
                 Form(
-                  key: controladorPaginaConcluirCadastro.globalKeyPaginaConcluirCadastro,
-                  child: const Column(
+                  key: controladorConcluirCadastro.globalKeyPaginaConcluirCadastro,
+                  child: Column(
                     children: [
-                      PaginaConcluirCampoNome(),
-                      SizedBox(height: 16),
-                      PaginaRegistrarCampoGenero(),
-                      SizedBox(height: 16),
-                      PaginaConcluirCampoNascimento(),
-                      SizedBox(height: 16),
-                      PaginaConcluirCampoFoto(),
-                      SizedBox(height: 16),
-                      PaginaConcluirBotaoConcluir(),
+                      PaginaConcluirCampoNome(
+                        controladorConcluirCadastro: controladorConcluirCadastro,
+                        controladorPegarUsuario: controladorPegarUsuario,
+                      ),
+                      const SizedBox(height: 16),
+                      PaginaRegistrarCampoGenero(controladorConcluirCadastro: controladorConcluirCadastro),
+                      const SizedBox(height: 16),
+                      PaginaConcluirCampoNascimento(controladorConcluirCadastro: controladorConcluirCadastro),
+                      const SizedBox(height: 16),
+                      PaginaConcluirCampoFoto(controladorConcluirCadastro: controladorConcluirCadastro),
+                      const SizedBox(height: 16),
+                      PaginaConcluirBotaoConcluir(controladorConcluirCadastro: controladorConcluirCadastro),
                     ],
                   ),
                 ),
                 Positioned.fill(
                   child: Center(
                     child: Visibility(
-                      visible: controladorPaginaConcluirCadastro.carregando,
+                      visible: controladorConcluirCadastro.carregando,
                       child: const CircularProgressIndicator(),
                     ),
                   ),

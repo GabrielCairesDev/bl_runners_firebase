@@ -1,10 +1,11 @@
 import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:provider/provider.dart';
 
 class PaginaRegistrarCampoDistancia extends StatefulWidget {
-  const PaginaRegistrarCampoDistancia({super.key});
+  const PaginaRegistrarCampoDistancia({super.key, required this.controlador});
+
+  final PaginaRegistrarAtividadeControlador controlador;
 
   @override
   State<PaginaRegistrarCampoDistancia> createState() => _PaginaRegistrarCampoDistanciaState();
@@ -13,7 +14,6 @@ class PaginaRegistrarCampoDistancia extends StatefulWidget {
 class _PaginaRegistrarCampoDistanciaState extends State<PaginaRegistrarCampoDistancia> {
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRegistrarAtividade = Provider.of<PaginaRegistrarAtividadeControlador>(context);
     return Form(
       child: Column(
         children: [
@@ -35,7 +35,7 @@ class _PaginaRegistrarCampoDistanciaState extends State<PaginaRegistrarCampoDist
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   NumberPicker(
-                    value: controladorPaginaRegistrarAtividade.controladorDistancia,
+                    value: widget.controlador.controladorDistancia,
                     minValue: 100,
                     maxValue: 42000,
                     step: 100,
@@ -47,7 +47,7 @@ class _PaginaRegistrarCampoDistanciaState extends State<PaginaRegistrarCampoDist
                       fontSize: 25.0,
                       fontStyle: FontStyle.italic,
                     ),
-                    onChanged: (value) => setState(() => controladorPaginaRegistrarAtividade.controladorDistancia = value),
+                    onChanged: (value) => setState(() => widget.controlador.controladorDistancia = value),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       border: Border.all(

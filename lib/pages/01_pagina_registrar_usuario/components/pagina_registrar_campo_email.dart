@@ -1,3 +1,4 @@
+import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 
 import '../controller/pagina_registrar_controlador.dart';
@@ -11,7 +12,7 @@ class PaginaRegistrarCampoEmail extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controlador.controladorEmail,
-      validator: controlador.validadorEmail,
+      validator: Validador.email,
       decoration: const InputDecoration(
         hintText: 'Digite o seu e-mail',
         labelText: 'E-mail',

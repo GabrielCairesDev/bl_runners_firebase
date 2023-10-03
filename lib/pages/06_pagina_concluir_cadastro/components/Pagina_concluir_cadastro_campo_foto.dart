@@ -1,22 +1,24 @@
+// ignore: file_names
 import 'dart:io';
 
+import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 import '../controller/pagina_concluir_cadastro_controlador.dart';
 
 class PaginaConcluirCampoFoto extends StatelessWidget {
-  const PaginaConcluirCampoFoto({super.key});
+  const PaginaConcluirCampoFoto({super.key, required this.controladorConcluirCadastro});
+
+  final PaginaConcluirCadastroControlador controladorConcluirCadastro;
 
   @override
   Widget build(BuildContext context) {
-    final controlador = Provider.of<PaginaConcluirCadastroControlador>(context);
     return Stack(
       children: [
         TextFormField(
-          controller: controlador.controladorFoto,
-          validator: controlador.validadorFoto,
+          controller: controladorConcluirCadastro.controladorFoto,
+          validator: Validador.foto,
           decoration: InputDecoration(
             prefixIcon: const Icon(Icons.photo, color: Colors.blueGrey),
             filled: true,
@@ -27,7 +29,7 @@ class PaginaConcluirCampoFoto extends StatelessWidget {
           ),
           readOnly: true,
           onTap: () async {
-            controlador.pegarFoto(ImageSource.gallery);
+            controladorConcluirCadastro.pegarFoto(ImageSource.gallery);
           },
         ),
         Align(
@@ -40,12 +42,12 @@ class PaginaConcluirCampoFoto extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
             ),
             clipBehavior: Clip.hardEdge,
-            child: controlador.imagemArquivo == null
+            child: controladorConcluirCadastro.imagemArquivo == null
                 ? const Icon(Icons.person, color: Colors.white)
                 : ClipRRect(
                     borderRadius: BorderRadius.circular(50.0),
                     child: Image.file(
-                      File(controlador.imagemArquivo!.path),
+                      File(controladorConcluirCadastro.imagemArquivo!.path),
                       fit: BoxFit.cover,
                     ),
                   ),

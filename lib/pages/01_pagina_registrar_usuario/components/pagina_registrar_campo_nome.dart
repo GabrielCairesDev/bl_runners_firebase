@@ -1,3 +1,4 @@
+import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -12,7 +13,7 @@ class PaginaRegistrarCampoNome extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controlador.controladorNome,
-      validator: controlador.validadorNome,
+      validator: Validador.nome,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZáÁâÂãÃàÀéÉêÊíÍóÓôÔõÕúÚüÜçÇ ]')),
       ],

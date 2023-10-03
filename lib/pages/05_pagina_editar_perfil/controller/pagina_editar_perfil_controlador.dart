@@ -31,11 +31,6 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
 
   final GlobalKey<FormState> globalKeyPaginaEditarPerfil = GlobalKey<FormState>();
 
-  String? validadorNome(String? value) => value!.isEmpty ? 'Campo obrigatório*' : null;
-  String? validadorNascimento(String? value) => value!.isEmpty ? 'Campo obrigatório*' : null;
-  String? validadorGenero(String? value) => value!.isEmpty ? 'Campo obrigatório*' : null;
-  String? validadorFoto(String? value) => value!.isEmpty ? 'Campo obrigatório*' : null;
-
   Future<String> editarPerfil() async {
     if (globalKeyPaginaEditarPerfil.currentState!.validate()) {
       final modeloDeUsuario = ModeloDeUsuario(

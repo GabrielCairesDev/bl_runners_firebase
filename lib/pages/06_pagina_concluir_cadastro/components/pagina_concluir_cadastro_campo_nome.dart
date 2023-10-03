@@ -1,12 +1,15 @@
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 import '../controller/pagina_concluir_cadastro_controlador.dart';
 
 class PaginaConcluirCampoNome extends StatefulWidget {
-  const PaginaConcluirCampoNome({super.key});
+  const PaginaConcluirCampoNome({super.key, required this.controladorConcluirCadastro, required this.controladorPegarUsuario});
+
+  final PaginaConcluirCadastroControlador controladorConcluirCadastro;
+  final PegarUsuario controladorPegarUsuario;
 
   @override
   State<PaginaConcluirCampoNome> createState() => _PaginaConcluirCampoNomeState();
@@ -15,26 +18,23 @@ class PaginaConcluirCampoNome extends StatefulWidget {
 class _PaginaConcluirCampoNomeState extends State<PaginaConcluirCampoNome> {
   @override
   void initState() {
-    final controladorPaginaConcluirCadastro = Provider.of<PaginaConcluirCadastroControlador>(context, listen: false);
-    final controladorDataProvider = Provider.of<PegarUsuario>(context, listen: false);
-    controladorPaginaConcluirCadastro.controladorNome.text = controladorDataProvider.modeloUsuario?.nome ?? '';
     super.initState();
+
+    widget.controladorConcluirCadastro.controladorNome.text = widget.controladorPegarUsuario.modeloUsuario?.nome ?? '';
   }
 
   @override
   Widget build(BuildContext context) {
-    final controlador = context.read<PaginaConcluirCadastroControlador>();
-
     return TextFormField(
-      controller: controlador.controladorNome,
-      validator: controlador.validadorNome,
+      controller: widget.controladorConcluirCadastro.controladorNome,
+      validator: Validador.nome,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZáÁâÂãÃàÀéÉêÊíÍóÓôÔõÕúÚüÜçÇ ]')),
       ],
       onChanged: (value) {
-        controlador.controladorNome.text = observarPalavras(value);
-        controlador.controladorNome.selection = TextSelection.fromPosition(
-          TextPosition(offset: controlador.controladorNome.text.length),
+        widget.controladorConcluirCadastro.controladorNome.text = observarPalavras(value);
+        widget.controladorConcluirCadastro.controladorNome.selection = TextSelection.fromPosition(
+          TextPosition(offset: widget.controladorConcluirCadastro.controladorNome.text.length),
         );
       },
       decoration: const InputDecoration(

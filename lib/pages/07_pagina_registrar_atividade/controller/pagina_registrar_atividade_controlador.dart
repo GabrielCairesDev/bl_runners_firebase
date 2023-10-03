@@ -22,22 +22,7 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
   int controladorDistancia = 5000;
   bool carregando = false;
 
-  String? validadorTitulo(String? value) => value!.isEmpty ? 'Campo Obrigatório' : null;
-  String? validadorDescricao(String? value) => value!.isEmpty ? 'Campo Obrigatório' : null;
-  String? validadorData(String? value) => value!.isEmpty ? 'Campo Obrigatório' : null;
-  String? validadorTipo(String? value) => value!.isEmpty ? 'Campo Obrigatório' : null;
-
-  String? validadorTempo(value) {
-    if (value == null || tempo == null) {
-      return 'Campo Obrigatório';
-    } else if (tempo!.minute < 1 && tempo!.hour < 1) {
-      return 'Tempo Inválido';
-    }
-    return null;
-  }
-
   Future<String> registrarAtividade() async {
-    alterarCarregando();
     if (globalKeyRegistrarAtividade.currentState!.validate()) {
       final modeloDeAtividade = ModeloDeAtividade(
         idUsuario: '',
@@ -50,8 +35,16 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
         ano: dataHoraSelecionada!.year.toInt(),
         mes: dataHoraSelecionada!.month.toInt(),
       );
-      final resultado = await registrarAtividadeUserCase(modeloDeAtividade);
-      return resultado;
+      altualizarEstadoCarregando();
+      try {
+        resetarValores();
+        final resultado = await registrarAtividadeUserCase(modeloDeAtividade);
+        return resultado;
+      } catch (e) {
+        rethrow;
+      } finally {
+        altualizarEstadoCarregando();
+      }
     }
 
     throw 'Preencha todos o dados!';
@@ -72,7 +65,7 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
     tempo = const TimeOfDay(hour: 0, minute: 0);
   }
 
-  alterarCarregando() {
+  altualizarEstadoCarregando() {
     carregando = !carregando;
     notifyListeners();
   }

@@ -16,6 +16,7 @@ import 'package:bl_runners_firebase/providers/firebase/firebase_recuperar_conta.
 import 'package:bl_runners_firebase/providers/firebase/firebase_registrar_atividade.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_registrar_usuario.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_firestore_sair.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_salvar_foto.dart';
 import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/editar_perfil_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
@@ -26,6 +27,7 @@ import 'package:bl_runners_firebase/providers/interfaces/entrar_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/recuperar_conta_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/registrar_atividade_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/registrar_usuario_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/salvar_foto_use_case.dart';
 import 'package:provider/provider.dart';
 
 class AppProvider {
@@ -62,8 +64,11 @@ class AppProvider {
 
     // PAGINA CONCLUIR CADASTRO
     Provider<ConcluirCadastroUseCase>(create: (context) => FireBaseConcluirCadastro()),
+    Provider<SalvarFotoUseCase>(create: (context) => FirebaseSalvarFoto()),
     ChangeNotifierProvider<PaginaConcluirCadastroControlador>(
-        create: (context) => PaginaConcluirCadastroControlador(concluirCadastroUseCase: context.read())),
+        create: (context) => PaginaConcluirCadastroControlador(concluirCadastroUseCase: context.read(), salvarFotoUseCase: context.read())),
+
+    // SALVAR FOTO
 
     // PAGINA INICIO
     ChangeNotifierProvider<PaginaInicioControlador>(create: (context) => PaginaInicioControlador()),

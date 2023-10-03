@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +20,9 @@ class PaginaEditarPerfilFoto extends StatefulWidget {
 class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
   @override
   void initState() {
+    super.initState();
     final controlador = context.read<PaginaEditarPerfilControlador>();
     controlador.controladorFoto.text = 'Foto Atual';
-    super.initState();
   }
 
   @override
@@ -35,7 +36,7 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
         children: [
           TextFormField(
             controller: widget.controlador.controladorFoto,
-            validator: widget.controlador.validadorFoto,
+            validator: Validador.foto,
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.photo, color: Colors.blueGrey),
               filled: true,

@@ -1,10 +1,12 @@
 import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
+import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 class PaginaRegistrarTipo extends StatefulWidget {
-  const PaginaRegistrarTipo({super.key});
+  const PaginaRegistrarTipo({super.key, required this.controlador});
+
+  final PaginaRegistrarAtividadeControlador controlador;
 
   @override
   State<PaginaRegistrarTipo> createState() => _PaginaRegistrarTipoState();
@@ -16,11 +18,10 @@ class _PaginaRegistrarTipoState extends State<PaginaRegistrarTipo> {
 
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRegistrarAtividade = Provider.of<PaginaRegistrarAtividadeControlador>(context);
     return TextFormField(
       readOnly: true,
-      validator: controladorPaginaRegistrarAtividade.validadorTipo,
-      controller: controladorPaginaRegistrarAtividade.controladorCampoTipo,
+      validator: Validador.tipo,
+      controller: widget.controlador.controladorCampoTipo,
       decoration: const InputDecoration(
         filled: false,
         prefixIcon: Icon(Icons.list_alt),
@@ -65,7 +66,7 @@ class _PaginaRegistrarTipoState extends State<PaginaRegistrarTipo> {
                         ),
                       ),
                       onTap: () => setState(() {
-                        controladorPaginaRegistrarAtividade.controladorCampoTipo.text = 'Treino';
+                        widget.controlador.controladorCampoTipo.text = 'Treino';
                         context.pop(context);
                       }),
                     ),
@@ -89,7 +90,7 @@ class _PaginaRegistrarTipoState extends State<PaginaRegistrarTipo> {
                         ),
                       ),
                       onTap: () => setState(() {
-                        controladorPaginaRegistrarAtividade.controladorCampoTipo.text = 'Prova';
+                        widget.controlador.controladorCampoTipo.text = 'Prova';
                         context.pop(context);
                       }),
                     ),

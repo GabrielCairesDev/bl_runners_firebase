@@ -20,9 +20,9 @@ class PaginaEntrar extends StatefulWidget {
 class _PaginaEntrarState extends State<PaginaEntrar> {
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaEntrar = Provider.of<PaginaEntrarControlador>(context);
+    final controlador = Provider.of<PaginaEntrarControlador>(context);
     return AbsorbPointer(
-      absorbing: controladorPaginaEntrar.carregando,
+      absorbing: controlador.carregando,
       child: Scaffold(
         body: SingleChildScrollView(
           reverse: true,
@@ -31,29 +31,31 @@ class _PaginaEntrarState extends State<PaginaEntrar> {
             child: Stack(
               children: [
                 Form(
-                  key: controladorPaginaEntrar.globalKeyEmailPaginaEntrar,
-                  child: const Column(
+                  key: controlador.globalKeyEmailPaginaEntrar,
+                  child: Column(
                     children: [
-                      PaginaEntrarLogo(),
-                      SizedBox(height: 16),
-                      PaginaEntrarCampoEmail(),
-                      SizedBox(height: 16),
-                      PaginaEntrarCampoSenha(),
+                      const PaginaEntrarLogo(),
+                      const SizedBox(height: 16),
+                      PaginaEntrarCampoEmail(
+                        controlador: controlador,
+                      ),
+                      const SizedBox(height: 16),
+                      PaginaEntrarCampoSenha(controlador: controlador),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PaginaEntrarSwitch(),
-                          PaginaEntrarLinkRecuperar(),
+                          PaginaEntrarSwitch(controlador: controlador),
+                          PaginaEntrarLinkRecuperar(controlador: controlador),
                         ],
                       ),
-                      PaginaEntrarBotaoEntrar(),
+                      PaginaEntrarBotaoEntrar(controlador: controlador),
                     ],
                   ),
                 ),
                 Positioned.fill(
                   child: Center(
                     child: Visibility(
-                      visible: controladorPaginaEntrar.carregando,
+                      visible: controlador.carregando,
                       child: const CircularProgressIndicator(),
                     ),
                   ),

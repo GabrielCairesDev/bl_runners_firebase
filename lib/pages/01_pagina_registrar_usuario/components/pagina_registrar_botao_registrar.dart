@@ -1,3 +1,4 @@
+import 'package:bl_runners_firebase/main.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -32,9 +33,11 @@ class PaginaRegistrarBotaoRegistrar extends StatelessWidget {
   _registrarUsuarioSucesso(BuildContext context, value) {
     context.pop();
     Mensagens.mensagemSucesso(context, texto: value);
+    logger.d(value);
   }
 
   _registrarUsuarioErro(BuildContext context, onError) {
     Mensagens.mensagemErro(context, texto: onError);
+    logger.d(onError);
   }
 }

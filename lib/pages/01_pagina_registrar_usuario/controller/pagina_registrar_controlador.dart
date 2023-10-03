@@ -16,41 +16,6 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
 
   bool carregando = false;
 
-  String? validadorNome(String? value) {
-    if (value!.isEmpty || value.length < 3) {
-      return 'Campo obrigatório!';
-    }
-    return null;
-  }
-
-  String? validadorEmail(String? value) {
-    final regExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (value!.isEmpty) {
-      return 'Campo obrigatório!';
-    } else if (!regExp.hasMatch(value)) {
-      return 'E-mail invalido!';
-    }
-    return null;
-  }
-
-  String? validadorSenha(String? value) {
-    if (value!.isEmpty) {
-      return 'Campo obrigatório!';
-    } else if (value.length < 6) {
-      return 'Senha curta!';
-    }
-    return null;
-  }
-
-  String? validadorConfirmarSenha(String? value) {
-    if (value!.isEmpty) {
-      return 'Campo obrigatório!';
-    } else if (value != controladorSenha.text) {
-      return 'As senhas não coincidem';
-    }
-    return null;
-  }
-
   Future<String> registrarUsuario() async {
     if (globalKeyPaginaRegistrar.currentState!.validate()) {
       final modeloDeUsuario = ModeloDeUsuario(

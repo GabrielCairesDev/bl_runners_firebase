@@ -52,14 +52,14 @@ class PaginaEditarLinkExcluir extends StatelessWidget {
   }
 
   _excluirContaSucesso(BuildContext context, value) {
-    logger.d(value);
     context.pushReplacement(Rotas.entrar);
     Mensagens.mensagemSucesso(context, texto: value);
+    logger.d(value);
   }
 
   _excluirContaErro(BuildContext context, onError) {
     context.pop();
-    logger.d(onError);
     Mensagens.mensagemSucesso(context, texto: onError);
+    logger.d(onError);
   }
 }

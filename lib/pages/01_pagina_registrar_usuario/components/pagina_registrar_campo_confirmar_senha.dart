@@ -16,15 +16,20 @@ class _PaginaRegistrarCampoConfirmarSenhaState extends State<PaginaRegistrarCamp
 
   @override
   void initState() {
-    esconderSenha = true;
     super.initState();
+    esconderSenha = true;
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controlador.controladorCnfirmarSenha,
-      validator: widget.controlador.validadorConfirmarSenha,
+      validator: (value) {
+        if (widget.controlador.controladorSenha.toString() != value) {
+          return 'Senhas não conferem';
+        }
+        return null;
+      },
       obscureText: esconderSenha,
       decoration: InputDecoration(
         hintText: 'Confirme a sua senha',

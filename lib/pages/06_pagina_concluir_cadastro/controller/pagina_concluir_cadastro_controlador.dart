@@ -2,13 +2,16 @@ import 'dart:io';
 
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/salvar_foto_use_case.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PaginaConcluirCadastroControlador extends ChangeNotifier {
   final ConcluirCadastroUseCase concluirCadastroUseCase;
+  final SalvarFotoUseCase salvarFotoUseCase;
 
-  PaginaConcluirCadastroControlador({required this.concluirCadastroUseCase});
+  PaginaConcluirCadastroControlador({required this.concluirCadastroUseCase, required this.salvarFotoUseCase});
   final controladorNome = TextEditingController();
   final controladorNascimento = TextEditingController();
   final controladorFoto = TextEditingController();
@@ -22,11 +25,6 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
 
   XFile? imagemCaminho;
   File? imagemArquivo;
-
-  String? validadorNome(String? value) => value!.isEmpty ? 'Campo obrigatório!' : null;
-  String? validadorNascimento(String? value) => value!.isEmpty ? 'Campo obrigatório!' : null;
-  String? validadorGenero(String? value) => value!.isEmpty ? 'Campo obrigatório!' : null;
-  String? validadorFoto(String? value) => value!.isEmpty ? 'Campo obrigatório!' : null;
 
   Future<void> pegarFoto(ImageSource source) async {
     try {
@@ -49,30 +47,36 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
   }
 
   Future<String> concluirCadastro() async {
-    alterarEstadoCarregando();
-
+    final usuarioAtual = FirebaseAuth.instance.currentUser;
     if (globalKeyPaginaConcluirCadastro.currentState!.validate()) {
+      if (usuarioAtual == null) {
+        throw 'Usuário Null';
+      }
+      alterarEstadoCarregando();
+
+      final fotoURL = await salvarFotoUseCase(imagemArquivo: imagemArquivo, usuarioAtual: usuarioAtual);
+
       final modeloDeUsuario = ModeloDeUsuario(
-        id: '',
-        nome: '',
-        email: '',
-        fotoUrl: '',
-        genero: 'Masculino',
+        id: usuarioAtual.uid,
+        nome: controladorNome.text,
+        email: usuarioAtual.email.toString(),
+        fotoUrl: fotoURL.toString(),
+        genero: controladorGenero.toString(),
         master: false,
         admin: false,
         autorizado: false,
-        cadastroConcluido: false,
-        dataNascimento: DateTime.now(),
+        cadastroConcluido: true,
+        dataNascimento: nascimentoData as DateTime,
       );
 
-      final resultado = concluirCadastroUseCase(
-        modeloDeUsuario,
-        imagemArquivo: imagemArquivo,
-        nome: controladorNome.text,
-        genero: controladorGenero.toString(),
-        nascimento: nascimentoData as DateTime,
-      );
-      return resultado;
+      try {
+        final resultado = await concluirCadastroUseCase(modeloDeUsuario, usuarioAtual);
+        return resultado;
+      } catch (e) {
+        rethrow;
+      } finally {
+        alterarEstadoCarregando();
+      }
     }
     throw 'Preencha todos os campos!';
   }

@@ -1,4 +1,5 @@
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -18,8 +19,8 @@ class PaginaEditarPerfilNome extends StatefulWidget {
 class _PaginaEditarPerfilNomeState extends State<PaginaEditarPerfilNome> {
   @override
   void initState() {
-    widget.controladorEditarPerfil.controladorNome.text = widget.controladorPegarUsuario.modeloUsuario?.nome ?? '';
     super.initState();
+    widget.controladorEditarPerfil.controladorNome.text = widget.controladorPegarUsuario.modeloUsuario?.nome ?? '';
   }
 
   @override
@@ -28,7 +29,7 @@ class _PaginaEditarPerfilNomeState extends State<PaginaEditarPerfilNome> {
 
     return TextFormField(
       controller: controlador.controladorNome,
-      validator: controlador.validadorNome,
+      validator: Validador.nome,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZáÁâÂãÃàÀéÉêÊíÍóÓôÔõÕúÚüÜçÇ ]')),
       ],

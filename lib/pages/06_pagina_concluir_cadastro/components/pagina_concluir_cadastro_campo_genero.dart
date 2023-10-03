@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../controller/pagina_concluir_cadastro_controlador.dart';
 
 class PaginaRegistrarCampoGenero extends StatefulWidget {
-  const PaginaRegistrarCampoGenero({super.key});
+  const PaginaRegistrarCampoGenero({super.key, required this.controladorConcluirCadastro});
+
+  final PaginaConcluirCadastroControlador controladorConcluirCadastro;
 
   @override
   State<PaginaRegistrarCampoGenero> createState() => _PaginaRegistrarCampoGeneroState();
@@ -13,7 +14,6 @@ class PaginaRegistrarCampoGenero extends StatefulWidget {
 class _PaginaRegistrarCampoGeneroState extends State<PaginaRegistrarCampoGenero> {
   @override
   Widget build(BuildContext context) {
-    final controlador = Provider.of<PaginaConcluirCadastroControlador>(context);
     return Column(
       children: [
         DropdownButtonFormField<String>(
@@ -22,23 +22,23 @@ class _PaginaRegistrarCampoGeneroState extends State<PaginaRegistrarCampoGenero>
             filled: true,
             hintText: 'Gênero',
             prefixIcon: Icon(
-              controlador.controladorGenero == 'Masculino' ? Icons.male : Icons.female,
+              widget.controladorConcluirCadastro.controladorGenero == 'Masculino' ? Icons.male : Icons.female,
             ),
           ),
-          value: controlador.controladorGenero,
+          value: widget.controladorConcluirCadastro.controladorGenero,
           onChanged: (valor) {
             setState(() {
-              controlador.controladorGenero = valor!;
+              widget.controladorConcluirCadastro.controladorGenero = valor!;
             });
           },
-          items: controlador.generos.map((genero) {
+          items: widget.controladorConcluirCadastro.generos.map((genero) {
             return DropdownMenuItem<String>(
               value: genero,
               child: Text(genero),
             );
           }).toList(),
           validator: (valor) {
-            if (!controlador.generos.contains(valor)) {
+            if (!widget.controladorConcluirCadastro.generos.contains(valor)) {
               return 'Campo obrigatório';
             }
             return null;

@@ -44,12 +44,12 @@ class PaginaEditarBotaoEditar extends StatelessWidget {
 
   _editarPerfilSucesso(BuildContext context, value) {
     context.pop();
-    logger.d(value);
     Mensagens.mensagemSucesso(context, texto: value);
+    logger.d(value);
   }
 
   _editarPerfilErro(BuildContext context, onError) {
-    logger.d(onError);
     Mensagens.mensagemErro(context, texto: onError);
+    logger.d(onError);
   }
 }

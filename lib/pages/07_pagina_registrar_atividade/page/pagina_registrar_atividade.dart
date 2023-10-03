@@ -14,13 +14,17 @@ class PaginaRegistrarAtividade extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRegistrarAtividade = Provider.of<PaginaRegistrarAtividadeControlador>(context);
+    final controlador = Provider.of<PaginaRegistrarAtividadeControlador>(context);
     return AbsorbPointer(
-      absorbing: controladorPaginaRegistrarAtividade.carregando,
+      absorbing: controlador.carregando,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Registrar atividade'),
-          actions: const [PaginaRegistrarCampoBotao()],
+          actions: [
+            PaginaRegistrarCampoBotao(
+              controlador: controlador,
+            )
+          ],
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -28,27 +32,27 @@ class PaginaRegistrarAtividade extends StatelessWidget {
             child: Stack(
               children: [
                 Form(
-                  key: controladorPaginaRegistrarAtividade.globalKeyRegistrarAtividade,
+                  key: controlador.globalKeyRegistrarAtividade,
                   child: Column(
                     children: [
-                      const PaginaRegistrarCampoTitulo(),
+                      PaginaRegistrarCampoTitulo(controlador: controlador),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                      const PaginaRegistrarCampoDescricao(),
+                      PaginaRegistrarCampoDescricao(controlador: controlador),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                      const PaginaRegistrarCampoData(),
+                      PaginaRegistrarCampoData(controlador: controlador),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                      const PaginaRegistrarCampoTempo(),
+                      PaginaRegistrarCampoTempo(controlador: controlador),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                      const PaginaRegistrarTipo(),
+                      PaginaRegistrarTipo(controlador: controlador),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                      const PaginaRegistrarCampoDistancia(),
+                      PaginaRegistrarCampoDistancia(controlador: controlador),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     ],
                   ),
                 ),
                 Positioned.fill(
                   child: Visibility(
-                    visible: controladorPaginaRegistrarAtividade.carregando,
+                    visible: controlador.carregando,
                     child: const Center(
                       child: CircularProgressIndicator(),
                     ),
