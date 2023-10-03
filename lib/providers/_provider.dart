@@ -7,6 +7,7 @@ import 'package:bl_runners_firebase/pages/02_pagina_entrar/controller/pagina_ent
 import 'package:bl_runners_firebase/pages/03_pagina_navegacao/controller/pagina_navegacao_controlador.dart';
 import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
 import 'package:bl_runners_firebase/pages/08_pagina_inicio/controller/pagina_inicio_controlador.dart';
+import 'package:bl_runners_firebase/pages/09_pagina_recuperar_conta/controller/pagina_recuperar_conta_controlador.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_concluir_cadastro.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_editar_perfil.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_entrar.dart';
@@ -44,8 +45,7 @@ class AppProvider {
     // PAGINA ENTRAR
     Provider<EntrarUseCase>(create: (context) => FirebaseEntrar()),
     Provider<RecuperarContaUseCase>(create: (context) => FirebaseRecuperarConta()),
-    ChangeNotifierProvider<PaginaEntrarControlador>(
-        create: (context) => PaginaEntrarControlador(entrarUseCase: context.read(), recuperarContaUseCase: context.read())),
+    ChangeNotifierProvider<PaginaEntrarControlador>(create: (context) => PaginaEntrarControlador(entrarUseCase: context.read())),
 
     // PAGINA REGISTRAR USUARIO
     Provider<RegistrarUsuarioUseCase>(create: (context) => FirebaseRegistrarUsuario()),
@@ -68,7 +68,10 @@ class AppProvider {
     ChangeNotifierProvider<PaginaConcluirCadastroControlador>(
         create: (context) => PaginaConcluirCadastroControlador(concluirCadastroUseCase: context.read(), salvarFotoUseCase: context.read())),
 
-    // SALVAR FOTO
+    //
+    Provider<RecuperarContaUseCase>(create: (context) => FirebaseRecuperarConta()),
+    ChangeNotifierProvider<PaginaRecuperarContaControlador>(
+        create: (context) => PaginaRecuperarContaControlador(recuperarContaUseCase: context.read())),
 
     // PAGINA INICIO
     ChangeNotifierProvider<PaginaInicioControlador>(create: (context) => PaginaInicioControlador()),

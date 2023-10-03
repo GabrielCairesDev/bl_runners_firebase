@@ -3,6 +3,7 @@ import 'package:bl_runners_firebase/pages/06_pagina_concluir_cadastro/page/pagin
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/page/pagina_editar_perfil.dart';
 import 'package:bl_runners_firebase/pages/02_pagina_entrar/page/pagina_entrar.dart';
 import 'package:bl_runners_firebase/pages/03_pagina_navegacao/page/pagina_navegacao.dart';
+import 'package:bl_runners_firebase/pages/09_pagina_recuperar_conta/page/pagina_recuperar_conta.dart';
 import 'package:go_router/go_router.dart';
 
 import '../pages/00_home_page/page/home_page.dart';
@@ -15,7 +16,8 @@ class Rotas {
       navegar = '/navegar',
       concluir = '/concluir',
       editar = '/editar',
-      adicionar = '/adicionar';
+      adicionar = '/adicionar',
+      recuperar = '/recuperar';
 
   static final GoRouter rotas = GoRouter(
     routes: <GoRoute>[
@@ -29,6 +31,7 @@ class Rotas {
           GoRoute(path: 'concluir', builder: (context, state) => const PaginaConcluirCadastro()),
           GoRoute(path: 'editar', builder: (context, state) => const PaginaEditarPerfil()),
           GoRoute(path: 'adicionar', builder: (context, state) => const PaginaRegistrarAtividade()),
+          GoRoute(path: 'recuperar', builder: (context, state) => const PaginaRecuperarConta()),
         ],
       ),
     ],

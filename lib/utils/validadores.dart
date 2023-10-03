@@ -2,7 +2,7 @@ class Validador {
   static String? email(String? value) {
     final regExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (value!.isEmpty) {
-      return 'E-mail não pode ser vazio';
+      return 'Digite o e-mail';
     } else if (!regExp.hasMatch(value)) {
       return 'E-mail invalido!';
     } else if (value.contains(' ')) {
@@ -17,32 +17,22 @@ class Validador {
 
   static String? senha(String? value) {
     if (value!.isEmpty) {
-      return 'Senha não pode ser vazia';
+      return 'Digite a senha';
     } else if (value.length < 6) {
-      return 'Senha deve conter no mínimo 6 caracteres';
+      return 'Senha muito curta';
     } else if (value.contains(' ')) {
       return 'Senha não pode conter espaços';
     }
     return null;
   }
 
-  static String confirmarSenha(
-    String? value,
-    String value2,
-  ) {
-    if (value != value2) {
-      return 'Senhas não conferem';
-    }
-    return '';
-  }
-
   static String? nome(String? value) {
     if (value!.isEmpty) {
-      return 'Nome não pode ser vazio';
+      return 'Digite o nome';
     } else if (value.length < 3) {
-      return 'Nome deve conter no mínimo 3 caracteres';
+      return 'Nome muito curto';
     } else if (value.length > 15) {
-      return 'Nome deve conter no máximo 15 caracteres';
+      return 'Nome muito longo';
     } else if (value.contains(RegExp(r'[0-9]'))) {
       return 'Nome não pode conter números';
     }

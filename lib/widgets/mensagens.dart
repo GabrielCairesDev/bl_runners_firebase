@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -154,9 +155,11 @@ class Mensagens {
               const SizedBox(height: 16.0),
               TextFormField(
                 controller: email,
+                validator: Validador.email,
                 decoration: const InputDecoration(
-                  labelText: "E-mail",
-                  hintText: "Digite seu e-mail",
+                  hintText: 'Digite o seu e-mail',
+                  labelText: 'E-mail',
+                  prefixIcon: Icon(Icons.email),
                 ),
               ),
             ],

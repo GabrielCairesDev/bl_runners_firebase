@@ -7,10 +7,10 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
 
   PaginaRegistrarUsuarioControlador({required this.registrarUsuarioUseCase});
 
-  final controladorNome = TextEditingController(text: 'Gabriel');
-  final controladorEmail = TextEditingController();
-  final controladorSenha = TextEditingController(text: 'gabriel');
-  final controladorCnfirmarSenha = TextEditingController(text: 'gabriel');
+  final TextEditingController controladorNome = TextEditingController(text: 'Gabriel');
+  final TextEditingController controladorEmail = TextEditingController();
+  final TextEditingController controladorSenha = TextEditingController(text: 'gabriel');
+  final TextEditingController controladorCnfirmarSenha = TextEditingController(text: 'gabriel');
 
   final GlobalKey<FormState> globalKeyPaginaRegistrar = GlobalKey<FormState>();
 

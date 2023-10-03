@@ -45,7 +45,7 @@ class _PaginaEntrarState extends State<PaginaEntrar> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           PaginaEntrarSwitch(controlador: controlador),
-                          PaginaEntrarLinkRecuperar(controlador: controlador),
+                          const PaginaEntrarLinkRecuperar(),
                         ],
                       ),
                       PaginaEntrarBotaoEntrar(controlador: controlador),
