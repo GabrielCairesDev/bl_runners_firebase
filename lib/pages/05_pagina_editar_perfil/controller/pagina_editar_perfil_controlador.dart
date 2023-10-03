@@ -73,6 +73,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
     } catch (e) {
       rethrow;
     } finally {
+      controladorSenha.clear();
       alterarEstadoCarregando();
     }
   }

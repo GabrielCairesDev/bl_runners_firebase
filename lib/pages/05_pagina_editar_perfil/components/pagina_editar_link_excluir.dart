@@ -59,7 +59,7 @@ class PaginaEditarLinkExcluir extends StatelessWidget {
 
   _excluirContaErro(BuildContext context, onError) {
     context.pop();
-    Mensagens.mensagemSucesso(context, texto: onError);
+    Mensagens.mensagemErro(context, texto: onError);
     logger.d(onError);
   }
 }

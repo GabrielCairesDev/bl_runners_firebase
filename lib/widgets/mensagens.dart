@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -127,55 +126,6 @@ class Mensagens {
               onPressed: onPressedExcluir,
               style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
               child: Text(textoBotaoExcluir),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  static void caixaDialogoDigitarEmail(
-    BuildContext context, {
-    required TextEditingController email,
-    required String titulo,
-    // required String texto,
-    required String textoBotaocancelar,
-    required String textoBotaoEnviar,
-    required Function()? onPressedCancelar,
-    required Function()? onPressedEnviar,
-  }) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(titulo, textAlign: TextAlign.center),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: email,
-                validator: Validador.email,
-                decoration: const InputDecoration(
-                  hintText: 'Digite o seu e-mail',
-                  labelText: 'E-mail',
-                  prefixIcon: Icon(Icons.email),
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: ElevatedButton(
-                onPressed: onPressedEnviar,
-                child: Text(textoBotaoEnviar),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: onPressedCancelar,
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
-              child: Text(textoBotaocancelar),
             ),
           ],
         );
