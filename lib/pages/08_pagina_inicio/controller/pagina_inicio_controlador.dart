@@ -2,20 +2,30 @@ import 'dart:async';
 
 import 'package:bl_runners_firebase/main.dart';
 import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
+import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case.dart';
 import 'package:flutter/material.dart';
 
 class PaginaInicioControlador extends ChangeNotifier {
   final PegarAtividadesUseCase pegarAtividadesUseCase;
+  final PegarUsuariosUseCase pegarUsuariosUseCase;
 
-  PaginaInicioControlador({required this.pegarAtividadesUseCase});
+  PaginaInicioControlador({required this.pegarAtividadesUseCase, required this.pegarUsuariosUseCase});
+
+  bool carregando = false;
+  bool carregadoInitState = false;
 
   int ano = DateTime.now().year;
   int mes = DateTime.now().month;
 
   late List<ModeloDeAtividade> listaAtividades = [];
+  late List<ModeloDeUsuario> listaUsuarios = [];
 
-  Future<void> pegarAtividades() async {
+  Future<void> carregarAtividades() async {
+    listaAtividades.clear();
+    atualizarEstadoCarregando();
+
     final modeloDeAtividade = ModeloDeAtividade(
       idUsuario: '',
       titulo: '',
@@ -28,21 +38,35 @@ class PaginaInicioControlador extends ChangeNotifier {
       mes: 0,
     );
 
+    final modeloDeUsuario = ModeloDeUsuario(
+      id: '',
+      nome: '',
+      email: '',
+      fotoUrl: '',
+      genero: 'Masculino',
+      master: false,
+      admin: false,
+      autorizado: false,
+      cadastroConcluido: false,
+      dataNascimento: DateTime.now(),
+    );
+
     try {
-      final resultado = await pegarAtividadesUseCase(modeloDeAtividade, ano: ano, mes: mes, lista: listaAtividades);
-      listaAtividades = resultado.cast<ModeloDeAtividade>();
-      notifyListeners();
+      final resultadoAtividades = await pegarAtividadesUseCase(modeloDeAtividade, ano, mes);
+      listaAtividades = resultadoAtividades;
+
+      final resultadoUsuarios = await pegarUsuariosUseCase(modeloDeUsuario, listaAtividades);
+      listaUsuarios = resultadoUsuarios;
     } catch (e) {
       logger.d(e);
+    } finally {
+      notifyListeners();
+      atualizarEstadoCarregando();
     }
   }
+
+  atualizarEstadoCarregando() {
+    carregando = !carregando;
+    notifyListeners();
+  }
 }
-
-    // final atividades = await FirebaseFirestore.instance.collection('atividades').where('ano', isEqualTo: 2023).get();
-
-    // for (var element in atividades.docs) {
-    //   var atividade = ModeloDeAtividade.fromJson(element.data());
-    //   _atividades[element.id] = atividade;
-    //   notifyListeners();
-    // }
-

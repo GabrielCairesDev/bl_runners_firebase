@@ -37,6 +37,7 @@ class _PaginaInicioBotaoFiltroState extends State<PaginaInicioBotaoFiltro> {
               dataSelecionada = date;
               widget.controladorPaginaInicial.ano = date.year;
               widget.controladorPaginaInicial.mes = date.month;
+              widget.controladorPaginaInicial.carregarAtividades();
             },
           );
         }

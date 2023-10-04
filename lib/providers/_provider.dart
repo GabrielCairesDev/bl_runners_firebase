@@ -14,6 +14,7 @@ import 'package:bl_runners_firebase/providers/firebase/firebase_entrar.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_entrar_automaticamente.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_excluir_conta.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_pegar_atividades.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_pegar_usuarios.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_recuperar_conta.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_registrar_atividade.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_registrar_usuario.dart';
@@ -23,6 +24,7 @@ import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_c
 import 'package:bl_runners_firebase/providers/interfaces/editar_perfil_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/sair_use_case.dart';
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
 import 'package:bl_runners_firebase/providers/interfaces/entrar_automaticamente_use_case.dart';
@@ -72,12 +74,14 @@ class AppProvider {
 
     //
     Provider<RecuperarContaUseCase>(create: (context) => FirebaseRecuperarConta()),
+    Provider<PegarUsuariosUseCase>(create: (context) => FirebasePegarUsuarios()),
     ChangeNotifierProvider<PaginaRecuperarContaControlador>(
         create: (context) => PaginaRecuperarContaControlador(recuperarContaUseCase: context.read())),
 
     // PAGINA INICIO
     Provider<PegarAtividadesUseCase>(create: (context) => FirebasePegarAtividades()),
-    ChangeNotifierProvider<PaginaInicioControlador>(create: (context) => PaginaInicioControlador(pegarAtividadesUseCase: context.read())),
+    ChangeNotifierProvider<PaginaInicioControlador>(
+        create: (context) => PaginaInicioControlador(pegarAtividadesUseCase: context.read(), pegarUsuariosUseCase: context.read())),
 
     //
     ChangeNotifierProvider<PegarUsuario>(create: (context) => PegarUsuario()),

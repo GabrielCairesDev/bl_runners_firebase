@@ -7,19 +7,24 @@ class FirebasePegarAtividades extends PegarAtividadesUseCase {
   List<ModeloDeAtividade> get listaAtividades => _atividades.values.toList();
 
   @override
-  Future<List> call(ModeloDeAtividade modeloDeAtividade, {required int ano, required int mes, required lista}) async {
+  Future<List<ModeloDeAtividade>> call(ModeloDeAtividade modeloDeAtividade, int ano, int mes) async {
+    listaAtividades.clear();
+    _atividades.clear();
     try {
-      final atividades = await FirebaseFirestore.instance.collection('atividades').where('ano', isEqualTo: ano).get();
+      final atividades =
+          await FirebaseFirestore.instance.collection('atividades').where('ano', isEqualTo: ano).where('mes', isEqualTo: mes).get();
 
       if (atividades.docs.isEmpty) {
-        _atividades.clear();
         throw 'Não exite registros em: $mes/$ano';
       }
 
       for (var element in atividades.docs) {
         var atividade = ModeloDeAtividade.fromJson(element.data());
-        _atividades[element.id] = atividade;
+        if (atividade.mes == mes || atividade.ano == ano) {
+          _atividades[element.id] = atividade;
+        }
       }
+
       return listaAtividades;
     } catch (e) {
       throw '$e';
