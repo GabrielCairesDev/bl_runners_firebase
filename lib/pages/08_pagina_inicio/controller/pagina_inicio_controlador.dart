@@ -1,29 +1,48 @@
 import 'dart:async';
 
+import 'package:bl_runners_firebase/main.dart';
 import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_use_case.dart';
 import 'package:flutter/material.dart';
 
 class PaginaInicioControlador extends ChangeNotifier {
-  String ano = '2023';
-  String mes = '9';
+  final PegarAtividadesUseCase pegarAtividadesUseCase;
 
-  final Map<String, ModeloDeAtividade> _atividades = {};
+  PaginaInicioControlador({required this.pegarAtividadesUseCase});
 
-  List<ModeloDeAtividade> get listaAtividades => _atividades.values.toList();
+  int ano = DateTime.now().year;
+  int mes = DateTime.now().month;
 
-  Future<String> pegarAtividades() async {
+  late List<ModeloDeAtividade> listaAtividades = [];
+
+  Future<void> pegarAtividades() async {
+    final modeloDeAtividade = ModeloDeAtividade(
+      idUsuario: '',
+      titulo: '',
+      descricao: '',
+      tipo: '',
+      tempo: 0,
+      distancia: 0,
+      dataAtividade: DateTime.now(),
+      ano: 0,
+      mes: 0,
+    );
+
     try {
-      final atividades = await FirebaseFirestore.instance.collection('atividades').get();
-
-      for (var element in atividades.docs) {
-        var atividade = ModeloDeAtividade.fromJson(element.data());
-        _atividades[element.id] = atividade;
-      }
+      final resultado = await pegarAtividadesUseCase(modeloDeAtividade, ano: ano, mes: mes, lista: listaAtividades);
+      listaAtividades = resultado.cast<ModeloDeAtividade>();
       notifyListeners();
-      return 'pegou';
     } catch (e) {
-      throw 'Erro: $e';
+      logger.d(e);
     }
   }
 }
+
+    // final atividades = await FirebaseFirestore.instance.collection('atividades').where('ano', isEqualTo: 2023).get();
+
+    // for (var element in atividades.docs) {
+    //   var atividade = ModeloDeAtividade.fromJson(element.data());
+    //   _atividades[element.id] = atividade;
+    //   notifyListeners();
+    // }
+

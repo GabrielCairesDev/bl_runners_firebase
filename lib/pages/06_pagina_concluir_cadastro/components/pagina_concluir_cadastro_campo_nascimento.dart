@@ -32,6 +32,7 @@ class _PaginaConcluirCampoNascimentoState extends State<PaginaConcluirCampoNasci
           firstDate: DateTime(1940),
           lastDate: DateTime.now(),
           locale: const Locale("pt", "BR"),
+          initialDatePickerMode: DatePickerMode.year,
         );
 
         if (pegarData != null) {

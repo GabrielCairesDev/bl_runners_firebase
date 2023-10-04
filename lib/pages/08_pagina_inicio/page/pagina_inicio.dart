@@ -1,5 +1,6 @@
 import 'package:bl_runners_firebase/extensions/data_formatada_exetension.dart';
 import 'package:bl_runners_firebase/pages/08_pagina_inicio/components/pagina_inicio_botao_add.dart';
+import 'package:bl_runners_firebase/pages/08_pagina_inicio/components/pagina_inicio_botao_filtro.dart';
 import 'package:bl_runners_firebase/pages/08_pagina_inicio/controller/pagina_inicio_controlador.dart';
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
 
@@ -17,6 +18,11 @@ class PaginaInicio extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        actions: [
+          PaginaInicioBotaoFiltro(
+            controladorPaginaInicial: controladorPaginaInicial,
+          )
+        ],
         title: InkWell(
           onTap: () => controladorPaginaInicial.pegarAtividades(),
           child: const Text('Início'),

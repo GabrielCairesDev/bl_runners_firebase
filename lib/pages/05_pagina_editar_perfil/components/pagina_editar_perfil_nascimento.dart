@@ -46,6 +46,7 @@ class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascime
           firstDate: DateTime(1940),
           lastDate: DateTime.now(),
           locale: const Locale("pt", "BR"),
+          initialDatePickerMode: DatePickerMode.year,
         );
 
         if (pegarData != null) {
