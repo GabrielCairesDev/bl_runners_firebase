@@ -1,7 +1,7 @@
 import 'package:bl_runners_firebase/pages/04_pagina_perfil/components/pagina_perfil_botao_editar.dart';
 import 'package:bl_runners_firebase/pages/04_pagina_perfil/components/pagina_perfil_botao_sair.dart';
 import 'package:bl_runners_firebase/pages/04_pagina_perfil/controller/pagina_perfil_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +15,7 @@ class PaginaPerfil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controladorPaginaPerfil = Provider.of<PaginaPerfilControlador>(context);
-    final controladorPegarUsuario = Provider.of<PegarUsuario>(context);
+    final controladorPegarUsuario = Provider.of<PegarUsuarioAtual>(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,

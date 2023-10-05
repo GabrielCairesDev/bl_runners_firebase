@@ -52,6 +52,7 @@ dependencies:
   connectivity_plus: ^4.0.2
   logger: ^2.0.2+1
   month_picker_dialog: ^2.0.2
+  shimmer_animation: ^2.1.0+1
 
 
 dev_dependencies:

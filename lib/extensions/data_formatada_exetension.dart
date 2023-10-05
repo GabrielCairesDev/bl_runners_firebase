@@ -37,6 +37,16 @@ extension DataFormatadaExtension on DateTime {
     int hora = hour;
     int minuto = minute;
 
-    return '$dia de ${extenso(mes)} de $ano às $hora:$minuto';
+    String horaFormatada = hora.toString();
+    if (hora < 10) {
+      horaFormatada = '0$hora';
+    }
+
+    String minutoFormatado = minuto.toString();
+    if (minuto < 10) {
+      minutoFormatado = '0$minuto';
+    }
+
+    return '$dia de ${extenso(mes)} de $ano às $horaFormatada:$minutoFormatado';
   }
 }

@@ -1,7 +1,7 @@
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/components/pagina_editar_link_excluir.dart';
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/components/pagina_editar_perfil_foto.dart';
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/components/pagina_editar_perfil_nome.dart';
-import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +16,7 @@ class PaginaEditarPerfil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controladorEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context);
-    final controladorPegarUsuario = Provider.of<PegarUsuario>(context);
+    final controladorPegarUsuario = Provider.of<PegarUsuarioAtual>(context);
     return AbsorbPointer(
       absorbing: controladorEditarPerfil.carregando,
       child: Scaffold(

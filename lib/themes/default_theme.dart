@@ -38,5 +38,10 @@ ThemeData defaultTheme() {
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: Color(0xFFc1d22b),
     ),
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all<Color>(const Color(0xFF2e355a)),
+      ),
+    ),
   );
 }

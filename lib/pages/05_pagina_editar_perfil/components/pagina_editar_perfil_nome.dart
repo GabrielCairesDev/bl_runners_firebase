@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +10,7 @@ class PaginaEditarPerfilNome extends StatefulWidget {
   const PaginaEditarPerfilNome({super.key, required this.controladorEditarPerfil, required this.controladorPegarUsuario});
 
   final PaginaEditarPerfilControlador controladorEditarPerfil;
-  final PegarUsuario controladorPegarUsuario;
+  final PegarUsuarioAtual controladorPegarUsuario;
 
   @override
   State<PaginaEditarPerfilNome> createState() => _PaginaEditarPerfilNomeState();
@@ -20,7 +20,7 @@ class _PaginaEditarPerfilNomeState extends State<PaginaEditarPerfilNome> {
   @override
   void initState() {
     super.initState();
-    widget.controladorEditarPerfil.controladorNome.text = widget.controladorPegarUsuario.modeloUsuario?.nome ?? '';
+    widget.controladorEditarPerfil.controladorNome.text = widget.controladorPegarUsuario.usuarioAtual?.nome ?? '';
   }
 
   @override

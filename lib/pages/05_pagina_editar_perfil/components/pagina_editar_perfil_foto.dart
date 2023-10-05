@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -78,13 +78,13 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
   }
 
   fotoPerfil(BuildContext context) {
-    final controladorDataProvider = Provider.of<PegarUsuario>(context);
-    final foto = controladorDataProvider.modeloUsuario?.fotoUrl;
+    final controladorDataProvider = Provider.of<PegarUsuarioAtual>(context);
+    final foto = controladorDataProvider.usuarioAtual?.fotoUrl;
 
     if (foto == null || foto.isEmpty) return Image.asset('assets/images/avatar.png');
 
     return Image.network(
-      controladorDataProvider.modeloUsuario!.fotoUrl.toString(),
+      controladorDataProvider.usuarioAtual!.fotoUrl.toString(),
       fit: BoxFit.cover,
       errorBuilder: (context, error, stackTrace) {
         return Image.asset('assets/images/avatar.png');

@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,12 +22,12 @@ class _PaginaNavegacaoAvatarState extends State<PaginaNavegacaoAvatar> {
   }
 
   fotoPerfil() {
-    final controladorDataProvider = Provider.of<PegarUsuario>(context);
-    if (controladorDataProvider.modeloUsuario?.fotoUrl == null || controladorDataProvider.modeloUsuario!.fotoUrl.isEmpty) {
+    final controladorDataProvider = Provider.of<PegarUsuarioAtual>(context);
+    if (controladorDataProvider.usuarioAtual?.fotoUrl == null || controladorDataProvider.usuarioAtual!.fotoUrl.isEmpty) {
       return Image.asset('assets/images/avatar.png');
     } else {
       return Image.network(
-        controladorDataProvider.modeloUsuario!.fotoUrl.toString(),
+        controladorDataProvider.usuarioAtual!.fotoUrl.toString(),
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
           return Image.asset('assets/images/avatar.png');

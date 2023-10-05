@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -10,7 +10,7 @@ class PaginaEditarPerfilNascimento extends StatefulWidget {
   const PaginaEditarPerfilNascimento({super.key, required this.controladorEditarPerfil, required this.controladorPegarUsuario});
 
   final PaginaEditarPerfilControlador controladorEditarPerfil;
-  final PegarUsuario controladorPegarUsuario;
+  final PegarUsuarioAtual controladorPegarUsuario;
 
   @override
   State<PaginaEditarPerfilNascimento> createState() => _PaginaEditarPerfilNascimentoState();
@@ -21,8 +21,8 @@ class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascime
   void initState() {
     super.initState();
     widget.controladorEditarPerfil.controladorNascimento.text =
-        DateFormat('dd/MM/yyyy').format(widget.controladorPegarUsuario.modeloUsuario?.dataNascimento ?? DateTime.now());
-    widget.controladorEditarPerfil.nascimentoData = widget.controladorPegarUsuario.modeloUsuario?.dataNascimento ?? DateTime.now();
+        DateFormat('dd/MM/yyyy').format(widget.controladorPegarUsuario.usuarioAtual?.dataNascimento ?? DateTime.now());
+    widget.controladorEditarPerfil.nascimentoData = widget.controladorPegarUsuario.usuarioAtual?.dataNascimento ?? DateTime.now();
   }
 
   @override

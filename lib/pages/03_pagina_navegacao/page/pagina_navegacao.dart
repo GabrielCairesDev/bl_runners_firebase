@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +23,7 @@ class _PaginaNavegacaoState extends State<PaginaNavegacao> {
   @override
   void initState() {
     super.initState();
-    final controladorDataProvider = Provider.of<PegarUsuario>(context, listen: false);
+    final controladorDataProvider = Provider.of<PegarUsuarioAtual>(context, listen: false);
     controladorDataProvider.pegarUsuarioData();
   }
 

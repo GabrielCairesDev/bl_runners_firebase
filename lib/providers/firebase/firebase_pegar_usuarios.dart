@@ -25,12 +25,3 @@ class FirebasePegarUsuarios extends PegarUsuariosUseCase {
     return listaUsuarios;
   }
 }
-// for (var atividade in listaDeAtividades) {
-    //   final resultado = await FirebaseFirestore.instance.collection('users').doc(atividade.idUsuario).get();
-
-    //   if (resultado.exists) {
-    //     var usuarioJson = resultado.data() as Map<String, dynamic>;
-    //     var usuario = ModeloDeUsuario.fromJson(usuarioJson);
-    //     _usuarios[atividade.idUsuario] = usuario;
-    //   }
-    // }

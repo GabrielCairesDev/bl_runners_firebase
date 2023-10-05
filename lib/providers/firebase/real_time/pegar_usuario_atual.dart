@@ -3,29 +3,29 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class PegarUsuario extends ChangeNotifier {
+class PegarUsuarioAtual extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  ModeloDeUsuario? modeloUsuario;
+  ModeloDeUsuario? usuarioAtual;
 
   Future<void> pegarUsuarioData() async {
-    final usuarioAtual = FirebaseAuth.instance.currentUser;
+    final user = FirebaseAuth.instance.currentUser;
 
-    if (usuarioAtual != null) {
-      final documento = _firestore.collection('usuarios').doc(usuarioAtual.uid).snapshots();
+    if (user != null) {
+      final documento = _firestore.collection('usuarios').doc(user.uid).snapshots();
 
       documento.listen(
         (snapshot) {
           if (snapshot.exists) {
             final data = snapshot.data() as Map<String, dynamic>;
-            modeloUsuario = ModeloDeUsuario.fromJson(data);
+            usuarioAtual = ModeloDeUsuario.fromJson(data);
             notifyListeners();
           } else {
-            modeloUsuario = null;
+            usuarioAtual = null;
           }
         },
       );
     } else {
-      modeloUsuario = null;
+      usuarioAtual = null;
     }
   }
 }

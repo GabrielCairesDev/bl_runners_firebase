@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +9,7 @@ class PaginaConcluirCampoNome extends StatefulWidget {
   const PaginaConcluirCampoNome({super.key, required this.controladorConcluirCadastro, required this.controladorPegarUsuario});
 
   final PaginaConcluirCadastroControlador controladorConcluirCadastro;
-  final PegarUsuario controladorPegarUsuario;
+  final PegarUsuarioAtual controladorPegarUsuario;
 
   @override
   State<PaginaConcluirCampoNome> createState() => _PaginaConcluirCampoNomeState();
@@ -20,7 +20,7 @@ class _PaginaConcluirCampoNomeState extends State<PaginaConcluirCampoNome> {
   void initState() {
     super.initState();
 
-    widget.controladorConcluirCadastro.controladorNome.text = widget.controladorPegarUsuario.modeloUsuario?.nome ?? '';
+    widget.controladorConcluirCadastro.controladorNome.text = widget.controladorPegarUsuario.usuarioAtual?.nome ?? '';
   }
 
   @override

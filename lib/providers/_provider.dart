@@ -26,7 +26,7 @@ import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.
 import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/sair_use_case.dart';
-import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/providers/interfaces/entrar_automaticamente_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/entrar_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/recuperar_conta_use_case.dart';
@@ -84,7 +84,7 @@ class AppProvider {
         create: (context) => PaginaInicioControlador(pegarAtividadesUseCase: context.read(), pegarUsuariosUseCase: context.read())),
 
     //
-    ChangeNotifierProvider<PegarUsuario>(create: (context) => PegarUsuario()),
+    ChangeNotifierProvider<PegarUsuarioAtual>(create: (context) => PegarUsuarioAtual()),
     ChangeNotifierProvider<PaginaNavegacaoControlador>(create: (context) => PaginaNavegacaoControlador()),
   ];
 }
