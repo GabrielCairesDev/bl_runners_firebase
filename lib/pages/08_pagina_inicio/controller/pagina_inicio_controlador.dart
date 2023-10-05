@@ -27,6 +27,7 @@ class PaginaInicioControlador extends ChangeNotifier {
     listaUsuarios.clear();
 
     final modeloDeAtividade = ModeloDeAtividade(
+      idAtividade: '',
       idUsuario: '',
       titulo: '',
       descricao: '',

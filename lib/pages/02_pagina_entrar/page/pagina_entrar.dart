@@ -36,9 +36,7 @@ class _PaginaEntrarState extends State<PaginaEntrar> {
                     children: [
                       const PaginaEntrarLogo(),
                       const SizedBox(height: 16),
-                      PaginaEntrarCampoEmail(
-                        controlador: controlador,
-                      ),
+                      PaginaEntrarCampoEmail(controlador: controlador),
                       const SizedBox(height: 16),
                       PaginaEntrarCampoSenha(controlador: controlador),
                       Row(

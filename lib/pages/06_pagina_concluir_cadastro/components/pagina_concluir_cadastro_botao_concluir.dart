@@ -1,4 +1,5 @@
 import 'package:bl_runners_firebase/main.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -6,9 +7,14 @@ import 'package:go_router/go_router.dart';
 import '../controller/pagina_concluir_cadastro_controlador.dart';
 
 class PaginaConcluirBotaoConcluir extends StatelessWidget {
-  const PaginaConcluirBotaoConcluir({super.key, required this.controladorConcluirCadastro});
+  const PaginaConcluirBotaoConcluir({
+    super.key,
+    required this.controladorConcluirCadastro,
+    required this.controladorPegarUsuario,
+  });
 
   final PaginaConcluirCadastroControlador controladorConcluirCadastro;
+  final PegarUsuarioAtual controladorPegarUsuario;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +30,7 @@ class PaginaConcluirBotaoConcluir extends StatelessWidget {
 
   _concluirCadastro(BuildContext context) async {
     await controladorConcluirCadastro
-        .concluirCadastro()
+        .concluirCadastro(idUsuario: controladorPegarUsuario.usuarioAtual?.id)
         .then((value) => _concluirCadastroSucesso(context, value))
         .catchError((onError) => _concluirCadastroErro(context, onError));
   }

@@ -43,7 +43,10 @@ class PaginaConcluirCadastro extends StatelessWidget {
                       const SizedBox(height: 16),
                       PaginaConcluirCampoFoto(controladorConcluirCadastro: controladorConcluirCadastro),
                       const SizedBox(height: 16),
-                      PaginaConcluirBotaoConcluir(controladorConcluirCadastro: controladorConcluirCadastro),
+                      PaginaConcluirBotaoConcluir(
+                        controladorConcluirCadastro: controladorConcluirCadastro,
+                        controladorPegarUsuario: controladorPegarUsuario,
+                      ),
                     ],
                   ),
                 ),

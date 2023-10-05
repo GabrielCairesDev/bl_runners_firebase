@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/components/pagina_editar_link_excluir.dart';
+import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/components/pagina_editar_bota_excluir.dart';
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/components/pagina_editar_perfil_foto.dart';
 import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/components/pagina_editar_perfil_nome.dart';
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
@@ -16,7 +16,7 @@ class PaginaEditarPerfil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controladorEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context);
-    final controladorPegarUsuario = Provider.of<PegarUsuarioAtual>(context);
+    final controladorPegarUsuarioAtual = Provider.of<PegarUsuarioAtual>(context);
     return AbsorbPointer(
       absorbing: controladorEditarPerfil.carregando,
       child: Scaffold(
@@ -34,22 +34,25 @@ class PaginaEditarPerfil extends StatelessWidget {
                     children: [
                       PaginaEditarPerfilNome(
                         controladorEditarPerfil: controladorEditarPerfil,
-                        controladorPegarUsuario: controladorPegarUsuario,
+                        controladorPegarUsuario: controladorPegarUsuarioAtual,
                       ),
                       const SizedBox(height: 8),
                       PaginaEditarPerfilGenero(
                         controladorEditarPerfil: controladorEditarPerfil,
-                        controladorPegarUsuario: controladorPegarUsuario,
+                        controladorPegarUsuario: controladorPegarUsuarioAtual,
                       ),
                       const SizedBox(height: 8),
                       PaginaEditarPerfilNascimento(
                         controladorEditarPerfil: controladorEditarPerfil,
-                        controladorPegarUsuario: controladorPegarUsuario,
+                        controladorPegarUsuario: controladorPegarUsuarioAtual,
                       ),
                       const SizedBox(height: 8),
-                      PaginaEditarPerfilFoto(controlador: controladorEditarPerfil),
+                      PaginaEditarPerfilFoto(controladorEditarPerfil: controladorEditarPerfil),
                       const SizedBox(height: 8),
-                      PaginaEditarBotaoEditar(controlador: controladorEditarPerfil)
+                      PaginaEditarBotaoEditar(
+                        controlador: controladorEditarPerfil,
+                        controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
+                      )
                     ],
                   ),
                 ),
@@ -65,7 +68,10 @@ class PaginaEditarPerfil extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: PaginaEditarLinkExcluir(controlador: controladorEditarPerfil),
+        floatingActionButton: PaginaEditarBotaoExcluir(
+          controladorPerfilControlador: controladorEditarPerfil,
+          controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
+        ),
       ),
     );
   }

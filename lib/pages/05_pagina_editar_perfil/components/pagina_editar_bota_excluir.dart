@@ -1,4 +1,5 @@
 import 'package:bl_runners_firebase/main.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/routes/rotas.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
@@ -6,28 +7,23 @@ import 'package:go_router/go_router.dart';
 
 import '../controller/pagina_editar_perfil_controlador.dart';
 
-class PaginaEditarLinkExcluir extends StatelessWidget {
-  const PaginaEditarLinkExcluir({super.key, required this.controlador});
+class PaginaEditarBotaoExcluir extends StatelessWidget {
+  const PaginaEditarBotaoExcluir({
+    super.key,
+    required this.controladorPerfilControlador,
+    required this.controladorPegarUsuarioAtual,
+  });
 
-  final PaginaEditarPerfilControlador controlador;
+  final PaginaEditarPerfilControlador controladorPerfilControlador;
+  final PegarUsuarioAtual controladorPegarUsuarioAtual;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => _pedirSenha(context),
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 16),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.025,
-          child: const Text(
-            'Excluir Perfil',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              decoration: TextDecoration.underline,
-              color: Colors.red,
-            ),
-          ),
-        ),
+    return FloatingActionButton(
+      onPressed: () => _pedirSenha(context),
+      backgroundColor: Colors.red,
+      child: const Icon(
+        Icons.delete,
       ),
     );
   }
@@ -35,7 +31,7 @@ class PaginaEditarLinkExcluir extends StatelessWidget {
   _pedirSenha(BuildContext context) {
     Mensagens.caixaDialogoDigitarSenha(
       context,
-      escrever: controlador.controladorSenha,
+      escrever: controladorPerfilControlador.controladorSenha,
       titulo: 'Excluir Perfil?',
       textoBotaoExcluir: 'Excluir',
       textoBotaoCancelar: 'Cancelar',
@@ -45,8 +41,8 @@ class PaginaEditarLinkExcluir extends StatelessWidget {
   }
 
   _excluirConta(BuildContext context) async {
-    await controlador
-        .excluirConta()
+    await controladorPerfilControlador
+        .excluirConta(idUsuario: controladorPegarUsuarioAtual.usuarioAtual?.id)
         .then((value) => _excluirContaSucesso(context, value))
         .catchError((onError) => _excluirContaErro(context, onError));
   }

@@ -1,5 +1,6 @@
 import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
 import 'package:bl_runners_firebase/providers/interfaces/registrar_atividade_use_case.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
@@ -22,10 +23,16 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
   int controladorDistancia = 5000;
   bool carregando = false;
 
-  Future<String> registrarAtividade() async {
+  Future<String> registrarAtividade({required String? idUsuario}) async {
+    final internet = await Connectivity().checkConnectivity();
+
+    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+    if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
+
     if (globalKeyRegistrarAtividade.currentState!.validate()) {
       final modeloDeAtividade = ModeloDeAtividade(
-        idUsuario: '',
+        idAtividade: '',
+        idUsuario: 'idUsuario',
         titulo: controladorCampoTitulo.text,
         descricao: controladorCampoDescricao.text,
         tipo: controladorCampoTipo.text,
@@ -37,8 +44,8 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
       );
       altualizarEstadoCarregando();
       try {
-        resetarValores();
         final resultado = await registrarAtividadeUserCase(modeloDeAtividade);
+        resetarValores();
         return resultado;
       } catch (e) {
         rethrow;

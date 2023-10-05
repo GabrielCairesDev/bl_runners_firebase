@@ -1,9 +1,10 @@
 class ModeloDeAtividade {
-  final String titulo, descricao, tipo, idUsuario;
+  final String titulo, descricao, tipo, idAtividade, idUsuario;
   final int tempo, distancia, ano, mes;
   final DateTime dataAtividade;
 
   ModeloDeAtividade({
+    required this.idAtividade,
     required this.idUsuario,
     required this.titulo,
     required this.descricao,
@@ -17,6 +18,7 @@ class ModeloDeAtividade {
 
   factory ModeloDeAtividade.fromJson(Map<String, dynamic> json) {
     return ModeloDeAtividade(
+      idAtividade: json['idAtividade'] ?? '',
       idUsuario: json['idUsuario'] ?? '',
       titulo: json['titulo'] ?? 'Sem Titulo',
       descricao: json['descricao'] ?? 'Sem Descrição',
@@ -31,6 +33,7 @@ class ModeloDeAtividade {
 
   Map<String, dynamic> toJson() {
     return {
+      'idAtividade': idAtividade,
       'idUsuario': idUsuario,
       'titulo': titulo,
       'descricao': descricao,
@@ -47,6 +50,7 @@ class ModeloDeAtividade {
     String? titulo,
     String? descricao,
     String? tipo,
+    String? idAtividade,
     String? idUsuario,
     int? tempo,
     int? distancia,
@@ -55,6 +59,7 @@ class ModeloDeAtividade {
     DateTime? dataAtividade,
   }) {
     return ModeloDeAtividade(
+      idAtividade: idAtividade ?? this.idAtividade,
       idUsuario: idUsuario ?? this.idUsuario,
       titulo: titulo ?? this.titulo,
       descricao: descricao ?? this.descricao,

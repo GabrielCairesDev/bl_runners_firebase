@@ -47,14 +47,13 @@ class Mensagens {
     required Function()? onPressedNao,
   }) {
     showDialog(
-      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AlertDialog(
             title: Text(titulo, textAlign: TextAlign.center),
-            content: Text(texto),
+            content: Text(texto, textAlign: TextAlign.center),
             actions: [
               Center(
                 child: Row(
@@ -68,10 +67,12 @@ class Mensagens {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    ElevatedButton(
-                      onPressed: onPressedNao,
-                      child: Text(
-                        textoBotaoNao,
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: onPressedNao,
+                        child: Text(
+                          textoBotaoNao,
+                        ),
                       ),
                     ),
                   ],
@@ -97,37 +98,40 @@ class Mensagens {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(titulo, textAlign: TextAlign.center),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // const Text("Digite sua senha atual para confirmar a exclusão."),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: escrever,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: "Senha Atual",
-                  hintText: "Digite sua senha",
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: AlertDialog(
+            title: Text(titulo, textAlign: TextAlign.center),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // const Text("Digite sua senha atual para confirmar a exclusão."),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: escrever,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: "Digite sua senha",
+                    hintText: "Digite sua senha",
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: onPressedExcluir,
+                style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
+                child: Text(textoBotaoExcluir),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.5,
+                child: ElevatedButton(
+                  onPressed: onPressedCancelar,
+                  child: Text(textoBotaoCancelar),
                 ),
               ),
             ],
           ),
-          actions: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: ElevatedButton(
-                onPressed: onPressedCancelar,
-                child: Text(textoBotaoCancelar),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: onPressedExcluir,
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
-              child: Text(textoBotaoExcluir),
-            ),
-          ],
         );
       },
     );
@@ -140,7 +144,6 @@ class Mensagens {
     );
   }
 
-  // Mensagem erro
   static mensagemErro(BuildContext context, {required String texto}) async {
     showTopSnackBar(
       Overlay.of(context),
@@ -148,7 +151,6 @@ class Mensagens {
     );
   }
 
-  // Mensagem Info
   static mensagemInfo(BuildContext context, {required String texto}) async {
     showTopSnackBar(
       Overlay.of(context),

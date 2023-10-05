@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/salvar_foto_use_case.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,7 +47,12 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
     }
   }
 
-  Future<String> concluirCadastro() async {
+  Future<String> concluirCadastro({required String? idUsuario}) async {
+    final internet = await Connectivity().checkConnectivity();
+
+    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+    if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
+
     final usuarioAtual = FirebaseAuth.instance.currentUser;
     if (globalKeyPaginaConcluirCadastro.currentState!.validate()) {
       if (usuarioAtual == null) {

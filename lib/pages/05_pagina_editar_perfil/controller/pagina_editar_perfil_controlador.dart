@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -31,7 +32,12 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
 
   final GlobalKey<FormState> globalKeyPaginaEditarPerfil = GlobalKey<FormState>();
 
-  Future<String> editarPerfil() async {
+  Future<String> editarPerfil({required String? idUsuario}) async {
+    final internet = await Connectivity().checkConnectivity();
+
+    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+    if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
+
     if (globalKeyPaginaEditarPerfil.currentState!.validate()) {
       final modeloDeUsuario = ModeloDeUsuario(
         id: '',
@@ -65,7 +71,12 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
     throw 'Preencha todos os campos!';
   }
 
-  Future<String> excluirConta() async {
+  Future<String> excluirConta({required String? idUsuario}) async {
+    final internet = await Connectivity().checkConnectivity();
+
+    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+    if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
+
     try {
       alterarEstadoCarregando();
       final resultado = await excluirContaUseCase(senha: controladorSenha.text);
