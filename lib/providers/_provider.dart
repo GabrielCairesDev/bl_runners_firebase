@@ -12,8 +12,9 @@ import 'package:bl_runners_firebase/providers/firebase/firebase_concluir_cadastr
 import 'package:bl_runners_firebase/providers/firebase/firebase_editar_perfil.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_entrar.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_entrar_automaticamente.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_excluir_atividade.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_excluir_conta.dart';
-import 'package:bl_runners_firebase/providers/firebase/firebase_pegar_atividades.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_pegar_atividades_mes_ano.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_pegar_usuarios.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_recuperar_conta.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_registrar_atividade.dart';
@@ -22,8 +23,9 @@ import 'package:bl_runners_firebase/providers/firebase/firebase_firestore_sair.d
 import 'package:bl_runners_firebase/providers/firebase/firebase_salvar_foto.dart';
 import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/editar_perfil_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/excluir_atividade_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
-import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_mes_ano_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/sair_use_case.dart';
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
@@ -79,9 +81,11 @@ class AppProvider {
         create: (context) => PaginaRecuperarContaControlador(recuperarContaUseCase: context.read())),
 
     // PAGINA INICIO
-    Provider<PegarAtividadesUseCase>(create: (context) => FirebasePegarAtividades()),
+    Provider<PegarAtividadesMesAnoUseCase>(create: (context) => FirebasePegarAtividadesMesAno()),
+    Provider<ExcluirAtividadeUseCase>(create: (context) => FirebaseExcluirAtividade()),
     ChangeNotifierProvider<PaginaInicioControlador>(
-        create: (context) => PaginaInicioControlador(pegarAtividadesUseCase: context.read(), pegarUsuariosUseCase: context.read())),
+        create: (context) => PaginaInicioControlador(
+            pegarAtividadesUseCase: context.read(), pegarUsuariosUseCase: context.read(), excluirAtividadeUseCase: context.read())),
 
     //
     ChangeNotifierProvider<PegarUsuarioAtual>(create: (context) => PegarUsuarioAtual()),

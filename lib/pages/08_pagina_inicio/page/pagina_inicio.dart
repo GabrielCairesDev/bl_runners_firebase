@@ -61,7 +61,7 @@ class _PaginaInicioState extends State<PaginaInicio> {
               ),
             ),
           ),
-          PaginaInicioLista(controladorPaginaInicial: controladorPaginaInicial, controladorPegarUsuarioAtual: controladorPegarUsuarioAtual),
+          PaginaInicioLista(controladorPaginaInicio: controladorPaginaInicial, controladorPegarUsuarioAtual: controladorPegarUsuarioAtual),
         ],
       ),
       floatingActionButton: PaginaInicioBotaoAdd(

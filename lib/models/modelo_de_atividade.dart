@@ -1,13 +1,11 @@
 class ModeloDeAtividade {
-  final String titulo, descricao, tipo, idAtividade, idUsuario;
+  final String tipo, idAtividade, idUsuario;
   final int tempo, distancia, ano, mes;
   final DateTime dataAtividade;
 
   ModeloDeAtividade({
     required this.idAtividade,
     required this.idUsuario,
-    required this.titulo,
-    required this.descricao,
     required this.tipo,
     required this.tempo,
     required this.distancia,
@@ -20,8 +18,6 @@ class ModeloDeAtividade {
     return ModeloDeAtividade(
       idAtividade: json['idAtividade'] ?? '',
       idUsuario: json['idUsuario'] ?? '',
-      titulo: json['titulo'] ?? 'Sem Titulo',
-      descricao: json['descricao'] ?? 'Sem Descrição',
       tipo: json['tipo'] ?? 'Treino',
       tempo: json['tempo'] ?? 0,
       distancia: json['distancia'] ?? 0,
@@ -35,8 +31,6 @@ class ModeloDeAtividade {
     return {
       'idAtividade': idAtividade,
       'idUsuario': idUsuario,
-      'titulo': titulo,
-      'descricao': descricao,
       'tipo': tipo,
       'tempo': tempo,
       'distancia': distancia,
@@ -47,8 +41,6 @@ class ModeloDeAtividade {
   }
 
   ModeloDeAtividade copyWith({
-    String? titulo,
-    String? descricao,
     String? tipo,
     String? idAtividade,
     String? idUsuario,
@@ -61,8 +53,6 @@ class ModeloDeAtividade {
     return ModeloDeAtividade(
       idAtividade: idAtividade ?? this.idAtividade,
       idUsuario: idUsuario ?? this.idUsuario,
-      titulo: titulo ?? this.titulo,
-      descricao: descricao ?? this.descricao,
       tipo: tipo ?? this.tipo,
       tempo: tempo ?? this.tempo,
       distancia: distancia ?? this.distancia,

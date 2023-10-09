@@ -1,8 +1,8 @@
 import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
-import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_mes_ano_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebasePegarAtividades extends PegarAtividadesUseCase {
+class FirebasePegarAtividadesMesAno extends PegarAtividadesMesAnoUseCase {
   final Map<String, ModeloDeAtividade> _atividades = {};
   List<ModeloDeAtividade> get listaAtividades => _atividades.values.toList();
 

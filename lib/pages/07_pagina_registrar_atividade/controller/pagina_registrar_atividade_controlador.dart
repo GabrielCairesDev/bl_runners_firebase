@@ -33,8 +33,6 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
       final modeloDeAtividade = ModeloDeAtividade(
         idAtividade: '',
         idUsuario: 'idUsuario',
-        titulo: controladorCampoTitulo.text,
-        descricao: controladorCampoDescricao.text,
         tipo: controladorCampoTipo.text,
         tempo: tempoMinutos as int,
         distancia: controladorDistancia,

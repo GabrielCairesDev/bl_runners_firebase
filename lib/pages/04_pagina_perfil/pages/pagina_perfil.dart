@@ -15,7 +15,7 @@ class PaginaPerfil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controladorPaginaPerfil = Provider.of<PaginaPerfilControlador>(context);
-    final controladorPegarUsuario = Provider.of<PegarUsuarioAtual>(context);
+    final controladorPegarUsuarioAtual = Provider.of<PegarUsuarioAtual>(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -36,9 +36,9 @@ class PaginaPerfil extends StatelessWidget {
             Column(
               children: [
                 const SizedBox(height: 88),
-                PaginaPerfilAvatar(controladorPegarUsuario: controladorPegarUsuario),
+                PaginaPerfilAvatar(controladorPegarUsuario: controladorPegarUsuarioAtual),
                 const SizedBox(height: 8),
-                PaginaPerfilNome(controladorPegarUsuario: controladorPegarUsuario),
+                PaginaPerfilNome(controladorPegarUsuario: controladorPegarUsuarioAtual),
                 const SizedBox(height: 8),
                 const PaginaPerfilRecordes(),
               ],
@@ -46,7 +46,7 @@ class PaginaPerfil extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: PaginaPerfilBotaoEditar(controladorPegarUsuario: controladorPegarUsuario),
+      floatingActionButton: PaginaPerfilBotaoEditar(controladorPegarUsuario: controladorPegarUsuarioAtual),
     );
   }
 }
