@@ -1,5 +1,5 @@
 extension DataFormatadaExtension on DateTime {
-  String extenso(int mes) {
+  String extensoDiaMesAnoHora(int mes) {
     switch (mes) {
       case 1:
         return 'Janeiro';
@@ -30,7 +30,7 @@ extension DataFormatadaExtension on DateTime {
     }
   }
 
-  String get dataPorExetenso {
+  String get diaMesAnoHoraPorExetenso {
     int dia = day;
     int mes = month;
     int ano = year;
@@ -47,6 +47,6 @@ extension DataFormatadaExtension on DateTime {
       minutoFormatado = '0$minuto';
     }
 
-    return '$dia de ${extenso(mes)} de $ano às $horaFormatada:$minutoFormatado';
+    return '$dia de ${extensoDiaMesAnoHora(mes)} de $ano às $horaFormatada:$minutoFormatado';
   }
 }

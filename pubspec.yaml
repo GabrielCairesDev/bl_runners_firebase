@@ -83,6 +83,7 @@ flutter:
   assets:
     - assets/images/bl_logo.png
     - assets/images/avatar.png
+    - assets/images/medalha.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

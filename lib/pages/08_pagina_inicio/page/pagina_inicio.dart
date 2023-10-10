@@ -29,7 +29,7 @@ class _PaginaInicioState extends State<PaginaInicio> {
 
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaInicial = Provider.of<PaginaInicioControlador>(context);
+    final controladorPaginaInicio = Provider.of<PaginaInicioControlador>(context);
     final controladorPegarUsuarioAtual = Provider.of<PegarUsuarioAtual>(context);
 
     return Scaffold(
@@ -38,7 +38,7 @@ class _PaginaInicioState extends State<PaginaInicio> {
         title: const Text('Início'),
         actions: [
           PaginaInicioBotaoFiltro(
-            controladorPaginaInicial: controladorPaginaInicial,
+            controladorPaginaInicial: controladorPaginaInicio,
           )
         ],
       ),
@@ -55,15 +55,21 @@ class _PaginaInicioState extends State<PaginaInicio> {
           ),
           Positioned.fill(
             child: Visibility(
-              visible: controladorPaginaInicial.carregando,
+              visible: controladorPaginaInicio.carregando,
               child: const Align(
                 child: CircularProgressIndicator(),
               ),
             ),
           ),
           ListaDeAtividadeWidget(
-            controladorPaginaInicio: controladorPaginaInicial,
             controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
+            paginaInicio: true,
+            ranking: false,
+            carregarAtividades: controladorPaginaInicio.carregarAtividades,
+            listaDeAtividades: controladorPaginaInicio.listaAtividades,
+            listaDeUsuarios: controladorPaginaInicio.listaUsuarios,
+            anoFiltro: controladorPaginaInicio.anoFiltro,
+            mesFiltro: controladorPaginaInicio.mesFiltro,
           ),
         ],
       ),

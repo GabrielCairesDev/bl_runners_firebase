@@ -4,6 +4,7 @@ import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_mes_ano_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case.dart';
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 
 class PaginaRankingGeralControlador extends ChangeNotifier {
   PaginaRankingGeralControlador({
@@ -17,15 +18,17 @@ class PaginaRankingGeralControlador extends ChangeNotifier {
   bool carregando = false;
   bool carregadoInitState = false;
 
-  int ano = DateTime.now().year;
-  int mes = DateTime.now().month;
+  int anoFiltro = DateTime.now().year;
+  int mesFiltro = DateTime.now().month;
 
-  late List<ModeloDeAtividade> listaAtividades = [];
-  late List<ModeloDeUsuario> listaUsuarios = [];
+  late List<ModeloDeAtividade> listaDeAtividades = [];
+  late List<ModeloDeUsuario> listaDeUsuarios = [];
+
+  late List<ModeloDeAtividade> listaAtividadesAgrupadas = [];
 
   Future<void> carregarAtividades() async {
-    listaAtividades.clear();
-    listaUsuarios.clear();
+    listaDeAtividades.clear();
+    listaDeUsuarios.clear();
 
     final modeloDeAtividade = ModeloDeAtividade(
       idAtividade: '',
@@ -54,11 +57,63 @@ class PaginaRankingGeralControlador extends ChangeNotifier {
     try {
       atualizarEstadoCarregando();
 
-      final resultadoAtividades = await pegarAtividadesUseCase(modeloDeAtividade, ano, mes);
-      listaAtividades = resultadoAtividades;
+      final resultadoAtividades = await pegarAtividadesUseCase(modeloDeAtividade, anoFiltro, mesFiltro);
+      listaDeAtividades = resultadoAtividades;
 
-      final resultadoUsuarios = await pegarUsuariosUseCase(modeloDeUsuario, listaAtividades);
-      listaUsuarios = resultadoUsuarios;
+      final resultadoUsuarios = await pegarUsuariosUseCase(modeloDeUsuario, listaDeAtividades);
+      listaDeUsuarios = resultadoUsuarios;
+
+      final listaDeAtividadesAgrupadasPorId = listaDeAtividades.groupListsBy((listaAtividades) => listaAtividades.idUsuario);
+
+      final atividadesSomadas = listaDeAtividadesAgrupadasPorId.values.map(
+        (atividadesDoUsuario) {
+          return atividadesDoUsuario.first;
+        },
+      ).toList();
+
+      for (final u in listaDeUsuarios) {
+        int distanciaTotal = 0;
+        int tempoTotal = 0;
+
+        for (final a in listaDeAtividades.where((element) => element.idUsuario == u.id)) {
+          distanciaTotal += a.distancia;
+          tempoTotal += a.tempo;
+        }
+
+        var atividadeUsuario = atividadesSomadas.firstWhere(
+          (atividade) => atividade.idUsuario == u.id,
+          orElse: () => ModeloDeAtividade(
+            idUsuario: u.id,
+            ano: 0,
+            dataAtividade: DateTime.now(),
+            idAtividade: '',
+            mes: 0,
+            tipo: '',
+            distancia: 0,
+            tempo: 0,
+          ),
+        );
+
+        var atualizarAtividade = ModeloDeAtividade(
+          idUsuario: atividadeUsuario.idUsuario,
+          distancia: distanciaTotal,
+          tempo: tempoTotal,
+          ano: 0,
+          dataAtividade: DateTime.now(),
+          idAtividade: '',
+          mes: 0,
+          tipo: '',
+        );
+
+        if (atividadesSomadas.contains(atividadeUsuario)) {
+          atividadesSomadas[atividadesSomadas.indexOf(atividadeUsuario)] = atualizarAtividade;
+        } else {
+          atividadesSomadas.add(atualizarAtividade);
+        }
+      }
+
+      listaDeAtividades = atividadesSomadas.where((element) => element.distancia > 0).toList();
+      listaDeAtividades.sort((a, b) => b.distancia.compareTo(a.distancia.toInt()));
     } catch (e) {
       logger.d(e);
     } finally {

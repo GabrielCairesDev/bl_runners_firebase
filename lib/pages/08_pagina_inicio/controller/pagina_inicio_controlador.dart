@@ -23,8 +23,8 @@ class PaginaInicioControlador extends ChangeNotifier {
   bool carregando = false;
   bool carregadoInitState = false;
 
-  int ano = DateTime.now().year;
-  int mes = DateTime.now().month;
+  int anoFiltro = DateTime.now().year;
+  int mesFiltro = DateTime.now().month;
 
   late List<ModeloDeAtividade> listaAtividades = [];
   late List<ModeloDeUsuario> listaUsuarios = [];
@@ -60,7 +60,7 @@ class PaginaInicioControlador extends ChangeNotifier {
     try {
       atualizarEstadoCarregando();
 
-      final resultadoAtividades = await pegarAtividadesUseCase(modeloDeAtividade, ano, mes);
+      final resultadoAtividades = await pegarAtividadesUseCase(modeloDeAtividade, anoFiltro, mesFiltro);
       listaAtividades = resultadoAtividades;
 
       final resultadoUsuarios = await pegarUsuariosUseCase(modeloDeUsuario, listaAtividades);

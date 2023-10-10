@@ -35,8 +35,8 @@ class _PaginaRankingGeralBotaoFiltroState extends State<PaginaRankingGeralBotaoF
           setState(
             () {
               dataSelecionada = date;
-              widget.paginaRankingGeralControlador.ano = date.year;
-              widget.paginaRankingGeralControlador.mes = date.month;
+              widget.paginaRankingGeralControlador.anoFiltro = date.year;
+              widget.paginaRankingGeralControlador.mesFiltro = date.month;
               widget.paginaRankingGeralControlador.carregarAtividades();
             },
           );

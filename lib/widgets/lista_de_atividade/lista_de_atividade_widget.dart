@@ -1,22 +1,43 @@
 import 'package:bl_runners_firebase/extensions/data_formatada_exetension.dart';
-import 'package:bl_runners_firebase/pages/08_pagina_inicio/controller/pagina_inicio_controlador.dart';
+import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
+import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/utils/utilitarios.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_botao_excluir.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_data_extenso.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_distancia.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_foto_perfil.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_medalha.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_nome_usuario.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_ritmo.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_tempo.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_posicao.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_tipo_atividade.dart';
 import 'package:flutter/material.dart';
 
 class ListaDeAtividadeWidget extends StatefulWidget {
-  const ListaDeAtividadeWidget({super.key, required this.controladorPaginaInicio, required this.controladorPegarUsuarioAtual});
+  const ListaDeAtividadeWidget({
+    super.key,
+    required this.controladorPegarUsuarioAtual,
+    required this.paginaInicio,
+    required this.ranking,
+    required this.carregarAtividades,
+    required this.listaDeAtividades,
+    required this.listaDeUsuarios,
+    required this.mesFiltro,
+    required this.anoFiltro,
+  });
 
   final PegarUsuarioAtual controladorPegarUsuarioAtual;
-  final PaginaInicioControlador controladorPaginaInicio;
+  final Future<void> Function() carregarAtividades;
+
+  final bool paginaInicio;
+  final bool ranking;
+  final List<ModeloDeAtividade> listaDeAtividades;
+  final List<ModeloDeUsuario> listaDeUsuarios;
+  final int mesFiltro;
+  final int anoFiltro;
+
   @override
   State<ListaDeAtividadeWidget> createState() => _ListaDeAtividadeWidgetState();
 }
@@ -25,21 +46,20 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: widget.controladorPaginaInicio.carregarAtividades,
+      onRefresh: widget.carregarAtividades,
       child: ListView.builder(
         shrinkWrap: true,
-        itemCount: widget.controladorPaginaInicio.listaAtividades.length,
+        itemCount: widget.listaDeAtividades.length,
         itemBuilder: (context, index) {
-          widget.controladorPaginaInicio.listaAtividades.sort((atividade1, atividade2) {
+          widget.listaDeAtividades.sort((atividade1, atividade2) {
             return atividade2.dataAtividade.compareTo(atividade1.dataAtividade);
           });
 
-          final atividadeLista = widget.controladorPaginaInicio.listaAtividades[index];
-          final usuarioLista =
-              widget.controladorPaginaInicio.listaUsuarios.where((usuario) => usuario.id == atividadeLista.idUsuario).first;
+          final atividadeLista = widget.listaDeAtividades[index];
+          final usuarioLista = widget.listaDeUsuarios.where((usuario) => usuario.id == atividadeLista.idUsuario).first;
 
           DateTime data = atividadeLista.dataAtividade;
-          String dataExtenso = data.dataPorExetenso;
+          String dataExtenso = data.diaMesAnoHoraPorExetenso;
 
           return Padding(
             padding: const EdgeInsets.only(right: 6, left: 8, top: 8),
@@ -67,14 +87,22 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // DATA
-                        ListaDeAtividadeDataExtenso(data: dataExtenso),
-                        // BOTAO
-                        ListaDeAtividadeBotaoExcluir(
-                          usuarioAtualID: widget.controladorPegarUsuarioAtual.usuarioAtual!.id,
-                          usuarioListaID: usuarioLista.id,
-                          controladorPaginaInicio: widget.controladorPaginaInicio,
-                          atividadeListaID: atividadeLista.idAtividade,
+                        // DATA OU POSIÇÃO
+                        widget.ranking == true
+                            ? ListaAtividadePosicao(
+                                index: index,
+                                mes: widget.mesFiltro,
+                                ano: widget.anoFiltro,
+                              )
+                            : ListaDeAtividadeDataExtenso(data: dataExtenso),
+                        // BOTAO EXCLUIR
+                        Visibility(
+                          visible: widget.paginaInicio,
+                          child: ListaDeAtividadeBotaoExcluir(
+                            usuarioAtualID: widget.controladorPegarUsuarioAtual.usuarioAtual?.id ?? '',
+                            usuarioListaID: usuarioLista.id,
+                            atividadeListaID: atividadeLista.idAtividade,
+                          ),
                         ),
                       ],
                     ),
@@ -114,12 +142,15 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         // NOME DO USUÁRIO
                                         ListaAtividadeNomeUsuario(nome: usuarioLista.nome),
-                                        // TIPO DE ATIVIDADE
-                                        ListaDeAtividadeTipoAtividade(tipo: atividadeLista.tipo),
+                                        // TIPO DE ATIVIDADE OU MEDALHA
+                                        widget.ranking == true
+                                            ? ListaDeAtividadeMedalha(index: index)
+                                            : ListaDeAtividadeTipoAtividade(tipo: atividadeLista.tipo),
                                       ],
                                     ),
                                     Row(

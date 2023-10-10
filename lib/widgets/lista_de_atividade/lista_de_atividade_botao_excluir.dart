@@ -3,6 +3,7 @@ import 'package:bl_runners_firebase/pages/08_pagina_inicio/controller/pagina_ini
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class ListaDeAtividadeBotaoExcluir extends StatefulWidget {
   const ListaDeAtividadeBotaoExcluir({
@@ -10,10 +11,7 @@ class ListaDeAtividadeBotaoExcluir extends StatefulWidget {
     required this.usuarioListaID,
     required this.usuarioAtualID,
     required this.atividadeListaID,
-    required this.controladorPaginaInicio,
   });
-
-  final PaginaInicioControlador controladorPaginaInicio;
 
   final String usuarioListaID;
   final String usuarioAtualID;
@@ -56,7 +54,8 @@ class _ListaDeAtividadeBotaoExcluirState extends State<ListaDeAtividadeBotaoExcl
   }
 
   _excluirAtivdade(BuildContext context) async {
-    await widget.controladorPaginaInicio
+    final controladorPaginaInicio = Provider.of<PaginaInicioControlador>(context);
+    await controladorPaginaInicio
         .excluirAtividade(listaID: widget.atividadeListaID, idUsuario: widget.usuarioAtualID)
         .then(
           (value) => _excluirAtivdadeSucesso(context, value),
