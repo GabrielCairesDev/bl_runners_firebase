@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ListaTipo extends StatelessWidget {
-  const ListaTipo({super.key, required this.tipo});
+class ListaDeAtividadeTipoAtividade extends StatelessWidget {
+  const ListaDeAtividadeTipoAtividade({super.key, required this.tipo});
 
   final String tipo;
 

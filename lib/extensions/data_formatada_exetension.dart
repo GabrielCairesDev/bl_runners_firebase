@@ -30,7 +30,7 @@ extension DataFormatadaExtension on DateTime {
     }
   }
 
-  String get dataFormatada {
+  String get dataPorExetenso {
     int dia = day;
     int mes = month;
     int ano = year;

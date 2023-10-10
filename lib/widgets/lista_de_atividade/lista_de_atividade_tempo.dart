@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ListaRitmo extends StatelessWidget {
-  const ListaRitmo({super.key, required this.ritmo});
+class ListaDeAtivdadeTempo extends StatelessWidget {
+  const ListaDeAtivdadeTempo({super.key, required this.tempo});
 
-  final String ritmo;
+  final String tempo;
 
   @override
   Widget build(BuildContext context) {
@@ -11,13 +11,13 @@ class ListaRitmo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Ritmo',
+          'Tempo',
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
           style: TextStyle(fontSize: 16),
         ),
         Text(
-          ritmo,
+          tempo,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
           style: const TextStyle(fontSize: 16),

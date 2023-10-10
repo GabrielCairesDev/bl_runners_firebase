@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ListaNome extends StatelessWidget {
-  const ListaNome({super.key, required this.nome});
+class ListaAtividadeNomeUsuario extends StatelessWidget {
+  const ListaAtividadeNomeUsuario({super.key, required this.nome});
 
   final String nome;
 

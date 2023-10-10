@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ListaData extends StatelessWidget {
-  const ListaData({super.key, required this.data});
+class ListaDeAtividadeDataExtenso extends StatelessWidget {
+  const ListaDeAtividadeDataExtenso({super.key, required this.data});
 
   final String data;
 

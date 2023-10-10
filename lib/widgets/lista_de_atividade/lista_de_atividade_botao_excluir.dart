@@ -4,8 +4,8 @@ import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class ListaBotaoExcluir extends StatefulWidget {
-  const ListaBotaoExcluir({
+class ListaDeAtividadeBotaoExcluir extends StatefulWidget {
+  const ListaDeAtividadeBotaoExcluir({
     super.key,
     required this.usuarioListaID,
     required this.usuarioAtualID,
@@ -20,10 +20,10 @@ class ListaBotaoExcluir extends StatefulWidget {
   final String atividadeListaID;
 
   @override
-  State<ListaBotaoExcluir> createState() => _ListaBotaoExcluirState();
+  State<ListaDeAtividadeBotaoExcluir> createState() => _ListaDeAtividadeBotaoExcluirState();
 }
 
-class _ListaBotaoExcluirState extends State<ListaBotaoExcluir> {
+class _ListaDeAtividadeBotaoExcluirState extends State<ListaDeAtividadeBotaoExcluir> {
   @override
   Widget build(BuildContext context) {
     return Row(

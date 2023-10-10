@@ -1,8 +1,8 @@
 import 'package:bl_runners_firebase/pages/08_pagina_inicio/components/pagina_inicio_botao_add.dart';
 import 'package:bl_runners_firebase/pages/08_pagina_inicio/components/pagina_inicio_botao_filtro.dart';
-import 'package:bl_runners_firebase/pages/08_pagina_inicio/components/pagina_inicio_lista.dart';
 import 'package:bl_runners_firebase/pages/08_pagina_inicio/controller/pagina_inicio_controlador.dart';
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -61,7 +61,10 @@ class _PaginaInicioState extends State<PaginaInicio> {
               ),
             ),
           ),
-          PaginaInicioLista(controladorPaginaInicio: controladorPaginaInicial, controladorPegarUsuarioAtual: controladorPegarUsuarioAtual),
+          ListaDeAtividadeWidget(
+            controladorPaginaInicio: controladorPaginaInicial,
+            controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
+          ),
         ],
       ),
       floatingActionButton: PaginaInicioBotaoAdd(

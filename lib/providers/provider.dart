@@ -8,6 +8,7 @@ import 'package:bl_runners_firebase/pages/03_pagina_navegacao/controller/pagina_
 import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
 import 'package:bl_runners_firebase/pages/08_pagina_inicio/controller/pagina_inicio_controlador.dart';
 import 'package:bl_runners_firebase/pages/09_pagina_recuperar_conta/controller/pagina_recuperar_conta_controlador.dart';
+import 'package:bl_runners_firebase/pages/10_pagina_ranking_geral/controller/pagina_ranking_geral_controlador.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_concluir_cadastro.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_editar_perfil.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_entrar.dart';
@@ -74,7 +75,7 @@ class AppProvider {
     ChangeNotifierProvider<PaginaConcluirCadastroControlador>(
         create: (context) => PaginaConcluirCadastroControlador(concluirCadastroUseCase: context.read(), salvarFotoUseCase: context.read())),
 
-    //
+    // PAGINA RECUPERAR CONTA
     Provider<RecuperarContaUseCase>(create: (context) => FirebaseRecuperarConta()),
     Provider<PegarUsuariosUseCase>(create: (context) => FirebasePegarUsuarios()),
     ChangeNotifierProvider<PaginaRecuperarContaControlador>(
@@ -87,7 +88,9 @@ class AppProvider {
         create: (context) => PaginaInicioControlador(
             pegarAtividadesUseCase: context.read(), pegarUsuariosUseCase: context.read(), excluirAtividadeUseCase: context.read())),
 
-    //
+    // PAGINA RANKING GERAL
+    ChangeNotifierProvider<PaginaRankingGeralControlador>(
+        create: (context) => PaginaRankingGeralControlador(pegarAtividadesUseCase: context.read(), pegarUsuariosUseCase: context.read())),
     ChangeNotifierProvider<PegarUsuarioAtual>(create: (context) => PegarUsuarioAtual()),
     ChangeNotifierProvider<PaginaNavegacaoControlador>(create: (context) => PaginaNavegacaoControlador()),
   ];

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ListaDistancia extends StatelessWidget {
-  const ListaDistancia({super.key, required this.distancia});
+class ListaDeAtividadeDistancia extends StatelessWidget {
+  const ListaDeAtividadeDistancia({super.key, required this.distancia});
 
   final int distancia;
 

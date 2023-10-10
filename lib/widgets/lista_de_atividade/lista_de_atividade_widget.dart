@@ -1,27 +1,27 @@
 import 'package:bl_runners_firebase/extensions/data_formatada_exetension.dart';
-import 'package:bl_runners_firebase/pages/08_pagina_inicio/components/pagina_inicio_lista_components/botao_excluir.dart';
-import 'package:bl_runners_firebase/pages/08_pagina_inicio/components/pagina_inicio_lista_components/data.dart';
-import 'package:bl_runners_firebase/pages/08_pagina_inicio/components/pagina_inicio_lista_components/distancia.dart';
-import 'package:bl_runners_firebase/pages/08_pagina_inicio/components/pagina_inicio_lista_components/foto.dart';
-import 'package:bl_runners_firebase/pages/08_pagina_inicio/components/pagina_inicio_lista_components/nome.dart';
-import 'package:bl_runners_firebase/pages/08_pagina_inicio/components/pagina_inicio_lista_components/ritmo.dart';
-import 'package:bl_runners_firebase/pages/08_pagina_inicio/components/pagina_inicio_lista_components/tempo.dart';
-import 'package:bl_runners_firebase/pages/08_pagina_inicio/components/pagina_inicio_lista_components/tipo.dart';
 import 'package:bl_runners_firebase/pages/08_pagina_inicio/controller/pagina_inicio_controlador.dart';
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
+import 'package:bl_runners_firebase/utils/utilitarios.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_botao_excluir.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_data_extenso.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_distancia.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_foto_perfil.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_nome_usuario.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_ritmo.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_tempo.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_tipo_atividade.dart';
 import 'package:flutter/material.dart';
 
-class PaginaInicioLista extends StatefulWidget {
-  const PaginaInicioLista({super.key, required this.controladorPaginaInicio, required this.controladorPegarUsuarioAtual});
+class ListaDeAtividadeWidget extends StatefulWidget {
+  const ListaDeAtividadeWidget({super.key, required this.controladorPaginaInicio, required this.controladorPegarUsuarioAtual});
 
   final PegarUsuarioAtual controladorPegarUsuarioAtual;
   final PaginaInicioControlador controladorPaginaInicio;
-
   @override
-  State<PaginaInicioLista> createState() => _PaginaInicioListaState();
+  State<ListaDeAtividadeWidget> createState() => _ListaDeAtividadeWidgetState();
 }
 
-class _PaginaInicioListaState extends State<PaginaInicioLista> {
+class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -39,7 +39,7 @@ class _PaginaInicioListaState extends State<PaginaInicioLista> {
               widget.controladorPaginaInicio.listaUsuarios.where((usuario) => usuario.id == atividadeLista.idUsuario).first;
 
           DateTime data = atividadeLista.dataAtividade;
-          String dataFormatada = data.dataFormatada;
+          String dataExtenso = data.dataPorExetenso;
 
           return Padding(
             padding: const EdgeInsets.only(right: 6, left: 8, top: 8),
@@ -68,9 +68,9 @@ class _PaginaInicioListaState extends State<PaginaInicioLista> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         // DATA
-                        ListaData(data: dataFormatada),
+                        ListaDeAtividadeDataExtenso(data: dataExtenso),
                         // BOTAO
-                        ListaBotaoExcluir(
+                        ListaDeAtividadeBotaoExcluir(
                           usuarioAtualID: widget.controladorPegarUsuarioAtual.usuarioAtual!.id,
                           usuarioListaID: usuarioLista.id,
                           controladorPaginaInicio: widget.controladorPaginaInicio,
@@ -103,8 +103,8 @@ class _PaginaInicioListaState extends State<PaginaInicioLista> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // FOTO
-                            ListaFoto(foto: usuarioLista.fotoUrl),
+                            // FOTO DO PERFIL
+                            ListaDeAtividadeFotoPerfil(foto: usuarioLista.fotoUrl),
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.11,
                               width: MediaQuery.of(context).size.width * 0.72,
@@ -116,23 +116,22 @@ class _PaginaInicioListaState extends State<PaginaInicioLista> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        // NOME
-                                        ListaNome(nome: usuarioLista.nome),
-                                        // TIPO
-                                        ListaTipo(tipo: atividadeLista.tipo),
+                                        // NOME DO USUÁRIO
+                                        ListaAtividadeNomeUsuario(nome: usuarioLista.nome),
+                                        // TIPO DE ATIVIDADE
+                                        ListaDeAtividadeTipoAtividade(tipo: atividadeLista.tipo),
                                       ],
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         // DISTÂNCIA
-                                        ListaDistancia(distancia: atividadeLista.distancia),
+                                        ListaDeAtividadeDistancia(distancia: atividadeLista.distancia),
                                         // RITMO
-                                        ListaRitmo(
-                                            ritmo: widget.controladorPaginaInicio
-                                                .calcularRitmo(atividadeLista.distancia, atividadeLista.tempo)),
+                                        ListaDeAtividadeRitmo(
+                                            ritmo: Utilidarios().calcularRitmo(atividadeLista.distancia, atividadeLista.tempo)),
                                         // TEMPO
-                                        ListaTempo(tempo: widget.controladorPaginaInicio.formatarTempo(atividadeLista.tempo)),
+                                        ListaDeAtivdadeTempo(tempo: Utilidarios().formatarTempo(atividadeLista.tempo)),
                                       ],
                                     ),
                                   ],

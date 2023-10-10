@@ -1,19 +1,40 @@
+import 'package:bl_runners_firebase/pages/10_pagina_ranking_geral/components/pagina_ranking_geral_botao_filtro.dart';
+import 'package:bl_runners_firebase/pages/10_pagina_ranking_geral/controller/pagina_ranking_geral_controlador.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class PaginaRankingGeral extends StatelessWidget {
+class PaginaRankingGeral extends StatefulWidget {
   const PaginaRankingGeral({super.key});
 
   @override
+  State<PaginaRankingGeral> createState() => _PaginaRankingGeralState();
+}
+
+class _PaginaRankingGeralState extends State<PaginaRankingGeral> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final controlador = context.read<PaginaRankingGeralControlador>();
+      if (controlador.carregadoInitState == false) {
+        controlador.carregarAtividades();
+        controlador.carregadoInitState = true;
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final controladorPaginaRankingGeral = Provider.of<PaginaRankingGeralControlador>(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('Ranking Geral'),
-        // actions: [
-        //   PaginaInicioBotaoFiltro(
-        //     controladorPaginaInicial: controladorPaginaInicial,
-        //   )
-        // ],
+        actions: [
+          PaginaRankingGeralBotaoFiltro(
+            paginaRankingGeralControlador: controladorPaginaRankingGeral,
+          )
+        ],
       ),
       body: Stack(
         children: [
@@ -26,14 +47,14 @@ class PaginaRankingGeral extends StatelessWidget {
               ),
             ),
           ),
-          // Positioned.fill(
-          //   child: Visibility(
-          //     visible: controladorPaginaInicial.carregando,
-          //     child: const Align(
-          //       child: CircularProgressIndicator(),
-          //     ),
-          //   ),
-          // ),
+          Positioned.fill(
+            child: Visibility(
+              visible: controladorPaginaRankingGeral.carregando,
+              child: const Align(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
           // PaginaInicioLista(controladorPaginaInicio: controladorPaginaInicial, controladorPegarUsuarioAtual: controladorPegarUsuarioAtual),
         ],
       ),

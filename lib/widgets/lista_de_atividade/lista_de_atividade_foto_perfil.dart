@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ListaFoto extends StatelessWidget {
-  const ListaFoto({super.key, required this.foto});
+class ListaDeAtividadeFotoPerfil extends StatelessWidget {
+  const ListaDeAtividadeFotoPerfil({super.key, required this.foto});
 
   final String foto;
 
