@@ -17,9 +17,8 @@ class FirebasePegarAtividadesID extends PegarAtividadesIdUsuarioUseCase {
 
       for (var element in atividades.docs) {
         var atividade = ModeloDeAtividade.fromJson(element.data());
-        if (atividade.idUsuario == idUsuario) {
-          _atividades[element.id] = atividade;
-        }
+
+        _atividades[element.id] = atividade;
       }
 
       return listaAtividades;

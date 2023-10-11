@@ -22,8 +22,10 @@ class PaginaPerfilControlador extends ChangeNotifier {
   late List<ModeloDeUsuario> listaUsuarios = [];
 
   bool carregando = false;
+  bool carregadoInitState = false;
+  String idUsuario = '';
 
-  Future<void> carregarAtividades({required String? idUsuario}) async {
+  Future<void> carregarAtividades() async {
     listaAtividades.clear();
     listaUsuarios.clear();
 
@@ -54,7 +56,7 @@ class PaginaPerfilControlador extends ChangeNotifier {
     try {
       alterarEstadoCarregando();
 
-      final resultadoAtividades = await pegarAtividadesIdUsuarioUseCase(modeloDeAtividade, idUsuario.toString());
+      final resultadoAtividades = await pegarAtividadesIdUsuarioUseCase(modeloDeAtividade, idUsuario);
       listaAtividades = resultadoAtividades;
 
       final resultadoUsuarios = await pegarUsuariosUseCase(modeloDeUsuario, listaAtividades);

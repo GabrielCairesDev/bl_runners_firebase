@@ -20,23 +20,27 @@ class ListaDeAtividadeWidget extends StatefulWidget {
     super.key,
     required this.controladorPegarUsuarioAtual,
     required this.paginaInicio,
-    required this.ranking,
+    required this.paginaDeRanking,
     required this.carregarAtividades,
     required this.listaDeAtividades,
     required this.listaDeUsuarios,
     required this.mesFiltro,
     required this.anoFiltro,
+    required this.idUsuario,
+    required this.paginaPerfil,
   });
 
   final PegarUsuarioAtual controladorPegarUsuarioAtual;
   final Future<void> Function() carregarAtividades;
 
   final bool paginaInicio;
-  final bool ranking;
+  final bool paginaDeRanking;
   final List<ModeloDeAtividade> listaDeAtividades;
   final List<ModeloDeUsuario> listaDeUsuarios;
   final int mesFiltro;
   final int anoFiltro;
+  final String idUsuario;
+  final bool paginaPerfil;
 
   @override
   State<ListaDeAtividadeWidget> createState() => _ListaDeAtividadeWidgetState();
@@ -48,7 +52,9 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
     return RefreshIndicator(
       onRefresh: widget.carregarAtividades,
       child: ListView.builder(
+        padding: widget.paginaPerfil ? EdgeInsets.zero : null,
         shrinkWrap: true,
+        physics: widget.paginaPerfil ? const NeverScrollableScrollPhysics() : null,
         itemCount: widget.listaDeAtividades.length,
         itemBuilder: (context, index) {
           final atividadeLista = widget.listaDeAtividades[index];
@@ -84,7 +90,7 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         // DATA OU POSIÇÃO
-                        widget.ranking == true
+                        widget.paginaDeRanking == true
                             ? ListaAtividadePosicao(
                                 index: index,
                                 mes: widget.mesFiltro,
@@ -144,7 +150,7 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                                         // NOME DO USUÁRIO
                                         ListaAtividadeNomeUsuario(nome: usuarioLista.nome),
                                         // TIPO DE ATIVIDADE OU MEDALHA
-                                        widget.ranking == true
+                                        widget.paginaDeRanking == true
                                             ? ListaDeAtividadeMedalha(index: index)
                                             : ListaDeAtividadeTipoAtividade(tipo: atividadeLista.tipo),
                                       ],

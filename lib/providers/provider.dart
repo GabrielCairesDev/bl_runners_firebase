@@ -17,6 +17,7 @@ import 'package:bl_runners_firebase/providers/firebase/firebase_entrar.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_entrar_automaticamente.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_excluir_atividade.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_excluir_conta.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_pegar_atividades_id.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_pegar_atividades_mes_ano.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_pegar_usuarios.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_recuperar_conta.dart';
@@ -28,6 +29,7 @@ import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_c
 import 'package:bl_runners_firebase/providers/interfaces/editar_perfil_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/excluir_atividade_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_id_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_mes_ano_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/sair_use_case.dart';
@@ -56,6 +58,7 @@ class AppProvider {
     Provider<PegarUsuariosUseCase>(create: (context) => FirebasePegarUsuarios()),
     Provider<PegarAtividadesMesAnoUseCase>(create: (context) => FirebasePegarAtividadesMesAno()),
     Provider<ExcluirAtividadeUseCase>(create: (context) => FirebaseExcluirAtividade()),
+    Provider<PegarAtividadesIdUsuarioUseCase>(create: (context) => FirebasePegarAtividadesID()),
     ChangeNotifierProvider<HomePageControlador>(
       create: (context) => HomePageControlador(
         entrarAutomaticamenteUseCase: context.read(),
