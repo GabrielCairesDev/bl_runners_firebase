@@ -9,6 +9,8 @@ import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/controll
 import 'package:bl_runners_firebase/pages/08_pagina_inicio/controller/pagina_inicio_controlador.dart';
 import 'package:bl_runners_firebase/pages/09_pagina_recuperar_conta/controller/pagina_recuperar_conta_controlador.dart';
 import 'package:bl_runners_firebase/pages/10_pagina_ranking_geral/controller/pagina_ranking_geral_controlador.dart';
+import 'package:bl_runners_firebase/pages/11_pagina_ranking_feminino/controller/pagina_ranking_feminino_controlador.dart';
+import 'package:bl_runners_firebase/pages/12_pagina_ranking_masculino/controller/pagina_ranking_masculino_controlador.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_concluir_cadastro.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_editar_perfil.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_entrar.dart';
@@ -40,58 +42,94 @@ import 'package:provider/provider.dart';
 
 class AppProvider {
   static final provider = [
-    // HOME PAGE
     Provider<EntrarAutomaticamenteUseCase>(create: (context) => FirebaseEntrarAutomaticamente()),
-    ChangeNotifierProvider<HomePageControlador>(create: (context) => HomePageControlador(entrarAutomaticamenteUseCase: context.read())),
-
-    // PAGINA REGISTRAR ATIVIDADE
     Provider<RegistrarAtividadeUseCase>(create: (context) => FirebaseRegistrarAtividade()),
-    ChangeNotifierProvider<PaginaRegistrarAtividadeControlador>(
-        create: (context) => PaginaRegistrarAtividadeControlador(registrarAtividadeUserCase: context.read())),
-
-    // PAGINA ENTRAR
     Provider<EntrarUseCase>(create: (context) => FirebaseEntrar()),
     Provider<RecuperarContaUseCase>(create: (context) => FirebaseRecuperarConta()),
-    ChangeNotifierProvider<PaginaEntrarControlador>(create: (context) => PaginaEntrarControlador(entrarUseCase: context.read())),
-
-    // PAGINA REGISTRAR USUARIO
     Provider<RegistrarUsuarioUseCase>(create: (context) => FirebaseRegistrarUsuario()),
-    ChangeNotifierProvider<PaginaRegistrarUsuarioControlador>(
-        create: (context) => PaginaRegistrarUsuarioControlador(registrarUsuarioUseCase: context.read())),
-
-    // PAGINA PERFIL
     Provider<SairUseCase>(create: (context) => FirebaseSair()),
-    ChangeNotifierProvider<PaginaPerfilControlador>(create: (context) => PaginaPerfilControlador(sairUseCase: context.read())),
-
-    // PAGINA EDITAR PERFIL
     Provider<ExcluirContaUseCase>(create: (context) => FirebaseExcluirConta()),
     Provider<EditarPerfil>(create: (context) => FireBaseEditarPerfil()),
-    ChangeNotifierProvider<PaginaEditarPerfilControlador>(
-        create: (context) => PaginaEditarPerfilControlador(excluirContaUseCase: context.read(), editarPerfilUseCase: context.read())),
-
-    // PAGINA CONCLUIR CADASTRO
     Provider<ConcluirCadastroUseCase>(create: (context) => FireBaseConcluirCadastro()),
     Provider<SalvarFotoUseCase>(create: (context) => FirebaseSalvarFoto()),
-    ChangeNotifierProvider<PaginaConcluirCadastroControlador>(
-        create: (context) => PaginaConcluirCadastroControlador(concluirCadastroUseCase: context.read(), salvarFotoUseCase: context.read())),
-
-    // PAGINA RECUPERAR CONTA
     Provider<RecuperarContaUseCase>(create: (context) => FirebaseRecuperarConta()),
     Provider<PegarUsuariosUseCase>(create: (context) => FirebasePegarUsuarios()),
-    ChangeNotifierProvider<PaginaRecuperarContaControlador>(
-        create: (context) => PaginaRecuperarContaControlador(recuperarContaUseCase: context.read())),
-
-    // PAGINA INICIO
     Provider<PegarAtividadesMesAnoUseCase>(create: (context) => FirebasePegarAtividadesMesAno()),
     Provider<ExcluirAtividadeUseCase>(create: (context) => FirebaseExcluirAtividade()),
+    ChangeNotifierProvider<HomePageControlador>(
+      create: (context) => HomePageControlador(
+        entrarAutomaticamenteUseCase: context.read(),
+      ),
+    ),
+    ChangeNotifierProvider<PaginaRegistrarAtividadeControlador>(
+      create: (context) => PaginaRegistrarAtividadeControlador(
+        registrarAtividadeUserCase: context.read(),
+      ),
+    ),
+    ChangeNotifierProvider<PaginaEntrarControlador>(
+      create: (context) => PaginaEntrarControlador(
+        entrarUseCase: context.read(),
+      ),
+    ),
+    ChangeNotifierProvider<PaginaRegistrarUsuarioControlador>(
+      create: (context) => PaginaRegistrarUsuarioControlador(
+        registrarUsuarioUseCase: context.read(),
+      ),
+    ),
+    ChangeNotifierProvider<PaginaPerfilControlador>(
+      create: (context) => PaginaPerfilControlador(
+        sairUseCase: context.read(),
+        pegarAtividadesIdUsuarioUseCase: context.read(),
+        pegarUsuariosUseCase: context.read(),
+      ),
+    ),
+    ChangeNotifierProvider<PaginaEditarPerfilControlador>(
+      create: (context) => PaginaEditarPerfilControlador(
+        excluirContaUseCase: context.read(),
+        editarPerfilUseCase: context.read(),
+      ),
+    ),
+    ChangeNotifierProvider<PaginaConcluirCadastroControlador>(
+      create: (context) => PaginaConcluirCadastroControlador(
+        concluirCadastroUseCase: context.read(),
+        salvarFotoUseCase: context.read(),
+      ),
+    ),
+    ChangeNotifierProvider<PaginaRecuperarContaControlador>(
+      create: (context) => PaginaRecuperarContaControlador(
+        recuperarContaUseCase: context.read(),
+      ),
+    ),
     ChangeNotifierProvider<PaginaInicioControlador>(
-        create: (context) => PaginaInicioControlador(
-            pegarAtividadesUseCase: context.read(), pegarUsuariosUseCase: context.read(), excluirAtividadeUseCase: context.read())),
-
-    // PAGINA RANKING GERAL
+      create: (context) => PaginaInicioControlador(
+        pegarAtividadesUseCase: context.read(),
+        pegarUsuariosUseCase: context.read(),
+        excluirAtividadeUseCase: context.read(),
+      ),
+    ),
     ChangeNotifierProvider<PaginaRankingGeralControlador>(
-        create: (context) => PaginaRankingGeralControlador(pegarAtividadesUseCase: context.read(), pegarUsuariosUseCase: context.read())),
-    ChangeNotifierProvider<PegarUsuarioAtual>(create: (context) => PegarUsuarioAtual()),
-    ChangeNotifierProvider<PaginaNavegacaoControlador>(create: (context) => PaginaNavegacaoControlador()),
+      create: (context) => PaginaRankingGeralControlador(
+        pegarAtividadesUseCase: context.read(),
+        pegarUsuariosUseCase: context.read(),
+      ),
+    ),
+    ChangeNotifierProvider<PaginaRankingFemininoControlador>(
+      create: (context) => PaginaRankingFemininoControlador(
+        pegarAtividadesUseCase: context.read(),
+        pegarUsuariosUseCase: context.read(),
+      ),
+    ),
+    ChangeNotifierProvider<PaginaRankingMasculinoControlador>(
+      create: (context) => PaginaRankingMasculinoControlador(
+        pegarAtividadesUseCase: context.read(),
+        pegarUsuariosUseCase: context.read(),
+      ),
+    ),
+    ChangeNotifierProvider<PegarUsuarioAtual>(
+      create: (context) => PegarUsuarioAtual(),
+    ),
+    ChangeNotifierProvider<PaginaNavegacaoControlador>(
+      create: (context) => PaginaNavegacaoControlador(),
+    ),
   ];
 }

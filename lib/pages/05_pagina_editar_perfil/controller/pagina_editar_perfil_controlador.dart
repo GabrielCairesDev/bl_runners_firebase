@@ -9,13 +9,13 @@ import 'package:bl_runners_firebase/providers/interfaces/editar_perfil_use_case.
 import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
 
 class PaginaEditarPerfilControlador extends ChangeNotifier {
-  final ExcluirContaUseCase excluirContaUseCase;
-  final EditarPerfil editarPerfilUseCase;
-
   PaginaEditarPerfilControlador({
     required this.excluirContaUseCase,
     required this.editarPerfilUseCase,
   });
+
+  final ExcluirContaUseCase excluirContaUseCase;
+  final EditarPerfil editarPerfilUseCase;
 
   final controladorNome = TextEditingController();
   final controladorNascimento = TextEditingController();

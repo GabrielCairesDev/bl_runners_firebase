@@ -3,11 +3,11 @@ import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_mes_ano_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case.dart';
-import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 
-class PaginaRankingGeralControlador extends ChangeNotifier {
-  PaginaRankingGeralControlador({
+class PaginaRankingMasculinoControlador extends ChangeNotifier {
+  PaginaRankingMasculinoControlador({
     required this.pegarAtividadesUseCase,
     required this.pegarUsuariosUseCase,
   });
@@ -23,8 +23,6 @@ class PaginaRankingGeralControlador extends ChangeNotifier {
 
   late List<ModeloDeAtividade> listaDeAtividades = [];
   late List<ModeloDeUsuario> listaDeUsuarios = [];
-
-  late List<ModeloDeAtividade> listaAtividadesAgrupadas = [];
 
   Future<void> carregarAtividades() async {
     listaDeAtividades.clear();
@@ -113,6 +111,13 @@ class PaginaRankingGeralControlador extends ChangeNotifier {
       }
 
       listaDeAtividades = atividadesSomadas.toList();
+
+      for (final usuario in listaDeUsuarios) {
+        listaDeAtividades.removeWhere(
+          (a) => a.idUsuario.contains(usuario.id) && usuario.genero != 'Masculino',
+        );
+      }
+
       listaDeAtividades.sort((a, b) => b.distancia.compareTo(a.distancia.toInt()));
     } catch (e) {
       logger.d(e);

@@ -6,8 +6,8 @@ import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
-class PaginaRankingGeralControlador extends ChangeNotifier {
-  PaginaRankingGeralControlador({
+class PaginaRankingFemininoControlador extends ChangeNotifier {
+  PaginaRankingFemininoControlador({
     required this.pegarAtividadesUseCase,
     required this.pegarUsuariosUseCase,
   });
@@ -23,8 +23,6 @@ class PaginaRankingGeralControlador extends ChangeNotifier {
 
   late List<ModeloDeAtividade> listaDeAtividades = [];
   late List<ModeloDeUsuario> listaDeUsuarios = [];
-
-  late List<ModeloDeAtividade> listaAtividadesAgrupadas = [];
 
   Future<void> carregarAtividades() async {
     listaDeAtividades.clear();
@@ -113,6 +111,13 @@ class PaginaRankingGeralControlador extends ChangeNotifier {
       }
 
       listaDeAtividades = atividadesSomadas.toList();
+
+      for (final usuario in listaDeUsuarios) {
+        listaDeAtividades.removeWhere(
+          (a) => a.idUsuario.contains(usuario.id) && usuario.genero != 'Feminino',
+        );
+      }
+
       listaDeAtividades.sort((a, b) => b.distancia.compareTo(a.distancia.toInt()));
     } catch (e) {
       logger.d(e);

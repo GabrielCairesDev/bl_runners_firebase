@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 
 import '../../08_pagina_inicio/page/pagina_inicio.dart';
 import '../../04_pagina_perfil/pages/pagina_perfil.dart';
-import '../../pagina_ranking_feminino/page/pagina_ranking_feminino.dart';
+import '../../11_pagina_ranking_feminino/page/pagina_ranking_feminino.dart';
 import '../../10_pagina_ranking_geral/pages/pagina_ranking_geral.dart';
-import '../../pagina_ranking_masculino/pages/pagina_ranking_masculino.dart';
+import '../../12_pagina_ranking_masculino/pages/pagina_ranking_masculino.dart';
 import '../components/pagina_navegacao_avatar.dart';
 
 class PaginaNavegacao extends StatefulWidget {

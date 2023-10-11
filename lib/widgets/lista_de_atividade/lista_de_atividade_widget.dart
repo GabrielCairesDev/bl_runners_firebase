@@ -51,10 +51,6 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
         shrinkWrap: true,
         itemCount: widget.listaDeAtividades.length,
         itemBuilder: (context, index) {
-          widget.listaDeAtividades.sort((atividade1, atividade2) {
-            return atividade2.dataAtividade.compareTo(atividade1.dataAtividade);
-          });
-
           final atividadeLista = widget.listaDeAtividades[index];
           final usuarioLista = widget.listaDeUsuarios.where((usuario) => usuario.id == atividadeLista.idUsuario).first;
 

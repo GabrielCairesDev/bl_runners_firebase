@@ -65,6 +65,8 @@ class PaginaInicioControlador extends ChangeNotifier {
 
       final resultadoUsuarios = await pegarUsuariosUseCase(modeloDeUsuario, listaAtividades);
       listaUsuarios = resultadoUsuarios;
+
+      listaAtividades.sort((atividade1, atividade2) => atividade2.dataAtividade.compareTo(atividade1.dataAtividade));
     } catch (e) {
       logger.d(e);
     } finally {
