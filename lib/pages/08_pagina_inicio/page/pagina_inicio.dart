@@ -63,8 +63,8 @@ class _PaginaInicioState extends State<PaginaInicio> {
           ),
           ListaDeAtividadeWidget(
             controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
-            paginaInicio: true,
-            paginaDeRanking: false,
+            mostrarBotaoExlcuir: false,
+            listasSomadas: false,
             paginaPerfil: false,
             carregarAtividades: controladorPaginaInicio.carregarAtividades,
             listaDeAtividades: controladorPaginaInicio.listaAtividades,

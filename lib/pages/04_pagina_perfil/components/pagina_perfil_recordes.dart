@@ -1,7 +1,14 @@
+import 'package:bl_runners_firebase/pages/04_pagina_perfil/controller/pagina_perfil_controlador.dart';
+import 'package:bl_runners_firebase/utils/utilitarios.dart';
 import 'package:flutter/material.dart';
 
 class PaginaPerfilRecordes extends StatelessWidget {
-  const PaginaPerfilRecordes({super.key});
+  const PaginaPerfilRecordes({
+    super.key,
+    required this.controladorPaginaPerfil,
+  });
+
+  final PaginaPerfilControlador controladorPaginaPerfil;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +47,7 @@ class PaginaPerfilRecordes extends StatelessWidget {
                 ),
               ),
               Text(
-                '1000 km',
+                '${controladorPaginaPerfil.listaDeAtividadesSomadas.isNotEmpty ? controladorPaginaPerfil.listaDeAtividadesSomadas[0].distancia / 1000 : 0} km',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: MediaQuery.of(context).size.width * 0.065,
@@ -74,7 +81,13 @@ class PaginaPerfilRecordes extends StatelessWidget {
                 ),
               ),
               Text(
-                '5:00 /km',
+                Utilidarios().calcularRitmo(
+                    controladorPaginaPerfil.listaDeAtividadesSomadas.isNotEmpty
+                        ? controladorPaginaPerfil.listaDeAtividadesSomadas[0].distancia
+                        : 0,
+                    controladorPaginaPerfil.listaDeAtividadesSomadas.isNotEmpty
+                        ? controladorPaginaPerfil.listaDeAtividadesSomadas[0].tempo
+                        : 0),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: MediaQuery.of(context).size.width * 0.065,
@@ -94,7 +107,7 @@ class PaginaPerfilRecordes extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Treinos',
+                'Atividades',
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.040,
                   color: Colors.black,
@@ -108,7 +121,7 @@ class PaginaPerfilRecordes extends StatelessWidget {
                 ),
               ),
               Text(
-                '1200',
+                controladorPaginaPerfil.listaDeAtividades.isNotEmpty ? controladorPaginaPerfil.listaDeAtividades.length.toString() : '0',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: MediaQuery.of(context).size.width * 0.065,

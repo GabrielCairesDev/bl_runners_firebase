@@ -15,9 +15,9 @@ class PaginaPerfilBotaoEditar extends StatelessWidget {
       onPressed: () {
         if (controladorPegarUsuario.usuarioAtual?.cadastroConcluido != true) {
           Mensagens.mensagemInfo(context, texto: 'Conclua o seu cadastro!');
-          context.push(Rotas.concluir);
+          context.push(Rotas.concluirCadastro);
         } else {
-          context.push(Rotas.editar);
+          context.push(Rotas.editarPerfil);
         }
       },
       child: const Icon(Icons.edit),

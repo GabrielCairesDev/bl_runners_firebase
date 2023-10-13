@@ -1,3 +1,4 @@
+import 'package:bl_runners_firebase/pages/04_pagina_perfil/components/pagina_perfil_botao_admin.dart';
 import 'package:bl_runners_firebase/pages/04_pagina_perfil/components/pagina_perfil_botao_editar.dart';
 import 'package:bl_runners_firebase/pages/04_pagina_perfil/components/pagina_perfil_botao_sair.dart';
 import 'package:bl_runners_firebase/pages/04_pagina_perfil/controller/pagina_perfil_controlador.dart';
@@ -22,14 +23,10 @@ class _PaginaPerfilState extends State<PaginaPerfil> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final controlador = context.read<PaginaPerfilControlador>();
-      final controladorUsuario = context.read<PegarUsuarioAtual>();
-      controlador.idUsuario = controladorUsuario.usuarioAtual?.id ?? 'vazio';
-
-      if (controlador.carregadoInitState == false) {
-        controlador.carregarAtividades();
-        controlador.carregadoInitState = true;
-      }
+      final controladorPaginaPerfil = context.read<PaginaPerfilControlador>();
+      final controladorPegarUsuarioAtual = context.read<PegarUsuarioAtual>();
+      controladorPaginaPerfil.idUsuario = controladorPegarUsuarioAtual.usuarioAtual?.id ?? '';
+      controladorPaginaPerfil.carregarAtividades();
     });
   }
 
@@ -42,44 +39,50 @@ class _PaginaPerfilState extends State<PaginaPerfil> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('Perfil'),
+        leading: const PaginaPerfilBotaoSair(),
         actions: [
           PaginaEditarBotaoSair(controlador: controladorPaginaPerfil),
         ],
       ),
       body: SingleChildScrollView(
-        child: SizedBox(
-          child: Stack(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.width * 0.95,
-                width: double.infinity,
-                color: const Color(0xFFc1d22b),
-              ),
-              Column(
-                children: [
-                  const SizedBox(height: 88),
-                  PaginaPerfilAvatar(controladorPegarUsuario: controladorPegarUsuarioAtual),
-                  const SizedBox(height: 8),
-                  PaginaPerfilNome(controladorPegarUsuario: controladorPegarUsuarioAtual),
-                  const SizedBox(height: 8),
-                  const PaginaPerfilRecordes(),
-                  ListaDeAtividadeWidget(
-                    controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
-                    paginaInicio: true,
-                    paginaPerfil: true,
-                    paginaDeRanking: false,
-                    carregarAtividades: controladorPaginaPerfil.carregarAtividades,
-                    listaDeAtividades: controladorPaginaPerfil.listaAtividades,
-                    listaDeUsuarios: controladorPaginaPerfil.listaUsuarios,
-                    anoFiltro: 0,
-                    mesFiltro: 0,
-                    idUsuario: controladorPegarUsuarioAtual.usuarioAtual!.id,
+        child: Stack(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.width * 0.95,
+              width: double.infinity,
+              color: const Color(0xFFc1d22b),
+            ),
+            Column(
+              children: [
+                const SizedBox(height: 88),
+                PaginaPerfilAvatar(controladorPegarUsuario: controladorPegarUsuarioAtual),
+                const SizedBox(height: 8),
+                PaginaPerfilNome(controladorPegarUsuario: controladorPegarUsuarioAtual),
+                const SizedBox(height: 8),
+                PaginaPerfilRecordes(controladorPaginaPerfil: controladorPaginaPerfil),
+                RefreshIndicator(
+                  onRefresh: controladorPaginaPerfil.carregarAtividades,
+                  child: Column(
+                    children: [
+                      ListaDeAtividadeWidget(
+                        controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
+                        mostrarBotaoExlcuir: true,
+                        paginaPerfil: true,
+                        listasSomadas: false,
+                        carregarAtividades: controladorPaginaPerfil.carregarAtividades,
+                        listaDeAtividades: controladorPaginaPerfil.listaDeAtividades,
+                        listaDeUsuarios: controladorPaginaPerfil.listaDeUsuarios,
+                        anoFiltro: 0,
+                        mesFiltro: 0,
+                        idUsuario: controladorPegarUsuarioAtual.usuarioAtual!.id,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                ],
-              ),
-            ],
-          ),
+                ),
+                const SizedBox(height: 8),
+              ],
+            ),
+          ],
         ),
       ),
       floatingActionButton: PaginaPerfilBotaoEditar(controladorPegarUsuario: controladorPegarUsuarioAtual),

@@ -1,4 +1,5 @@
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class PaginaPerfilAvatar extends StatelessWidget {
@@ -22,10 +23,10 @@ class PaginaPerfilAvatar extends StatelessWidget {
 
     if (foto == null || foto.isEmpty) return Image.asset('assets/images/avatar.png');
 
-    return Image.network(
-      controladorPegarUsuario.usuarioAtual!.fotoUrl.toString(),
+    return CachedNetworkImage(
+      imageUrl: controladorPegarUsuario.usuarioAtual!.fotoUrl.toString(),
       fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) {
+      errorWidget: (context, error, stackTrace) {
         return Image.asset('assets/images/avatar.png');
       },
     );

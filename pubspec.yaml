@@ -53,6 +53,7 @@ dependencies:
   uuid: ^4.1.0
   numberpicker: ^2.1.2
   collection: ^1.17.2
+  cached_network_image: ^3.3.0
 
 
 dev_dependencies:

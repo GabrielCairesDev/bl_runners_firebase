@@ -47,17 +47,17 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
     }
   }
 
-  Future<String> concluirCadastro({required String? idUsuario}) async {
+  Future<String> concluirCadastro({required String? idUsuario, required bool usuarioAutorizado}) async {
     final internet = await Connectivity().checkConnectivity();
 
     if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
     if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
+    if (usuarioAutorizado == false) throw 'Usuário não autorizado!';
 
     final usuarioAtual = FirebaseAuth.instance.currentUser;
     if (globalKeyPaginaConcluirCadastro.currentState!.validate()) {
-      if (usuarioAtual == null) {
-        throw 'Usuário Null';
-      }
+      if (usuarioAtual == null) throw 'Usuário Null';
+
       alterarEstadoCarregando();
 
       final fotoURL = await salvarFotoUseCase(imagemArquivo: imagemArquivo, usuarioAtual: usuarioAtual);

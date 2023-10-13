@@ -3,22 +3,18 @@ import 'dart:async';
 import 'package:bl_runners_firebase/main.dart';
 import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/providers/interfaces/excluir_atividade_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_mes_ano_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 class PaginaInicioControlador extends ChangeNotifier {
   PaginaInicioControlador({
     required this.pegarAtividadesUseCase,
     required this.pegarUsuariosUseCase,
-    required this.excluirAtividadeUseCase,
   });
 
   final PegarAtividadesMesAnoUseCase pegarAtividadesUseCase;
   final PegarUsuariosUseCase pegarUsuariosUseCase;
-  final ExcluirAtividadeUseCase excluirAtividadeUseCase;
 
   bool carregando = false;
   bool carregadoInitState = false;
@@ -72,23 +68,6 @@ class PaginaInicioControlador extends ChangeNotifier {
     } finally {
       notifyListeners();
       atualizarEstadoCarregando();
-    }
-  }
-
-  Future<String> excluirAtividade({required String listaID, required String? idUsuario}) async {
-    final internet = await Connectivity().checkConnectivity();
-
-    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
-    if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
-
-    try {
-      final resultado = await excluirAtividadeUseCase(listaID);
-      carregarAtividades();
-      return resultado;
-    } catch (e) {
-      rethrow;
-    } finally {
-      print('fim');
     }
   }
 

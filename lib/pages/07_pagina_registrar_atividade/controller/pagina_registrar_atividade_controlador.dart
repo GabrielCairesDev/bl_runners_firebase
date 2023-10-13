@@ -23,11 +23,12 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
   int controladorDistancia = 5000;
   bool carregando = false;
 
-  Future<String> registrarAtividade({required String? idUsuario}) async {
+  Future<String> registrarAtividade({required String? idUsuario, required bool usuarioAutorizado}) async {
     final internet = await Connectivity().checkConnectivity();
 
     if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
     if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
+    if (usuarioAutorizado == false) throw 'Usuário não autorizado!';
 
     if (globalKeyRegistrarAtividade.currentState!.validate()) {
       final modeloDeAtividade = ModeloDeAtividade(

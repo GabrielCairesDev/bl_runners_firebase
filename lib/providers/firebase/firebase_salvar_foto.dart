@@ -21,7 +21,6 @@ class FirebaseSalvarFoto extends SalvarFotoUseCase {
       }
     } else {
       throw 'Foto Null!';
-      // return usuarioAtual!.photoURL.toString();
     }
   }
 }

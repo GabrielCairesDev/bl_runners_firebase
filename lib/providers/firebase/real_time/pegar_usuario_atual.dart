@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 class PegarUsuarioAtual extends ChangeNotifier {
   ModeloDeUsuario? usuarioAtual;
 
-  Future<void> pegarUsuarioData() async {
-    final user = FirebaseAuth.instance.currentUser;
+  Future<void> pegarUsuarioAtual() async {
+    final usuario = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
-      final documento = FirebaseFirestore.instance.collection('usuarios').doc(user.uid).snapshots();
+    if (usuario != null) {
+      final documento = FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).snapshots();
 
       documento.listen(
         (snapshot) {

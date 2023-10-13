@@ -30,7 +30,9 @@ class PaginaConcluirBotaoConcluir extends StatelessWidget {
 
   _concluirCadastro(BuildContext context) async {
     await controladorConcluirCadastro
-        .concluirCadastro(idUsuario: controladorPegarUsuario.usuarioAtual?.id)
+        .concluirCadastro(
+            idUsuario: controladorPegarUsuario.usuarioAtual?.id,
+            usuarioAutorizado: controladorPegarUsuario.usuarioAtual?.autorizado ?? false)
         .then((value) => _concluirCadastroSucesso(context, value))
         .catchError((onError) => _concluirCadastroErro(context, onError));
   }

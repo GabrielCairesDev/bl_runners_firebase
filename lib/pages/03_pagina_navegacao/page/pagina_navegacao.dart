@@ -24,7 +24,7 @@ class _PaginaNavegacaoState extends State<PaginaNavegacao> {
   void initState() {
     super.initState();
     final controladorDataProvider = Provider.of<PegarUsuarioAtual>(context, listen: false);
-    controladorDataProvider.pegarUsuarioData();
+    controladorDataProvider.pegarUsuarioAtual();
   }
 
   @override

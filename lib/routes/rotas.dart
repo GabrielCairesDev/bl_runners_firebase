@@ -11,13 +11,13 @@ import '../pages/01_pagina_registrar_usuario/page/pagina_registrar.dart';
 
 class Rotas {
   static String home = '/',
-      registrar = '/registrar',
+      registrarUsuario = '/registrar',
       entrar = '/entrar',
       navegar = '/navegar',
-      concluir = '/concluir',
-      editar = '/editar',
-      adicionar = '/adicionar',
-      recuperar = '/recuperar';
+      concluirCadastro = '/concluir',
+      editarPerfil = '/editar',
+      adicionarAtividade = '/adicionar',
+      recuperarConta = '/recuperar';
 
   static final GoRouter rotas = GoRouter(
     routes: <GoRoute>[

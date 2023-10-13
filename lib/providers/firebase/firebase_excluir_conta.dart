@@ -11,10 +11,17 @@ class FirebaseExcluirConta extends ExcluirContaUseCase {
       try {
         final AuthCredential credential = EmailAuthProvider.credential(email: user.email!, password: senha);
         await user.reauthenticateWithCredential(credential);
-        await user.delete();
 
+        final atividades =
+            await FirebaseFirestore.instance.collection('atividades').where('idUsuario', isEqualTo: user.uid).get();
+
+        for (final atividade in atividades.docs) {
+          await atividade.reference.delete();
+        }
         FirebaseFirestore.instance.collection('usuarios').doc(user.uid).delete();
-        FirebaseStorage.instance.ref().child("perfil_fotos/${user.uid}").delete();
+        FirebaseStorage.instance.ref().child("usuarios_foto_perfil/${user.uid}").delete();
+
+        await user.delete();
 
         return 'Conta excluída com sucesso!';
       } on FirebaseAuthException catch (e) {

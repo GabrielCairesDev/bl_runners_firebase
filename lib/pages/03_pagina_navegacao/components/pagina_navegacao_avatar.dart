@@ -1,4 +1,5 @@
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,10 +27,10 @@ class _PaginaNavegacaoAvatarState extends State<PaginaNavegacaoAvatar> {
     if (controladorDataProvider.usuarioAtual?.fotoUrl == null || controladorDataProvider.usuarioAtual!.fotoUrl.isEmpty) {
       return Image.asset('assets/images/avatar.png');
     } else {
-      return Image.network(
-        controladorDataProvider.usuarioAtual!.fotoUrl.toString(),
+      return CachedNetworkImage(
+        imageUrl: controladorDataProvider.usuarioAtual!.fotoUrl.toString(),
         fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
+        errorWidget: (context, error, stackTrace) {
           return Image.asset('assets/images/avatar.png');
         },
       );

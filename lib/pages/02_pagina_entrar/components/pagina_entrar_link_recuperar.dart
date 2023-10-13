@@ -8,7 +8,7 @@ class PaginaEntrarLinkRecuperar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.push(Rotas.recuperar),
+      onTap: () => context.push(Rotas.recuperarConta),
       child: const Text(
         'Recuperar conta',
         style: TextStyle(

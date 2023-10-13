@@ -18,7 +18,6 @@ class _PaginaPerfilNomeState extends State<PaginaPerfilNome> {
 
   nomePerfil() {
     final nomeUsuario = widget.controladorPegarUsuario.usuarioAtual?.nome;
-
     final nome = nomeUsuario != null && nomeUsuario.isNotEmpty ? nomeUsuario : 'Nome Desconhecido';
 
     return Text(
@@ -28,11 +27,7 @@ class _PaginaPerfilNomeState extends State<PaginaPerfilNome> {
         fontSize: MediaQuery.of(context).size.width * 0.065,
         color: Colors.white,
         shadows: [
-          Shadow(
-            color: Colors.black.withOpacity(0.1),
-            offset: const Offset(1, 1),
-            blurRadius: 2,
-          ),
+          Shadow(color: Colors.black.withOpacity(0.1), offset: const Offset(1, 1), blurRadius: 2),
         ],
       ),
       maxLines: 1,

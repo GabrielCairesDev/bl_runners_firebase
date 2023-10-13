@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../components/pagina_concluir_cadastro_campo_genero.dart';
 import '../components/pagina_concluir_cadastro_campo_nome.dart';
-import '../components/Pagina_concluir_cadastro_campo_foto.dart';
+import '../components/pagina_concluir_cadastro_campo_foto.dart';
 import '../components/pagina_concluir_cadastro_botao_concluir.dart';
 
 import '../components/pagina_concluir_cadastro_campo_nascimento.dart';

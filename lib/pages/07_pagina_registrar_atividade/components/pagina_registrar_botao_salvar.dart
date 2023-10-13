@@ -30,7 +30,7 @@ class PaginaRegistrarBotaoSalvar extends StatelessWidget {
   _verificarCadastroConcluido(BuildContext context) {
     if (controladorPegarUsuarioAtual.usuarioAtual?.cadastroConcluido != true) {
       Mensagens.mensagemInfo(context, texto: 'Conclua o seu cadastro!');
-      context.push(Rotas.concluir);
+      context.push(Rotas.concluirCadastro);
     } else {
       _registrarAtividade(context);
     }
@@ -40,7 +40,9 @@ class PaginaRegistrarBotaoSalvar extends StatelessWidget {
     FocusScope.of(context).unfocus();
 
     await controladorPaginaRegistrarAtividade
-        .registrarAtividade(idUsuario: controladorPegarUsuarioAtual.usuarioAtual?.id)
+        .registrarAtividade(
+            idUsuario: controladorPegarUsuarioAtual.usuarioAtual?.id,
+            usuarioAutorizado: controladorPegarUsuarioAtual.usuarioAtual?.autorizado ?? false)
         .then((value) => _registrarAtividadeSucesso(context, value))
         .catchError((onError) => _registrarAtividadeErro(context, onError));
   }

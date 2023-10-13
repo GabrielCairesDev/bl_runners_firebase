@@ -1,5 +1,5 @@
 import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/pages/08_pagina_inicio/controller/pagina_inicio_controlador.dart';
+import 'package:bl_runners_firebase/pages/04_pagina_perfil/controller/pagina_perfil_controlador.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -54,8 +54,9 @@ class _ListaDeAtividadeBotaoExcluirState extends State<ListaDeAtividadeBotaoExcl
   }
 
   _excluirAtivdade(BuildContext context) async {
-    final controladorPaginaInicio = Provider.of<PaginaInicioControlador>(context);
-    await controladorPaginaInicio
+    final controlador = context.read<PaginaPerfilControlador>();
+
+    await controlador
         .excluirAtividade(listaID: widget.atividadeListaID, idUsuario: widget.usuarioAtualID)
         .then(
           (value) => _excluirAtivdadeSucesso(context, value),

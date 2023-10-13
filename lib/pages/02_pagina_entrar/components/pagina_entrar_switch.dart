@@ -18,9 +18,7 @@ class _PaginaEntrarSwitch extends State<PaginaEntrarSwitch> {
         Switch(
           value: widget.controlador.entrarAutomaticamente,
           activeColor: const Color(0xFFc1d22b),
-          onChanged: (bool value) => setState(
-            () => widget.controlador.entrarAutomaticamente = !widget.controlador.entrarAutomaticamente,
-          ),
+          onChanged: (bool value) => setState(() => widget.controlador.entrarAutomaticamente = !widget.controlador.entrarAutomaticamente),
         ),
         const Text('Entrar automaticamente')
       ],

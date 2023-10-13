@@ -45,7 +45,7 @@ class _PaginaRankingMasculinoState extends State<PaginaRankingMasculino> {
           Center(
             child: SizedBox(
               child: Icon(
-                Icons.female,
+                Icons.male,
                 size: 200,
                 color: Colors.grey.withOpacity(0.1),
               ),
@@ -59,17 +59,20 @@ class _PaginaRankingMasculinoState extends State<PaginaRankingMasculino> {
               ),
             ),
           ),
-          ListaDeAtividadeWidget(
-            controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
-            paginaInicio: false,
-            paginaDeRanking: true,
-            carregarAtividades: controladorPaginaRankingMasculino.carregarAtividades,
-            listaDeAtividades: controladorPaginaRankingMasculino.listaDeAtividades,
-            listaDeUsuarios: controladorPaginaRankingMasculino.listaDeUsuarios,
-            anoFiltro: controladorPaginaRankingMasculino.anoFiltro,
-            mesFiltro: controladorPaginaRankingMasculino.mesFiltro,
-            idUsuario: '',
-            paginaPerfil: false,
+          Visibility(
+            visible: controladorPaginaRankingMasculino.carregando == false,
+            child: ListaDeAtividadeWidget(
+              controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
+              mostrarBotaoExlcuir: false,
+              listasSomadas: true,
+              carregarAtividades: controladorPaginaRankingMasculino.carregarAtividades,
+              listaDeAtividades: controladorPaginaRankingMasculino.listaDeAtividades,
+              listaDeUsuarios: controladorPaginaRankingMasculino.listaDeUsuarios,
+              anoFiltro: controladorPaginaRankingMasculino.anoFiltro,
+              mesFiltro: controladorPaginaRankingMasculino.mesFiltro,
+              idUsuario: '',
+              paginaPerfil: false,
+            ),
           ),
         ],
       ),

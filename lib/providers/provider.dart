@@ -45,6 +45,7 @@ import 'package:provider/provider.dart';
 class AppProvider {
   static final provider = [
     Provider<EntrarAutomaticamenteUseCase>(create: (context) => FirebaseEntrarAutomaticamente()),
+    Provider<ExcluirAtividadeUseCase>(create: (context) => FirebaseExcluirAtividade()),
     Provider<RegistrarAtividadeUseCase>(create: (context) => FirebaseRegistrarAtividade()),
     Provider<EntrarUseCase>(create: (context) => FirebaseEntrar()),
     Provider<RecuperarContaUseCase>(create: (context) => FirebaseRecuperarConta()),
@@ -57,7 +58,6 @@ class AppProvider {
     Provider<RecuperarContaUseCase>(create: (context) => FirebaseRecuperarConta()),
     Provider<PegarUsuariosUseCase>(create: (context) => FirebasePegarUsuarios()),
     Provider<PegarAtividadesMesAnoUseCase>(create: (context) => FirebasePegarAtividadesMesAno()),
-    Provider<ExcluirAtividadeUseCase>(create: (context) => FirebaseExcluirAtividade()),
     Provider<PegarAtividadesIdUsuarioUseCase>(create: (context) => FirebasePegarAtividadesID()),
     ChangeNotifierProvider<HomePageControlador>(
       create: (context) => HomePageControlador(
@@ -81,6 +81,7 @@ class AppProvider {
     ),
     ChangeNotifierProvider<PaginaPerfilControlador>(
       create: (context) => PaginaPerfilControlador(
+        excluirAtividadeUseCase: context.read(),
         sairUseCase: context.read(),
         pegarAtividadesIdUsuarioUseCase: context.read(),
         pegarUsuariosUseCase: context.read(),
@@ -107,7 +108,6 @@ class AppProvider {
       create: (context) => PaginaInicioControlador(
         pegarAtividadesUseCase: context.read(),
         pegarUsuariosUseCase: context.read(),
-        excluirAtividadeUseCase: context.read(),
       ),
     ),
     ChangeNotifierProvider<PaginaRankingGeralControlador>(

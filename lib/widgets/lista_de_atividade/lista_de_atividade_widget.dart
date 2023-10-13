@@ -19,8 +19,8 @@ class ListaDeAtividadeWidget extends StatefulWidget {
   const ListaDeAtividadeWidget({
     super.key,
     required this.controladorPegarUsuarioAtual,
-    required this.paginaInicio,
-    required this.paginaDeRanking,
+    required this.mostrarBotaoExlcuir,
+    required this.listasSomadas,
     required this.carregarAtividades,
     required this.listaDeAtividades,
     required this.listaDeUsuarios,
@@ -33,8 +33,8 @@ class ListaDeAtividadeWidget extends StatefulWidget {
   final PegarUsuarioAtual controladorPegarUsuarioAtual;
   final Future<void> Function() carregarAtividades;
 
-  final bool paginaInicio;
-  final bool paginaDeRanking;
+  final bool mostrarBotaoExlcuir;
+  final bool listasSomadas;
   final List<ModeloDeAtividade> listaDeAtividades;
   final List<ModeloDeUsuario> listaDeUsuarios;
   final int mesFiltro;
@@ -55,7 +55,7 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
         padding: widget.paginaPerfil ? EdgeInsets.zero : null,
         shrinkWrap: true,
         physics: widget.paginaPerfil ? const NeverScrollableScrollPhysics() : null,
-        itemCount: widget.listaDeAtividades.length,
+        itemCount: widget.listaDeAtividades.isNotEmpty ? widget.listaDeAtividades.length : 0,
         itemBuilder: (context, index) {
           final atividadeLista = widget.listaDeAtividades[index];
           final usuarioLista = widget.listaDeUsuarios.where((usuario) => usuario.id == atividadeLista.idUsuario).first;
@@ -90,7 +90,7 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         // DATA OU POSIÇÃO
-                        widget.paginaDeRanking == true
+                        widget.listasSomadas == true
                             ? ListaAtividadePosicao(
                                 index: index,
                                 mes: widget.mesFiltro,
@@ -99,7 +99,7 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                             : ListaDeAtividadeDataExtenso(data: dataExtenso),
                         // BOTAO EXCLUIR
                         Visibility(
-                          visible: widget.paginaInicio,
+                          visible: widget.mostrarBotaoExlcuir,
                           child: ListaDeAtividadeBotaoExcluir(
                             usuarioAtualID: widget.controladorPegarUsuarioAtual.usuarioAtual?.id ?? '',
                             usuarioListaID: usuarioLista.id,
@@ -150,7 +150,7 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                                         // NOME DO USUÁRIO
                                         ListaAtividadeNomeUsuario(nome: usuarioLista.nome),
                                         // TIPO DE ATIVIDADE OU MEDALHA
-                                        widget.paginaDeRanking == true
+                                        widget.listasSomadas == true
                                             ? ListaDeAtividadeMedalha(index: index)
                                             : ListaDeAtividadeTipoAtividade(tipo: atividadeLista.tipo),
                                       ],

@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PaginaEntrarControlador extends ChangeNotifier {
+  PaginaEntrarControlador({required this.entrarUseCase});
+
   final EntrarUseCase entrarUseCase;
 
-  PaginaEntrarControlador({required this.entrarUseCase});
-  final controladorEmail = TextEditingController(text: 'gabriel.araujo.caires@gmail.com');
-  final controladorSenha = TextEditingController(text: 'gabriel');
+  final controladorEmail = TextEditingController();
+  final controladorSenha = TextEditingController();
 
   final GlobalKey<FormState> globalKeyEmailPaginaEntrar = GlobalKey<FormState>();
 
-  bool esconderSenha = true;
   bool entrarAutomaticamente = false;
   bool carregando = false;
 
@@ -44,7 +44,6 @@ class PaginaEntrarControlador extends ChangeNotifier {
   resetarValores() {
     controladorEmail.clear();
     controladorSenha.clear();
-    esconderSenha = true;
     entrarAutomaticamente = false;
   }
 

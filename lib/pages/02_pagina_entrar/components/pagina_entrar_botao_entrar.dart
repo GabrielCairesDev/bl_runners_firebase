@@ -24,12 +24,7 @@ class PaginaEntrarBotaoEntrar extends StatelessWidget {
 
   _entrar(BuildContext context) async {
     FocusScope.of(context).unfocus();
-    await controlador
-        .entrar()
-        .then(
-          (value) => _entrarSucesso(context, value),
-        )
-        .catchError(
+    await controlador.entrar().then((value) => _entrarSucesso(context, value)).catchError(
           (onError) => _entrarError(context, onError),
         );
   }

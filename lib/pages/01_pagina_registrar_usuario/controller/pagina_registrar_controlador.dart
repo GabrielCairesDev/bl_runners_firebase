@@ -3,14 +3,14 @@ import 'package:bl_runners_firebase/providers/interfaces/registrar_usuario_use_c
 import 'package:flutter/widgets.dart';
 
 class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
-  final RegistrarUsuarioUseCase registrarUsuarioUseCase;
-
   PaginaRegistrarUsuarioControlador({required this.registrarUsuarioUseCase});
 
-  final TextEditingController controladorNome = TextEditingController(text: 'Gabriel');
+  final RegistrarUsuarioUseCase registrarUsuarioUseCase;
+
+  final TextEditingController controladorNome = TextEditingController();
   final TextEditingController controladorEmail = TextEditingController();
-  final TextEditingController controladorSenha = TextEditingController(text: 'gabriel');
-  final TextEditingController controladorConfirmarSenha = TextEditingController(text: 'gabriel');
+  final TextEditingController controladorSenha = TextEditingController();
+  final TextEditingController controladorConfirmarSenha = TextEditingController();
 
   final GlobalKey<FormState> globalKeyPaginaRegistrar = GlobalKey<FormState>();
 
