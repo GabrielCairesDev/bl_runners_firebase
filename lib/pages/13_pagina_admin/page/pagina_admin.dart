@@ -1,34 +1,57 @@
+import 'package:bl_runners_firebase/pages/13_pagina_admin/controller/pagina_admin_controlador.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class PaginaAdmin extends StatelessWidget {
+class PaginaAdmin extends StatefulWidget {
   const PaginaAdmin({super.key});
 
   @override
+  State<PaginaAdmin> createState() => _PaginaAdminState();
+}
+
+class _PaginaAdminState extends State<PaginaAdmin> {
+  @override
+  void initState() {
+    super.initState();
+    final controlador = context.read<PaginaAdminControlador>();
+    // if (controlador.carregadoInitState == false) {
+    controlador.carregarUsuarios();
+    controlador.carregadoInitState = true;
+    // }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final controlador = Provider.of<PaginaAdminControlador>(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('Administração'),
       ),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.14,
-        width: double.infinity,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: Colors.pink,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.5),
-                offset: const Offset(0, 0),
-                blurRadius: 5,
-              ),
-            ],
-          ),
-          child: const Row(
-            children: [],
+      body: Stack(children: [
+        Center(
+          child: SizedBox(
+            child: Icon(
+              Icons.home,
+              size: 200,
+              color: Colors.grey.withOpacity(0.1),
+            ),
           ),
         ),
-      ),
+        Positioned.fill(
+          child: Visibility(
+            visible: controlador.carregando,
+            child: const Align(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        ),
+        Visibility(
+          visible: controlador.carregando == false,
+          child: ListaDeUsuariosWidgets(listaDeUsuarios: controlador.listaDeUsuarios),
+        )
+      ]),
     );
   }
 }

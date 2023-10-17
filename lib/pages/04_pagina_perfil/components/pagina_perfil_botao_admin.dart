@@ -1,4 +1,6 @@
+import 'package:bl_runners_firebase/routes/rotas.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class PaginaPerfilBotaoSair extends StatelessWidget {
   const PaginaPerfilBotaoSair({super.key});
@@ -6,7 +8,7 @@ class PaginaPerfilBotaoSair extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => print('ok'),
+      onPressed: () => context.push(Rotas.adm),
       icon: const Icon(Icons.manage_accounts),
     );
   }

@@ -11,12 +11,13 @@ class FirebasePegarAtividadesMesAno extends PegarAtividadesMesAnoUseCase {
     listaAtividades.clear();
     _atividades.clear();
     try {
-      final atividades =
-          await FirebaseFirestore.instance.collection('atividades').where('ano', isEqualTo: ano).where('mes', isEqualTo: mes).get();
+      final atividades = await FirebaseFirestore.instance
+          .collection('atividades')
+          .where('ano', isEqualTo: ano)
+          .where('mes', isEqualTo: mes)
+          .get();
 
-      if (atividades.docs.isEmpty) {
-        throw 'Não exite registros em: $mes/$ano';
-      }
+      if (atividades.docs.isEmpty) throw 'Não exite registros em: $mes/$ano';
 
       for (var element in atividades.docs) {
         var atividade = ModeloDeAtividade.fromJson(element.data());

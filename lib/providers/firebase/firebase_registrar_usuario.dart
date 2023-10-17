@@ -20,7 +20,7 @@ class FirebaseRegistrarUsuario extends RegistrarUsuarioUseCase {
         autorizado: false,
         cadastroConcluido: false,
         dataNascimento: DateTime.now(),
-        email: '',
+        email: credential.user?.email ?? 'Erro ao registrar',
         fotoUrl: '',
         genero: 'Masculino',
         id: credential.user!.uid,

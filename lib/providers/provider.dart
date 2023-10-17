@@ -11,6 +11,7 @@ import 'package:bl_runners_firebase/pages/09_pagina_recuperar_conta/controller/p
 import 'package:bl_runners_firebase/pages/10_pagina_ranking_geral/controller/pagina_ranking_geral_controlador.dart';
 import 'package:bl_runners_firebase/pages/11_pagina_ranking_feminino/controller/pagina_ranking_feminino_controlador.dart';
 import 'package:bl_runners_firebase/pages/12_pagina_ranking_masculino/controller/pagina_ranking_masculino_controlador.dart';
+import 'package:bl_runners_firebase/pages/13_pagina_admin/controller/pagina_admin_controlador.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_concluir_cadastro.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_editar_perfil.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_entrar.dart';
@@ -19,6 +20,7 @@ import 'package:bl_runners_firebase/providers/firebase/firebase_excluir_atividad
 import 'package:bl_runners_firebase/providers/firebase/firebase_excluir_conta.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_pegar_atividades_id.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_pegar_atividades_mes_ano.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_pegar_todos_usuarios.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_pegar_usuarios.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_recuperar_conta.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_registrar_atividade.dart';
@@ -31,6 +33,7 @@ import 'package:bl_runners_firebase/providers/interfaces/excluir_atividade_use_c
 import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_id_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_mes_ano_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/pegar_todos_usuarios_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/sair_use_case.dart';
 import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
@@ -59,6 +62,7 @@ class AppProvider {
     Provider<PegarUsuariosUseCase>(create: (context) => FirebasePegarUsuarios()),
     Provider<PegarAtividadesMesAnoUseCase>(create: (context) => FirebasePegarAtividadesMesAno()),
     Provider<PegarAtividadesIdUsuarioUseCase>(create: (context) => FirebasePegarAtividadesID()),
+    Provider<PegarTodosUsuariosUseCase>(create: (context) => FirebasePegarTodosUsuario()),
     ChangeNotifierProvider<HomePageControlador>(
       create: (context) => HomePageControlador(
         entrarAutomaticamenteUseCase: context.read(),
@@ -126,6 +130,11 @@ class AppProvider {
       create: (context) => PaginaRankingMasculinoControlador(
         pegarAtividadesUseCase: context.read(),
         pegarUsuariosUseCase: context.read(),
+      ),
+    ),
+    ChangeNotifierProvider<PaginaAdminControlador>(
+      create: (context) => PaginaAdminControlador(
+        pegarTodosUsuariosUseCase: context.read(),
       ),
     ),
     ChangeNotifierProvider<PegarUsuarioAtual>(

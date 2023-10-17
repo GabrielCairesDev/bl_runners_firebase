@@ -4,6 +4,7 @@ import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/page/pagina_ed
 import 'package:bl_runners_firebase/pages/02_pagina_entrar/page/pagina_entrar.dart';
 import 'package:bl_runners_firebase/pages/03_pagina_navegacao/page/pagina_navegacao.dart';
 import 'package:bl_runners_firebase/pages/09_pagina_recuperar_conta/page/pagina_recuperar_conta.dart';
+import 'package:bl_runners_firebase/pages/13_pagina_admin/page/pagina_admin.dart';
 import 'package:go_router/go_router.dart';
 
 import '../pages/00_home_page/page/home_page.dart';
@@ -17,7 +18,8 @@ class Rotas {
       concluirCadastro = '/concluir',
       editarPerfil = '/editar',
       adicionarAtividade = '/adicionar',
-      recuperarConta = '/recuperar';
+      recuperarConta = '/recuperar',
+      adm = '/adm';
 
   static final GoRouter rotas = GoRouter(
     routes: <GoRoute>[
@@ -32,6 +34,7 @@ class Rotas {
           GoRoute(path: 'editar', builder: (context, state) => const PaginaEditarPerfil()),
           GoRoute(path: 'adicionar', builder: (context, state) => const PaginaRegistrarAtividade()),
           GoRoute(path: 'recuperar', builder: (context, state) => const PaginaRecuperarConta()),
+          GoRoute(path: 'adm', builder: (context, state) => const PaginaAdmin()),
         ],
       ),
     ],
