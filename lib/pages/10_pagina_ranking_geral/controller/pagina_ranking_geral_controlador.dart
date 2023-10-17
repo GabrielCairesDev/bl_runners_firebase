@@ -24,8 +24,6 @@ class PaginaRankingGeralControlador extends ChangeNotifier {
   late List<ModeloDeAtividade> listaDeAtividades = [];
   late List<ModeloDeUsuario> listaDeUsuarios = [];
 
-  late List<ModeloDeAtividade> listaAtividadesAgrupadas = [];
-
   Future<void> carregarAtividades() async {
     listaDeAtividades.clear();
     listaDeUsuarios.clear();

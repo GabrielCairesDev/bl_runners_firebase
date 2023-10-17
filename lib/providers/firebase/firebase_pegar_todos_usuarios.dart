@@ -1,4 +1,3 @@
-import 'package:bl_runners_firebase/main.dart';
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_todos_usuarios_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,7 +19,6 @@ class FirebasePegarTodosUsuario extends PegarTodosUsuariosUseCase {
         final modeloDeUsuario = ModeloDeUsuario.fromJson(usuarioData);
         _todosUsuarios[usuario.id] = modeloDeUsuario;
       }
-      logger.e(todosUsuarios);
       return todosUsuarios;
     } catch (e) {
       rethrow;

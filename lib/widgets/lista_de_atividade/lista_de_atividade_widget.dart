@@ -64,17 +64,17 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
           String dataExtenso = data.diaMesAnoHoraPorExetenso;
 
           return Padding(
-            padding: const EdgeInsets.only(right: 6, left: 8, top: 8),
+            padding: const EdgeInsets.only(right: 8, left: 8, top: 8),
             child: Stack(
               alignment: Alignment.bottomLeft,
               children: [
                 // FUNDO ROZA OU AZUL
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.14,
+                  height: MediaQuery.of(context).size.height * 0.155,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: usuarioLista.genero == 'Masculino' ? Colors.blue : Colors.pink,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.5),
@@ -84,7 +84,7 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10, top: 2),
+                    padding: const EdgeInsets.only(left: 6, top: 2),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -114,14 +114,14 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                   children: [
                     // FUNDO BRANCO //
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.115,
+                      height: MediaQuery.of(context).size.height * 0.12,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
+                            color: Colors.black.withOpacity(0.1),
                             offset: const Offset(0, 0),
                             blurRadius: 5,
                           )
@@ -131,15 +131,13 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                         padding: const EdgeInsets.all(2.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             // FOTO DO PERFIL
                             ListaDeAtividadeFotoPerfil(foto: usuarioLista.fotoUrl),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.11,
-                              width: MediaQuery.of(context).size.width * 0.72,
+                            Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.all(4.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [

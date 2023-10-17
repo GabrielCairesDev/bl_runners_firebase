@@ -57,14 +57,17 @@ class PaginaInicioControlador extends ChangeNotifier {
       atualizarEstadoCarregando();
 
       final resultadoAtividades = await pegarAtividadesUseCase(modeloDeAtividade, anoFiltro, mesFiltro);
+
       listaAtividades = resultadoAtividades;
 
       final resultadoUsuarios = await pegarUsuariosUseCase(modeloDeUsuario, listaAtividades);
+
       listaUsuarios = resultadoUsuarios;
 
       listaAtividades.sort((atividade1, atividade2) => atividade2.dataAtividade.compareTo(atividade1.dataAtividade));
+      logger.i('Lista de atividades carregadas! Data: $mesFiltro/$anoFiltro.');
     } catch (e) {
-      logger.d(e);
+      logger.w(e);
     } finally {
       notifyListeners();
       atualizarEstadoCarregando();

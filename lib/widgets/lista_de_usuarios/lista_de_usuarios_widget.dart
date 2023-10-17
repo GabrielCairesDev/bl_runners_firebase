@@ -24,11 +24,11 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
             alignment: Alignment.bottomLeft,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.14,
+                height: MediaQuery.of(context).size.height * 0.155,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: usuario.genero == 'Masculino' ? Colors.blue : Colors.pink,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.5),
@@ -39,7 +39,7 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  // NOME E NNASCIMENTO
+                  // NOME E NASCIMENTO
                   child: ListaDeUsuariosNome(
                     dataAniversario: usuario.dataNascimento,
                     nome: usuario.nome,
@@ -50,11 +50,11 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
               Stack(
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.11,
+                    height: MediaQuery.of(context).size.height * 0.12,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.1),
@@ -64,7 +64,7 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
                       ],
                     ),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // FOTO DE PERFIL
                         const ListaDeUsuariosFoto(),

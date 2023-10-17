@@ -33,6 +33,7 @@ class PaginaPerfilControlador extends ChangeNotifier {
   Future<void> carregarAtividades() async {
     listaDeAtividades.clear();
     listaDeUsuarios.clear();
+    listaDeAtividadesSomadas.clear();
 
     final modeloDeAtividade = ModeloDeAtividade(
       idAtividade: '',
@@ -117,7 +118,6 @@ class PaginaPerfilControlador extends ChangeNotifier {
           atividadesSomadas.add(atualizarAtividade);
         }
       }
-      listaDeAtividadesSomadas.clear();
       listaDeAtividadesSomadas = atividadesSomadas.toList();
     } catch (e) {
       logger.d(e);
