@@ -6,19 +6,22 @@ import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_
 import 'package:flutter/material.dart';
 
 class ListaDeUsuariosWidgets extends StatelessWidget {
-  const ListaDeUsuariosWidgets({super.key, required this.listaDeUsuarios});
+  const ListaDeUsuariosWidgets({
+    super.key,
+    required this.listaDeUsuariosFiltro,
+  });
 
-  final List<ModeloDeUsuario> listaDeUsuarios;
+  final List<ModeloDeUsuario> listaDeUsuariosFiltro;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: listaDeUsuarios.isEmpty ? 0 : listaDeUsuarios.length,
+      itemCount: listaDeUsuariosFiltro.isEmpty ? 0 : listaDeUsuariosFiltro.length,
       itemBuilder: (context, index) {
-        final usuario = listaDeUsuarios[index];
+        final usuario = listaDeUsuariosFiltro[index];
 
         return Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           // FUNDO AZUL OU ROSA
           child: Stack(
             alignment: Alignment.bottomLeft,
@@ -38,7 +41,7 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   // NOME E NASCIMENTO
                   child: ListaDeUsuariosNome(
                     dataAniversario: usuario.dataNascimento,
@@ -75,7 +78,10 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                ListaDeUsuariosInfos(cadastroConcluido: usuario.cadastroConcluido, email: usuario.email),
+                                ListaDeUsuariosInfos(
+                                  cadastroConcluido: usuario.cadastroConcluido,
+                                  email: usuario.email,
+                                ),
                                 ListaDeUsuariosSwitches(
                                   master: usuario.master,
                                   admin: usuario.admin,

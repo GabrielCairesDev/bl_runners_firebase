@@ -12,29 +12,43 @@ class PaginaAdminControlador extends ChangeNotifier {
   bool carregadoInitState = false;
 
   late List<ModeloDeUsuario> listaDeUsuarios = [];
+  late List<ModeloDeUsuario> listaDeUsuariosFiltro = [];
+
+  final controladorPesquisa = TextEditingController();
 
   Future<void> carregarUsuarios() async {
     listaDeUsuarios.clear();
+    listaDeUsuariosFiltro.clear();
+    try {
+      final modeloDeUsuario = ModeloDeUsuario(
+        id: '',
+        nome: '',
+        email: '',
+        fotoUrl: '',
+        genero: 'Masculino',
+        master: false,
+        admin: false,
+        autorizado: false,
+        cadastroConcluido: false,
+        dataNascimento: DateTime.now(),
+      );
 
-    final modeloDeUsuario = ModeloDeUsuario(
-      id: '',
-      nome: '',
-      email: '',
-      fotoUrl: '',
-      genero: 'Masculino',
-      master: false,
-      admin: false,
-      autorizado: false,
-      cadastroConcluido: false,
-      dataNascimento: DateTime.now(),
-    );
+      final pegarUsuarios = await pegarTodosUsuariosUseCase(modeloDeUsuario);
+      listaDeUsuarios = pegarUsuarios;
 
-    final pegarUsuarios = await pegarTodosUsuariosUseCase(modeloDeUsuario);
+      listaDeUsuariosFiltro.addAll(listaDeUsuarios);
 
-    listaDeUsuarios = pegarUsuarios;
+      logger.i('Lista com todos os usuários carregada!');
+    } catch (e) {
+      logger.w(e);
+    } finally {
+      notifyListeners();
+    }
+  }
 
-    logger.i('Lista com todos os usuários carregada!');
-
+  void filtrarLista(String pesquisa) {
+    listaDeUsuariosFiltro.clear();
+    listaDeUsuariosFiltro.addAll(listaDeUsuarios.where((usuario) => usuario.nome.toLowerCase().contains(pesquisa.toLowerCase())));
     notifyListeners();
   }
 }

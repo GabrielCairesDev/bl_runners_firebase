@@ -1,3 +1,4 @@
+import 'package:bl_runners_firebase/pages/13_pagina_admin/components/pagina_admin_pesquisar.dart';
 import 'package:bl_runners_firebase/pages/13_pagina_admin/controller/pagina_admin_controlador.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_widget.dart';
 import 'package:flutter/material.dart';
@@ -25,33 +26,43 @@ class _PaginaAdminState extends State<PaginaAdmin> {
   Widget build(BuildContext context) {
     final controlador = Provider.of<PaginaAdminControlador>(context);
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('Administração'),
       ),
-      body: Stack(children: [
-        Center(
-          child: SizedBox(
-            child: Icon(
-              Icons.home,
-              size: 200,
-              color: Colors.grey.withOpacity(0.1),
+      body: Column(
+        children: [
+          PaginaAdminPesquisar(controlador: controlador),
+          Expanded(
+            child: Stack(
+              children: [
+                Center(
+                  child: SizedBox(
+                    child: Icon(
+                      Icons.home,
+                      size: 200,
+                      color: Colors.grey.withOpacity(0.1),
+                    ),
+                  ),
+                ),
+                Positioned.fill(
+                  child: Visibility(
+                    visible: controlador.carregando,
+                    child: const Align(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: controlador.carregando == false,
+                  child: ListaDeUsuariosWidgets(
+                    listaDeUsuariosFiltro: controlador.listaDeUsuariosFiltro,
+                  ),
+                )
+              ],
             ),
           ),
-        ),
-        Positioned.fill(
-          child: Visibility(
-            visible: controlador.carregando,
-            child: const Align(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        ),
-        Visibility(
-          visible: controlador.carregando == false,
-          child: ListaDeUsuariosWidgets(listaDeUsuarios: controlador.listaDeUsuarios),
-        )
-      ]),
+        ],
+      ),
     );
   }
 }

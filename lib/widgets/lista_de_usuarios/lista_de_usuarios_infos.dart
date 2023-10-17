@@ -20,7 +20,12 @@ class ListaDeUsuariosInfos extends StatelessWidget {
                 'Cadastro não concluído',
                 style: TextStyle(color: Colors.red),
               ),
-        Text(email),
+        Text(
+          email.isNotEmpty ? email : 'E-mail não cadastrado',
+          style: TextStyle(
+            color: email.isNotEmpty ? Colors.black : Colors.red,
+          ),
+        ),
       ],
     );
   }
