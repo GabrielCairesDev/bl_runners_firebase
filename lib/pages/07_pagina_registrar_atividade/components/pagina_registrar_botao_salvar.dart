@@ -56,6 +56,6 @@ class PaginaRegistrarBotaoSalvar extends StatelessWidget {
 
   _registrarAtividadeErro(BuildContext context, onError) {
     Mensagens.mensagemErro(context, texto: onError);
-    logger.d(onError);
+    logger.e(onError);
   }
 }

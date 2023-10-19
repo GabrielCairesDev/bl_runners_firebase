@@ -5,8 +5,8 @@ import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class PaginaEditarBotaoSair extends StatelessWidget {
-  const PaginaEditarBotaoSair({super.key, required this.controlador});
+class PaginaPerfilBotaoSair extends StatelessWidget {
+  const PaginaPerfilBotaoSair({super.key, required this.controlador});
 
   final PaginaPerfilControlador controlador;
 
@@ -36,6 +36,6 @@ class PaginaEditarBotaoSair extends StatelessWidget {
 
   _sairErro(BuildContext context, onError) {
     Mensagens.mensagemErro(context, texto: onError);
-    logger.d(onError);
+    logger.e(onError);
   }
 }

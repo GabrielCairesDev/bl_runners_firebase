@@ -38,6 +38,6 @@ class PaginaRegistrarBotaoRegistrar extends StatelessWidget {
 
   _registrarUsuarioErro(BuildContext context, onError) {
     Mensagens.mensagemErro(context, texto: onError);
-    logger.d(onError);
+    logger.e(onError);
   }
 }

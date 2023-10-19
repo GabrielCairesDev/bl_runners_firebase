@@ -56,6 +56,6 @@ class PaginaEditarBotaoEditar extends StatelessWidget {
 
   _editarPerfilErro(BuildContext context, onError) {
     Mensagens.mensagemErro(context, texto: onError);
-    logger.d(onError);
+    logger.e(onError);
   }
 }

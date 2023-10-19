@@ -37,6 +37,6 @@ class PaginaEntrarBotaoEntrar extends StatelessWidget {
 
   _entrarError(BuildContext context, onError) {
     Mensagens.mensagemErro(context, texto: onError);
-    logger.d(onError);
+    logger.e(onError);
   }
 }

@@ -14,6 +14,9 @@ import 'package:bl_runners_firebase/pages/12_pagina_ranking_masculino/controller
 import 'package:bl_runners_firebase/pages/13_pagina_admin/controller/pagina_admin_controlador.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_concluir_cadastro.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_editar_perfil.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_editar_tag_admin.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_editar_tag_autorizado.dart';
+import 'package:bl_runners_firebase/providers/firebase/firebase_editar_tag_master.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_entrar.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_entrar_automaticamente.dart';
 import 'package:bl_runners_firebase/providers/firebase/firebase_excluir_atividade.dart';
@@ -29,6 +32,9 @@ import 'package:bl_runners_firebase/providers/firebase/firebase_firestore_sair.d
 import 'package:bl_runners_firebase/providers/firebase/firebase_salvar_foto.dart';
 import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/editar_perfil_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/editar_tag_admin_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/editar_tag_autorizado_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/editar_tag_master_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/excluir_atividade_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_id_use_case.dart';
@@ -63,6 +69,9 @@ class AppProvider {
     Provider<PegarAtividadesMesAnoUseCase>(create: (context) => FirebasePegarAtividadesMesAno()),
     Provider<PegarAtividadesIdUsuarioUseCase>(create: (context) => FirebasePegarAtividadesID()),
     Provider<PegarTodosUsuariosUseCase>(create: (context) => FirebasePegarTodosUsuario()),
+    Provider<EditarTagMasterUseCase>(create: (context) => FireBaseEditarTagMaster()),
+    Provider<EditarTagAdminUseCase>(create: (context) => FireBaseEditarTagAdmin()),
+    Provider<EditarTagAutorizadoUseCase>(create: (context) => FireBaseEditarTagAutorizado()),
     ChangeNotifierProvider<HomePageControlador>(
       create: (context) => HomePageControlador(
         entrarAutomaticamenteUseCase: context.read(),
@@ -134,7 +143,10 @@ class AppProvider {
     ),
     ChangeNotifierProvider<PaginaAdminControlador>(
       create: (context) => PaginaAdminControlador(
+        editarTagAdminUseCase: context.read(),
+        editarTagMasterUseCase: context.read(),
         pegarTodosUsuariosUseCase: context.read(),
+        editarTagAutorizadoUseCase: context.read(),
       ),
     ),
     ChangeNotifierProvider<PegarUsuarioAtual>(

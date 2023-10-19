@@ -1,24 +1,25 @@
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
+import 'package:bl_runners_firebase/pages/13_pagina_admin/controller/pagina_admin_controlador.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_foto.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_infos.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_nome.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_switches.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_switch_admin.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_switch_autorizado.dart';
+import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_switch_master.dart';
 import 'package:flutter/material.dart';
 
 class ListaDeUsuariosWidgets extends StatelessWidget {
-  const ListaDeUsuariosWidgets({
-    super.key,
-    required this.listaDeUsuariosFiltro,
-  });
+  const ListaDeUsuariosWidgets({super.key, required this.controladorPaginaAdmin, required this.controladorPegarUsuarioAtual});
 
-  final List<ModeloDeUsuario> listaDeUsuariosFiltro;
+  final PaginaAdminControlador controladorPaginaAdmin;
+  final PegarUsuarioAtual controladorPegarUsuarioAtual;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: listaDeUsuariosFiltro.isEmpty ? 0 : listaDeUsuariosFiltro.length,
+      itemCount: controladorPaginaAdmin.listaDeUsuariosFiltro.isEmpty ? 0 : controladorPaginaAdmin.listaDeUsuariosFiltro.length,
       itemBuilder: (context, index) {
-        final usuario = listaDeUsuariosFiltro[index];
+        final usuario = controladorPaginaAdmin.listaDeUsuariosFiltro[index];
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -82,11 +83,36 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
                                   cadastroConcluido: usuario.cadastroConcluido,
                                   email: usuario.email,
                                 ),
-                                ListaDeUsuariosSwitches(
-                                  master: usuario.master,
-                                  admin: usuario.admin,
-                                  autorizado: usuario.autorizado,
-                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ListaDeUsuariosSwitchMaster(
+                                      idUsuario: usuario.id,
+                                      controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
+                                      master: usuario.master,
+                                      controladorPaginaAdmin: controladorPaginaAdmin,
+                                    ),
+                                    ListaDeUsuariosSwitchAdmin(
+                                      admin: usuario.admin,
+                                      idUsuario: usuario.id,
+                                      controladorPaginaAdmin: controladorPaginaAdmin,
+                                      controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
+                                    ),
+                                    ListaDeUsuariosSwitchAutorizado(
+                                      autorizado: usuario.autorizado,
+                                      idUsuario: usuario.id,
+                                      controladorPaginaAdmin: controladorPaginaAdmin,
+                                      controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
+                                    ),
+                                  ],
+                                )
+                                // ListaDeUsuariosSwitches(
+                                //   admin: usuario.admin,
+                                //   autorizado: usuario.autorizado,
+                                //   master: usuario.master,
+                                //   idUsuario: usuario.id,
+                                //   controlador: controlador,
+                                // ),
                               ],
                             ),
                           ),

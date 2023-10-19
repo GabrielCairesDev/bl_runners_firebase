@@ -75,6 +75,6 @@ class _ListaDeAtividadeBotaoExcluirState extends State<ListaDeAtividadeBotaoExcl
   _excluirAtivdadeErro(BuildContext context, onError) {
     context.pop();
     Mensagens.mensagemErro(context, texto: onError);
-    logger.d(onError);
+    logger.e(onError);
   }
 }

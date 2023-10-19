@@ -43,6 +43,6 @@ class _HomePageState extends State<HomePage> {
 
   _entrarAutomaticamenteErro({required onError}) {
     context.pushReplacement(Rotas.entrar);
-    logger.d(onError);
+    logger.e(onError);
   }
 }

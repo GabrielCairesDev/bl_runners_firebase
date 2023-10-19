@@ -39,9 +39,12 @@ class _PaginaPerfilState extends State<PaginaPerfil> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('Perfil'),
-        leading: const PaginaPerfilBotaoSair(),
+        leading: Visibility(
+          visible: controladorPegarUsuarioAtual.usuarioAtual?.admin ?? false,
+          child: const PaginaPerfilBotaoAdmin(),
+        ),
         actions: [
-          PaginaEditarBotaoSair(controlador: controladorPaginaPerfil),
+          PaginaPerfilBotaoSair(controlador: controladorPaginaPerfil),
         ],
       ),
       body: SingleChildScrollView(

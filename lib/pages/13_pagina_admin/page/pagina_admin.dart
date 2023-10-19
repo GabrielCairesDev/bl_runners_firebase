@@ -1,5 +1,6 @@
 import 'package:bl_runners_firebase/pages/13_pagina_admin/components/pagina_admin_pesquisar.dart';
 import 'package:bl_runners_firebase/pages/13_pagina_admin/controller/pagina_admin_controlador.dart';
+import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,14 +25,15 @@ class _PaginaAdminState extends State<PaginaAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    final controlador = Provider.of<PaginaAdminControlador>(context);
+    final controladorPaginaAdmin = Provider.of<PaginaAdminControlador>(context);
+    final controladorPegarUsuarioAtual = Provider.of<PegarUsuarioAtual>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Administração'),
       ),
       body: Column(
         children: [
-          PaginaAdminPesquisar(controlador: controlador),
+          PaginaAdminPesquisar(controlador: controladorPaginaAdmin),
           Expanded(
             child: Stack(
               children: [
@@ -46,17 +48,16 @@ class _PaginaAdminState extends State<PaginaAdmin> {
                 ),
                 Positioned.fill(
                   child: Visibility(
-                    visible: controlador.carregando,
+                    visible: controladorPaginaAdmin.carregando,
                     child: const Align(
                       child: CircularProgressIndicator(),
                     ),
                   ),
                 ),
                 Visibility(
-                  visible: controlador.carregando == false,
+                  visible: controladorPaginaAdmin.carregando == false,
                   child: ListaDeUsuariosWidgets(
-                    listaDeUsuariosFiltro: controlador.listaDeUsuariosFiltro,
-                  ),
+                      controladorPaginaAdmin: controladorPaginaAdmin, controladorPegarUsuarioAtual: controladorPegarUsuarioAtual),
                 )
               ],
             ),

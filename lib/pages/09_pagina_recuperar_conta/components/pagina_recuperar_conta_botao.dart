@@ -37,5 +37,5 @@ _recuperarContaSucesso(BuildContext context, value) {
 
 _recuperarContaError(BuildContext context, onError) {
   Mensagens.mensagemErro(context, texto: onError.toString());
-  logger.d(onError);
+  logger.e(onError);
 }

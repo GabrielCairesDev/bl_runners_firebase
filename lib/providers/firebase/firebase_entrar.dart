@@ -7,10 +7,10 @@ class FirebaseEntrar extends EntrarUseCase {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: senha);
 
-      // if (!credential.user!.emailVerified) {
-      //   credential.user!.sendEmailVerification();
-      //   throw 'E-mail de verificação enviado para:\n${email.toString()}';
-      // }
+      if (!credential.user!.emailVerified) {
+        credential.user!.sendEmailVerification();
+        throw 'E-mail de verificação enviado para:\n${email.toString()}';
+      }
 
       return 'Login efetuado! ${credential.user!.email.toString()} | ${credential.user!.uid.toString()}';
     } on FirebaseAuthException catch (e) {

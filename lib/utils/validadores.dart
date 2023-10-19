@@ -31,7 +31,7 @@ class Validador {
       return 'Digite o nome';
     } else if (value.length < 3) {
       return 'Nome muito curto';
-    } else if (value.length > 15) {
+    } else if (value.length > 25) {
       return 'Nome muito longo';
     } else if (value.contains(RegExp(r'[0-9]'))) {
       return 'Nome não pode conter números';
