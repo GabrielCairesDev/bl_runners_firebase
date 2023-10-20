@@ -16,34 +16,37 @@ class FireBaseEditarPerfil extends EditarPerfil {
     required String genero,
     DateTime? nascimentoData,
   }) async {
-    try {
-      User? usuarioAtual = FirebaseAuth.instance.currentUser;
+    User? currentUser = FirebaseAuth.instance.currentUser;
 
-      if (usuarioAtual == null) throw 'Erro ao editar perfil: Usuário null.';
+    if (currentUser != null) {
+      await currentUser.reload();
 
-      String fotoUrl = await _salvarFoto(imagemArquivo: imagemArquivo, usuarioAtual: usuarioAtual);
+      try {
+        String fotoUrl = await _salvarFoto(imagemArquivo: imagemArquivo, usuarioAtual: currentUser);
 
-      final documento = await FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid).get();
+        final documento = await FirebaseFirestore.instance.collection('usuarios').doc(currentUser.uid).get();
 
-      if (!documento.exists) FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid).set({});
+        if (!documento.exists) FirebaseFirestore.instance.collection('usuarios').doc(currentUser.uid).set({});
 
-      Timestamp? dataNascimentoTimestamp;
-      if (nascimentoData != null) {
-        DateTime dataNascimentoComFusoHorario =
-            nascimentoData.add(Duration(hours: nascimentoData.timeZoneOffset.inHours)); // Adiciona o deslocamento de fuso horário local
-        dataNascimentoTimestamp = Timestamp.fromDate(dataNascimentoComFusoHorario);
+        Timestamp? dataNascimento;
+        if (nascimentoData != null) {
+          DateTime dataNascimentoComFusoHorario = nascimentoData.add(Duration(hours: nascimentoData.timeZoneOffset.inHours));
+          dataNascimento = Timestamp.fromDate(dataNascimentoComFusoHorario);
+        }
+
+        await FirebaseFirestore.instance.collection('usuarios').doc(currentUser.uid).update({
+          'nome': nome,
+          'genero': genero,
+          'dataNascimento': dataNascimento,
+          'fotoUrl': fotoUrl,
+        });
+
+        return 'Perfil editado com sucesso!';
+      } catch (error) {
+        throw 'Erro ao editar perfil: $error';
       }
-
-      await FirebaseFirestore.instance.collection('usuarios').doc(usuarioAtual.uid).update({
-        'nome': nome,
-        'genero': genero,
-        'dataNascimento': dataNascimentoTimestamp,
-        'fotoUrl': fotoUrl,
-      });
-
-      return 'Perfil editado com sucesso!';
-    } catch (error) {
-      throw 'Erro ao editar perfil: $error';
+    } else {
+      throw 'Usuário null.';
     }
   }
 

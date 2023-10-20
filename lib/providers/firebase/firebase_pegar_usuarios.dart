@@ -2,6 +2,7 @@ import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebasePegarUsuarios extends PegarUsuariosUseCase {
   final Map<String, ModeloDeUsuario> _usuarios = {};
@@ -12,16 +13,24 @@ class FirebasePegarUsuarios extends PegarUsuariosUseCase {
     _usuarios.clear();
     listaUsuarios.clear();
 
-    for (var index = 0; index < listaDeAtividades.length; index++) {
-      final atividade = listaDeAtividades[index];
-      final resultado = await FirebaseFirestore.instance.collection('usuarios').doc(atividade.idUsuario).get();
+    User? currentUser = FirebaseAuth.instance.currentUser;
 
-      if (resultado.exists) {
-        var usuarioData = resultado.data() as Map<String, dynamic>;
-        var modeloUsuario = ModeloDeUsuario.fromJson(usuarioData);
-        _usuarios[atividade.idUsuario] = modeloUsuario;
+    if (currentUser != null) {
+      await currentUser.reload();
+
+      for (var index = 0; index < listaDeAtividades.length; index++) {
+        final atividade = listaDeAtividades[index];
+        final resultado = await FirebaseFirestore.instance.collection('usuarios').doc(atividade.idUsuario).get();
+
+        if (resultado.exists) {
+          var usuarioData = resultado.data() as Map<String, dynamic>;
+          var modeloUsuario = ModeloDeUsuario.fromJson(usuarioData);
+          _usuarios[atividade.idUsuario] = modeloUsuario;
+        }
       }
+      return listaUsuarios;
+    } else {
+      throw 'Usuário Null';
     }
-    return listaUsuarios;
   }
 }

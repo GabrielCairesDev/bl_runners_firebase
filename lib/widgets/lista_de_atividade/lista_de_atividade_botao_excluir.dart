@@ -1,5 +1,5 @@
 import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/pages/04_pagina_perfil/controller/pagina_perfil_controlador.dart';
+import 'package:bl_runners_firebase/pages/f_pagina_perfil/controller/pagina_perfil_controlador.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

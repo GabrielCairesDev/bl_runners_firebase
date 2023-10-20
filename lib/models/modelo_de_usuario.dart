@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ModeloDeUsuario {
   final String id, nome, email, fotoUrl, genero;
   final bool master, admin, autorizado, cadastroConcluido;
-  final DateTime dataNascimento;
+  final Timestamp dataNascimento;
 
   ModeloDeUsuario({
     required this.id,
@@ -29,7 +29,7 @@ class ModeloDeUsuario {
       admin: json['admin'] ?? false,
       autorizado: json['autorizado'] ?? false,
       cadastroConcluido: json['cadastroConcluido'] ?? false,
-      dataNascimento: json['dataNascimento'] != null ? (json['dataNascimento'] as Timestamp).toDate() : DateTime.now(),
+      dataNascimento: json['dataNascimento'] ?? Timestamp.now(),
     );
   }
 
@@ -48,7 +48,7 @@ class ModeloDeUsuario {
     };
   }
 
-  ModeloDeUsuario coyWith({
+  ModeloDeUsuario copyWith({
     String? id,
     String? nome,
     String? email,
@@ -58,7 +58,7 @@ class ModeloDeUsuario {
     bool? admin,
     bool? autorizado,
     bool? cadastroConcluido,
-    DateTime? dataNascimento,
+    Timestamp? dataNascimento,
   }) {
     return ModeloDeUsuario(
       id: id ?? this.id,

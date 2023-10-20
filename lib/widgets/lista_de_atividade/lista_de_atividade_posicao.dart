@@ -15,7 +15,7 @@ class ListaAtividadePosicao extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String mesAno = Utilidarios().mesAnoPorExtenso(mes, ano);
+    String mesAno = Utilitarios().mesAnoPorExtenso(mes, ano);
     return Text(
       '${index + 1}° Lugar - $mesAno',
       style: TextStyle(

@@ -4,19 +4,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FirebaseEntrarAutomaticamente extends EntrarAutomaticamenteUseCase {
   @override
   Future<String> call({required bool entrarAutomaticamente}) async {
-    User? usuarioAtual = FirebaseAuth.instance.currentUser;
+    User? currentUser = FirebaseAuth.instance.currentUser;
 
-    try {
-      await usuarioAtual?.reload();
+    if (currentUser != null) {
+      await currentUser.reload();
 
-      if (usuarioAtual == null) throw 'Usuário Null!';
-      if (usuarioAtual.isAnonymous) throw 'Crendenciais invalidas!';
-      if (!usuarioAtual.emailVerified) throw 'O e-mail não está verificado!';
-      if (entrarAutomaticamente == false) throw 'Entrar automaticamente está desativado!';
+      try {
+        if (currentUser.isAnonymous) throw 'Crendenciais invalidas!';
+        if (!currentUser.emailVerified) throw 'O e-mail não está verificado!';
+        if (entrarAutomaticamente == false) throw 'Entrar automaticamente está desativado!';
 
-      return 'Entrou automaticamente!';
-    } catch (e) {
-      throw 'Não entrou automaticamente: $e';
+        return 'Entrou automaticamente!';
+      } catch (e) {
+        throw 'Não entrou automaticamente: $e';
+      }
+    } else {
+      throw 'Usuário Null!';
     }
   }
 }

@@ -1,6 +1,12 @@
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class ConcluirCadastroUseCase {
-  Future<String> call(ModeloDeUsuario modeloDeUsuario, User usuarioAtual);
+  Future<String> call({
+    required File? imagemArquivo,
+    required String nome,
+    required String genero,
+    required Timestamp dataNascimento,
+  });
 }

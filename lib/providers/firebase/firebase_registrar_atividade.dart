@@ -7,19 +7,24 @@ import 'package:uuid/uuid.dart';
 class FirebaseRegistrarAtividade extends RegistrarAtividadeUseCase {
   @override
   Future<String> call(ModeloDeAtividade modeloDeAtividade) async {
-    var idAtividade = const Uuid().v4();
-    final usuarioAtual = FirebaseAuth.instance.currentUser;
-    final documento = await FirebaseFirestore.instance.collection('atividades').doc(idAtividade).get();
+    User? currentUser = FirebaseAuth.instance.currentUser;
 
-    if (usuarioAtual == null) throw 'Usuário Null';
-    if (documento.exists) throw 'Tente novamente!';
+    if (currentUser != null) {
+      await currentUser.reload();
 
-    try {
-      modeloDeAtividade = modeloDeAtividade.copyWith(idUsuario: usuarioAtual.uid, idAtividade: idAtividade);
-      await FirebaseFirestore.instance.collection('atividades').doc(idAtividade).set(modeloDeAtividade.toJson());
-      return 'Atividade registrada com sucesso!';
-    } catch (e) {
-      throw 'Erro ao registrar atividade!';
+      var idAtividade = const Uuid().v4();
+      final documento = await FirebaseFirestore.instance.collection('atividades').doc(idAtividade).get();
+      if (documento.exists) throw 'Tente novamente!';
+
+      try {
+        modeloDeAtividade = modeloDeAtividade.copyWith(idUsuario: currentUser.uid, idAtividade: idAtividade);
+        await FirebaseFirestore.instance.collection('atividades').doc(idAtividade).set(modeloDeAtividade.toJson());
+        return 'Atividade registrada com sucesso!';
+      } catch (e) {
+        throw 'Erro ao registrar atividade!';
+      }
+    } else {
+      throw 'Usuário Null';
     }
   }
 }

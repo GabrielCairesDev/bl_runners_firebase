@@ -1,14 +1,14 @@
-import 'package:bl_runners_firebase/pages/07_pagina_registrar_atividade/page/pagina_registrar_atividade.dart';
-import 'package:bl_runners_firebase/pages/06_pagina_concluir_cadastro/page/pagina_concluir_cadastro.dart';
-import 'package:bl_runners_firebase/pages/05_pagina_editar_perfil/page/pagina_editar_perfil.dart';
-import 'package:bl_runners_firebase/pages/02_pagina_entrar/page/pagina_entrar.dart';
-import 'package:bl_runners_firebase/pages/03_pagina_navegacao/page/pagina_navegacao.dart';
-import 'package:bl_runners_firebase/pages/09_pagina_recuperar_conta/page/pagina_recuperar_conta.dart';
-import 'package:bl_runners_firebase/pages/13_pagina_admin/page/pagina_admin.dart';
+import 'package:bl_runners_firebase/pages/j_pagina_registrar_atividade/page/pagina_registrar_atividade.dart';
+import 'package:bl_runners_firebase/pages/g_pagina_concluir_cadastro/page/pagina_concluir_cadastro.dart';
+import 'package:bl_runners_firebase/pages/h_pagina_editar_perfil/page/pagina_editar_perfil.dart';
+import 'package:bl_runners_firebase/pages/d_pagina_entrar/page/pagina_entrar.dart';
+import 'package:bl_runners_firebase/pages/e_pagina_navegacao/page/pagina_navegacao.dart';
+import 'package:bl_runners_firebase/pages/c_pagina_recuperar_conta/page/pagina_recuperar_conta.dart';
+import 'package:bl_runners_firebase/pages/i_pagina_admin/page/pagina_admin.dart';
 import 'package:go_router/go_router.dart';
 
-import '../pages/00_home_page/page/home_page.dart';
-import '../pages/01_pagina_registrar_usuario/page/pagina_registrar.dart';
+import '../pages/a_home_page/page/home_page.dart';
+import '../pages/b_pagina_registrar_usuario/page/pagina_registrar.dart';
 
 class Rotas {
   static String home = '/',

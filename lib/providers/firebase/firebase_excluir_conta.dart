@@ -6,22 +6,23 @@ import 'package:firebase_storage/firebase_storage.dart';
 class FirebaseExcluirConta extends ExcluirContaUseCase {
   @override
   Future<String> call({required String senha}) async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      await currentUser.reload();
       try {
-        final AuthCredential credential = EmailAuthProvider.credential(email: user.email!, password: senha);
-        await user.reauthenticateWithCredential(credential);
+        final AuthCredential credential = EmailAuthProvider.credential(email: currentUser.email!, password: senha);
+        await currentUser.reauthenticateWithCredential(credential);
 
         final atividades =
-            await FirebaseFirestore.instance.collection('atividades').where('idUsuario', isEqualTo: user.uid).get();
+            await FirebaseFirestore.instance.collection('atividades').where('idUsuario', isEqualTo: currentUser.uid).get();
 
         for (final atividade in atividades.docs) {
           await atividade.reference.delete();
         }
-        FirebaseFirestore.instance.collection('usuarios').doc(user.uid).delete();
-        FirebaseStorage.instance.ref().child("usuarios_foto_perfil/${user.uid}").delete();
+        FirebaseFirestore.instance.collection('usuarios').doc(currentUser.uid).delete();
+        FirebaseStorage.instance.ref().child("usuarios_foto_perfil/${currentUser.uid}").delete();
 
-        await user.delete();
+        await currentUser.delete();
 
         return 'Conta excluída com sucesso!';
       } on FirebaseAuthException catch (e) {

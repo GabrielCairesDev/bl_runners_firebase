@@ -15,11 +15,11 @@ class FirebaseRegistrarUsuario extends RegistrarUsuarioUseCase {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: senha);
       credential.user!.updateDisplayName(nome);
       credential.user!.sendEmailVerification();
-      modeloDeUsuario = modeloDeUsuario.coyWith(
+      modeloDeUsuario = modeloDeUsuario.copyWith(
         admin: false,
         autorizado: false,
         cadastroConcluido: false,
-        dataNascimento: DateTime.now(),
+        dataNascimento: Timestamp.now(),
         email: credential.user?.email ?? 'Erro ao registrar',
         fotoUrl: '',
         genero: 'Masculino',

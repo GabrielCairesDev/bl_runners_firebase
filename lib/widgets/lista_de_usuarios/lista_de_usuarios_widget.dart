@@ -1,5 +1,5 @@
-import 'package:bl_runners_firebase/pages/13_pagina_admin/controller/pagina_admin_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
+import 'package:bl_runners_firebase/pages/i_pagina_admin/controller/pagina_admin_controlador.dart';
+import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_foto.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_infos.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_nome.dart';
@@ -45,7 +45,7 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   // NOME E NASCIMENTO
                   child: ListaDeUsuariosNome(
-                    dataAniversario: usuario.dataNascimento,
+                    dataAniversario: usuario.dataNascimento.toDate(),
                     nome: usuario.nome,
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'package:bl_runners_firebase/providers/interfaces/editar_tag_master_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FireBaseEditarTagMaster extends EditarTagMasterUseCase {
   @override
@@ -7,16 +8,23 @@ class FireBaseEditarTagMaster extends EditarTagMasterUseCase {
     required String idUsuario,
     required bool master,
   }) async {
-    try {
-      final documento = await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).get();
+    User? currentUser = FirebaseAuth.instance.currentUser;
 
-      if (!documento.exists) throw 'Não encontrado no banco de dados';
+    if (currentUser != null) {
+      await currentUser.reload();
+      try {
+        final documento = await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).get();
 
-      await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).update({'master': master});
+        if (!documento.exists) throw 'Não encontrado no banco de dados';
 
-      return 'Atualização concluída!';
-    } catch (e) {
-      return e.toString();
+        await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).update({'master': master});
+
+        return 'Atualização concluída!';
+      } catch (e) {
+        return e.toString();
+      }
+    } else {
+      throw 'Usuário Null';
     }
   }
 }

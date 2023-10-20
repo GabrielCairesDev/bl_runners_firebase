@@ -1,4 +1,4 @@
-class Utilidarios {
+class Utilitarios {
   String calcularRitmo(int? metros, int? minutos) {
     if (metros == null || metros == 0 || minutos == null || minutos == 0) {
       return '00:00/km';

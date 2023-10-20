@@ -1,5 +1,6 @@
 import 'package:bl_runners_firebase/providers/interfaces/editar_tag_autorizado_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FireBaseEditarTagAutorizado extends EditarTagAutorizadoUseCase {
   @override
@@ -7,16 +8,22 @@ class FireBaseEditarTagAutorizado extends EditarTagAutorizadoUseCase {
     required String idUsuario,
     required bool autorizado,
   }) async {
-    try {
-      final documento = await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).get();
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      await currentUser.reload();
+      try {
+        final documento = await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).get();
 
-      if (!documento.exists) throw 'Não encontrado no banco de dados';
+        if (!documento.exists) throw 'Não encontrado no banco de dados';
 
-      await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).update({'autorizado': autorizado});
+        await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).update({'autorizado': autorizado});
 
-      return 'Atualização concluída!';
-    } catch (e) {
-      return e.toString();
+        return 'Atualização concluída!';
+      } catch (e) {
+        return e.toString();
+      }
+    } else {
+      throw 'Usuário null.';
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:bl_runners_firebase/extensions/data_formatada_exetension.dart';
 import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
 import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
+import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/utils/utilitarios.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_botao_excluir.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_data_extenso.dart';
@@ -13,6 +13,7 @@ import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividad
 import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_tempo.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_posicao.dart';
 import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_tipo_atividade.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ListaDeAtividadeWidget extends StatefulWidget {
@@ -60,8 +61,8 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
           final atividadeLista = widget.listaDeAtividades[index];
           final usuarioLista = widget.listaDeUsuarios.where((usuario) => usuario.id == atividadeLista.idUsuario).first;
 
-          DateTime data = atividadeLista.dataAtividade;
-          String dataExtenso = data.diaMesAnoHoraPorExetenso;
+          Timestamp data = atividadeLista.dataAtividade;
+          String dataExtenso = data.toDate().diaMesAnoHoraPorExetenso;
 
           return Padding(
             padding: const EdgeInsets.only(right: 8, left: 8, top: 8),
@@ -160,9 +161,9 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                                         ListaDeAtividadeDistancia(distancia: atividadeLista.distancia),
                                         // RITMO
                                         ListaDeAtividadeRitmo(
-                                            ritmo: Utilidarios().calcularRitmo(atividadeLista.distancia, atividadeLista.tempo)),
+                                            ritmo: Utilitarios().calcularRitmo(atividadeLista.distancia, atividadeLista.tempo)),
                                         // TEMPO
-                                        ListaDeAtivdadeTempo(tempo: Utilidarios().formatarTempo(atividadeLista.tempo)),
+                                        ListaDeAtivdadeTempo(tempo: Utilitarios().formatarTempo(atividadeLista.tempo)),
                                       ],
                                     ),
                                   ],

@@ -1,6 +1,6 @@
 import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/pages/13_pagina_admin/controller/pagina_admin_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/real_time/pegar_usuario_atual.dart';
+import 'package:bl_runners_firebase/pages/i_pagina_admin/controller/pagina_admin_controlador.dart';
+import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 
