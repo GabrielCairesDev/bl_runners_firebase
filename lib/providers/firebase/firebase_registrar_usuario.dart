@@ -5,8 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseRegistrarUsuario extends RegistrarUsuarioUseCase {
   @override
-  Future<String> call(
-    ModeloDeUsuario modeloDeUsuario, {
+  Future<String> call({
     required String email,
     required String senha,
     required String nome,
@@ -15,7 +14,8 @@ class FirebaseRegistrarUsuario extends RegistrarUsuarioUseCase {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: senha);
       credential.user!.updateDisplayName(nome);
       credential.user!.sendEmailVerification();
-      modeloDeUsuario = modeloDeUsuario.copyWith(
+
+      final modeloDeUsuario = ModeloDeUsuario(
         admin: false,
         autorizado: false,
         cadastroConcluido: false,
@@ -27,6 +27,7 @@ class FirebaseRegistrarUsuario extends RegistrarUsuarioUseCase {
         master: false,
         nome: nome,
       );
+
       FirebaseFirestore.instance.collection('usuarios').doc(credential.user!.uid).set(modeloDeUsuario.toJson());
       return 'Conta criada com sucesso!\nVerifique o seu e-mail.';
     } on FirebaseAuthException catch (e) {

@@ -8,7 +8,7 @@ class FirebasePegarAtividadesID extends PegarAtividadesIdUsuarioUseCase {
   List<ModeloDeAtividade> get listaAtividades => _atividades.values.toList();
 
   @override
-  Future<List<ModeloDeAtividade>> call(ModeloDeAtividade modeloDeAtividade, String idUsuario) async {
+  Future<List<ModeloDeAtividade>> call(ModeloDeAtividade modeloDeAtividade, {required String idUsuario}) async {
     listaAtividades.clear();
     _atividades.clear();
 

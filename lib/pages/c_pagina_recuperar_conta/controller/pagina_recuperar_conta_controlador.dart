@@ -1,4 +1,5 @@
 import 'package:bl_runners_firebase/providers/interfaces/recuperar_conta_use_case.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 class PaginaRecuperarContaControlador extends ChangeNotifier {
@@ -12,6 +13,10 @@ class PaginaRecuperarContaControlador extends ChangeNotifier {
   bool carregando = false;
 
   Future<String> recuperarConta() async {
+    final internet = await Connectivity().checkConnectivity();
+
+    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+
     if (globalKeyEmailPaginaRecuperar.currentState!.validate()) {
       try {
         _atualizarEstadoCarregando();

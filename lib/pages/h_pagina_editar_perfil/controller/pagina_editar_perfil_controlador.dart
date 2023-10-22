@@ -1,11 +1,9 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/providers/interfaces/editar_perfil_use_case.dart';
 import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
 
@@ -60,23 +58,9 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
     if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
 
     if (globalKeyPaginaEditarPerfil.currentState!.validate()) {
-      final modeloDeUsuario = ModeloDeUsuario(
-        id: '',
-        nome: '',
-        email: '',
-        fotoUrl: '',
-        genero: 'Masculino',
-        master: false,
-        admin: false,
-        autorizado: false,
-        cadastroConcluido: false,
-        dataNascimento: Timestamp.now(),
-      );
-
       try {
         _alterarEstadoCarregando();
         final resultado = await editarPerfilUseCase(
-          modeloDeUsuario,
           imagemArquivo: imagemArquivo,
           nome: controladorNome.text,
           genero: controladorGenero.toString(),

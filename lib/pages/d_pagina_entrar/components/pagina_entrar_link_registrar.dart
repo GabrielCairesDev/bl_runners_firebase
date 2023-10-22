@@ -8,17 +8,27 @@ class PaginEntrarLinkRegistrar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => context.push(Rotas.registrarUsuario),
-      child: const Padding(
-        padding: EdgeInsets.only(bottom: 16),
-        child: Text(
-          'Não é registrado? Registre-se',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            decoration: TextDecoration.underline,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            'Não é registrado? ',
+            textAlign: TextAlign.center,
+            style: TextStyle(),
           ),
-        ),
+          InkWell(
+            onTap: () => context.push(Rotas.registrarUsuario),
+            child: const Text(
+              'Registre-se',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

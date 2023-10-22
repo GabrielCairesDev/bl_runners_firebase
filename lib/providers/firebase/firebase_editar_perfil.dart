@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/providers/interfaces/editar_perfil_use_case.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,8 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class FireBaseEditarPerfil extends EditarPerfil {
   @override
-  Future<String> call(
-    ModeloDeUsuario modeloDeUsuario, {
+  Future<String> call({
     required File? imagemArquivo,
     required String nome,
     required String genero,

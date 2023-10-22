@@ -63,7 +63,7 @@ class PaginaPerfilControlador extends ChangeNotifier {
     try {
       alterarEstadoCarregando();
 
-      final resultadoAtividades = await pegarAtividadesIdUsuarioUseCase(modeloDeAtividade, idUsuario);
+      final resultadoAtividades = await pegarAtividadesIdUsuarioUseCase(modeloDeAtividade, idUsuario: idUsuario);
       listaDeAtividades = resultadoAtividades;
 
       final resultadoUsuarios = await pegarUsuariosUseCase(modeloDeUsuario, listaDeAtividades);

@@ -3,7 +3,6 @@ import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../controller/pagina_concluir_cadastro_controlador.dart';
 
 class PaginaConcluirCampoNascimento extends StatefulWidget {
@@ -40,10 +39,11 @@ class _PaginaConcluirCampoNascimentoState extends State<PaginaConcluirCampoNasci
         );
 
         if (pegarData != null) {
-          Timestamp dataTimestamp = Timestamp.fromDate(pegarData); // Convert DateTime to Timestamp
+          DateTime dataComHora = pegarData.add(const Duration(hours: 11, minutes: 40));
+          Timestamp dataTimestamp = Timestamp.fromDate(dataComHora.toUtc());
           String dataFormatada = DateFormat('dd/MM/yyyy').format(pegarData);
           setState(() {
-            widget.controladorConcluirCadastro.dataNascimento = dataTimestamp; // Assign the Timestamp object
+            widget.controladorConcluirCadastro.dataNascimento = dataTimestamp;
             widget.controladorConcluirCadastro.controladorNascimento.text = dataFormatada;
           });
         }

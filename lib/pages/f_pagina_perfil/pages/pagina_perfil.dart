@@ -24,6 +24,8 @@ class _PaginaPerfilState extends State<PaginaPerfil> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final controladorPaginaPerfil = context.read<PaginaPerfilControlador>();
+      final controladorPegarUsuarioAtual = context.read<PegarUsuarioAtual>();
+      controladorPaginaPerfil.idUsuario = controladorPegarUsuarioAtual.usuarioAtual?.id ?? '';
       controladorPaginaPerfil.carregarAtividades();
     });
   }

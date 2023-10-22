@@ -1,6 +1,5 @@
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/providers/interfaces/registrar_usuario_use_case.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/widgets.dart';
 
 class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
@@ -18,24 +17,14 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
   bool carregando = false;
 
   Future<String> registrarUsuario() async {
-    if (globalKeyPaginaRegistrar.currentState!.validate()) {
-      final modeloDeUsuario = ModeloDeUsuario(
-        id: '',
-        nome: controladorNome.text,
-        email: controladorEmail.text.trim(),
-        fotoUrl: '',
-        genero: 'Masculino',
-        master: false,
-        admin: false,
-        autorizado: false,
-        cadastroConcluido: false,
-        dataNascimento: Timestamp.now(),
-      );
+    final internet = await Connectivity().checkConnectivity();
 
+    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+
+    if (globalKeyPaginaRegistrar.currentState!.validate()) {
       try {
         _alterarEstadoCarregando();
         final resultado = await registrarUsuarioUseCase(
-          modeloDeUsuario,
           email: controladorEmail.text.trim(),
           senha: controladorSenha.text.trim(),
           nome: controladorNome.text,

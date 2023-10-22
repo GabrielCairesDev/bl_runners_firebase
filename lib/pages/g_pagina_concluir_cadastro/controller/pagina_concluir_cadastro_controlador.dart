@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
 import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -20,8 +19,8 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
 
   bool carregando = false;
 
-  String? controladorGenero;
   List<String> generos = ['Masculino', 'Feminino'];
+  String? controladorGenero;
   Timestamp? dataNascimento;
 
   XFile? imagemCaminho;
