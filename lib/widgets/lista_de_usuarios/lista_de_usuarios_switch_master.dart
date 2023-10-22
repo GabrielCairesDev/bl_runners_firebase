@@ -11,10 +11,12 @@ class ListaDeUsuariosSwitchMaster extends StatefulWidget {
     required this.idUsuario,
     required this.controladorPaginaAdmin,
     required this.controladorPegarUsuarioAtual,
+    required this.usuarioCadastroConcluido,
   });
 
   final bool master;
   final String idUsuario;
+  final bool usuarioCadastroConcluido;
   final PegarUsuarioAtual controladorPegarUsuarioAtual;
   final PaginaAdminControlador controladorPaginaAdmin;
 
@@ -60,6 +62,7 @@ class _ListaDeUsuariosSwitchMasterState extends State<ListaDeUsuariosSwitchMaste
           adminUsuarioAtual: widget.controladorPegarUsuarioAtual.usuarioAtual?.admin ?? false,
           masterUsuarioAtual: widget.controladorPegarUsuarioAtual.usuarioAtual?.master ?? false,
           autorizadoUsuarioAtual: widget.controladorPegarUsuarioAtual.usuarioAtual?.autorizado ?? false,
+          usuarioCadastroConcluido: widget.usuarioCadastroConcluido,
         )
         .then((value) => atualizarSucesso(value))
         .catchError(

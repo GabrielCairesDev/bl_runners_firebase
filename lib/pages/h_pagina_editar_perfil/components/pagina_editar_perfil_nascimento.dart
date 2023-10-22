@@ -1,5 +1,6 @@
 import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/utils/validadores.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -21,8 +22,8 @@ class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascime
     super.initState();
     widget.controladorEditarPerfil.controladorNascimento.text =
         DateFormat('dd/MM/yyyy').format(widget.controladorPegarUsuario.usuarioAtual?.dataNascimento.toDate() ?? DateTime.now());
-    widget.controladorEditarPerfil.nascimentoData =
-        widget.controladorPegarUsuario.usuarioAtual?.dataNascimento.toDate() ?? DateTime.now();
+    widget.controladorEditarPerfil.dataNascimento =
+        widget.controladorPegarUsuario.usuarioAtual?.dataNascimento ?? Timestamp.now();
   }
 
   @override
@@ -48,10 +49,12 @@ class _PaginaEditarPerfilNascimentoState extends State<PaginaEditarPerfilNascime
         );
 
         if (pegarData != null) {
+          DateTime dataComHora = pegarData.add(const Duration(hours: 11, minutes: 40));
+          Timestamp dataTimestamp = Timestamp.fromDate(dataComHora.toUtc());
           String dataFormatada = DateFormat('dd/MM/yyyy').format(pegarData);
           setState(() {
-            widget.controladorEditarPerfil.nascimentoData = pegarData;
-            widget.controladorEditarPerfil.controladorNascimento.text = dataFormatada.toString();
+            widget.controladorEditarPerfil.dataNascimento = dataTimestamp;
+            widget.controladorEditarPerfil.controladorNascimento.text = dataFormatada;
           });
         }
       },

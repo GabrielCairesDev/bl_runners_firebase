@@ -12,7 +12,7 @@ class FireBaseEditarPerfil extends EditarPerfil {
     required File? imagemArquivo,
     required String nome,
     required String genero,
-    DateTime? nascimentoData,
+    Timestamp? dataNascimento,
   }) async {
     User? currentUser = FirebaseAuth.instance.currentUser;
 
@@ -25,12 +25,6 @@ class FireBaseEditarPerfil extends EditarPerfil {
         final documento = await FirebaseFirestore.instance.collection('usuarios').doc(currentUser.uid).get();
 
         if (!documento.exists) FirebaseFirestore.instance.collection('usuarios').doc(currentUser.uid).set({});
-
-        Timestamp? dataNascimento;
-        if (nascimentoData != null) {
-          DateTime dataNascimentoComFusoHorario = nascimentoData.add(Duration(hours: nascimentoData.timeZoneOffset.inHours));
-          dataNascimento = Timestamp.fromDate(dataNascimentoComFusoHorario);
-        }
 
         await FirebaseFirestore.instance.collection('usuarios').doc(currentUser.uid).update({
           'nome': nome,

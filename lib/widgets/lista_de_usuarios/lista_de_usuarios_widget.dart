@@ -91,12 +91,14 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
                                       controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
                                       master: usuario.master,
                                       controladorPaginaAdmin: controladorPaginaAdmin,
+                                      usuarioCadastroConcluido: usuario.cadastroConcluido,
                                     ),
                                     ListaDeUsuariosSwitchAdmin(
                                       admin: usuario.admin,
                                       idUsuario: usuario.id,
                                       controladorPaginaAdmin: controladorPaginaAdmin,
                                       controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
+                                      usuarioCadastroConcluido: usuario.cadastroConcluido,
                                     ),
                                     ListaDeUsuariosSwitchAutorizado(
                                       autorizado: usuario.autorizado,

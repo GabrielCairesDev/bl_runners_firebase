@@ -8,11 +8,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PaginaAdminControlador extends ChangeNotifier {
-  PaginaAdminControlador(
-      {required this.pegarTodosUsuariosUseCase,
-      required this.editarTagMasterUseCase,
-      required this.editarTagAdminUseCase,
-      required this.editarTagAutorizadoUseCase});
+  PaginaAdminControlador({
+    required this.pegarTodosUsuariosUseCase,
+    required this.editarTagMasterUseCase,
+    required this.editarTagAdminUseCase,
+    required this.editarTagAutorizadoUseCase,
+  });
 
   final PegarTodosUsuariosUseCase pegarTodosUsuariosUseCase;
   final EditarTagMasterUseCase editarTagMasterUseCase;
@@ -70,9 +71,11 @@ class PaginaAdminControlador extends ChangeNotifier {
     required bool masterUsuarioAtual,
     required bool adminUsuarioAtual,
     required bool autorizadoUsuarioAtual,
+    required bool usuarioCadastroConcluido,
   }) async {
     if (idUsuario == idUsuarioAtual) throw 'Você não pode fazer isso!';
     if (!masterUsuarioAtual || !adminUsuarioAtual || !autorizadoUsuarioAtual) throw 'Você não tem permissão!';
+    if (!usuarioCadastroConcluido) throw 'Usuário não concluiu o cadastro!';
 
     try {
       final resultado = await editarTagMasterUseCase(
@@ -85,16 +88,17 @@ class PaginaAdminControlador extends ChangeNotifier {
     }
   }
 
-  editarAdmin({
-    required String idUsuario,
-    required bool novoValor,
-    required String idUsuarioAtual,
-    required bool masterUsuarioAtual,
-    required bool adminUsuarioAtual,
-    required bool autorizadoUsuarioAtual,
-  }) async {
+  editarAdmin(
+      {required String idUsuario,
+      required bool novoValor,
+      required String idUsuarioAtual,
+      required bool masterUsuarioAtual,
+      required bool adminUsuarioAtual,
+      required bool autorizadoUsuarioAtual,
+      required bool usuarioCadastroConcluido}) async {
     if (idUsuario == idUsuarioAtual) throw 'Você não pode fazer isso!';
     if (!masterUsuarioAtual || !adminUsuarioAtual || !autorizadoUsuarioAtual) throw 'Você não tem permissão!';
+    if (!usuarioCadastroConcluido) throw 'Usuário não concluiu o cadastro!';
 
     try {
       final resultado = await editarTagAdminUseCase(

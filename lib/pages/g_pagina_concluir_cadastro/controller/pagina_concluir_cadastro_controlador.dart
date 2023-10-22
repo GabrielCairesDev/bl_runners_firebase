@@ -31,8 +31,8 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
       final ImagePicker pegarImagem = ImagePicker();
       imagemCaminho = await pegarImagem.pickImage(
         source: source,
-        maxHeight: 512,
-        maxWidth: 512,
+        // maxHeight: 512,
+        // maxWidth: 512,
         imageQuality: 50,
       );
 

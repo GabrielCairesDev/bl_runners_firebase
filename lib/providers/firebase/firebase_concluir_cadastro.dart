@@ -11,12 +11,13 @@ class FireBaseConcluirCadastro extends ConcluirCadastroUseCase {
     required File? imagemArquivo,
     required String nome,
     required String genero,
-    required Timestamp dataNascimento,
+    required Timestamp? dataNascimento,
   }) async {
     User? currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser != null) {
       await currentUser.reload();
+
       try {
         final documento = await FirebaseFirestore.instance.collection('usuarios').doc(currentUser.uid).get();
         if (!documento.exists) throw 'Erro no banco de dados!';

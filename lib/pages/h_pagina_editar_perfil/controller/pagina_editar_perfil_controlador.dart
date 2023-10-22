@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,7 +24,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
 
   String? controladorGenero;
   List<String> generos = ['Masculino', 'Feminino'];
-  late DateTime nascimentoData;
+  late Timestamp? dataNascimento;
   bool carregando = false;
 
   XFile? imagemCaminho;
@@ -38,7 +39,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
         source: source,
         // maxHeight: 512,
         // maxWidth: 512,
-        imageQuality: 70,
+        imageQuality: 50,
       );
 
       if (imagemCaminho != null) {
@@ -64,7 +65,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
           imagemArquivo: imagemArquivo,
           nome: controladorNome.text,
           genero: controladorGenero.toString(),
-          nascimentoData: nascimentoData,
+          dataNascimento: dataNascimento as Timestamp,
         );
         return resultado;
       } catch (e) {
