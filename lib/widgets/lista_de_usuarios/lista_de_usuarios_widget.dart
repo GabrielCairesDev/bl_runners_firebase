@@ -9,125 +9,141 @@ import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_
 import 'package:flutter/material.dart';
 
 class ListaDeUsuariosWidgets extends StatelessWidget {
-  const ListaDeUsuariosWidgets({super.key, required this.controladorPaginaAdmin, required this.controladorPegarUsuarioAtual});
+  const ListaDeUsuariosWidgets({
+    super.key,
+    required this.controladorPaginaAdmin,
+    required this.controladorPegarUsuarioAtual,
+  });
 
   final PaginaAdminControlador controladorPaginaAdmin;
   final PegarUsuarioAtual controladorPegarUsuarioAtual;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: controladorPaginaAdmin.listaDeUsuariosFiltro.isEmpty ? 0 : controladorPaginaAdmin.listaDeUsuariosFiltro.length,
-      itemBuilder: (context, index) {
-        final usuario = controladorPaginaAdmin.listaDeUsuariosFiltro[index];
+    return RefreshIndicator(
+      onRefresh: controladorPaginaAdmin.carregarUsuarios,
+      child: ListView.builder(
+        itemCount: controladorPaginaAdmin.listaDeUsuariosFiltro.isEmpty ? 0 : controladorPaginaAdmin.listaDeUsuariosFiltro.length,
+        itemBuilder: (context, index) {
+          final listaUsuario = controladorPaginaAdmin.listaDeUsuariosFiltro[index];
+          final usuarioAtual = controladorPegarUsuarioAtual.usuarioAtual;
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          // FUNDO AZUL OU ROSA
-          child: Stack(
-            alignment: Alignment.bottomLeft,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.155,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: usuario.genero == 'Masculino' ? Colors.blue : Colors.pink,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      offset: const Offset(0, 0),
-                      blurRadius: 5,
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            // FUNDO AZUL OU ROSA
+            child: Stack(
+              alignment: Alignment.bottomLeft,
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.155,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: listaUsuario.genero == 'Masculino' ? Colors.blue : Colors.pink,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5),
+                        offset: const Offset(0, 0),
+                        blurRadius: 5,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    // NOME E NASCIMENTO
+                    child: ListaDeUsuariosNome(
+                      dataAniversario: listaUsuario.dataNascimento.toDate(),
+                      nome: listaUsuario.nome,
                     ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  // NOME E NASCIMENTO
-                  child: ListaDeUsuariosNome(
-                    dataAniversario: usuario.dataNascimento.toDate(),
-                    nome: usuario.nome,
                   ),
                 ),
-              ),
-              // FUNDO BRANCO
-              Stack(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          offset: const Offset(0, 0),
-                          blurRadius: 5,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // FOTO DE PERFIL
-                        const ListaDeUsuariosFoto(),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                ListaDeUsuariosInfos(
-                                  cadastroConcluido: usuario.cadastroConcluido,
-                                  email: usuario.email,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ListaDeUsuariosSwitchMaster(
-                                      idUsuario: usuario.id,
-                                      controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
-                                      master: usuario.master,
-                                      controladorPaginaAdmin: controladorPaginaAdmin,
-                                      usuarioCadastroConcluido: usuario.cadastroConcluido,
-                                    ),
-                                    ListaDeUsuariosSwitchAdmin(
-                                      admin: usuario.admin,
-                                      idUsuario: usuario.id,
-                                      controladorPaginaAdmin: controladorPaginaAdmin,
-                                      controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
-                                      usuarioCadastroConcluido: usuario.cadastroConcluido,
-                                    ),
-                                    ListaDeUsuariosSwitchAutorizado(
-                                      autorizado: usuario.autorizado,
-                                      idUsuario: usuario.id,
-                                      controladorPaginaAdmin: controladorPaginaAdmin,
-                                      controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
-                                    ),
-                                  ],
-                                )
-                                // ListaDeUsuariosSwitches(
-                                //   admin: usuario.admin,
-                                //   autorizado: usuario.autorizado,
-                                //   master: usuario.master,
-                                //   idUsuario: usuario.id,
-                                //   controlador: controlador,
-                                // ),
-                              ],
+                // FUNDO BRANCO
+                Stack(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.12,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            offset: const Offset(0, 0),
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // FOTO DE PERFIL
+                          ListaDeUsuariosFoto(foto: listaUsuario.fotoUrl),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  ListaDeUsuariosInfos(
+                                    cadastroConcluido: listaUsuario.cadastroConcluido,
+                                    email: listaUsuario.email,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      ListaDeUsuariosSwitchMaster(
+                                        controladorPaginaAdmin: controladorPaginaAdmin,
+                                        listaUsuarioId: listaUsuario.id,
+                                        listaUsuarioCadastroConcluido: listaUsuario.cadastroConcluido,
+                                        listaUsuarioAutorizado: listaUsuario.autorizado,
+                                        listaUsuarioMaster: listaUsuario.master,
+                                        listaUsuarioAdmin: listaUsuario.admin,
+                                        usuarioAtualId: usuarioAtual?.id ?? '',
+                                        usuarioAtualAdmin: usuarioAtual?.admin ?? false,
+                                        usuarioAtualAutorizado: usuarioAtual?.autorizado ?? false,
+                                        usuarioAtualMaster: usuarioAtual?.master ?? false,
+                                      ),
+                                      ListaDeUsuariosSwitchAdmin(
+                                        controladorPaginaAdmin: controladorPaginaAdmin,
+                                        listaUsuarioid: listaUsuario.id,
+                                        listaUsuarioCadastroConcluido: listaUsuario.cadastroConcluido,
+                                        listaUsuarioAutorizado: listaUsuario.autorizado,
+                                        listaUsuarioAmin: listaUsuario.admin,
+                                        listaUsuarioMaster: listaUsuario.master,
+                                        usuarioAtualId: usuarioAtual?.id ?? '',
+                                        usuarioAtualAdmin: usuarioAtual?.admin ?? false,
+                                        usuarioAtualAutorizado: usuarioAtual?.autorizado ?? false,
+                                        usuarioAtualMaster: usuarioAtual?.master ?? false,
+                                      ),
+                                      ListaDeUsuariosSwitchAutorizado(
+                                        controladorPaginaAdmin: controladorPaginaAdmin,
+                                        listaUsuarioid: listaUsuario.id,
+                                        listaUsuarioAutorizado: listaUsuario.autorizado,
+                                        listaUsuarioAdmin: listaUsuario.admin,
+                                        listaUsuarioMaster: listaUsuario.master,
+                                        usuarioAtualId: usuarioAtual?.id ?? '',
+                                        usuarioAtualAdmin: usuarioAtual?.admin ?? false,
+                                        usuarioAtualAutorizado: usuarioAtual?.autorizado ?? false,
+                                        usuarioAtualMaster: usuarioAtual?.master ?? false,
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        );
-      },
+                  ],
+                )
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

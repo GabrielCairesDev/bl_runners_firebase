@@ -81,13 +81,10 @@ class _PaginaRegistrarCampoDataState extends State<PaginaRegistrarCampoData> {
               );
 
               Timestamp pegarHoraTimeStamp = Timestamp.fromDate(dataHoraSelecionada.toUtc());
-
               String dataHoraFormatada = DateFormat('dd/MM/yyyy HH:mm').format(dataHoraSelecionada);
-              String dataHoraFormatadaSalvar = DateFormat('dd.MM.yyyy HH:mm').format(dataHoraSelecionada);
 
               setState(() {
                 widget.controlador.dataHoraSelecionada = pegarHoraTimeStamp;
-                widget.controlador.dataHoraFormatadaSalvar = dataHoraFormatadaSalvar;
                 widget.controlador.controladorCampoData.text = dataHoraFormatada;
               });
             }

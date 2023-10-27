@@ -78,6 +78,7 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
     controladorNome.clear();
     controladorNascimento.clear();
     controladorFoto.clear();
+    imagemArquivo = null;
     notifyListeners();
   }
 

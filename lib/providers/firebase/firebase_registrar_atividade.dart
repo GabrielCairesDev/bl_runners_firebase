@@ -6,7 +6,14 @@ import 'package:uuid/uuid.dart';
 
 class FirebaseRegistrarAtividade extends RegistrarAtividadeUseCase {
   @override
-  Future<String> call(ModeloDeAtividade modeloDeAtividade) async {
+  Future<String> call({
+    required String tipo,
+    required int tempo,
+    required int distancia,
+    required Timestamp dataAtividade,
+    required int ano,
+    required int mes,
+  }) async {
     User? currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser != null) {
@@ -16,8 +23,18 @@ class FirebaseRegistrarAtividade extends RegistrarAtividadeUseCase {
       final documento = await FirebaseFirestore.instance.collection('atividades').doc(idAtividade).get();
       if (documento.exists) throw 'Tente novamente!';
 
+      final modeloDeAtividade = ModeloDeAtividade(
+        idAtividade: idAtividade,
+        idUsuario: currentUser.uid,
+        tipo: tipo,
+        tempo: tempo,
+        distancia: distancia,
+        dataAtividade: dataAtividade,
+        ano: ano,
+        mes: mes,
+      );
+
       try {
-        modeloDeAtividade = modeloDeAtividade.copyWith(idUsuario: currentUser.uid, idAtividade: idAtividade);
         await FirebaseFirestore.instance.collection('atividades').doc(idAtividade).set(modeloDeAtividade.toJson());
         return 'Atividade registrada com sucesso!';
       } catch (e) {

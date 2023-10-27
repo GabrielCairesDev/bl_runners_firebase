@@ -32,6 +32,7 @@ class PaginaAdminControlador extends ChangeNotifier {
     listaDeUsuarios.clear();
     listaDeUsuariosFiltro.clear();
     try {
+      _atualizarEstadoCarregando();
       final modeloDeUsuario = ModeloDeUsuario(
         id: '',
         nome: '',
@@ -54,7 +55,7 @@ class PaginaAdminControlador extends ChangeNotifier {
     } catch (e) {
       logger.w(e);
     } finally {
-      notifyListeners();
+      _atualizarEstadoCarregando();
     }
   }
 
@@ -65,46 +66,52 @@ class PaginaAdminControlador extends ChangeNotifier {
   }
 
   Future<String> editarMaster({
-    required String idUsuario,
+    required String listaUsuarioId,
+    required String usuarioAtualId,
     required bool novoValor,
-    required String idUsuarioAtual,
-    required bool masterUsuarioAtual,
-    required bool adminUsuarioAtual,
-    required bool autorizadoUsuarioAtual,
-    required bool usuarioCadastroConcluido,
+    required bool usuarioAtualMaster,
+    required bool usuarioAtualAdmin,
+    required bool usuarioAtualAutorizado,
+    required bool listaUsuarioCadastroConcluido,
+    required bool listaUsuarioAutorizado,
+    required bool listaUsuarioAdmin,
   }) async {
-    if (idUsuario == idUsuarioAtual) throw 'Você não pode fazer isso!';
-    if (!masterUsuarioAtual || !adminUsuarioAtual || !autorizadoUsuarioAtual) throw 'Você não tem permissão!';
-    if (!usuarioCadastroConcluido) throw 'Usuário não concluiu o cadastro!';
+    if (listaUsuarioId == usuarioAtualId) throw 'Você não pode fazer isso!';
+    if (!usuarioAtualMaster || !usuarioAtualAdmin || !usuarioAtualAutorizado) throw 'Você não tem permissão!';
+    if (!listaUsuarioAutorizado) throw 'Usuário não está autorizado';
+    if (!listaUsuarioCadastroConcluido) throw 'Usuário não concluiu o cadastro!';
+    if (!listaUsuarioAdmin) throw 'Usuário não é um administrador!';
 
     try {
-      final resultado = await editarTagMasterUseCase(
-        idUsuario: idUsuario,
-        master: novoValor,
-      );
+      final resultado = await editarTagMasterUseCase(listaUsuarioId: listaUsuarioId, listaUsuarioMaster: novoValor);
+      carregarUsuarios();
+
       return resultado;
     } catch (e) {
       rethrow;
     }
   }
 
-  editarAdmin(
-      {required String idUsuario,
-      required bool novoValor,
-      required String idUsuarioAtual,
-      required bool masterUsuarioAtual,
-      required bool adminUsuarioAtual,
-      required bool autorizadoUsuarioAtual,
-      required bool usuarioCadastroConcluido}) async {
-    if (idUsuario == idUsuarioAtual) throw 'Você não pode fazer isso!';
-    if (!masterUsuarioAtual || !adminUsuarioAtual || !autorizadoUsuarioAtual) throw 'Você não tem permissão!';
-    if (!usuarioCadastroConcluido) throw 'Usuário não concluiu o cadastro!';
+  editarAdmin({
+    required String listaUsuarioId,
+    required String usuarioAtualId,
+    required bool novoValor,
+    required bool usuarioAtualMaster,
+    required bool usuarioAtualAdmin,
+    required bool usuarioAtualAutorizado,
+    required bool listaUsuarioCadastroConcluido,
+    required bool listaUsuarioAutorizado,
+    required bool listaUsuarioMaster,
+  }) async {
+    if (listaUsuarioId == usuarioAtualId) throw 'Você não pode fazer isso!';
+    if (!usuarioAtualMaster || !usuarioAtualAdmin || !usuarioAtualAutorizado) throw 'Você não tem permissão!';
+    if (!listaUsuarioCadastroConcluido) throw 'Usuário não concluiu o cadastro!';
+    if (!listaUsuarioAutorizado) throw 'Usuário não está autorizado!';
+    if (listaUsuarioMaster) throw 'Você não pode fazer isso com um master!';
 
     try {
-      final resultado = await editarTagAdminUseCase(
-        idUsuario: idUsuario,
-        admin: novoValor,
-      );
+      final resultado = await editarTagAdminUseCase(listaUsuarioId: listaUsuarioId, listaUsuarioAdmin: novoValor);
+      carregarUsuarios();
 
       return resultado;
     } catch (e) {
@@ -113,25 +120,33 @@ class PaginaAdminControlador extends ChangeNotifier {
   }
 
   editarAutorizado({
-    required String idUsuario,
+    required String listaUsuarioId,
     required bool novoValor,
-    required String idUsuarioAtual,
-    required bool masterUsuarioAtual,
-    required bool adminUsuarioAtual,
-    required bool autorizadoUsuarioAtual,
+    required String usuarioAtualId,
+    required bool usuarioAtualMaster,
+    required bool usuarioAtualAdmin,
+    required bool usuarioAtualAutorizado,
+    required bool listaUsuarioAdmin,
+    required bool listaUsuarioMaster,
+    required bool listaUsuarioAutorizado,
   }) async {
-    if (idUsuario == idUsuarioAtual) throw 'Você não pode fazer isso!';
-    if (!adminUsuarioAtual || !autorizadoUsuarioAtual) throw 'Você não tem permissão!';
+    if (listaUsuarioId == usuarioAtualId) throw 'Você não pode fazer isso!';
+    if (!usuarioAtualAdmin || !usuarioAtualAutorizado) throw 'Você não tem permissão!';
+    if (listaUsuarioMaster && listaUsuarioAutorizado) throw 'Você não pode desautorizar Master!';
+    if (listaUsuarioAdmin && listaUsuarioAutorizado) throw 'Você não pode desautorizar Administrador!';
 
     try {
-      final resultado = await editarTagAutorizadoUseCase(
-        idUsuario: idUsuario,
-        autorizado: novoValor,
-      );
+      final resultado = await editarTagAutorizadoUseCase(listaUsuarioId: listaUsuarioId, listaUsuarioAutorizado: novoValor);
+      carregarUsuarios();
 
       return resultado;
     } catch (e) {
       rethrow;
     }
+  }
+
+  _atualizarEstadoCarregando() {
+    carregando = !carregando;
+    notifyListeners();
   }
 }

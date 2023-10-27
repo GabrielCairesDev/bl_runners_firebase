@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ModeloDeAtividade {
   final String tipo, idAtividade, idUsuario;
   final int tempo, distancia, ano, mes;
-  final String dataAtividade;
+  final Timestamp dataAtividade;
 
   ModeloDeAtividade({
     required this.idAtividade,
@@ -21,7 +23,7 @@ class ModeloDeAtividade {
       tipo: json['tipo'] ?? 'Treino',
       tempo: json['tempo'] ?? 0,
       distancia: json['distancia'] ?? 0,
-      dataAtividade: json['dataAtividade'] ?? '2000-10-10 01:00:00',
+      dataAtividade: json['dataAtividade'] ?? Timestamp.now(),
       ano: json['ano'] ?? 0,
       mes: json['mes'] ?? 0,
     );
@@ -48,7 +50,7 @@ class ModeloDeAtividade {
     int? distancia,
     int? ano,
     int? mes,
-    String? dataAtividade,
+    Timestamp? dataAtividade,
   }) {
     return ModeloDeAtividade(
       idAtividade: idAtividade ?? this.idAtividade,

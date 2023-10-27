@@ -1,6 +1,6 @@
 abstract class EditarTagAutorizadoUseCase {
   Future<String> call({
-    required String idUsuario,
-    required bool autorizado,
+    required String listaUsuarioId,
+    required bool listaUsuarioAutorizado,
   });
 }

@@ -17,10 +17,10 @@ class _PaginaAdminState extends State<PaginaAdmin> {
   void initState() {
     super.initState();
     final controlador = context.read<PaginaAdminControlador>();
-    // if (controlador.carregadoInitState == false) {
-    controlador.carregarUsuarios();
-    controlador.carregadoInitState = true;
-    // }
+    if (controlador.carregadoInitState == false) {
+      controlador.carregarUsuarios();
+      controlador.carregadoInitState = true;
+    }
   }
 
   @override

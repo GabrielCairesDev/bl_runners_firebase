@@ -1,21 +1,32 @@
+import 'package:flutter/material.dart';
 import 'package:bl_runners_firebase/main.dart';
 import 'package:bl_runners_firebase/pages/i_pagina_admin/controller/pagina_admin_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
 import 'package:bl_runners_firebase/widgets/mensagens.dart';
-import 'package:flutter/material.dart';
 
 class ListaDeUsuariosSwitchAutorizado extends StatefulWidget {
   const ListaDeUsuariosSwitchAutorizado({
-    super.key,
-    required this.autorizado,
-    required this.idUsuario,
+    Key? key,
+    required this.listaUsuarioAutorizado,
+    required this.listaUsuarioAdmin,
+    required this.listaUsuarioMaster,
+    required this.listaUsuarioid,
     required this.controladorPaginaAdmin,
-    required this.controladorPegarUsuarioAtual,
-  });
+    required this.usuarioAtualId,
+    required this.usuarioAtualAdmin,
+    required this.usuarioAtualMaster,
+    required this.usuarioAtualAutorizado,
+  }) : super(key: key);
 
-  final bool autorizado;
-  final String idUsuario;
-  final PegarUsuarioAtual controladorPegarUsuarioAtual;
+  final String listaUsuarioid;
+  final bool listaUsuarioAutorizado;
+  final bool listaUsuarioAdmin;
+  final bool listaUsuarioMaster;
+
+  final String usuarioAtualId;
+  final bool usuarioAtualAdmin;
+  final bool usuarioAtualMaster;
+  final bool usuarioAtualAutorizado;
+
   final PaginaAdminControlador controladorPaginaAdmin;
 
   @override
@@ -28,7 +39,7 @@ class _ListaDeUsuariosSwitchAutorizadoState extends State<ListaDeUsuariosSwitchA
   @override
   void initState() {
     super.initState();
-    _switch = widget.autorizado;
+    _switch = widget.listaUsuarioAutorizado;
   }
 
   @override
@@ -54,12 +65,15 @@ class _ListaDeUsuariosSwitchAutorizadoState extends State<ListaDeUsuariosSwitchA
   atualizar(value) async {
     await widget.controladorPaginaAdmin
         .editarAutorizado(
-          idUsuario: widget.idUsuario,
+          listaUsuarioId: widget.listaUsuarioid,
           novoValor: value,
-          idUsuarioAtual: widget.controladorPegarUsuarioAtual.usuarioAtual?.id ?? '',
-          adminUsuarioAtual: widget.controladorPegarUsuarioAtual.usuarioAtual?.admin ?? false,
-          masterUsuarioAtual: widget.controladorPegarUsuarioAtual.usuarioAtual?.master ?? false,
-          autorizadoUsuarioAtual: widget.controladorPegarUsuarioAtual.usuarioAtual?.autorizado ?? false,
+          usuarioAtualId: widget.usuarioAtualId,
+          usuarioAtualAdmin: widget.usuarioAtualAdmin,
+          usuarioAtualMaster: widget.usuarioAtualMaster,
+          usuarioAtualAutorizado: widget.usuarioAtualAutorizado,
+          listaUsuarioAdmin: widget.listaUsuarioAdmin,
+          listaUsuarioAutorizado: widget.listaUsuarioAutorizado,
+          listaUsuarioMaster: widget.listaUsuarioMaster,
         )
         .then((value) => atualizarSucesso(value))
         .catchError(

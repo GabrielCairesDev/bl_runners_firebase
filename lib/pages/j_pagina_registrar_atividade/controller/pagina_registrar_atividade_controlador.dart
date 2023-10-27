@@ -1,5 +1,5 @@
-import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
 import 'package:bl_runners_firebase/providers/interfaces/registrar_atividade_use_case.dart';
+import 'package:bl_runners_firebase/utils/checar_horario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,6 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
   final GlobalKey<FormState> globalKeyRegistrarAtividade = GlobalKey<FormState>();
 
   Timestamp? dataHoraSelecionada;
-  String? dataHoraFormatadaSalvar;
   TimeOfDay? tempo;
   int? tempoMinutos;
   int controladorDistancia = 5000;
@@ -26,25 +25,26 @@ class PaginaRegistrarAtividadeControlador extends ChangeNotifier {
 
   Future<String> registrarAtividade({required String? idUsuario, required bool usuarioAutorizado}) async {
     final internet = await Connectivity().checkConnectivity();
+    final relogioLocal = await CompararRelogioLocal().comparar();
 
     if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+    if (relogioLocal == ChecarHorarioResultado.horarioDiferente) throw 'Verifique a data e horário do seu dispositivo!';
+    if (relogioLocal == ChecarHorarioResultado.horarioErro) throw 'Tente mais tarde!';
     if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
-    if (usuarioAutorizado == false) throw 'Usuário não autorizado!\nEntre em contato com um administrador';
+    if (usuarioAutorizado == false) throw 'Usuário não autorizado!\nEntre em contato com um administrador!';
 
     if (globalKeyRegistrarAtividade.currentState!.validate()) {
-      final modeloDeAtividade = ModeloDeAtividade(
-        idAtividade: '',
-        idUsuario: 'idUsuario',
-        tipo: controladorCampoTipo.text,
-        tempo: tempoMinutos as int,
-        distancia: controladorDistancia,
-        dataAtividade: dataHoraSelecionada ?? Timestamp.now(),
-        ano: dataHoraSelecionada?.toDate().year ?? Timestamp.now().toDate().year,
-        mes: dataHoraSelecionada?.toDate().month ?? Timestamp.now().toDate().month,
-      );
-      _altualizarEstadoCarregando();
       try {
-        final resultado = await registrarAtividadeUserCase(modeloDeAtividade);
+        _altualizarEstadoCarregando();
+
+        final resultado = await registrarAtividadeUserCase(
+          tipo: controladorCampoTipo.text,
+          tempo: tempoMinutos as int,
+          distancia: controladorDistancia,
+          dataAtividade: dataHoraSelecionada ?? Timestamp.now(),
+          ano: dataHoraSelecionada?.toDate().year ?? Timestamp.now().toDate().year,
+          mes: dataHoraSelecionada?.toDate().month ?? Timestamp.now().toDate().month,
+        );
         _resetarValores();
         return resultado;
       } catch (e) {

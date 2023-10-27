@@ -5,19 +5,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FireBaseEditarTagMaster extends EditarTagMasterUseCase {
   @override
   Future<String> call({
-    required String idUsuario,
-    required bool master,
+    required String listaUsuarioId,
+    required bool listaUsuarioMaster,
   }) async {
     User? currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser != null) {
       await currentUser.reload();
       try {
-        final documento = await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).get();
+        final documento = await FirebaseFirestore.instance.collection('usuarios').doc(listaUsuarioId).get();
 
         if (!documento.exists) throw 'Não encontrado no banco de dados';
 
-        await FirebaseFirestore.instance.collection('usuarios').doc(idUsuario).update({'master': master});
+        await FirebaseFirestore.instance.collection('usuarios').doc(listaUsuarioId).update({'master': listaUsuarioMaster});
 
         return 'Atualização concluída!';
       } catch (e) {
