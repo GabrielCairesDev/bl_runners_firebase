@@ -15,11 +15,13 @@ class PaginaRegistrarUsuarioControlador extends ChangeNotifier {
   final GlobalKey<FormState> globalKeyPaginaRegistrar = GlobalKey<FormState>();
 
   bool carregando = false;
+  bool termosAceito = false;
 
   Future<String> registrarUsuario() async {
     final internet = await Connectivity().checkConnectivity();
 
     if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+    if (!termosAceito) throw 'Aceite o termo de Uso e Política de Privacidade!';
 
     if (globalKeyPaginaRegistrar.currentState!.validate()) {
       try {

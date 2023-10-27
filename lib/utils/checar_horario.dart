@@ -23,7 +23,7 @@ class CompararRelogioLocal {
         DateTime horarioServidor = horarioDipositivo.add(Duration(milliseconds: offset));
 
         final int diferenca = horarioDipositivo.difference(horarioServidor).inMinutes;
-        if (diferenca > diferencaMinutos) {
+        if (diferenca > diferencaMinutos || diferenca < diferencaMinutos) {
           resultado = ChecarHorarioResultado.horarioDiferente;
           debugPrint('Servidor: $servidor | Horário Servidor: $horarioServidor | Horário Dispositivo: $horarioDipositivo');
           debugPrint('Diferença de tempo em minutos: $diferenca');

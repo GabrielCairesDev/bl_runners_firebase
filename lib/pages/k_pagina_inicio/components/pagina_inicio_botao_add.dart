@@ -11,7 +11,7 @@ class PaginaInicioBotaoAdd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () => context.push(Rotas.adicionarAtividade),
+      onPressed: () => context.push(Rotas.registrarAtividade),
       child: const Icon(Icons.add),
     );
   }

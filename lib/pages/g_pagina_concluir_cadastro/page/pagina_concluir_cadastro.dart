@@ -1,3 +1,4 @@
+import 'package:bl_runners_firebase/pages/g_pagina_concluir_cadastro/components/pagina_concluir_cadastro_botao_excluir.dart';
 import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -63,6 +64,10 @@ class PaginaConcluirCadastro extends StatelessWidget {
               ],
             ),
           ),
+        ),
+        floatingActionButton: PaginaConcluirCadastroBotaoExcluir(
+          controladorPaginaConcluircadastro: controladorConcluirCadastro,
+          controladorPegarUsuarioAtual: controladorPegarUsuario,
         ),
       ),
     );

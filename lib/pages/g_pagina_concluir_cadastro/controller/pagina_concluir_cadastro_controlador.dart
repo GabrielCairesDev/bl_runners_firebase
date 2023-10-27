@@ -1,19 +1,26 @@
 import 'dart:io';
 
 import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_case.dart';
+import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PaginaConcluirCadastroControlador extends ChangeNotifier {
-  PaginaConcluirCadastroControlador({required this.concluirCadastroUseCase});
+  PaginaConcluirCadastroControlador({
+    required this.excluirContaUseCase,
+    required this.concluirCadastroUseCase,
+  });
 
   final ConcluirCadastroUseCase concluirCadastroUseCase;
+  final ExcluirContaUseCase excluirContaUseCase;
 
   final TextEditingController controladorNome = TextEditingController();
   final TextEditingController controladorNascimento = TextEditingController();
   final TextEditingController controladorFoto = TextEditingController();
+
+  final TextEditingController controladorSenha = TextEditingController();
 
   final GlobalKey<FormState> globalKeyPaginaConcluirCadastro = GlobalKey<FormState>();
 
@@ -50,7 +57,7 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
     final internet = await Connectivity().checkConnectivity();
 
     if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
-    if (usuarioAutorizado == false) throw 'Usuário não autorizado!';
+    if (usuarioAutorizado == false) throw 'Você não autorizado, peça para um administrador!';
 
     if (globalKeyPaginaConcluirCadastro.currentState!.validate()) {
       try {
@@ -72,6 +79,24 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
       }
     }
     throw 'Preencha todos os campos!';
+  }
+
+  Future<String> excluirConta({required String? idUsuario}) async {
+    final internet = await Connectivity().checkConnectivity();
+
+    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+    if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
+
+    try {
+      _alterarEstadoCarregando();
+      final resultado = await excluirContaUseCase(senha: controladorSenha.text);
+      return resultado;
+    } catch (e) {
+      rethrow;
+    } finally {
+      controladorSenha.clear();
+      _alterarEstadoCarregando();
+    }
   }
 
   _resetarValores() {

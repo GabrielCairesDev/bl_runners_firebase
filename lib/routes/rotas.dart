@@ -17,7 +17,7 @@ class Rotas {
       navegar = '/navegar',
       concluirCadastro = '/concluir',
       editarPerfil = '/editar',
-      adicionarAtividade = '/adicionar',
+      registrarAtividade = '/adicionar',
       recuperarConta = '/recuperar',
       adm = '/adm';
 

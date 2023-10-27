@@ -1,3 +1,4 @@
+import 'package:bl_runners_firebase/pages/b_pagina_registrar_usuario/components/pagina_registrar_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,6 +45,8 @@ class _PaginaRegistrarState extends State<PaginaRegistrar> {
                       PaginaRegistrarCampoConfirmarSenha(controlador: controlador),
                       const SizedBox(height: 16),
                       PaginaRegistrarBotaoRegistrar(controlador: controlador),
+                      const SizedBox(height: 16),
+                      PaginaRegistrarCheckBox(controlador: controlador)
                     ],
                   ),
                 ),
