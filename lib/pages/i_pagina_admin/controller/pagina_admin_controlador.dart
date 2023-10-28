@@ -61,7 +61,13 @@ class PaginaAdminControlador extends ChangeNotifier {
 
   void filtrarLista(String pesquisa) {
     listaDeUsuariosFiltro.clear();
-    listaDeUsuariosFiltro.addAll(listaDeUsuarios.where((usuario) => usuario.nome.toLowerCase().contains(pesquisa.toLowerCase())));
+    listaDeUsuariosFiltro.addAll(
+      listaDeUsuarios.where(
+        (usuario) => usuario.nome.toLowerCase().contains(
+              pesquisa.toLowerCase(),
+            ),
+      ),
+    );
     notifyListeners();
   }
 

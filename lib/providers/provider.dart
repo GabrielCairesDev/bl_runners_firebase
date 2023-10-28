@@ -106,6 +106,7 @@ class AppProvider {
     ChangeNotifierProvider<PaginaConcluirCadastroControlador>(
       create: (context) => PaginaConcluirCadastroControlador(
         concluirCadastroUseCase: context.read(),
+        excluirContaUseCase: context.read(),
       ),
     ),
     ChangeNotifierProvider<PaginaRecuperarContaControlador>(
