@@ -7,6 +7,6 @@ abstract class ConcluirCadastroUseCase {
     required File? imagemArquivo,
     required String nome,
     required String genero,
-    required Timestamp dataNascimento,
+    Timestamp dataNascimento,
   });
 }

@@ -6,8 +6,7 @@ import 'package:intl/intl.dart';
 import '../controller/pagina_concluir_cadastro_controlador.dart';
 
 class PaginaConcluirCampoNascimento extends StatefulWidget {
-  const PaginaConcluirCampoNascimento(
-      {super.key, required this.controladorConcluirCadastro, required this.controladorPegarUsuario});
+  const PaginaConcluirCampoNascimento({super.key, required this.controladorConcluirCadastro, required this.controladorPegarUsuario});
 
   final PaginaConcluirCadastroControlador controladorConcluirCadastro;
   final PegarUsuarioAtual controladorPegarUsuario;
@@ -20,30 +19,49 @@ class _PaginaConcluirCampoNascimentoState extends State<PaginaConcluirCampoNasci
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: widget.controladorConcluirCadastro.controladorNascimento,
+      readOnly: true,
       validator: Validador.nascimento,
+      controller: widget.controladorConcluirCadastro.controladorNascimento,
       decoration: const InputDecoration(
         prefixIcon: Icon(Icons.calendar_month),
         filled: true,
         hintText: 'Data de nascimento',
       ),
-      readOnly: true,
       onTap: () async {
         DateTime? pegarData = await showDatePicker(
           context: context,
           initialDate: widget.controladorPegarUsuario.usuarioAtual!.dataNascimento.toDate(),
           firstDate: DateTime(1940),
           lastDate: DateTime.now(),
-          locale: const Locale("pt", "BR"),
+          helpText: 'Selecione a data de nascimento',
           initialDatePickerMode: DatePickerMode.year,
+          builder: (context, child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: const ColorScheme.light(
+                  primary: Color(0xFF2e355a),
+                  onPrimary: Colors.white,
+                  onSurface: Colors.blueGrey,
+                ),
+              ),
+              child: child!,
+            );
+          },
         );
 
         if (pegarData != null) {
-          DateTime dataComHora = pegarData.add(const Duration(hours: 11, minutes: 40));
-          Timestamp dataTimestamp = Timestamp.fromDate(dataComHora.toUtc());
-          String dataFormatada = DateFormat('dd/MM/yyyy').format(pegarData);
+          DateTime dataHoraSelecionada = DateTime.utc(
+            pegarData.year,
+            pegarData.month,
+            pegarData.day,
+            14,
+          );
+
+          Timestamp pegarHoraTimeStamp = Timestamp.fromDate(dataHoraSelecionada);
+          String dataFormatada = DateFormat('dd/MM/yyyy').format(dataHoraSelecionada);
+
           setState(() {
-            widget.controladorConcluirCadastro.dataNascimento = dataTimestamp;
+            widget.controladorConcluirCadastro.dataNascimento = pegarHoraTimeStamp;
             widget.controladorConcluirCadastro.controladorNascimento.text = dataFormatada;
           });
         }

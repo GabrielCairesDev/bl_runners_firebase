@@ -11,7 +11,7 @@ class FireBaseConcluirCadastro extends ConcluirCadastroUseCase {
     required File? imagemArquivo,
     required String nome,
     required String genero,
-    required Timestamp? dataNascimento,
+    Timestamp? dataNascimento,
   }) async {
     User? currentUser = FirebaseAuth.instance.currentUser;
 

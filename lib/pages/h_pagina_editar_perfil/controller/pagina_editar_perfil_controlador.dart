@@ -15,7 +15,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   });
 
   final ExcluirContaUseCase excluirContaUseCase;
-  final EditarPerfil editarPerfilUseCase;
+  final EditarPerfilUseCase editarPerfilUseCase;
 
   final TextEditingController controladorNome = TextEditingController();
   final TextEditingController controladorNascimento = TextEditingController();
@@ -24,7 +24,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
 
   String? controladorGenero;
   List<String> generos = ['Masculino', 'Feminino'];
-  late Timestamp? dataNascimento;
+  Timestamp? dataNascimento;
   bool carregando = false;
 
   XFile? imagemCaminho;
@@ -65,7 +65,7 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
           imagemArquivo: imagemArquivo,
           nome: controladorNome.text,
           genero: controladorGenero.toString(),
-          dataNascimento: dataNascimento as Timestamp,
+          dataNascimento: dataNascimento ?? Timestamp.now(),
         );
         return resultado;
       } catch (e) {

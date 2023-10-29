@@ -9,16 +9,26 @@ class ListaDeUsuariosFoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.11,
       width: MediaQuery.of(context).size.height * 0.11,
+      height: MediaQuery.of(context).size.height * 0.11,
       child: ClipOval(
-        child: CachedNetworkImage(
-          imageUrl: foto,
-          fit: BoxFit.cover,
-          placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-        ),
+        child: _avatarDoUsuario(),
       ),
     );
+  }
+
+  _avatarDoUsuario() {
+    final avatarURL = foto;
+    if (avatarURL.isEmpty) {
+      return Image.asset('assets/images/avatar.png', fit: BoxFit.cover);
+    } else {
+      return CachedNetworkImage(
+        imageUrl: avatarURL,
+        fit: BoxFit.cover,
+        errorWidget: (context, error, stackTrace) {
+          return Image.asset('assets/images/avatar.png', fit: BoxFit.cover);
+        },
+      );
+    }
   }
 }

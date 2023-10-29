@@ -16,11 +16,14 @@ class _PaginaAdminState extends State<PaginaAdmin> {
   @override
   void initState() {
     super.initState();
-    final controlador = context.read<PaginaAdminControlador>();
-    if (controlador.carregadoInitState == false) {
-      controlador.carregarUsuarios();
-      controlador.carregadoInitState = true;
-    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final controlador = context.read<PaginaAdminControlador>();
+      if (controlador.carregadoInitState == false) {
+        controlador.carregarUsuarios();
+        controlador.carregadoInitState = true;
+      }
+    });
   }
 
   @override

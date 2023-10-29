@@ -74,67 +74,70 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // FOTO DE PERFIL
-                          ListaDeUsuariosFoto(foto: listaUsuario.fotoUrl),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ListaDeUsuariosInfos(
-                                    cadastroConcluido: listaUsuario.cadastroConcluido,
-                                    email: listaUsuario.email,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      ListaDeUsuariosSwitchMaster(
-                                        controladorPaginaAdmin: controladorPaginaAdmin,
-                                        listaUsuarioId: listaUsuario.id,
-                                        listaUsuarioCadastroConcluido: listaUsuario.cadastroConcluido,
-                                        listaUsuarioAutorizado: listaUsuario.autorizado,
-                                        listaUsuarioMaster: listaUsuario.master,
-                                        listaUsuarioAdmin: listaUsuario.admin,
-                                        usuarioAtualId: usuarioAtual?.id ?? '',
-                                        usuarioAtualAdmin: usuarioAtual?.admin ?? false,
-                                        usuarioAtualAutorizado: usuarioAtual?.autorizado ?? false,
-                                        usuarioAtualMaster: usuarioAtual?.master ?? false,
-                                      ),
-                                      ListaDeUsuariosSwitchAdmin(
-                                        controladorPaginaAdmin: controladorPaginaAdmin,
-                                        listaUsuarioid: listaUsuario.id,
-                                        listaUsuarioCadastroConcluido: listaUsuario.cadastroConcluido,
-                                        listaUsuarioAutorizado: listaUsuario.autorizado,
-                                        listaUsuarioAmin: listaUsuario.admin,
-                                        listaUsuarioMaster: listaUsuario.master,
-                                        usuarioAtualId: usuarioAtual?.id ?? '',
-                                        usuarioAtualAdmin: usuarioAtual?.admin ?? false,
-                                        usuarioAtualAutorizado: usuarioAtual?.autorizado ?? false,
-                                        usuarioAtualMaster: usuarioAtual?.master ?? false,
-                                      ),
-                                      ListaDeUsuariosSwitchAutorizado(
-                                        controladorPaginaAdmin: controladorPaginaAdmin,
-                                        listaUsuarioid: listaUsuario.id,
-                                        listaUsuarioAutorizado: listaUsuario.autorizado,
-                                        listaUsuarioAdmin: listaUsuario.admin,
-                                        listaUsuarioMaster: listaUsuario.master,
-                                        usuarioAtualId: usuarioAtual?.id ?? '',
-                                        usuarioAtualAdmin: usuarioAtual?.admin ?? false,
-                                        usuarioAtualAutorizado: usuarioAtual?.autorizado ?? false,
-                                        usuarioAtualMaster: usuarioAtual?.master ?? false,
-                                      ),
-                                    ],
-                                  )
-                                ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // FOTO DE PERFIL
+                            ListaDeUsuariosFoto(foto: listaUsuario.fotoUrl),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ListaDeUsuariosInfos(
+                                      cadastroConcluido: listaUsuario.cadastroConcluido,
+                                      email: listaUsuario.email,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ListaDeUsuariosSwitchMaster(
+                                          controladorPaginaAdmin: controladorPaginaAdmin,
+                                          listaUsuarioId: listaUsuario.id,
+                                          listaUsuarioCadastroConcluido: listaUsuario.cadastroConcluido,
+                                          listaUsuarioAutorizado: listaUsuario.autorizado,
+                                          listaUsuarioMaster: listaUsuario.master,
+                                          listaUsuarioAdmin: listaUsuario.admin,
+                                          usuarioAtualId: usuarioAtual?.id ?? '',
+                                          usuarioAtualAdmin: usuarioAtual?.admin ?? false,
+                                          usuarioAtualAutorizado: usuarioAtual?.autorizado ?? false,
+                                          usuarioAtualMaster: usuarioAtual?.master ?? false,
+                                        ),
+                                        ListaDeUsuariosSwitchAdmin(
+                                          controladorPaginaAdmin: controladorPaginaAdmin,
+                                          listaUsuarioid: listaUsuario.id,
+                                          listaUsuarioCadastroConcluido: listaUsuario.cadastroConcluido,
+                                          listaUsuarioAutorizado: listaUsuario.autorizado,
+                                          listaUsuarioAmin: listaUsuario.admin,
+                                          listaUsuarioMaster: listaUsuario.master,
+                                          usuarioAtualId: usuarioAtual?.id ?? '',
+                                          usuarioAtualAdmin: usuarioAtual?.admin ?? false,
+                                          usuarioAtualAutorizado: usuarioAtual?.autorizado ?? false,
+                                          usuarioAtualMaster: usuarioAtual?.master ?? false,
+                                        ),
+                                        ListaDeUsuariosSwitchAutorizado(
+                                          controladorPaginaAdmin: controladorPaginaAdmin,
+                                          listaUsuarioid: listaUsuario.id,
+                                          listaUsuarioAutorizado: listaUsuario.autorizado,
+                                          listaUsuarioAdmin: listaUsuario.admin,
+                                          listaUsuarioMaster: listaUsuario.master,
+                                          usuarioAtualId: usuarioAtual?.id ?? '',
+                                          usuarioAtualAdmin: usuarioAtual?.admin ?? false,
+                                          usuarioAtualAutorizado: usuarioAtual?.autorizado ?? false,
+                                          usuarioAtualMaster: usuarioAtual?.master ?? false,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],

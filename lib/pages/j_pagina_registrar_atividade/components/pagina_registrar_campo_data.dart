@@ -3,6 +3,7 @@ import 'package:bl_runners_firebase/utils/validadores.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class PaginaRegistrarCampoData extends StatefulWidget {
   const PaginaRegistrarCampoData({super.key, required this.controlador});
@@ -31,7 +32,7 @@ class _PaginaRegistrarCampoDataState extends State<PaginaRegistrarCampoData> {
           DateTime? pegarData = await showDatePicker(
             context: context,
             initialDate: DateTime.now(),
-            firstDate: DateTime.now().subtract(const Duration(days: 3)),
+            firstDate: DateTime.now().subtract(const Duration(days: 2)),
             lastDate: DateTime.now(),
             helpText: 'Que dia você correu?',
             builder: (context, child) {
@@ -78,10 +79,14 @@ class _PaginaRegistrarCampoDataState extends State<PaginaRegistrarCampoData> {
                 pegarData.day,
                 pegarHora.hour,
                 pegarHora.minute,
-              );
+              ).toLocal();
 
-              Timestamp pegarHoraTimeStamp = Timestamp.fromDate(dataHoraSelecionada.toUtc());
-              String dataHoraFormatada = DateFormat('dd/MM/yyyy HH:mm').format(dataHoraSelecionada);
+              // Obtenha o fuso horário de São Paulo
+              var saoPauloTimeZone = tz.getLocation('America/Sao_Paulo');
+              var saoPauloDateTime = tz.TZDateTime.from(dataHoraSelecionada, saoPauloTimeZone);
+
+              Timestamp pegarHoraTimeStamp = Timestamp.fromDate(saoPauloDateTime);
+              String dataHoraFormatada = DateFormat.yMd('pt_BR').add_jms().format(saoPauloDateTime);
 
               setState(() {
                 widget.controlador.dataHoraSelecionada = pegarHoraTimeStamp;

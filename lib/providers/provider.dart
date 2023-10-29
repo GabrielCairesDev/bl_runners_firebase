@@ -59,7 +59,7 @@ class AppProvider {
     Provider<RegistrarUsuarioUseCase>(create: (context) => FirebaseRegistrarUsuario()),
     Provider<SairUseCase>(create: (context) => FirebaseSair()),
     Provider<ExcluirContaUseCase>(create: (context) => FirebaseExcluirConta()),
-    Provider<EditarPerfil>(create: (context) => FireBaseEditarPerfil()),
+    Provider<EditarPerfilUseCase>(create: (context) => FireBaseEditarPerfil()),
     Provider<ConcluirCadastroUseCase>(create: (context) => FireBaseConcluirCadastro()),
     Provider<RecuperarContaUseCase>(create: (context) => FirebaseRecuperarConta()),
     Provider<PegarUsuariosUseCase>(create: (context) => FirebasePegarUsuarios()),

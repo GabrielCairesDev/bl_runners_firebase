@@ -57,7 +57,7 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
     final internet = await Connectivity().checkConnectivity();
 
     if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
-    if (usuarioAutorizado == false) throw 'Você não autorizado, peça para um administrador!';
+    if (usuarioAutorizado == false) throw 'Você não está autorizado, peça para um administrador!';
 
     if (globalKeyPaginaConcluirCadastro.currentState!.validate()) {
       try {
@@ -65,7 +65,7 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
 
         final resultado = await concluirCadastroUseCase(
           imagemArquivo: imagemArquivo,
-          dataNascimento: dataNascimento as Timestamp,
+          dataNascimento: dataNascimento ?? Timestamp.now(),
           genero: controladorGenero.toString(),
           nome: controladorNome.text,
         );
