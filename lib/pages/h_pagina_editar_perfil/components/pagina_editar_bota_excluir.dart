@@ -41,6 +41,7 @@ class PaginaEditarBotaoExcluir extends StatelessWidget {
   }
 
   _excluirConta(BuildContext context) async {
+    context.pop();
     await controladorPerfilControlador
         .excluirConta(idUsuario: controladorPegarUsuarioAtual.usuarioAtual?.id)
         .then((value) => _excluirContaSucesso(context, value))
@@ -54,7 +55,6 @@ class PaginaEditarBotaoExcluir extends StatelessWidget {
   }
 
   _excluirContaErro(BuildContext context, onError) {
-    context.pop();
     Mensagens.mensagemErro(context, texto: onError);
     logger.e(onError);
   }

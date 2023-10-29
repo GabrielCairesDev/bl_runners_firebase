@@ -19,17 +19,23 @@ class CompararRelogioLocal {
     for (String servidor in servidores) {
       try {
         DateTime horarioDipositivo = DateTime.now();
-        final int offset = await NTP.getNtpOffset(localTime: horarioDipositivo, lookUpAddress: servidor);
-        DateTime horarioServidor = horarioDipositivo.add(Duration(milliseconds: offset));
+        final int offset = await NTP.getNtpOffset(
+            localTime: horarioDipositivo, lookUpAddress: servidor);
+        DateTime horarioServidor =
+            horarioDipositivo.add(Duration(milliseconds: offset));
 
-        final int diferenca = horarioDipositivo.difference(horarioServidor).inMinutes;
-        if (diferenca > diferencaMinutos || diferenca < diferencaMinutos) {
+        final int diferenca =
+            horarioDipositivo.difference(horarioServidor).inMinutes;
+        if (diferenca > diferencaMinutos || diferenca < -diferencaMinutos) {
           resultado = ChecarHorarioResultado.horarioDiferente;
-          debugPrint('Servidor: $servidor | Horário Servidor: $horarioServidor | Horário Dispositivo: $horarioDipositivo');
+          debugPrint(
+              'Servidor: $servidor | Horário Servidor: $horarioServidor | Horário Dispositivo: $horarioDipositivo');
           debugPrint('Diferença de tempo em minutos: $diferenca');
+          break;
         } else {
           resultado = ChecarHorarioResultado.horarioCorreto;
-          debugPrint('Servidor: $servidor | Horário Servidor: $horarioServidor | Horário Dispositivo: $horarioDipositivo');
+          debugPrint(
+              'Servidor: $servidor | Horário Servidor: $horarioServidor | Horário Dispositivo: $horarioDipositivo');
           debugPrint('Diferença aceita: $diferenca');
           break;
         }
