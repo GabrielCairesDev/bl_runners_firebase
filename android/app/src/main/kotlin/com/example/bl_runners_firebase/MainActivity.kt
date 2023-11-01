@@ -1,4 +1,4 @@
-package com.example.bl_runners_firebase
+package com.gabrielcairesdev.bl_runners_firebase
 
 import io.flutter.embedding.android.FlutterActivity
 

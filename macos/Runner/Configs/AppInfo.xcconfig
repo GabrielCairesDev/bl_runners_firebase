@@ -8,7 +8,7 @@
 PRODUCT_NAME = bl_runners_firebase
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.blRunnersFirebase
+PRODUCT_BUNDLE_IDENTIFIER = com.gabrielcairesdev.blRunnersFirebase
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2023 com.gabrielcairesdev. All rights reserved.

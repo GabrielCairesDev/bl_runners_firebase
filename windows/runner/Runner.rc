@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
+            VALUE "CompanyName", "com.gabrielcairesdev" "\0"
             VALUE "FileDescription", "bl_runners_firebase" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "bl_runners_firebase" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 com.gabrielcairesdev. All rights reserved." "\0"
             VALUE "OriginalFilename", "bl_runners_firebase.exe" "\0"
             VALUE "ProductName", "bl_runners_firebase" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
