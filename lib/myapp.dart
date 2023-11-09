@@ -1,5 +1,5 @@
-import 'package:bl_runners_firebase/routes/rotas.dart';
-import 'package:bl_runners_firebase/themes/default_theme.dart';
+import 'package:bl_runners_app/routes/rotas.dart';
+import 'package:bl_runners_app/themes/default_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 

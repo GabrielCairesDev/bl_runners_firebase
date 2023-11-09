@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/pages/i_pagina_admin/controller/pagina_admin_controlador.dart';
+import 'package:bl_runners_app/pages/i_pagina_admin/controller/pagina_admin_controlador.dart';
 import 'package:flutter/material.dart';
 
 class PaginaAdminPesquisar extends StatelessWidget {

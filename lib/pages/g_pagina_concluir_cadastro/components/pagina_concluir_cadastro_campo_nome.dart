@@ -1,18 +1,22 @@
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/utils/validadores.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../controller/pagina_concluir_cadastro_controlador.dart';
 
 class PaginaConcluirCampoNome extends StatefulWidget {
-  const PaginaConcluirCampoNome({super.key, required this.controladorConcluirCadastro, required this.controladorPegarUsuario});
+  const PaginaConcluirCampoNome(
+      {super.key,
+      required this.controladorConcluirCadastro,
+      required this.controladorPegarUsuario});
 
   final PaginaConcluirCadastroControlador controladorConcluirCadastro;
   final PegarUsuarioAtual controladorPegarUsuario;
 
   @override
-  State<PaginaConcluirCampoNome> createState() => _PaginaConcluirCampoNomeState();
+  State<PaginaConcluirCampoNome> createState() =>
+      _PaginaConcluirCampoNomeState();
 }
 
 class _PaginaConcluirCampoNomeState extends State<PaginaConcluirCampoNome> {
@@ -20,7 +24,8 @@ class _PaginaConcluirCampoNomeState extends State<PaginaConcluirCampoNome> {
   void initState() {
     super.initState();
 
-    widget.controladorConcluirCadastro.controladorNome.text = widget.controladorPegarUsuario.usuarioAtual?.nome ?? '';
+    widget.controladorConcluirCadastro.controladorNome.text =
+        widget.controladorPegarUsuario.usuarioAtual?.nome ?? '';
   }
 
   @override
@@ -29,12 +34,17 @@ class _PaginaConcluirCampoNomeState extends State<PaginaConcluirCampoNome> {
       controller: widget.controladorConcluirCadastro.controladorNome,
       validator: Validador.nome,
       inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZáÁâÂãÃàÀéÉêÊíÍóÓôÔõÕúÚüÜçÇ ]')),
+        FilteringTextInputFormatter.allow(
+            RegExp(r'[a-zA-ZáÁâÂãÃàÀéÉêÊíÍóÓôÔõÕúÚüÜçÇ ]')),
       ],
       onChanged: (value) {
-        widget.controladorConcluirCadastro.controladorNome.text = _observarPalavras(value);
-        widget.controladorConcluirCadastro.controladorNome.selection = TextSelection.fromPosition(
-          TextPosition(offset: widget.controladorConcluirCadastro.controladorNome.text.length),
+        widget.controladorConcluirCadastro.controladorNome.text =
+            _observarPalavras(value);
+        widget.controladorConcluirCadastro.controladorNome.selection =
+            TextSelection.fromPosition(
+          TextPosition(
+              offset: widget
+                  .controladorConcluirCadastro.controladorNome.text.length),
         );
       },
       decoration: const InputDecoration(

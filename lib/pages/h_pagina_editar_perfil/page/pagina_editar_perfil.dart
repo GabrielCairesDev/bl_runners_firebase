@@ -1,7 +1,7 @@
-import 'package:bl_runners_firebase/pages/h_pagina_editar_perfil/components/pagina_editar_bota_excluir.dart';
-import 'package:bl_runners_firebase/pages/h_pagina_editar_perfil/components/pagina_editar_perfil_foto.dart';
-import 'package:bl_runners_firebase/pages/h_pagina_editar_perfil/components/pagina_editar_perfil_nome.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/pages/h_pagina_editar_perfil/components/pagina_editar_bota_excluir.dart';
+import 'package:bl_runners_app/pages/h_pagina_editar_perfil/components/pagina_editar_perfil_foto.dart';
+import 'package:bl_runners_app/pages/h_pagina_editar_perfil/components/pagina_editar_perfil_nome.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,8 +15,10 @@ class PaginaEditarPerfil extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controladorEditarPerfil = Provider.of<PaginaEditarPerfilControlador>(context);
-    final controladorPegarUsuarioAtual = Provider.of<PegarUsuarioAtual>(context);
+    final controladorEditarPerfil =
+        Provider.of<PaginaEditarPerfilControlador>(context);
+    final controladorPegarUsuarioAtual =
+        Provider.of<PegarUsuarioAtual>(context);
     return AbsorbPointer(
       absorbing: controladorEditarPerfil.carregando,
       child: Scaffold(
@@ -49,12 +51,14 @@ class PaginaEditarPerfil extends StatelessWidget {
                       const SizedBox(height: 8),
                       PaginaEditarPerfilFoto(
                         controladorEditarPerfil: controladorEditarPerfil,
-                        controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
+                        controladorPegarUsuarioAtual:
+                            controladorPegarUsuarioAtual,
                       ),
                       const SizedBox(height: 8),
                       PaginaEditarBotaoEditar(
                         controlador: controladorEditarPerfil,
-                        controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
+                        controladorPegarUsuarioAtual:
+                            controladorPegarUsuarioAtual,
                       )
                     ],
                   ),

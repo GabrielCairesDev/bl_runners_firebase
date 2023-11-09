@@ -1,18 +1,18 @@
-import 'package:bl_runners_firebase/extensions/data_formatada_exetension.dart';
-import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/utils/utilitarios.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_botao_excluir.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_data_extenso.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_distancia.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_foto_perfil.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_medalha.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_nome_usuario.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_ritmo.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_tempo.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_posicao.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_tipo_atividade.dart';
+import 'package:bl_runners_app/extensions/data_formatada_exetension.dart';
+import 'package:bl_runners_app/models/modelo_de_atividade.dart';
+import 'package:bl_runners_app/models/modelo_de_usuario.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/utils/utilitarios.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_botao_excluir.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_data_extenso.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_distancia.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_foto_perfil.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_medalha.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_nome_usuario.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_ritmo.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_tempo.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_posicao.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_tipo_atividade.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -55,11 +55,16 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
       child: ListView.builder(
         padding: widget.paginaPerfil ? EdgeInsets.zero : null,
         shrinkWrap: true,
-        physics: widget.paginaPerfil ? const NeverScrollableScrollPhysics() : null,
-        itemCount: widget.listaDeAtividades.isNotEmpty ? widget.listaDeAtividades.length : 0,
+        physics:
+            widget.paginaPerfil ? const NeverScrollableScrollPhysics() : null,
+        itemCount: widget.listaDeAtividades.isNotEmpty
+            ? widget.listaDeAtividades.length
+            : 0,
         itemBuilder: (context, index) {
           final atividadeLista = widget.listaDeAtividades[index];
-          final usuarioLista = widget.listaDeUsuarios.where((usuario) => usuario.id == atividadeLista.idUsuario).first;
+          final usuarioLista = widget.listaDeUsuarios
+              .where((usuario) => usuario.id == atividadeLista.idUsuario)
+              .first;
 
           Timestamp data = atividadeLista.dataAtividade;
           String dataExtenso = data.toDate().diaMesAnoHoraPorExetenso;
@@ -74,7 +79,9 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                   height: MediaQuery.of(context).size.height * 0.155,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: usuarioLista.genero == 'Masculino' ? Colors.blue : Colors.pink,
+                    color: usuarioLista.genero == 'Masculino'
+                        ? Colors.blue
+                        : Colors.pink,
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
@@ -102,7 +109,9 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                         Visibility(
                           visible: widget.mostrarBotaoExlcuir,
                           child: ListaDeAtividadeBotaoExcluir(
-                            usuarioAtualID: widget.controladorPegarUsuarioAtual.usuarioAtual?.id ?? '',
+                            usuarioAtualID: widget.controladorPegarUsuarioAtual
+                                    .usuarioAtual?.id ??
+                                '',
                             usuarioListaID: usuarioLista.id,
                             atividadeListaID: atividadeLista.idAtividade,
                           ),
@@ -135,35 +144,50 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             // FOTO DO PERFIL
-                            ListaDeAtividadeFotoPerfil(foto: usuarioLista.fotoUrl),
+                            ListaDeAtividadeFotoPerfil(
+                                foto: usuarioLista.fotoUrl),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 4, vertical: 2),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         // NOME DO USUÁRIO
-                                        ListaAtividadeNomeUsuario(nome: usuarioLista.nome),
+                                        ListaAtividadeNomeUsuario(
+                                            nome: usuarioLista.nome),
                                         // TIPO DE ATIVIDADE OU MEDALHA
                                         widget.listasSomadas == true
-                                            ? ListaDeAtividadeMedalha(index: index)
-                                            : ListaDeAtividadeTipoAtividade(tipo: atividadeLista.tipo),
+                                            ? ListaDeAtividadeMedalha(
+                                                index: index)
+                                            : ListaDeAtividadeTipoAtividade(
+                                                tipo: atividadeLista.tipo),
                                       ],
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         // DISTÂNCIA
-                                        ListaDeAtividadeDistancia(distancia: atividadeLista.distancia),
+                                        ListaDeAtividadeDistancia(
+                                            distancia:
+                                                atividadeLista.distancia),
                                         // RITMO
                                         ListaDeAtividadeRitmo(
-                                            ritmo: Utilitarios().calcularRitmo(atividadeLista.distancia, atividadeLista.tempo)),
+                                            ritmo: Utilitarios().calcularRitmo(
+                                                atividadeLista.distancia,
+                                                atividadeLista.tempo)),
                                         // TEMPO
-                                        ListaDeAtivdadeTempo(tempo: Utilitarios().formatarTempo(atividadeLista.tempo)),
+                                        ListaDeAtivdadeTempo(
+                                            tempo: Utilitarios().formatarTempo(
+                                                atividadeLista.tempo)),
                                       ],
                                     ),
                                   ],

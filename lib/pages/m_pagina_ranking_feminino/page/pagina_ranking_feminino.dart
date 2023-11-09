@@ -1,7 +1,7 @@
-import 'package:bl_runners_firebase/pages/m_pagina_ranking_feminino/components/pagina_ranking_feminino_botao_filtro.dart';
-import 'package:bl_runners_firebase/pages/m_pagina_ranking_feminino/controller/pagina_ranking_feminino_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_widget.dart';
+import 'package:bl_runners_app/pages/m_pagina_ranking_feminino/components/pagina_ranking_feminino_botao_filtro.dart';
+import 'package:bl_runners_app/pages/m_pagina_ranking_feminino/controller/pagina_ranking_feminino_controlador.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,8 +27,10 @@ class _PaginaRankingFemininoState extends State<PaginaRankingFeminino> {
 
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRankingFeminino = Provider.of<PaginaRankingFemininoControlador>(context);
-    final controladorPegarUsuarioAtual = Provider.of<PegarUsuarioAtual>(context);
+    final controladorPaginaRankingFeminino =
+        Provider.of<PaginaRankingFemininoControlador>(context);
+    final controladorPegarUsuarioAtual =
+        Provider.of<PegarUsuarioAtual>(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -65,8 +67,10 @@ class _PaginaRankingFemininoState extends State<PaginaRankingFeminino> {
               controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
               mostrarBotaoExlcuir: false,
               listasSomadas: true,
-              carregarAtividades: controladorPaginaRankingFeminino.carregarAtividades,
-              listaDeAtividades: controladorPaginaRankingFeminino.listaDeAtividades,
+              carregarAtividades:
+                  controladorPaginaRankingFeminino.carregarAtividades,
+              listaDeAtividades:
+                  controladorPaginaRankingFeminino.listaDeAtividades,
               listaDeUsuarios: controladorPaginaRankingFeminino.listaDeUsuarios,
               anoFiltro: controladorPaginaRankingFeminino.anoFiltro,
               mesFiltro: controladorPaginaRankingFeminino.mesFiltro,

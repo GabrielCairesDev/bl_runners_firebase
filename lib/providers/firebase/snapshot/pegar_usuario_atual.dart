@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
+import 'package:bl_runners_app/models/modelo_de_usuario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,10 @@ class PegarUsuarioAtual extends ChangeNotifier {
     if (currentUser != null) {
       await currentUser.reload();
 
-      final documento = FirebaseFirestore.instance.collection('usuarios').doc(currentUser.uid).snapshots();
+      final documento = FirebaseFirestore.instance
+          .collection('usuarios')
+          .doc(currentUser.uid)
+          .snapshots();
 
       documento.listen(
         (snapshot) {

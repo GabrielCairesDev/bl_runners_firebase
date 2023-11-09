@@ -1,6 +1,6 @@
-import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
+import 'package:bl_runners_app/main.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,7 +30,9 @@ class PaginaConcluirBotaoConcluir extends StatelessWidget {
 
   _concluirCadastro(BuildContext context) async {
     await controladorConcluirCadastro
-        .concluirCadastro(usuarioAutorizado: controladorPegarUsuario.usuarioAtual?.autorizado ?? false)
+        .concluirCadastro(
+            usuarioAutorizado:
+                controladorPegarUsuario.usuarioAtual?.autorizado ?? false)
         .then((value) => _concluirCadastroSucesso(context, value))
         .catchError((onError) => _concluirCadastroErro(context, onError));
   }

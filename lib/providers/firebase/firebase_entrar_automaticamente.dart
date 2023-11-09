@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/interfaces/entrar_automaticamente_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/entrar_automaticamente_use_case.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseEntrarAutomaticamente extends EntrarAutomaticamenteUseCase {
@@ -12,7 +12,8 @@ class FirebaseEntrarAutomaticamente extends EntrarAutomaticamenteUseCase {
       try {
         if (currentUser.isAnonymous) throw 'Crendenciais invalidas!';
         if (!currentUser.emailVerified) throw 'O e-mail não está verificado!';
-        if (entrarAutomaticamente == false) throw 'Entrar automaticamente está desativado!';
+        if (entrarAutomaticamente == false)
+          throw 'Entrar automaticamente está desativado!';
 
         return 'Entrou automaticamente!';
       } catch (e) {

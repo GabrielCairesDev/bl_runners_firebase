@@ -1,6 +1,6 @@
-import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/pages/a_home_page/controller/home_page_controller.dart';
-import 'package:bl_runners_firebase/routes/rotas.dart';
+import 'package:bl_runners_app/main.dart';
+import 'package:bl_runners_app/pages/a_home_page/controller/home_page_controller.dart';
+import 'package:bl_runners_app/routes/rotas.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';

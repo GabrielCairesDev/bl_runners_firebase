@@ -1,7 +1,7 @@
-import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/routes/rotas.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
+import 'package:bl_runners_app/main.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/routes/rotas.dart';
+import 'package:bl_runners_app/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

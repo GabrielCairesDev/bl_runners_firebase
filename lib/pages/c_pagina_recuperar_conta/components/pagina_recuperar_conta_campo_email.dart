@@ -1,5 +1,5 @@
-import 'package:bl_runners_firebase/pages/c_pagina_recuperar_conta/controller/pagina_recuperar_conta_controlador.dart';
-import 'package:bl_runners_firebase/utils/validadores.dart';
+import 'package:bl_runners_app/pages/c_pagina_recuperar_conta/controller/pagina_recuperar_conta_controlador.dart';
+import 'package:bl_runners_app/utils/validadores.dart';
 import 'package:flutter/material.dart';
 
 class PaginaRecuperarContaCampoEmail extends StatelessWidget {

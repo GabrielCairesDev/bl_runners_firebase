@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/pages/i_pagina_admin/controller/pagina_admin_controlador.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
+import 'package:bl_runners_app/main.dart';
+import 'package:bl_runners_app/pages/i_pagina_admin/controller/pagina_admin_controlador.dart';
+import 'package:bl_runners_app/widgets/mensagens.dart';
 
 class ListaDeUsuariosSwitchAutorizado extends StatefulWidget {
   const ListaDeUsuariosSwitchAutorizado({
@@ -30,10 +30,12 @@ class ListaDeUsuariosSwitchAutorizado extends StatefulWidget {
   final PaginaAdminControlador controladorPaginaAdmin;
 
   @override
-  State<ListaDeUsuariosSwitchAutorizado> createState() => _ListaDeUsuariosSwitchAutorizadoState();
+  State<ListaDeUsuariosSwitchAutorizado> createState() =>
+      _ListaDeUsuariosSwitchAutorizadoState();
 }
 
-class _ListaDeUsuariosSwitchAutorizadoState extends State<ListaDeUsuariosSwitchAutorizado> {
+class _ListaDeUsuariosSwitchAutorizadoState
+    extends State<ListaDeUsuariosSwitchAutorizado> {
   bool _switch = false;
 
   @override

@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:bl_runners_firebase/providers/interfaces/concluir_cadastro_use_case.dart';
-import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/concluir_cadastro_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/excluir_conta_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,8 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
 
   final TextEditingController controladorSenha = TextEditingController();
 
-  final GlobalKey<FormState> globalKeyPaginaConcluirCadastro = GlobalKey<FormState>();
+  final GlobalKey<FormState> globalKeyPaginaConcluirCadastro =
+      GlobalKey<FormState>();
 
   bool carregando = false;
 
@@ -56,8 +57,10 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
   Future<String> concluirCadastro({required bool usuarioAutorizado}) async {
     final internet = await Connectivity().checkConnectivity();
 
-    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
-    if (usuarioAutorizado == false) throw 'Você não está autorizado, peça para um administrador!';
+    if (internet == ConnectivityResult.none)
+      throw 'Sem conexão com a internet!';
+    if (usuarioAutorizado == false)
+      throw 'Você não está autorizado, peça para um administrador!';
 
     if (globalKeyPaginaConcluirCadastro.currentState!.validate()) {
       try {
@@ -84,7 +87,8 @@ class PaginaConcluirCadastroControlador extends ChangeNotifier {
   Future<String> excluirConta({required String? idUsuario}) async {
     final internet = await Connectivity().checkConnectivity();
 
-    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+    if (internet == ConnectivityResult.none)
+      throw 'Sem conexão com a internet!';
     if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
 
     try {

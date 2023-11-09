@@ -1,5 +1,5 @@
-import 'package:bl_runners_firebase/pages/j_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
-import 'package:bl_runners_firebase/utils/validadores.dart';
+import 'package:bl_runners_app/pages/j_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
+import 'package:bl_runners_app/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -58,7 +58,8 @@ class _PaginaRegistrarTipoState extends State<PaginaRegistrarTipo> {
                         child: const Center(
                           child: Text(
                             'Treino',
-                            style: TextStyle(fontSize: 20, color: Colors.blueGrey),
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.blueGrey),
                           ),
                         ),
                       ),
@@ -82,7 +83,8 @@ class _PaginaRegistrarTipoState extends State<PaginaRegistrarTipo> {
                         child: const Center(
                           child: Text(
                             'Prova',
-                            style: TextStyle(fontSize: 20, color: Colors.blueGrey),
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.blueGrey),
                           ),
                         ),
                       ),

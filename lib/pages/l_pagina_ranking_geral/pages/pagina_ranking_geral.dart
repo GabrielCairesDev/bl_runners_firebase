@@ -1,7 +1,7 @@
-import 'package:bl_runners_firebase/pages/l_pagina_ranking_geral/components/pagina_ranking_geral_botao_filtro.dart';
-import 'package:bl_runners_firebase/pages/l_pagina_ranking_geral/controller/pagina_ranking_geral_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_widget.dart';
+import 'package:bl_runners_app/pages/l_pagina_ranking_geral/components/pagina_ranking_geral_botao_filtro.dart';
+import 'package:bl_runners_app/pages/l_pagina_ranking_geral/controller/pagina_ranking_geral_controlador.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,8 +27,10 @@ class _PaginaRankingGeralState extends State<PaginaRankingGeral> {
 
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRankingGeral = Provider.of<PaginaRankingGeralControlador>(context);
-    final controladorPegarUsuarioAtual = Provider.of<PegarUsuarioAtual>(context);
+    final controladorPaginaRankingGeral =
+        Provider.of<PaginaRankingGeralControlador>(context);
+    final controladorPegarUsuarioAtual =
+        Provider.of<PegarUsuarioAtual>(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -65,8 +67,10 @@ class _PaginaRankingGeralState extends State<PaginaRankingGeral> {
               controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
               mostrarBotaoExlcuir: false,
               listasSomadas: true,
-              carregarAtividades: controladorPaginaRankingGeral.carregarAtividades,
-              listaDeAtividades: controladorPaginaRankingGeral.listaDeAtividades,
+              carregarAtividades:
+                  controladorPaginaRankingGeral.carregarAtividades,
+              listaDeAtividades:
+                  controladorPaginaRankingGeral.listaDeAtividades,
               listaDeUsuarios: controladorPaginaRankingGeral.listaDeUsuarios,
               anoFiltro: controladorPaginaRankingGeral.anoFiltro,
               mesFiltro: controladorPaginaRankingGeral.mesFiltro,

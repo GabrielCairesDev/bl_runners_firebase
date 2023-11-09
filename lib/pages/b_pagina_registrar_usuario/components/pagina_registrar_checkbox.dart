@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/pages/b_pagina_registrar_usuario/controller/pagina_registrar_controlador.dart';
+import 'package:bl_runners_app/pages/b_pagina_registrar_usuario/controller/pagina_registrar_controlador.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -9,7 +9,8 @@ class PaginaRegistrarCheckBox extends StatefulWidget {
   final PaginaRegistrarUsuarioControlador controlador;
 
   @override
-  State<PaginaRegistrarCheckBox> createState() => _PaginaRegistrarCheckBoxState();
+  State<PaginaRegistrarCheckBox> createState() =>
+      _PaginaRegistrarCheckBoxState();
 }
 
 class _PaginaRegistrarCheckBoxState extends State<PaginaRegistrarCheckBox> {
@@ -48,7 +49,8 @@ class _PaginaRegistrarCheckBoxState extends State<PaginaRegistrarCheckBox> {
                     color: Colors.blue,
                     decoration: TextDecoration.underline,
                   ),
-                  recognizer: TapGestureRecognizer()..onTap = () => termosPoliticaPrivacidade(context),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => termosPoliticaPrivacidade(context),
                 ),
               ],
             ),

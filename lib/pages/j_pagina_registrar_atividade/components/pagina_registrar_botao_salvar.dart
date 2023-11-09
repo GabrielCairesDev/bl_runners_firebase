@@ -1,9 +1,9 @@
-import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/pages/j_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
-import 'package:bl_runners_firebase/pages/k_pagina_inicio/controller/pagina_inicio_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/routes/rotas.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
+import 'package:bl_runners_app/main.dart';
+import 'package:bl_runners_app/pages/j_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
+import 'package:bl_runners_app/pages/k_pagina_inicio/controller/pagina_inicio_controlador.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/routes/rotas.dart';
+import 'package:bl_runners_app/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -42,7 +42,8 @@ class PaginaRegistrarBotaoSalvar extends StatelessWidget {
     await controladorPaginaRegistrarAtividade
         .registrarAtividade(
             idUsuario: controladorPegarUsuarioAtual.usuarioAtual?.id,
-            usuarioAutorizado: controladorPegarUsuarioAtual.usuarioAtual?.autorizado ?? false)
+            usuarioAutorizado:
+                controladorPegarUsuarioAtual.usuarioAtual?.autorizado ?? false)
         .then((value) => _registrarAtividadeSucesso(context, value))
         .catchError((onError) => _registrarAtividadeErro(context, onError));
   }

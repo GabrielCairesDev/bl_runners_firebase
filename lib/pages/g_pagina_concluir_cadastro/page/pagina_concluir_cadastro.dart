@@ -1,5 +1,5 @@
-import 'package:bl_runners_firebase/pages/g_pagina_concluir_cadastro/components/pagina_concluir_cadastro_botao_excluir.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/pages/g_pagina_concluir_cadastro/components/pagina_concluir_cadastro_botao_excluir.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +16,8 @@ class PaginaConcluirCadastro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controladorConcluirCadastro = Provider.of<PaginaConcluirCadastroControlador>(context);
+    final controladorConcluirCadastro =
+        Provider.of<PaginaConcluirCadastroControlador>(context);
     final controladorPegarUsuario = Provider.of<PegarUsuarioAtual>(context);
     return AbsorbPointer(
       absorbing: controladorConcluirCadastro.carregando,
@@ -30,24 +31,32 @@ class PaginaConcluirCadastro extends StatelessWidget {
             child: Stack(
               children: [
                 Form(
-                  key: controladorConcluirCadastro.globalKeyPaginaConcluirCadastro,
+                  key: controladorConcluirCadastro
+                      .globalKeyPaginaConcluirCadastro,
                   child: Column(
                     children: [
                       PaginaConcluirCampoNome(
-                        controladorConcluirCadastro: controladorConcluirCadastro,
+                        controladorConcluirCadastro:
+                            controladorConcluirCadastro,
                         controladorPegarUsuario: controladorPegarUsuario,
                       ),
                       const SizedBox(height: 16),
-                      PaginaRegistrarCampoGenero(controladorConcluirCadastro: controladorConcluirCadastro),
+                      PaginaRegistrarCampoGenero(
+                          controladorConcluirCadastro:
+                              controladorConcluirCadastro),
                       const SizedBox(height: 16),
                       PaginaConcluirCampoNascimento(
-                          controladorConcluirCadastro: controladorConcluirCadastro,
+                          controladorConcluirCadastro:
+                              controladorConcluirCadastro,
                           controladorPegarUsuario: controladorPegarUsuario),
                       const SizedBox(height: 16),
-                      PaginaConcluirCampoFoto(controladorConcluirCadastro: controladorConcluirCadastro),
+                      PaginaConcluirCampoFoto(
+                          controladorConcluirCadastro:
+                              controladorConcluirCadastro),
                       const SizedBox(height: 16),
                       PaginaConcluirBotaoConcluir(
-                        controladorConcluirCadastro: controladorConcluirCadastro,
+                        controladorConcluirCadastro:
+                            controladorConcluirCadastro,
                         controladorPegarUsuario: controladorPegarUsuario,
                       ),
                     ],

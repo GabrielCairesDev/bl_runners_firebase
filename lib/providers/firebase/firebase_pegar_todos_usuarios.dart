@@ -1,5 +1,5 @@
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/providers/interfaces/pegar_todos_usuarios_use_case.dart';
+import 'package:bl_runners_app/models/modelo_de_usuario.dart';
+import 'package:bl_runners_app/providers/interfaces/pegar_todos_usuarios_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -16,7 +16,8 @@ class FirebasePegarTodosUsuario extends PegarTodosUsuariosUseCase {
     if (currentUser != null) {
       await currentUser.reload();
       try {
-        final usuarios = await FirebaseFirestore.instance.collection('usuarios').get();
+        final usuarios =
+            await FirebaseFirestore.instance.collection('usuarios').get();
         if (usuarios.docs.isEmpty) throw 'Não existem usuários registrados';
 
         for (var usuario in usuarios.docs) {

@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/utils/validadores.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/utils/validadores.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,7 +10,10 @@ import 'package:provider/provider.dart';
 import '../controller/pagina_editar_perfil_controlador.dart';
 
 class PaginaEditarPerfilFoto extends StatefulWidget {
-  const PaginaEditarPerfilFoto({super.key, required this.controladorEditarPerfil, required this.controladorPegarUsuarioAtual});
+  const PaginaEditarPerfilFoto(
+      {super.key,
+      required this.controladorEditarPerfil,
+      required this.controladorPegarUsuarioAtual});
 
   final PaginaEditarPerfilControlador controladorEditarPerfil;
   final PegarUsuarioAtual controladorPegarUsuarioAtual;
@@ -45,8 +48,13 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
               fillColor: const Color(0xFFEFEFEF),
               hintText: 'Foto do Perfil',
               labelText: 'Foto do Perfil',
-              hintStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.black),
-              border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10)),
+              hintStyle: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18,
+                  color: Colors.black),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10)),
             ),
             readOnly: true,
             onTap: () async {
@@ -68,7 +76,8 @@ class _PaginaEditarPerfilFotoState extends State<PaginaEditarPerfilFoto> {
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(50.0),
                       child: Image.file(
-                        File(widget.controladorEditarPerfil.imagemArquivo!.path),
+                        File(
+                            widget.controladorEditarPerfil.imagemArquivo!.path),
                         fit: BoxFit.cover,
                       ),
                     ),

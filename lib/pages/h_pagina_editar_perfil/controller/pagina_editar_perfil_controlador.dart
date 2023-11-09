@@ -5,8 +5,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:bl_runners_firebase/providers/interfaces/editar_perfil_use_case.dart';
-import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/editar_perfil_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/excluir_conta_use_case.dart';
 
 class PaginaEditarPerfilControlador extends ChangeNotifier {
   PaginaEditarPerfilControlador({
@@ -30,7 +30,8 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   XFile? imagemCaminho;
   File? imagemArquivo;
 
-  final GlobalKey<FormState> globalKeyPaginaEditarPerfil = GlobalKey<FormState>();
+  final GlobalKey<FormState> globalKeyPaginaEditarPerfil =
+      GlobalKey<FormState>();
 
   Future<void> pegarFoto(ImageSource source) async {
     try {
@@ -55,7 +56,8 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   Future<String> editarPerfil({required String? idUsuario}) async {
     final internet = await Connectivity().checkConnectivity();
 
-    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+    if (internet == ConnectivityResult.none)
+      throw 'Sem conexão com a internet!';
     if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
 
     if (globalKeyPaginaEditarPerfil.currentState!.validate()) {
@@ -80,7 +82,8 @@ class PaginaEditarPerfilControlador extends ChangeNotifier {
   Future<String> excluirConta({required String? idUsuario}) async {
     final internet = await Connectivity().checkConnectivity();
 
-    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+    if (internet == ConnectivityResult.none)
+      throw 'Sem conexão com a internet!';
     if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
 
     try {

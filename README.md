@@ -1,4 +1,4 @@
-# bl_runners_firebase
+# bl_runners_app
 
 A new Flutter project.
 

@@ -1,7 +1,7 @@
-import 'package:bl_runners_firebase/pages/d_pagina_entrar/components/pagina_entrar_logo.dart';
-import 'package:bl_runners_firebase/pages/c_pagina_recuperar_conta/components/pagina_recuperar_conta_botao.dart';
-import 'package:bl_runners_firebase/pages/c_pagina_recuperar_conta/components/pagina_recuperar_conta_campo_email.dart';
-import 'package:bl_runners_firebase/pages/c_pagina_recuperar_conta/controller/pagina_recuperar_conta_controlador.dart';
+import 'package:bl_runners_app/pages/d_pagina_entrar/components/pagina_entrar_logo.dart';
+import 'package:bl_runners_app/pages/c_pagina_recuperar_conta/components/pagina_recuperar_conta_botao.dart';
+import 'package:bl_runners_app/pages/c_pagina_recuperar_conta/components/pagina_recuperar_conta_campo_email.dart';
+import 'package:bl_runners_app/pages/c_pagina_recuperar_conta/controller/pagina_recuperar_conta_controlador.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

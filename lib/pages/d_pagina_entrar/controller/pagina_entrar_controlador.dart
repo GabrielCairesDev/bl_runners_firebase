@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/interfaces/entrar_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/entrar_use_case.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +11,8 @@ class PaginaEntrarControlador extends ChangeNotifier {
   final TextEditingController controladorEmail = TextEditingController();
   final TextEditingController controladorSenha = TextEditingController();
 
-  final GlobalKey<FormState> globalKeyEmailPaginaEntrar = GlobalKey<FormState>();
+  final GlobalKey<FormState> globalKeyEmailPaginaEntrar =
+      GlobalKey<FormState>();
 
   bool entrarAutomaticamente = false;
   bool carregando = false;
@@ -20,7 +21,8 @@ class PaginaEntrarControlador extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final internet = await Connectivity().checkConnectivity();
-    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+    if (internet == ConnectivityResult.none)
+      throw 'Sem conexão com a internet!';
 
     if (globalKeyEmailPaginaEntrar.currentState!.validate()) {
       try {

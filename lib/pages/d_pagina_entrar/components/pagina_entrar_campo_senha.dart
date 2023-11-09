@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/utils/validadores.dart';
+import 'package:bl_runners_app/utils/validadores.dart';
 import 'package:flutter/material.dart';
 
 import '../controller/pagina_entrar_controlador.dart';

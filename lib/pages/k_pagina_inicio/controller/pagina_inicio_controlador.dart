@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_mes_ano_use_case.dart';
-import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case.dart';
+import 'package:bl_runners_app/main.dart';
+import 'package:bl_runners_app/models/modelo_de_atividade.dart';
+import 'package:bl_runners_app/models/modelo_de_usuario.dart';
+import 'package:bl_runners_app/providers/interfaces/pegar_atividades_mes_ano_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/pegar_usuarios_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -57,13 +57,16 @@ class PaginaInicioControlador extends ChangeNotifier {
     try {
       _atualizarEstadoCarregando();
 
-      final resultadoAtividades = await pegarAtividadesUseCase(modeloDeAtividade, anoFiltro, mesFiltro);
+      final resultadoAtividades =
+          await pegarAtividadesUseCase(modeloDeAtividade, anoFiltro, mesFiltro);
       listaAtividades = resultadoAtividades;
 
-      final resultadoUsuarios = await pegarUsuariosUseCase(modeloDeUsuario, listaAtividades);
+      final resultadoUsuarios =
+          await pegarUsuariosUseCase(modeloDeUsuario, listaAtividades);
       listaUsuarios = resultadoUsuarios;
 
-      listaAtividades.sort((atividade1, atividade2) => atividade2.dataAtividade.compareTo(atividade1.dataAtividade));
+      listaAtividades.sort((atividade1, atividade2) =>
+          atividade2.dataAtividade.compareTo(atividade1.dataAtividade));
       logger.i('Lista de atividades carregadas! Data: $mesFiltro/$anoFiltro.');
     } catch (e) {
       logger.w(e);

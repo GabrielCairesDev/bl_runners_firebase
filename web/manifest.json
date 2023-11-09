@@ -1,6 +1,6 @@
 {
-    "name": "bl_runners_firebase",
-    "short_name": "bl_runners_firebase",
+    "name": "bl_runners_app",
+    "short_name": "bl_runners_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

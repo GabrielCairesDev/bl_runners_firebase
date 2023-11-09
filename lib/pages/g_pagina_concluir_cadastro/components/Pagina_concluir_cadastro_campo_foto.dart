@@ -1,13 +1,14 @@
 import 'dart:io';
 
-import 'package:bl_runners_firebase/utils/validadores.dart';
+import 'package:bl_runners_app/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../controller/pagina_concluir_cadastro_controlador.dart';
 
 class PaginaConcluirCampoFoto extends StatelessWidget {
-  const PaginaConcluirCampoFoto({super.key, required this.controladorConcluirCadastro});
+  const PaginaConcluirCampoFoto(
+      {super.key, required this.controladorConcluirCadastro});
 
   final PaginaConcluirCadastroControlador controladorConcluirCadastro;
 
@@ -23,8 +24,13 @@ class PaginaConcluirCampoFoto extends StatelessWidget {
             filled: true,
             fillColor: const Color(0xFFEFEFEF),
             hintText: 'Foto do Perfil',
-            hintStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.black),
-            border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10)),
+            hintStyle: const TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 18,
+                color: Colors.black),
+            border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10)),
           ),
           readOnly: true,
           onTap: () async {

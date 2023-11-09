@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
 import 'package:flutter/material.dart';
 
 class PaginaPerfilNome extends StatefulWidget {
@@ -19,7 +19,8 @@ class _PaginaPerfilNomeState extends State<PaginaPerfilNome> {
   }
 
   _nomeDoUsuario() {
-    final nomeDoUsuario = widget.controladorPegarUsuario.usuarioAtual?.nome ?? 'Nome Desconhecido';
+    final nomeDoUsuario = widget.controladorPegarUsuario.usuarioAtual?.nome ??
+        'Nome Desconhecido';
 
     return Text(
       nomeDoUsuario,
@@ -27,7 +28,12 @@ class _PaginaPerfilNomeState extends State<PaginaPerfilNome> {
         fontWeight: FontWeight.bold,
         fontSize: MediaQuery.of(context).size.width * 0.065,
         color: Colors.white,
-        shadows: [Shadow(color: Colors.black.withOpacity(0.1), offset: const Offset(1, 1), blurRadius: 2)],
+        shadows: [
+          Shadow(
+              color: Colors.black.withOpacity(0.1),
+              offset: const Offset(1, 1),
+              blurRadius: 2)
+        ],
       ),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,

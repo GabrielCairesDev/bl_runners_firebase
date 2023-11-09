@@ -1,8 +1,8 @@
-import 'package:bl_runners_firebase/pages/k_pagina_inicio/components/pagina_inicio_botao_add.dart';
-import 'package:bl_runners_firebase/pages/k_pagina_inicio/components/pagina_inicio_botao_filtro.dart';
-import 'package:bl_runners_firebase/pages/k_pagina_inicio/controller/pagina_inicio_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_widget.dart';
+import 'package:bl_runners_app/pages/k_pagina_inicio/components/pagina_inicio_botao_add.dart';
+import 'package:bl_runners_app/pages/k_pagina_inicio/components/pagina_inicio_botao_filtro.dart';
+import 'package:bl_runners_app/pages/k_pagina_inicio/controller/pagina_inicio_controlador.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,8 +29,10 @@ class _PaginaInicioState extends State<PaginaInicio> {
 
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaInicio = Provider.of<PaginaInicioControlador>(context);
-    final controladorPegarUsuarioAtual = Provider.of<PegarUsuarioAtual>(context);
+    final controladorPaginaInicio =
+        Provider.of<PaginaInicioControlador>(context);
+    final controladorPegarUsuarioAtual =
+        Provider.of<PegarUsuarioAtual>(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,

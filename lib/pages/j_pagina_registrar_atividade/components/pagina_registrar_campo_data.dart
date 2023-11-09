@@ -1,5 +1,5 @@
-import 'package:bl_runners_firebase/pages/j_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
-import 'package:bl_runners_firebase/utils/validadores.dart';
+import 'package:bl_runners_app/pages/j_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
+import 'package:bl_runners_app/utils/validadores.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +11,8 @@ class PaginaRegistrarCampoData extends StatefulWidget {
   final PaginaRegistrarAtividadeControlador controlador;
 
   @override
-  State<PaginaRegistrarCampoData> createState() => _PaginaRegistrarCampoDataState();
+  State<PaginaRegistrarCampoData> createState() =>
+      _PaginaRegistrarCampoDataState();
 }
 
 class _PaginaRegistrarCampoDataState extends State<PaginaRegistrarCampoData> {
@@ -57,7 +58,8 @@ class _PaginaRegistrarCampoDataState extends State<PaginaRegistrarCampoData> {
               initialTime: TimeOfDay.now(),
               builder: (context, child) {
                 return MediaQuery(
-                  data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+                  data: MediaQuery.of(context)
+                      .copyWith(alwaysUse24HourFormat: true),
                   child: Theme(
                     data: Theme.of(context).copyWith(
                       colorScheme: const ColorScheme.light(
@@ -83,14 +85,18 @@ class _PaginaRegistrarCampoDataState extends State<PaginaRegistrarCampoData> {
 
               // Obtenha o fuso horário de São Paulo
               var saoPauloTimeZone = tz.getLocation('America/Sao_Paulo');
-              var saoPauloDateTime = tz.TZDateTime.from(dataHoraSelecionada, saoPauloTimeZone);
+              var saoPauloDateTime =
+                  tz.TZDateTime.from(dataHoraSelecionada, saoPauloTimeZone);
 
-              Timestamp pegarHoraTimeStamp = Timestamp.fromDate(saoPauloDateTime);
-              String dataHoraFormatada = DateFormat.yMd('pt_BR').add_jms().format(saoPauloDateTime);
+              Timestamp pegarHoraTimeStamp =
+                  Timestamp.fromDate(saoPauloDateTime);
+              String dataHoraFormatada =
+                  DateFormat.yMd('pt_BR').add_jms().format(saoPauloDateTime);
 
               setState(() {
                 widget.controlador.dataHoraSelecionada = pegarHoraTimeStamp;
-                widget.controlador.controladorCampoData.text = dataHoraFormatada;
+                widget.controlador.controladorCampoData.text =
+                    dataHoraFormatada;
               });
             }
           }

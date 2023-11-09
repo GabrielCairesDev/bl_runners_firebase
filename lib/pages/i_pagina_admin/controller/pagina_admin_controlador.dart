@@ -1,9 +1,9 @@
-import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/providers/interfaces/editar_tag_admin_use_case.dart';
-import 'package:bl_runners_firebase/providers/interfaces/editar_tag_autorizado_use_case.dart';
-import 'package:bl_runners_firebase/providers/interfaces/editar_tag_master_use_case.dart';
-import 'package:bl_runners_firebase/providers/interfaces/pegar_todos_usuarios_use_case.dart';
+import 'package:bl_runners_app/main.dart';
+import 'package:bl_runners_app/models/modelo_de_usuario.dart';
+import 'package:bl_runners_app/providers/interfaces/editar_tag_admin_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/editar_tag_autorizado_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/editar_tag_master_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/pegar_todos_usuarios_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -83,13 +83,16 @@ class PaginaAdminControlador extends ChangeNotifier {
     required bool listaUsuarioAdmin,
   }) async {
     if (listaUsuarioId == usuarioAtualId) throw 'Você não pode fazer isso!';
-    if (!usuarioAtualMaster || !usuarioAtualAdmin || !usuarioAtualAutorizado) throw 'Você não tem permissão!';
+    if (!usuarioAtualMaster || !usuarioAtualAdmin || !usuarioAtualAutorizado)
+      throw 'Você não tem permissão!';
     if (!listaUsuarioAutorizado) throw 'Usuário não está autorizado';
-    if (!listaUsuarioCadastroConcluido) throw 'Usuário não concluiu o cadastro!';
+    if (!listaUsuarioCadastroConcluido)
+      throw 'Usuário não concluiu o cadastro!';
     if (!listaUsuarioAdmin) throw 'Usuário não é um administrador!';
 
     try {
-      final resultado = await editarTagMasterUseCase(listaUsuarioId: listaUsuarioId, listaUsuarioMaster: novoValor);
+      final resultado = await editarTagMasterUseCase(
+          listaUsuarioId: listaUsuarioId, listaUsuarioMaster: novoValor);
       carregarUsuarios();
 
       return resultado;
@@ -110,13 +113,16 @@ class PaginaAdminControlador extends ChangeNotifier {
     required bool listaUsuarioMaster,
   }) async {
     if (listaUsuarioId == usuarioAtualId) throw 'Você não pode fazer isso!';
-    if (!usuarioAtualMaster || !usuarioAtualAdmin || !usuarioAtualAutorizado) throw 'Você não tem permissão!';
-    if (!listaUsuarioCadastroConcluido) throw 'Usuário não concluiu o cadastro!';
+    if (!usuarioAtualMaster || !usuarioAtualAdmin || !usuarioAtualAutorizado)
+      throw 'Você não tem permissão!';
+    if (!listaUsuarioCadastroConcluido)
+      throw 'Usuário não concluiu o cadastro!';
     if (!listaUsuarioAutorizado) throw 'Usuário não está autorizado!';
     if (listaUsuarioMaster) throw 'Você não pode fazer isso com um master!';
 
     try {
-      final resultado = await editarTagAdminUseCase(listaUsuarioId: listaUsuarioId, listaUsuarioAdmin: novoValor);
+      final resultado = await editarTagAdminUseCase(
+          listaUsuarioId: listaUsuarioId, listaUsuarioAdmin: novoValor);
       carregarUsuarios();
 
       return resultado;
@@ -137,12 +143,16 @@ class PaginaAdminControlador extends ChangeNotifier {
     required bool listaUsuarioAutorizado,
   }) async {
     if (listaUsuarioId == usuarioAtualId) throw 'Você não pode fazer isso!';
-    if (!usuarioAtualAdmin || !usuarioAtualAutorizado) throw 'Você não tem permissão!';
-    if (listaUsuarioMaster && listaUsuarioAutorizado) throw 'Você não pode desautorizar Master!';
-    if (listaUsuarioAdmin && listaUsuarioAutorizado) throw 'Você não pode desautorizar Administrador!';
+    if (!usuarioAtualAdmin || !usuarioAtualAutorizado)
+      throw 'Você não tem permissão!';
+    if (listaUsuarioMaster && listaUsuarioAutorizado)
+      throw 'Você não pode desautorizar Master!';
+    if (listaUsuarioAdmin && listaUsuarioAutorizado)
+      throw 'Você não pode desautorizar Administrador!';
 
     try {
-      final resultado = await editarTagAutorizadoUseCase(listaUsuarioId: listaUsuarioId, listaUsuarioAutorizado: novoValor);
+      final resultado = await editarTagAutorizadoUseCase(
+          listaUsuarioId: listaUsuarioId, listaUsuarioAutorizado: novoValor);
       carregarUsuarios();
 
       return resultado;

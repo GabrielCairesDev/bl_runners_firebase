@@ -1,5 +1,5 @@
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/providers/interfaces/registrar_usuario_use_case.dart';
+import 'package:bl_runners_app/models/modelo_de_usuario.dart';
+import 'package:bl_runners_app/providers/interfaces/registrar_usuario_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -11,7 +11,8 @@ class FirebaseRegistrarUsuario extends RegistrarUsuarioUseCase {
     required String nome,
   }) async {
     try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: senha);
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: senha);
       credential.user!.updateDisplayName(nome);
       credential.user!.sendEmailVerification();
 
@@ -28,7 +29,10 @@ class FirebaseRegistrarUsuario extends RegistrarUsuarioUseCase {
         nome: nome,
       );
 
-      FirebaseFirestore.instance.collection('usuarios').doc(credential.user!.uid).set(modeloDeUsuario.toJson());
+      FirebaseFirestore.instance
+          .collection('usuarios')
+          .doc(credential.user!.uid)
+          .set(modeloDeUsuario.toJson());
       return 'Conta criada com sucesso!\nVerifique o seu e-mail.';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

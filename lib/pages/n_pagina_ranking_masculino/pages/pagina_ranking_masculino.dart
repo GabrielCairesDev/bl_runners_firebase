@@ -1,7 +1,7 @@
-import 'package:bl_runners_firebase/pages/n_pagina_ranking_masculino/components/pagina_ranking_masculino_botao_filtro.dart';
-import 'package:bl_runners_firebase/pages/n_pagina_ranking_masculino/controller/pagina_ranking_masculino_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_widget.dart';
+import 'package:bl_runners_app/pages/n_pagina_ranking_masculino/components/pagina_ranking_masculino_botao_filtro.dart';
+import 'package:bl_runners_app/pages/n_pagina_ranking_masculino/controller/pagina_ranking_masculino_controlador.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,8 +27,10 @@ class _PaginaRankingMasculinoState extends State<PaginaRankingMasculino> {
 
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaRankingMasculino = Provider.of<PaginaRankingMasculinoControlador>(context);
-    final controladorPegarUsuarioAtual = Provider.of<PegarUsuarioAtual>(context);
+    final controladorPaginaRankingMasculino =
+        Provider.of<PaginaRankingMasculinoControlador>(context);
+    final controladorPegarUsuarioAtual =
+        Provider.of<PegarUsuarioAtual>(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -36,7 +38,8 @@ class _PaginaRankingMasculinoState extends State<PaginaRankingMasculino> {
         title: const Text('Ranking Masculino'),
         actions: [
           PaginaRankingMasculinoBotaoFiltro(
-            controladorPaginaRankingMasculino: controladorPaginaRankingMasculino,
+            controladorPaginaRankingMasculino:
+                controladorPaginaRankingMasculino,
           )
         ],
       ),
@@ -65,9 +68,12 @@ class _PaginaRankingMasculinoState extends State<PaginaRankingMasculino> {
               controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
               mostrarBotaoExlcuir: false,
               listasSomadas: true,
-              carregarAtividades: controladorPaginaRankingMasculino.carregarAtividades,
-              listaDeAtividades: controladorPaginaRankingMasculino.listaDeAtividades,
-              listaDeUsuarios: controladorPaginaRankingMasculino.listaDeUsuarios,
+              carregarAtividades:
+                  controladorPaginaRankingMasculino.carregarAtividades,
+              listaDeAtividades:
+                  controladorPaginaRankingMasculino.listaDeAtividades,
+              listaDeUsuarios:
+                  controladorPaginaRankingMasculino.listaDeUsuarios,
               anoFiltro: controladorPaginaRankingMasculino.anoFiltro,
               mesFiltro: controladorPaginaRankingMasculino.mesFiltro,
               idUsuario: '',

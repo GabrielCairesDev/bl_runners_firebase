@@ -1,6 +1,6 @@
-import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/pages/c_pagina_recuperar_conta/controller/pagina_recuperar_conta_controlador.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
+import 'package:bl_runners_app/main.dart';
+import 'package:bl_runners_app/pages/c_pagina_recuperar_conta/controller/pagina_recuperar_conta_controlador.dart';
+import 'package:bl_runners_app/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/pages/d_pagina_entrar/controller/pagina_entrar_controlador.dart';
+import 'package:bl_runners_app/pages/d_pagina_entrar/controller/pagina_entrar_controlador.dart';
 import 'package:flutter/material.dart';
 
 class PaginaEntrarSwitch extends StatefulWidget {
@@ -18,8 +18,9 @@ class _PaginaEntrarSwitch extends State<PaginaEntrarSwitch> {
         Switch(
           value: widget.controlador.entrarAutomaticamente,
           activeColor: const Color(0xFFc1d22b),
-          onChanged: (bool value) =>
-              setState(() => widget.controlador.entrarAutomaticamente = !widget.controlador.entrarAutomaticamente),
+          onChanged: (bool value) => setState(() =>
+              widget.controlador.entrarAutomaticamente =
+                  !widget.controlador.entrarAutomaticamente),
         ),
         const Text('Entrar automaticamente')
       ],

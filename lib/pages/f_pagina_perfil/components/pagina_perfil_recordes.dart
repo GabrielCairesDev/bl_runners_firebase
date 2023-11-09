@@ -1,19 +1,23 @@
-import 'package:bl_runners_firebase/pages/f_pagina_perfil/controller/pagina_perfil_controlador.dart';
-import 'package:bl_runners_firebase/utils/utilitarios.dart';
+import 'package:bl_runners_app/pages/f_pagina_perfil/controller/pagina_perfil_controlador.dart';
+import 'package:bl_runners_app/utils/utilitarios.dart';
 import 'package:flutter/material.dart';
 
 class PaginaPerfilRecordes extends StatelessWidget {
-  const PaginaPerfilRecordes({super.key, required this.controladorPaginaPerfil});
+  const PaginaPerfilRecordes(
+      {super.key, required this.controladorPaginaPerfil});
 
   final PaginaPerfilControlador controladorPaginaPerfil;
 
   @override
   Widget build(BuildContext context) {
-    final lista =
-        controladorPaginaPerfil.listaDeAtividadesSomadas.isNotEmpty ? controladorPaginaPerfil.listaDeAtividadesSomadas[0] : null;
+    final lista = controladorPaginaPerfil.listaDeAtividadesSomadas.isNotEmpty
+        ? controladorPaginaPerfil.listaDeAtividadesSomadas[0]
+        : null;
 
     final distanciaTotal = lista != null ? lista.distancia / 1000 : 0;
-    final ritmoMedio = lista != null ? Utilitarios().calcularRitmo(lista.distancia, lista.tempo) : '00:00 /km';
+    final ritmoMedio = lista != null
+        ? Utilitarios().calcularRitmo(lista.distancia, lista.tempo)
+        : '00:00 /km';
 
     final atividadeTotal = controladorPaginaPerfil.listaDeAtividades.length;
 

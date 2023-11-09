@@ -1,5 +1,8 @@
-import 'package:bl_runners_firebase/pages/j_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
+import 'package:bl_runners_app/pages/j_pagina_registrar_atividade/controller/pagina_registrar_atividade_controlador.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
+    as picker;
+import 'package:intl/intl.dart';
 
 class PaginaRegistrarCampoTempo extends StatefulWidget {
   const PaginaRegistrarCampoTempo({super.key, required this.controlador});
@@ -7,21 +10,25 @@ class PaginaRegistrarCampoTempo extends StatefulWidget {
   final PaginaRegistrarAtividadeControlador controlador;
 
   @override
-  State<PaginaRegistrarCampoTempo> createState() => _PaginaRegistrarCampoTempoState();
+  State<PaginaRegistrarCampoTempo> createState() =>
+      _PaginaRegistrarCampoTempoState();
 }
 
 class _PaginaRegistrarCampoTempoState extends State<PaginaRegistrarCampoTempo> {
+  int horaPadrao = 0;
+  int minutoPadrao = 0;
+  int segundoPadrao = 0;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       readOnly: true,
       validator: (value) {
-        if (value == null || widget.controlador.tempo == null) {
+        if (value == null || widget.controlador.tempoSegundos == null) {
           return 'Campo Obrigatório';
-        } else if (widget.controlador.tempo!.minute < 1 && widget.controlador.tempo!.hour < 1) {
+        } else if (widget.controlador.tempoSegundos! < 1) {
           return 'Tempo Inválido';
         }
-
         return null;
       },
       controller: widget.controlador.controladorCampoTempo,
@@ -33,33 +40,35 @@ class _PaginaRegistrarCampoTempoState extends State<PaginaRegistrarCampoTempo> {
         suffixIcon: Icon(Icons.expand_more),
       ),
       onTap: () async {
-        widget.controlador.tempo = await showTimePicker(
-          context: context,
-          initialTime: const TimeOfDay(hour: 0, minute: 0),
-          helpText: 'Qual foi duração?',
-          builder: (context, child) {
-            return MediaQuery(
-              data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                  colorScheme: const ColorScheme.light(
-                    primary: Color(0xFF2e355a),
-                    onPrimary: Colors.white,
-                    onSurface: Colors.blueGrey,
-                  ),
-                ),
-                child: child!,
-              ),
+        await picker.DatePicker.showTimePicker(
+          context,
+          currentTime:
+              DateTime(1, 1, 1, horaPadrao, minutoPadrao, segundoPadrao),
+          showTitleActions: false,
+          onChanged: (date) {
+            setState(
+              () {
+                String tempoFormatado = DateFormat.Hms().format(date);
+                widget.controlador.controladorCampoTempo.text = tempoFormatado;
+
+                List<String> partesTempo = tempoFormatado.split(':');
+                int horas = int.parse(partesTempo[0]);
+                int minutos = int.parse(partesTempo[1]);
+                int segundos = int.parse(partesTempo[2]);
+
+                horaPadrao = horas;
+                minutoPadrao = minutos;
+                segundoPadrao = segundos;
+
+                int totalSegundos = horas * 3600 + minutos * 60 + segundos;
+                widget.controlador.tempoSegundos = totalSegundos;
+              },
             );
           },
+          theme: const picker.DatePickerTheme(
+            itemStyle: TextStyle(color: Colors.blueGrey),
+          ),
         );
-
-        if (widget.controlador.tempo != null) {
-          setState(() {
-            widget.controlador.controladorCampoTempo.text = widget.controlador.tempo!.format(context);
-            widget.controlador.transformarEmMinutos(tempo: widget.controlador.tempo as TimeOfDay);
-          });
-        }
       },
     );
   }

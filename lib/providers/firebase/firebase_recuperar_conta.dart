@@ -1,5 +1,5 @@
-import 'package:bl_runners_firebase/errors/custom_exception.dart';
-import 'package:bl_runners_firebase/providers/interfaces/recuperar_conta_use_case.dart';
+import 'package:bl_runners_app/errors/custom_exception.dart';
+import 'package:bl_runners_app/providers/interfaces/recuperar_conta_use_case.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseRecuperarConta extends RecuperarContaUseCase {
@@ -11,7 +11,8 @@ class FirebaseRecuperarConta extends RecuperarContaUseCase {
     } catch (e) {
       if (e is FirebaseAuthException) {
         if (e.code == 'user-not-found') {
-          throw CustomException(message: 'E-mail não encontrado. Verifique o email fornecido.');
+          throw CustomException(
+              message: 'E-mail não encontrado. Verifique o email fornecido.');
         } else if (e.code == 'invalid-email') {
           throw CustomException(message: 'Email inválido. Verifique o e-mail.');
         } else {

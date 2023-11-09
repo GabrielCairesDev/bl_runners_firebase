@@ -1,9 +1,9 @@
-import 'package:bl_runners_firebase/pages/f_pagina_perfil/components/pagina_perfil_botao_admin.dart';
-import 'package:bl_runners_firebase/pages/f_pagina_perfil/components/pagina_perfil_botao_editar.dart';
-import 'package:bl_runners_firebase/pages/f_pagina_perfil/components/pagina_perfil_botao_sair.dart';
-import 'package:bl_runners_firebase/pages/f_pagina_perfil/controller/pagina_perfil_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_atividade/lista_de_atividade_widget.dart';
+import 'package:bl_runners_app/pages/f_pagina_perfil/components/pagina_perfil_botao_admin.dart';
+import 'package:bl_runners_app/pages/f_pagina_perfil/components/pagina_perfil_botao_editar.dart';
+import 'package:bl_runners_app/pages/f_pagina_perfil/components/pagina_perfil_botao_sair.dart';
+import 'package:bl_runners_app/pages/f_pagina_perfil/controller/pagina_perfil_controlador.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/widgets/lista_de_atividade/lista_de_atividade_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,15 +25,18 @@ class _PaginaPerfilState extends State<PaginaPerfil> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final controladorPaginaPerfil = context.read<PaginaPerfilControlador>();
       final controladorPegarUsuarioAtual = context.read<PegarUsuarioAtual>();
-      controladorPaginaPerfil.idUsuario = controladorPegarUsuarioAtual.usuarioAtual?.id ?? '';
+      controladorPaginaPerfil.idUsuario =
+          controladorPegarUsuarioAtual.usuarioAtual?.id ?? '';
       controladorPaginaPerfil.carregarAtividades();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final controladorPaginaPerfil = Provider.of<PaginaPerfilControlador>(context);
-    final controladorPegarUsuarioAtual = Provider.of<PegarUsuarioAtual>(context);
+    final controladorPaginaPerfil =
+        Provider.of<PaginaPerfilControlador>(context);
+    final controladorPegarUsuarioAtual =
+        Provider.of<PegarUsuarioAtual>(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -60,24 +63,31 @@ class _PaginaPerfilState extends State<PaginaPerfil> {
                 const SizedBox(height: 88),
                 PaginaPerfilAvatar(controlador: controladorPegarUsuarioAtual),
                 const SizedBox(height: 8),
-                PaginaPerfilNome(controladorPegarUsuario: controladorPegarUsuarioAtual),
+                PaginaPerfilNome(
+                    controladorPegarUsuario: controladorPegarUsuarioAtual),
                 const SizedBox(height: 8),
-                PaginaPerfilRecordes(controladorPaginaPerfil: controladorPaginaPerfil),
+                PaginaPerfilRecordes(
+                    controladorPaginaPerfil: controladorPaginaPerfil),
                 RefreshIndicator(
                   onRefresh: controladorPaginaPerfil.carregarAtividades,
                   child: Column(
                     children: [
                       ListaDeAtividadeWidget(
-                        controladorPegarUsuarioAtual: controladorPegarUsuarioAtual,
+                        controladorPegarUsuarioAtual:
+                            controladorPegarUsuarioAtual,
                         mostrarBotaoExlcuir: true,
                         paginaPerfil: true,
                         listasSomadas: false,
-                        carregarAtividades: controladorPaginaPerfil.carregarAtividades,
-                        listaDeAtividades: controladorPaginaPerfil.listaDeAtividades,
-                        listaDeUsuarios: controladorPaginaPerfil.listaDeUsuarios,
+                        carregarAtividades:
+                            controladorPaginaPerfil.carregarAtividades,
+                        listaDeAtividades:
+                            controladorPaginaPerfil.listaDeAtividades,
+                        listaDeUsuarios:
+                            controladorPaginaPerfil.listaDeUsuarios,
                         anoFiltro: 0,
                         mesFiltro: 0,
-                        idUsuario: controladorPegarUsuarioAtual.usuarioAtual!.id,
+                        idUsuario:
+                            controladorPegarUsuarioAtual.usuarioAtual!.id,
                       ),
                     ],
                   ),
@@ -88,7 +98,8 @@ class _PaginaPerfilState extends State<PaginaPerfil> {
           ],
         ),
       ),
-      floatingActionButton: PaginaPerfilBotaoEditar(controladorPegarUsuario: controladorPegarUsuarioAtual),
+      floatingActionButton: PaginaPerfilBotaoEditar(
+          controladorPegarUsuario: controladorPegarUsuarioAtual),
     );
   }
 }

@@ -1,5 +1,5 @@
-import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
-import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_mes_ano_use_case.dart';
+import 'package:bl_runners_app/models/modelo_de_atividade.dart';
+import 'package:bl_runners_app/providers/interfaces/pegar_atividades_mes_ano_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -8,7 +8,8 @@ class FirebasePegarAtividadesMesAno extends PegarAtividadesMesAnoUseCase {
   List<ModeloDeAtividade> get listaAtividades => _atividades.values.toList();
 
   @override
-  Future<List<ModeloDeAtividade>> call(ModeloDeAtividade modeloDeAtividade, int ano, int mes) async {
+  Future<List<ModeloDeAtividade>> call(
+      ModeloDeAtividade modeloDeAtividade, int ano, int mes) async {
     listaAtividades.clear();
     _atividades.clear();
 

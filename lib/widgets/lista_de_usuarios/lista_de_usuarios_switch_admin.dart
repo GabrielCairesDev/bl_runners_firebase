@@ -1,6 +1,6 @@
-import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/pages/i_pagina_admin/controller/pagina_admin_controlador.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
+import 'package:bl_runners_app/main.dart';
+import 'package:bl_runners_app/pages/i_pagina_admin/controller/pagina_admin_controlador.dart';
+import 'package:bl_runners_app/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 
 class ListaDeUsuariosSwitchAdmin extends StatefulWidget {
@@ -32,10 +32,12 @@ class ListaDeUsuariosSwitchAdmin extends StatefulWidget {
   final PaginaAdminControlador controladorPaginaAdmin;
 
   @override
-  State<ListaDeUsuariosSwitchAdmin> createState() => _ListaDeUsuariosSwitchAdminState();
+  State<ListaDeUsuariosSwitchAdmin> createState() =>
+      _ListaDeUsuariosSwitchAdminState();
 }
 
-class _ListaDeUsuariosSwitchAdminState extends State<ListaDeUsuariosSwitchAdmin> {
+class _ListaDeUsuariosSwitchAdminState
+    extends State<ListaDeUsuariosSwitchAdmin> {
   bool _switch = false;
 
   @override

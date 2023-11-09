@@ -1,8 +1,8 @@
-import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_mes_ano_use_case.dart';
-import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case.dart';
+import 'package:bl_runners_app/main.dart';
+import 'package:bl_runners_app/models/modelo_de_atividade.dart';
+import 'package:bl_runners_app/models/modelo_de_usuario.dart';
+import 'package:bl_runners_app/providers/interfaces/pegar_atividades_mes_ano_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/pegar_usuarios_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -56,13 +56,16 @@ class PaginaRankingMasculinoControlador extends ChangeNotifier {
     try {
       atualizarEstadoCarregando();
 
-      final resultadoAtividades = await pegarAtividadesUseCase(modeloDeAtividade, anoFiltro, mesFiltro);
+      final resultadoAtividades =
+          await pegarAtividadesUseCase(modeloDeAtividade, anoFiltro, mesFiltro);
       listaDeAtividades = resultadoAtividades;
 
-      final resultadoUsuarios = await pegarUsuariosUseCase(modeloDeUsuario, listaDeAtividades);
+      final resultadoUsuarios =
+          await pegarUsuariosUseCase(modeloDeUsuario, listaDeAtividades);
       listaDeUsuarios = resultadoUsuarios;
 
-      final listaDeAtividadesAgrupadasPorId = listaDeAtividades.groupListsBy((listaAtividades) => listaAtividades.idUsuario);
+      final listaDeAtividadesAgrupadasPorId = listaDeAtividades
+          .groupListsBy((listaAtividades) => listaAtividades.idUsuario);
 
       final atividadesSomadas = listaDeAtividadesAgrupadasPorId.values.map(
         (atividadesDoUsuario) {
@@ -74,7 +77,8 @@ class PaginaRankingMasculinoControlador extends ChangeNotifier {
         int distanciaTotal = 0;
         int tempoTotal = 0;
 
-        for (final a in listaDeAtividades.where((element) => element.idUsuario == u.id)) {
+        for (final a in listaDeAtividades
+            .where((element) => element.idUsuario == u.id)) {
           distanciaTotal += a.distancia;
           tempoTotal += a.tempo;
         }
@@ -105,7 +109,8 @@ class PaginaRankingMasculinoControlador extends ChangeNotifier {
         );
 
         if (atividadesSomadas.contains(atividadeUsuario)) {
-          atividadesSomadas[atividadesSomadas.indexOf(atividadeUsuario)] = atualizarAtividade;
+          atividadesSomadas[atividadesSomadas.indexOf(atividadeUsuario)] =
+              atualizarAtividade;
         } else {
           atividadesSomadas.add(atualizarAtividade);
         }
@@ -115,11 +120,13 @@ class PaginaRankingMasculinoControlador extends ChangeNotifier {
 
       for (final usuario in listaDeUsuarios) {
         listaDeAtividades.removeWhere(
-          (a) => a.idUsuario.contains(usuario.id) && usuario.genero != 'Masculino',
+          (a) =>
+              a.idUsuario.contains(usuario.id) && usuario.genero != 'Masculino',
         );
       }
 
-      listaDeAtividades.sort((a, b) => b.distancia.compareTo(a.distancia.toInt()));
+      listaDeAtividades
+          .sort((a, b) => b.distancia.compareTo(a.distancia.toInt()));
     } catch (e) {
       logger.e(e);
     } finally {

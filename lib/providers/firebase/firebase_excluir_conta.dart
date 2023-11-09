@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/interfaces/excluir_conta_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/excluir_conta_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -10,17 +10,26 @@ class FirebaseExcluirConta extends ExcluirContaUseCase {
     if (currentUser != null) {
       await currentUser.reload();
       try {
-        final AuthCredential credential = EmailAuthProvider.credential(email: currentUser.email!, password: senha);
+        final AuthCredential credential = EmailAuthProvider.credential(
+            email: currentUser.email!, password: senha);
         await currentUser.reauthenticateWithCredential(credential);
 
-        final atividades =
-            await FirebaseFirestore.instance.collection('atividades').where('idUsuario', isEqualTo: currentUser.uid).get();
+        final atividades = await FirebaseFirestore.instance
+            .collection('atividades')
+            .where('idUsuario', isEqualTo: currentUser.uid)
+            .get();
 
         for (final atividade in atividades.docs) {
           await atividade.reference.delete();
         }
-        FirebaseFirestore.instance.collection('usuarios').doc(currentUser.uid).delete();
-        FirebaseStorage.instance.ref().child("usuarios_foto_perfil/${currentUser.uid}").delete();
+        FirebaseFirestore.instance
+            .collection('usuarios')
+            .doc(currentUser.uid)
+            .delete();
+        FirebaseStorage.instance
+            .ref()
+            .child("usuarios_foto_perfil/${currentUser.uid}")
+            .delete();
 
         await currentUser.delete();
 

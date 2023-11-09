@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 

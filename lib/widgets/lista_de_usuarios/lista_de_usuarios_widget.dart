@@ -1,11 +1,11 @@
-import 'package:bl_runners_firebase/pages/i_pagina_admin/controller/pagina_admin_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_foto.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_infos.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_nome.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_switch_admin.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_switch_autorizado.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_switch_master.dart';
+import 'package:bl_runners_app/pages/i_pagina_admin/controller/pagina_admin_controlador.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/widgets/lista_de_usuarios/lista_de_usuarios_foto.dart';
+import 'package:bl_runners_app/widgets/lista_de_usuarios/lista_de_usuarios_infos.dart';
+import 'package:bl_runners_app/widgets/lista_de_usuarios/lista_de_usuarios_nome.dart';
+import 'package:bl_runners_app/widgets/lista_de_usuarios/lista_de_usuarios_switch_admin.dart';
+import 'package:bl_runners_app/widgets/lista_de_usuarios/lista_de_usuarios_switch_autorizado.dart';
+import 'package:bl_runners_app/widgets/lista_de_usuarios/lista_de_usuarios_switch_master.dart';
 import 'package:flutter/material.dart';
 
 class ListaDeUsuariosWidgets extends StatelessWidget {
@@ -23,9 +23,12 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: controladorPaginaAdmin.carregarUsuarios,
       child: ListView.builder(
-        itemCount: controladorPaginaAdmin.listaDeUsuariosFiltro.isEmpty ? 0 : controladorPaginaAdmin.listaDeUsuariosFiltro.length,
+        itemCount: controladorPaginaAdmin.listaDeUsuariosFiltro.isEmpty
+            ? 0
+            : controladorPaginaAdmin.listaDeUsuariosFiltro.length,
         itemBuilder: (context, index) {
-          final listaUsuario = controladorPaginaAdmin.listaDeUsuariosFiltro[index];
+          final listaUsuario =
+              controladorPaginaAdmin.listaDeUsuariosFiltro[index];
           final usuarioAtual = controladorPegarUsuarioAtual.usuarioAtual;
 
           return Padding(
@@ -35,10 +38,12 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
               alignment: Alignment.bottomLeft,
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.155,
+                  height: MediaQuery.of(context).size.height * 0.17,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: listaUsuario.genero == 'Masculino' ? Colors.blue : Colors.pink,
+                    color: listaUsuario.genero == 'Masculino'
+                        ? Colors.blue
+                        : Colors.pink,
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
@@ -49,7 +54,8 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     // NOME E NASCIMENTO
                     child: ListaDeUsuariosNome(
                       dataAniversario: listaUsuario.dataNascimento.toDate(),
@@ -61,7 +67,7 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
                 Stack(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.12,
+                      height: MediaQuery.of(context).size.height * 0.14,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -89,46 +95,71 @@ class ListaDeUsuariosWidgets extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     ListaDeUsuariosInfos(
-                                      cadastroConcluido: listaUsuario.cadastroConcluido,
+                                      cadastroConcluido:
+                                          listaUsuario.cadastroConcluido,
                                       email: listaUsuario.email,
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         ListaDeUsuariosSwitchMaster(
-                                          controladorPaginaAdmin: controladorPaginaAdmin,
+                                          controladorPaginaAdmin:
+                                              controladorPaginaAdmin,
                                           listaUsuarioId: listaUsuario.id,
-                                          listaUsuarioCadastroConcluido: listaUsuario.cadastroConcluido,
-                                          listaUsuarioAutorizado: listaUsuario.autorizado,
-                                          listaUsuarioMaster: listaUsuario.master,
+                                          listaUsuarioCadastroConcluido:
+                                              listaUsuario.cadastroConcluido,
+                                          listaUsuarioAutorizado:
+                                              listaUsuario.autorizado,
+                                          listaUsuarioMaster:
+                                              listaUsuario.master,
                                           listaUsuarioAdmin: listaUsuario.admin,
-                                          usuarioAtualId: usuarioAtual?.id ?? '',
-                                          usuarioAtualAdmin: usuarioAtual?.admin ?? false,
-                                          usuarioAtualAutorizado: usuarioAtual?.autorizado ?? false,
-                                          usuarioAtualMaster: usuarioAtual?.master ?? false,
+                                          usuarioAtualId:
+                                              usuarioAtual?.id ?? '',
+                                          usuarioAtualAdmin:
+                                              usuarioAtual?.admin ?? false,
+                                          usuarioAtualAutorizado:
+                                              usuarioAtual?.autorizado ?? false,
+                                          usuarioAtualMaster:
+                                              usuarioAtual?.master ?? false,
                                         ),
                                         ListaDeUsuariosSwitchAdmin(
-                                          controladorPaginaAdmin: controladorPaginaAdmin,
+                                          controladorPaginaAdmin:
+                                              controladorPaginaAdmin,
                                           listaUsuarioid: listaUsuario.id,
-                                          listaUsuarioCadastroConcluido: listaUsuario.cadastroConcluido,
-                                          listaUsuarioAutorizado: listaUsuario.autorizado,
+                                          listaUsuarioCadastroConcluido:
+                                              listaUsuario.cadastroConcluido,
+                                          listaUsuarioAutorizado:
+                                              listaUsuario.autorizado,
                                           listaUsuarioAmin: listaUsuario.admin,
-                                          listaUsuarioMaster: listaUsuario.master,
-                                          usuarioAtualId: usuarioAtual?.id ?? '',
-                                          usuarioAtualAdmin: usuarioAtual?.admin ?? false,
-                                          usuarioAtualAutorizado: usuarioAtual?.autorizado ?? false,
-                                          usuarioAtualMaster: usuarioAtual?.master ?? false,
+                                          listaUsuarioMaster:
+                                              listaUsuario.master,
+                                          usuarioAtualId:
+                                              usuarioAtual?.id ?? '',
+                                          usuarioAtualAdmin:
+                                              usuarioAtual?.admin ?? false,
+                                          usuarioAtualAutorizado:
+                                              usuarioAtual?.autorizado ?? false,
+                                          usuarioAtualMaster:
+                                              usuarioAtual?.master ?? false,
                                         ),
                                         ListaDeUsuariosSwitchAutorizado(
-                                          controladorPaginaAdmin: controladorPaginaAdmin,
+                                          controladorPaginaAdmin:
+                                              controladorPaginaAdmin,
                                           listaUsuarioid: listaUsuario.id,
-                                          listaUsuarioAutorizado: listaUsuario.autorizado,
+                                          listaUsuarioAutorizado:
+                                              listaUsuario.autorizado,
                                           listaUsuarioAdmin: listaUsuario.admin,
-                                          listaUsuarioMaster: listaUsuario.master,
-                                          usuarioAtualId: usuarioAtual?.id ?? '',
-                                          usuarioAtualAdmin: usuarioAtual?.admin ?? false,
-                                          usuarioAtualAutorizado: usuarioAtual?.autorizado ?? false,
-                                          usuarioAtualMaster: usuarioAtual?.master ?? false,
+                                          listaUsuarioMaster:
+                                              listaUsuario.master,
+                                          usuarioAtualId:
+                                              usuarioAtual?.id ?? '',
+                                          usuarioAtualAdmin:
+                                              usuarioAtual?.admin ?? false,
+                                          usuarioAtualAutorizado:
+                                              usuarioAtual?.autorizado ?? false,
+                                          usuarioAtualMaster:
+                                              usuarioAtual?.master ?? false,
                                         ),
                                       ],
                                     )

@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -51,10 +51,14 @@ class _PaginaNavegacaoState extends State<PaginaNavegacao> {
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
-            const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Ínicio'),
-            const BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'Geral'),
-            const BottomNavigationBarItem(icon: Icon(Icons.female), label: 'Feminino'),
-            const BottomNavigationBarItem(icon: Icon(Icons.male), label: 'Masculino'),
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.home), label: 'Ínicio'),
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.groups), label: 'Geral'),
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.female), label: 'Feminino'),
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.male), label: 'Masculino'),
             BottomNavigationBarItem(
               icon: PaginaNavegacaoAvatar(controlador: controlador),
               label: 'Perfil',

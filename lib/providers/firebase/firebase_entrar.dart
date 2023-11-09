@@ -1,11 +1,12 @@
-import 'package:bl_runners_firebase/providers/interfaces/entrar_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/entrar_use_case.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseEntrar extends EntrarUseCase {
   @override
   Future<String> call({required String email, required String senha}) async {
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: senha);
+      final credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: senha);
 
       if (!credential.user!.emailVerified) {
         credential.user!.sendEmailVerification();

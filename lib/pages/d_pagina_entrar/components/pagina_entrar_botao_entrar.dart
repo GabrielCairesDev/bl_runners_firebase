@@ -1,7 +1,7 @@
-import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/pages/d_pagina_entrar/controller/pagina_entrar_controlador.dart';
-import 'package:bl_runners_firebase/routes/rotas.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
+import 'package:bl_runners_app/main.dart';
+import 'package:bl_runners_app/pages/d_pagina_entrar/controller/pagina_entrar_controlador.dart';
+import 'package:bl_runners_app/routes/rotas.dart';
+import 'package:bl_runners_app/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -24,7 +24,10 @@ class PaginaEntrarBotaoEntrar extends StatelessWidget {
 
   _entrar(BuildContext context) async {
     FocusScope.of(context).unfocus();
-    await controlador.entrar().then((value) => _entrarSucesso(context, value)).catchError(
+    await controlador
+        .entrar()
+        .then((value) => _entrarSucesso(context, value))
+        .catchError(
           (onError) => _entrarError(context, onError),
         );
   }

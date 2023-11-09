@@ -1,10 +1,10 @@
-import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/models/modelo_de_atividade.dart';
-import 'package:bl_runners_firebase/models/modelo_de_usuario.dart';
-import 'package:bl_runners_firebase/providers/interfaces/excluir_atividade_use_case.dart';
-import 'package:bl_runners_firebase/providers/interfaces/pegar_atividades_id_use_case.dart';
-import 'package:bl_runners_firebase/providers/interfaces/pegar_usuarios_use_case.dart';
-import 'package:bl_runners_firebase/providers/interfaces/sair_use_case.dart';
+import 'package:bl_runners_app/main.dart';
+import 'package:bl_runners_app/models/modelo_de_atividade.dart';
+import 'package:bl_runners_app/models/modelo_de_usuario.dart';
+import 'package:bl_runners_app/providers/interfaces/excluir_atividade_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/pegar_atividades_id_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/pegar_usuarios_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/sair_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -63,15 +63,20 @@ class PaginaPerfilControlador extends ChangeNotifier {
     try {
       alterarEstadoCarregando();
 
-      final resultadoAtividades = await pegarAtividadesIdUsuarioUseCase(modeloDeAtividade, idUsuario: idUsuario);
+      final resultadoAtividades = await pegarAtividadesIdUsuarioUseCase(
+          modeloDeAtividade,
+          idUsuario: idUsuario);
       listaDeAtividades = resultadoAtividades;
 
-      final resultadoUsuarios = await pegarUsuariosUseCase(modeloDeUsuario, listaDeAtividades);
+      final resultadoUsuarios =
+          await pegarUsuariosUseCase(modeloDeUsuario, listaDeAtividades);
       listaDeUsuarios = resultadoUsuarios;
 
-      listaDeAtividades.sort((atividade1, atividade2) => atividade2.dataAtividade.compareTo(atividade1.dataAtividade));
+      listaDeAtividades.sort((atividade1, atividade2) =>
+          atividade2.dataAtividade.compareTo(atividade1.dataAtividade));
 
-      final listaDeAtividadesAgrupadasPorId = listaDeAtividades.groupListsBy((listaAtividades) => listaAtividades.idUsuario);
+      final listaDeAtividadesAgrupadasPorId = listaDeAtividades
+          .groupListsBy((listaAtividades) => listaAtividades.idUsuario);
 
       final atividadesSomadas = listaDeAtividadesAgrupadasPorId.values.map(
         (atividadesDoUsuario) {
@@ -83,7 +88,8 @@ class PaginaPerfilControlador extends ChangeNotifier {
         int distanciaTotal = 0;
         int tempoTotal = 0;
 
-        for (final a in listaDeAtividades.where((element) => element.idUsuario == u.id)) {
+        for (final a in listaDeAtividades
+            .where((element) => element.idUsuario == u.id)) {
           distanciaTotal += a.distancia;
           tempoTotal += a.tempo;
         }
@@ -114,7 +120,8 @@ class PaginaPerfilControlador extends ChangeNotifier {
         );
 
         if (atividadesSomadas.contains(atividadeUsuario)) {
-          atividadesSomadas[atividadesSomadas.indexOf(atividadeUsuario)] = atualizarAtividade;
+          atividadesSomadas[atividadesSomadas.indexOf(atividadeUsuario)] =
+              atualizarAtividade;
         } else {
           atividadesSomadas.add(atualizarAtividade);
         }
@@ -128,10 +135,12 @@ class PaginaPerfilControlador extends ChangeNotifier {
     }
   }
 
-  Future<String> excluirAtividade({required String listaID, required String? idUsuario}) async {
+  Future<String> excluirAtividade(
+      {required String listaID, required String? idUsuario}) async {
     final internet = await Connectivity().checkConnectivity();
 
-    if (internet == ConnectivityResult.none) throw 'Sem conexão com a internet!';
+    if (internet == ConnectivityResult.none)
+      throw 'Sem conexão com a internet!';
     if (idUsuario == null || idUsuario.isEmpty) throw 'Usuário vázio ou Null!';
 
     try {

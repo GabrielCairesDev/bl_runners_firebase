@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/providers/interfaces/excluir_atividade_use_case.dart';
+import 'package:bl_runners_app/providers/interfaces/excluir_atividade_use_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -10,7 +10,10 @@ class FirebaseExcluirAtividade extends ExcluirAtividadeUseCase {
     if (currentUser != null) {
       await currentUser.reload();
       try {
-        final documento = await FirebaseFirestore.instance.collection('atividades').doc(listaID).get();
+        final documento = await FirebaseFirestore.instance
+            .collection('atividades')
+            .doc(listaID)
+            .get();
 
         documento.reference.delete();
 

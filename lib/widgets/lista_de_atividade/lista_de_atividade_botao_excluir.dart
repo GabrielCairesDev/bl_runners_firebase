@@ -1,6 +1,6 @@
-import 'package:bl_runners_firebase/main.dart';
-import 'package:bl_runners_firebase/pages/f_pagina_perfil/controller/pagina_perfil_controlador.dart';
-import 'package:bl_runners_firebase/widgets/mensagens.dart';
+import 'package:bl_runners_app/main.dart';
+import 'package:bl_runners_app/pages/f_pagina_perfil/controller/pagina_perfil_controlador.dart';
+import 'package:bl_runners_app/widgets/mensagens.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -18,10 +18,12 @@ class ListaDeAtividadeBotaoExcluir extends StatefulWidget {
   final String atividadeListaID;
 
   @override
-  State<ListaDeAtividadeBotaoExcluir> createState() => _ListaDeAtividadeBotaoExcluirState();
+  State<ListaDeAtividadeBotaoExcluir> createState() =>
+      _ListaDeAtividadeBotaoExcluirState();
 }
 
-class _ListaDeAtividadeBotaoExcluirState extends State<ListaDeAtividadeBotaoExcluir> {
+class _ListaDeAtividadeBotaoExcluirState
+    extends State<ListaDeAtividadeBotaoExcluir> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -57,7 +59,8 @@ class _ListaDeAtividadeBotaoExcluirState extends State<ListaDeAtividadeBotaoExcl
     final controlador = context.read<PaginaPerfilControlador>();
 
     await controlador
-        .excluirAtividade(listaID: widget.atividadeListaID, idUsuario: widget.usuarioAtualID)
+        .excluirAtividade(
+            listaID: widget.atividadeListaID, idUsuario: widget.usuarioAtualID)
         .then(
           (value) => _excluirAtivdadeSucesso(context, value),
         )

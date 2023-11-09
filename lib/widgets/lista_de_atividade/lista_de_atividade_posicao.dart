@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/utils/utilitarios.dart';
+import 'package:bl_runners_app/utils/utilitarios.dart';
 import 'package:flutter/material.dart';
 
 class ListaAtividadePosicao extends StatelessWidget {

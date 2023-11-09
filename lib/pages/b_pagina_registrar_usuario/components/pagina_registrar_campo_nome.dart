@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/utils/validadores.dart';
+import 'package:bl_runners_app/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,7 +15,8 @@ class PaginaRegistrarCampoNome extends StatelessWidget {
       controller: controlador.controladorNome,
       validator: Validador.nome,
       inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZáÁâÂãÃàÀéÉêÊíÍóÓôÔõÕúÚüÜçÇ ]')),
+        FilteringTextInputFormatter.allow(
+            RegExp(r'[a-zA-ZáÁâÂãÃàÀéÉêÊíÍóÓôÔõÕúÚüÜçÇ ]')),
       ],
       onChanged: (value) {
         controlador.controladorNome.text = _observarPalavras(value);

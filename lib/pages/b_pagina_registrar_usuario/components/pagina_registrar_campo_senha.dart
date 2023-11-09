@@ -1,4 +1,4 @@
-import 'package:bl_runners_firebase/utils/validadores.dart';
+import 'package:bl_runners_app/utils/validadores.dart';
 import 'package:flutter/material.dart';
 
 import '../controller/pagina_registrar_controlador.dart';
@@ -9,7 +9,8 @@ class PaginaRegistrarCampoSenha extends StatefulWidget {
   final PaginaRegistrarUsuarioControlador controlador;
 
   @override
-  State<PaginaRegistrarCampoSenha> createState() => _PaginaRegistrarCampoSenhaState();
+  State<PaginaRegistrarCampoSenha> createState() =>
+      _PaginaRegistrarCampoSenhaState();
 }
 
 class _PaginaRegistrarCampoSenhaState extends State<PaginaRegistrarCampoSenha> {

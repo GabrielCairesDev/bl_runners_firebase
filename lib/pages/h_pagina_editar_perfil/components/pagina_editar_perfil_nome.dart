@@ -1,5 +1,5 @@
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/utils/validadores.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/utils/validadores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +7,10 @@ import 'package:provider/provider.dart';
 import '../controller/pagina_editar_perfil_controlador.dart';
 
 class PaginaEditarPerfilNome extends StatefulWidget {
-  const PaginaEditarPerfilNome({super.key, required this.controladorEditarPerfil, required this.controladorPegarUsuario});
+  const PaginaEditarPerfilNome(
+      {super.key,
+      required this.controladorEditarPerfil,
+      required this.controladorPegarUsuario});
 
   final PaginaEditarPerfilControlador controladorEditarPerfil;
   final PegarUsuarioAtual controladorPegarUsuario;
@@ -20,7 +23,8 @@ class _PaginaEditarPerfilNomeState extends State<PaginaEditarPerfilNome> {
   @override
   void initState() {
     super.initState();
-    widget.controladorEditarPerfil.controladorNome.text = widget.controladorPegarUsuario.usuarioAtual?.nome ?? '';
+    widget.controladorEditarPerfil.controladorNome.text =
+        widget.controladorPegarUsuario.usuarioAtual?.nome ?? '';
   }
 
   @override
@@ -31,7 +35,8 @@ class _PaginaEditarPerfilNomeState extends State<PaginaEditarPerfilNome> {
       controller: controlador.controladorNome,
       validator: Validador.nome,
       inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZáÁâÂãÃàÀéÉêÊíÍóÓôÔõÕúÚüÜçÇ ]')),
+        FilteringTextInputFormatter.allow(
+            RegExp(r'[a-zA-ZáÁâÂãÃàÀéÉêÊíÍóÓôÔõÕúÚüÜçÇ ]')),
       ],
       onChanged: (value) {
         controlador.controladorNome.text = _observarPalavras(value);

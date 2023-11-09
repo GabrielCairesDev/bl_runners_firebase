@@ -1,7 +1,7 @@
-import 'package:bl_runners_firebase/pages/i_pagina_admin/components/pagina_admin_pesquisar.dart';
-import 'package:bl_runners_firebase/pages/i_pagina_admin/controller/pagina_admin_controlador.dart';
-import 'package:bl_runners_firebase/providers/firebase/snapshot/pegar_usuario_atual.dart';
-import 'package:bl_runners_firebase/widgets/lista_de_usuarios/lista_de_usuarios_widget.dart';
+import 'package:bl_runners_app/pages/i_pagina_admin/components/pagina_admin_pesquisar.dart';
+import 'package:bl_runners_app/pages/i_pagina_admin/controller/pagina_admin_controlador.dart';
+import 'package:bl_runners_app/providers/firebase/snapshot/pegar_usuario_atual.dart';
+import 'package:bl_runners_app/widgets/lista_de_usuarios/lista_de_usuarios_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +29,8 @@ class _PaginaAdminState extends State<PaginaAdmin> {
   @override
   Widget build(BuildContext context) {
     final controladorPaginaAdmin = Provider.of<PaginaAdminControlador>(context);
-    final controladorPegarUsuarioAtual = Provider.of<PegarUsuarioAtual>(context);
+    final controladorPegarUsuarioAtual =
+        Provider.of<PegarUsuarioAtual>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Administração'),
