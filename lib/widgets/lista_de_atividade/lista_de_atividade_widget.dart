@@ -74,7 +74,7 @@ class _ListaDeAtividadeWidgetState extends State<ListaDeAtividadeWidget> {
             child: Stack(
               alignment: Alignment.bottomLeft,
               children: [
-                // FUNDO ROZA OU AZUL
+                // FUNDO ROSA OU AZUL
                 Container(
                   height: MediaQuery.of(context).size.height * 0.155,
                   width: double.infinity,
